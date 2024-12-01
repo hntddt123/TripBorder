@@ -139,8 +139,11 @@ function TripsList() {
 
   const getDiceToggle = () => (
     <Toggle
-      className='ml-2 align-middle'
-      icons={false}
+      className='ml-1 align-middle justify-center'
+      icons={{
+        checked: <div className='text-sm leading-3'>{diceIcon}</div>,
+        unchecked: <div className='text-sm leading-3'>{diceIcon}</div>,
+      }}
       defaultChecked={isThrowingDice}
       onChange={handleDiceToggle}
     />
@@ -177,7 +180,6 @@ function TripsList() {
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
           />
-          {diceIcon}
           {getDiceToggle()}
           <select
             className='poiDropdownButton'
