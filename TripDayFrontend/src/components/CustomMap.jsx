@@ -152,6 +152,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
   return (
     <Map
+      reuseMaps
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
