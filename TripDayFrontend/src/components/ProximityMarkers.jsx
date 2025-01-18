@@ -64,13 +64,17 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
 
   const renderSelectedPOIMarker = () => {
     let filteredResult;
+    let randomIndex;
     if (isThrowingDice) {
+      randomIndex = data.results.findIndex((_, index) => index === randomNumber) + 1;
       filteredResult = data.results[randomNumber];
     } else {
       [filteredResult] = data.results.filter((marker) => marker.fsq_id === selectedPOI);
     }
     if (filteredResult) {
-      const filterText = (isFullPOIname) ? `${filteredResult.name} ${filteredResult.distance}m` : `${filteredResult.distance}m`;
+      const filterText = (isFullPOIname)
+        ? `${randomIndex} ${filteredResult.name} ${filteredResult.distance}m`
+        : `${randomIndex} ${filteredResult.distance}m`;
 
       return (
         <div key={filteredResult.fsq_id}>
