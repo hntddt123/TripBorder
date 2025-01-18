@@ -26,6 +26,7 @@ const carIcon = '🚘';
 const GPSIcon = '🛰️🔎';
 const pinIcon = '📍🔎';
 const diceIcon = '🎲';
+const numIcon = '🔢';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -126,15 +127,15 @@ function TripsList() {
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
 
   const getPlaceNameToggle = () => (
-    <div className='text-2xl m-2'>
-      Place Name
-      <Toggle
-        className='ml-2 align-middle'
-        icons={false}
-        defaultChecked={isFullPOIname}
-        onChange={handleFullNameToggle}
-      />
-    </div>
+    <Toggle
+      className='ml-2 align-middle'
+      icons={{
+        checked: <div className='text-sm leading-3'>{numIcon}</div>,
+        unchecked: <div className='text-sm leading-3'>{numIcon}</div>,
+      }}
+      defaultChecked={!isFullPOIname}
+      onChange={handleFullNameToggle}
+    />
   );
 
   const getDiceToggle = () => (
@@ -180,7 +181,6 @@ function TripsList() {
             onClick={handleLongPressedMarkerButton}
             disabled={!hasLongPressedLonLat()}
           />
-          {getDiceToggle()}
           <select
             className='poiDropdownButton'
             onChange={(event) => handleDropdownOnChange(event)}
@@ -189,6 +189,8 @@ function TripsList() {
             <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
             <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
           </select>
+          {getDiceToggle()}
+          {getPlaceNameToggle()}
           {getAPIStatus()}
         </div>
       </div>
@@ -199,7 +201,7 @@ function TripsList() {
           getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
         />
       </div>
-      <div className='text-2xl ml-2'>
+      <div className='text-2xl m-2'>
         Item Count
         <ReactSlider
           className='slider'
@@ -232,7 +234,6 @@ function TripsList() {
           renderThumb={(props, state) => <div {...props} key={props.key}>{state.valueNow}</div>}
           onChange={(value) => handleRadiusChange(value)}
         />
-        {getPlaceNameToggle()}
         {getLocation()}
         {/* <CustomButton label='Save' /> */}
       </div>

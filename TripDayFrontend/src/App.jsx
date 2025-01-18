@@ -20,10 +20,10 @@ function App() {
           <Route
             path='/'
             element={(
-              <div className='grid grid-cols-1 container text-center mx-auto'>
+              <div className='grid grid-cols-1 container text-center mx-auto max-w-2xl'>
                 <CustomButton label='New Trip' to='/newtrip' />
                 <CustomButton label='View Trips' to='/trips' />
-                <p className='customdiv text-2xl'>Version: 1.1.1 {MODE}</p>
+                <p className='customdiv text-2xl'>Version: 1.2.0 {MODE}</p>
               </div>
             )}
           />
