@@ -20,7 +20,7 @@ function App() {
           <Route
             path='/'
             element={(
-              <div className='grid grid-cols-1 container text-center mx-auto max-w-2xl'>
+              <div className='flex flex-col container justify-center text-center mx-auto mt-10 mb-10 max-w-2xl'>
                 <CustomButton label='New Trip' to='/newtrip' />
                 <CustomButton label='View Trips' to='/trips' />
                 <p className='customdiv text-2xl'>Version: 1.2.0 {MODE}</p>
