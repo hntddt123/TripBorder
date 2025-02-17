@@ -58,12 +58,14 @@ function Auth() {
 
   const isLoggedIn = data?.isLoggedIn === true;
   const userName = data?.user || null;
+  const profilePicture = data?.profilePicture || null;
 
   return (
     <div>
       {isLoggedIn ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max'>
           <p className='customdiv text-2xl'>Welcome, {userName}!</p>
+          <img className='profilepic' src={profilePicture} alt='userprofile' />
           <CustomButton label='New Trip' to='/newtrip' />
           <CustomButton label='View Trips' to='/trips' />
           <CustomButton

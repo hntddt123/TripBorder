@@ -508,6 +508,14 @@ body {
     background-color: theme('backgroundColor.amber.600');
   }
 
+  .profilepic {
+    width: 8rem;
+    height: 8rem;
+    align-self: center;
+    border-radius: 8rem;
+    padding: theme('spacing.2');
+  }
+
   /**
    Light Google Sign in button styles beginning
    */
