@@ -14,7 +14,7 @@ test('Canary Test', () => {
   expect(1).toBe(1);
 });
 
-test('renders QR Code Generator title', () => {
+test('renders Trip Day title', () => {
   renderWithRedux(<App />);
   const linkElement = screen.getByText(/Trip Day/i);
   expect(linkElement).toBeInTheDocument();

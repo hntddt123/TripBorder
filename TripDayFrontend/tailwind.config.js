@@ -25,7 +25,16 @@ module.exports = {
           buttonDarkActive: '##b45309',
           buttonDarkTransparent: 'rgba(0,0,0,0.7)',
           buttonDarkTransparentHover: 'rgba(0,0,0,0.8)',
-          buttonDarkTransparentActive: 'rgba(0,0,0,0.9)'
+          buttonDarkTransparentActive: 'rgba(0,0,0,0.9)',
+          googleDark: '#131314',
+          googleTextWhite: '#1f1f1f',
+          googleTextDark: '#e3e3e3',
+          googleBorderLight: '#1f1f1f1f',
+          googleBorderDark: '#8e918f',
+          googleBorderDisabledDark: '#8e918f1f',
+          googleDisabledLight: '#ffffff61',
+          googleDisabledDark: '#13131461',
+          googlefocus: '#303030'
         },
       },
     },
