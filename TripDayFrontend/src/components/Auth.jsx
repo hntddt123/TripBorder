@@ -49,11 +49,11 @@ function Auth() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className='customdiv'>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error checking auth status: {error.status} {error.error}</div>;
+    return <div className='customdiv'>{`Status: ${error.status} - ${error.error}`}</div>;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;
