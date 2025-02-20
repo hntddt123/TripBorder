@@ -117,7 +117,7 @@ body {
   .cardTrip {
     margin: auto;
     padding: theme('spacing[0.5]');
-    @apply bg-primary-light dark:bg-primary-dark;
+    @apply dark:bg-primary-dark;
   }
 
   .cardPOI {
@@ -199,30 +199,16 @@ body {
   }
 
   .cardInfo {
-    margin: theme('spacing.2');
     padding: theme('spacing.2');
     box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.lime.400');
+    border-color: theme('colors.amber.400');
     border-radius: theme('borderRadius.lg');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.8');
     border-right-width: theme('borderWidth.0');
     @apply 
-    bg-primary-titleLight dark:bg-primary-titleDark
-  }
-
-  .cardTitle {
-    margin: theme('spacing.2');
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.4');
-    border-color: theme('colors.lime.500');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.8');
-    border-right-width: theme('borderWidth.0');
-    @apply 
-    bg-primary-titleLight dark:bg-primary-titleDark
+    bg-primary-cardLight dark:bg-primary-cardDark
   }
 
   .picture {

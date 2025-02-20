@@ -2,21 +2,19 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
 import TripsList from './components/TripsList';
 import CustomButton from './components/CustomButton';
-import DarkModeToggle from './components/DarkModeToggle';
 import Auth from './components/Auth';
 import ProtectedRoute from './components/ProtectedRoute';
-import { MODE } from './constants/constants';
+import { VERSION_NUMBER, MODE } from './constants/constants';
+import Settings from './components/Settings';
 
 function App() {
   return (
     <div className='safeArea'>
       <BrowserRouter basename='/'>
-        <header className='flex title justify-between'>
-          <div />
+        <header className='flex title justify-center'>
           <div className='content-center'>
             Trip Day
           </div>
-          <DarkModeToggle />
         </header>
         <Routes>
           <Route
@@ -24,21 +22,28 @@ function App() {
             element={(
               <div className='flex flex-col container justify-center text-center mx-auto m-2 max-w-2xl'>
                 <Auth />
-                <p className='customdiv text-2xl m-2'>Version: 1.2.0 {MODE}</p>
+                <p className='customdiv text-2xl m-2'>Version: {VERSION_NUMBER} {MODE}</p>
               </div>
             )}
           />
           <Route path='/newtrip' element={<ProtectedRoute />}>
             <Route
               index
-              element={<TripBoard label='Adventure Summary' component={<TripsList />} />}
+              element={<TripBoard component={<TripsList />} />}
             />
           </Route>
           <Route path='/trips' element={<ProtectedRoute />}>
             <Route
               index
               path='/trips'
-              element={<TripBoard label='Memories' />}
+              element={<TripBoard />}
+            />
+          </Route>
+          <Route path='/settings' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/settings'
+              element={<TripBoard component={<Settings />} />}
             />
           </Route>
           <Route

@@ -68,6 +68,7 @@ function Auth() {
           <img className='profilepic' src={profilePicture} alt='userprofile' />
           <CustomButton label='New Trip' to='/newtrip' />
           <CustomButton label='View Trips' to='/trips' />
+          <CustomButton label='Settings' to='/settings' />
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

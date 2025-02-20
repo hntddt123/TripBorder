@@ -15,8 +15,10 @@ module.exports = {
         primary: {
           light: 'rgba(225, 255, 180, 0.3)',
           dark: '#171717',
-          titleLight: 'rgb(185, 240, 100, .8)',
+          titleLight: '#fcd34d',
           titleDark: 'rgba(0,0,0,0.7)',
+          cardLight: 'rgba(251,191,36, 0.3)',
+          cardDark: 'rgba(0,0,0,0.7)',
           buttonLight: '#fcd34d',
           buttonDark: 'rgb(245,158,11)',
           buttonLightHover: 'rgb(251,191,36)',

@@ -130,8 +130,8 @@ function TripsList() {
     <Toggle
       className='ml-2 align-middle'
       icons={{
-        checked: <div className='text-sm leading-3'>{numIcon}</div>,
-        unchecked: <div className='text-sm leading-3'>{numIcon}</div>,
+        checked: <div className='text-xs leading-3'>{numIcon}</div>,
+        unchecked: <div className='text-xs leading-3'>{numIcon}</div>,
       }}
       defaultChecked={!isFullPOIname}
       onChange={handleFullNameToggle}
@@ -142,8 +142,8 @@ function TripsList() {
     <Toggle
       className='ml-1 align-middle justify-center'
       icons={{
-        checked: <div className='text-sm leading-3'>{diceIcon}</div>,
-        unchecked: <div className='text-sm leading-3'>{diceIcon}</div>,
+        checked: <div className='text-xs leading-3'>{diceIcon}</div>,
+        unchecked: <div className='text-xs leading-3'>{diceIcon}</div>,
       }}
       defaultChecked={isThrowingDice}
       onChange={handleDiceToggle}

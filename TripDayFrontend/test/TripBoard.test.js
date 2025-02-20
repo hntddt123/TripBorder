@@ -10,5 +10,6 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
 
 test('renders TripBoard', () => {
   renderWithRouter(<TripBoard />);
-  expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'h1')).toBeInTheDocument();
+
+  expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a')).toBeInTheDocument();
 });
