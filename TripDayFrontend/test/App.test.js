@@ -14,8 +14,8 @@ test('Canary Test', () => {
   expect(1).toBe(1);
 });
 
-test('renders Trip Day title', () => {
+test('renders Trip Border title', () => {
   renderWithRedux(<App />);
-  const linkElement = screen.getByText(/Trip Day/i);
+  const linkElement = screen.getByText(/Trip Border/i);
   expect(linkElement).toBeInTheDocument();
 });

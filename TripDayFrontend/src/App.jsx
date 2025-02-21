@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter basename='/'>
         <header className='flex title justify-center'>
           <div className='content-center'>
-            Trip Day
+            Trip Border
           </div>
         </header>
         <Routes>
