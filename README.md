@@ -1,27 +1,27 @@
-# TripDay Project
+# TripBorder Project
 This is the project to help myself learning the app development processes
 
 # Frontend setup
-![image](/Images/TripDayDev.png)
+![image](/Images/TripBorderDev.png)
 
 ### Requirements
 
 Create the following files
 ```.env.development``` 
 ```.env.production```
-under TripDayFrontend folder and include your 
+under TripBorderFrontend folder and include your 
 VITE_MAPBOX_API_KEY=YOURKEY (https://docs.mapbox.com/help/glossary/access-token/)
 VITE_FOURSQUARE_API_KEY=YOURKEY (https://docs.foursquare.com/developer/docs/manage-api-keys)
 
 Private key and certificate for HTTPS development
 ```
-./ssl/tripdaykey.pem
-./ssl/tripdaycert.pem
+./ssl/tripborderkey.pem
+./ssl/tripbordercert.pem
 ```
 
 Install node modules and run this project
 ```
-cd TripDayFrontend
+cd TripBorderFrontend
 npm i
 ```
 
@@ -54,7 +54,7 @@ Bundles React in production mode and optimizes the build for the best performanc
 The build is minified and the filenames include the hashes.  
 
 ## React Stuff
-TripDay Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+TripBorder Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 
 See [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more.
