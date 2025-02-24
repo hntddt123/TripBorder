@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
+import { BACKEND_DOMAIN } from '../constants/constants';
 
 function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
@@ -36,7 +37,7 @@ function Auth() {
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
-    window.location.href = 'https://localhost:443/auth/google';
+    window.location.href = `https://${BACKEND_DOMAIN}:443/auth/google`;
   };
 
   const handleLogout = async () => {
@@ -68,6 +69,7 @@ function Auth() {
           <img className='profilepic' src={profilePicture} alt='userprofile' />
           <CustomButton label='New Trip' to='/newtrip' />
           <CustomButton label='View Trips' to='/trips' />
+          <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}

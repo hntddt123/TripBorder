@@ -3,6 +3,7 @@ export const MODE = import.meta.env.MODE;
 export const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
 export const FOURSQUARE_API_KEY = import.meta.env.VITE_FOURSQUARE_API_KEY;
 export const VERSION_NUMBER = import.meta.env.VITE_VERSION_NUMBER;
+export const BACKEND_DOMAIN = import.meta.env.VITE_BACKEND_DOMAIN;
 
 // test coordinaties
 export const LineStringTestCoordinates = [
