@@ -22,6 +22,23 @@ body {
     @apply bg-primary-light dark:bg-primary-dark;
   }
 
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: theme('spacing.4');;
+  }
+  
+  th, td {
+    border-width: theme('borderWidth.2');
+    padding: theme('spacing.2');
+    text-align: left;
+    @apply bg-primary-light dark:bg-primary-dark
+  }
+  
+  th {
+    @apply bg-primary-light dark:bg-primary-dark
+  }
+
   .customdiv {
     @apply dark:text-white;
   }
@@ -49,8 +66,8 @@ body {
     text-align: center;
     align-content: center;
     margin: 0.5rem;
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.6');
+    border-radius: theme('borderRadius.3xl');
+    padding: theme('spacing.4');
     box-shadow: theme('boxShadow.sm');
     @apply 
     bg-primary-buttonLight dark:bg-primary-buttonDark 
@@ -499,7 +516,7 @@ body {
     height: 8rem;
     align-self: center;
     border-radius: 8rem;
-    padding: theme('spacing.2');
+    margin: theme('spacing.2');
   }
 
   /**
