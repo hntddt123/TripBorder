@@ -1,9 +1,9 @@
 // Constants
-export const MODE = process.env.MODE;
-export const MAPBOX_API_KEY = process.env.MAPBOX_API_KEY;
-export const FOURSQUARE_API_KEY = process.env.FOURSQUARE_API_KEY;
-export const VERSION_NUMBER = process.env.VERSION_NUMBER;
-export const BACKEND_DOMAIN = process.env.BACKEND_DOMAIN;
+export const MODE = import.meta.env.VITE_MODE;
+export const MAPBOX_API_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
+export const FOURSQUARE_API_KEY = import.meta.env.VITE_FOURSQUARE_API_KEY;
+export const VERSION_NUMBER = import.meta.env.VITE_VERSION_NUMBER;
+export const BACKEND_DOMAIN = import.meta.env.VITE_BACKEND_DOMAIN;
 
 // Test coordinaties
 export const LineStringTestCoordinates = [

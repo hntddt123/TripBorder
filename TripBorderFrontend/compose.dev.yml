@@ -17,10 +17,12 @@ services:
       - /app/node_modules
       - ./ssl:/app/ssl:ro
     environment:
-      NODE_ENV: production
+      NODE_ENV: development
       SSL_CERTIFICATE_PATH: /app/ssl/cert.pem
       SSL_PRIVATE_KEY_PATH: /app/ssl/key.pem
+    expose:
+    - "5173"
     ports:
-      - 5174:5174
+      - 5173:5173
     user: "${UID}:${GID}"
 

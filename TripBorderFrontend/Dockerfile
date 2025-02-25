@@ -28,10 +28,6 @@ COPY . .
 COPY ./ssl /app/ssl
 RUN chmod -R 600 /app/ssl/*
 
-# Expose the port that the application listens on.
-EXPOSE 5174
-
-RUN  npm run build
 # Run the application.
 CMD ["npm", "run", "preview"]
 

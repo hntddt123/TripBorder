@@ -171,6 +171,40 @@ body {
     @apply  bg-amber-200 dark:bg-amber-600
   }
 
+  .cardMileage {
+    font-size: large;
+    line-height: 1.5rem;
+    width: 99%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: theme('spacing.[0.5]');
+    padding: theme('spacing[2]');
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.4');
+    border-right-width: theme('borderWidth.4');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .cardcardMileage:hover {
+    background-color: theme('backgroundColor.amber.100');
+    @apply  bg-amber-100 dark:bg-primary-buttonDark
+  }
+
+  .cardcardMileage:active {
+    @apply  bg-amber-100 dark:bg-amber-600
+  }
+
+  .cardcardMileage:focus, :focus-visible {
+    background-color: theme('backgroundColor.amber.200');
+    @apply  bg-amber-200 dark:bg-amber-600
+  }
+
   .cardPOIMarker {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
