@@ -26,6 +26,6 @@ jobs:
       - name: Set up SSL certificates
         run: | 
           mkdir -p ssl 
-          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_CERT }}" > ./ssl/tripborderfrontendcert.pem 
-          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_KEY }}" > ./ssl/tripborderfrontendkey.pem
+          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_CERT }}" > ./ssl/tripborderfrontend-cert.pem 
+          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_KEY }}" > ./ssl/tripborderfrontend-key.pem
       - run: npm run build --if-present

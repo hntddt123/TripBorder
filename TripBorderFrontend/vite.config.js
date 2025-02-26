@@ -13,8 +13,8 @@ export default defineConfig({
   },
   server: {
     https: {
-      key: fs.readFileSync(path.resolve(__dirname, './ssl/tripborderfrontendkey.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, './ssl/tripborderfrontendcert.pem')),
+      key: fs.readFileSync(path.resolve(__dirname, './ssl/tripborderfrontend-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, './ssl/tripborderfrontend-cert.pem')),
     },
     port: 5173,
     strictPort: true,
