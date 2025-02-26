@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
-import { BACKEND_DOMAIN } from '../constants/constants';
+import { BACKEND_DOMAIN, PORT } from '../constants/constants';
 
 function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
@@ -37,7 +37,7 @@ function Auth() {
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
-    window.location.href = `https://${BACKEND_DOMAIN}:443/auth/google`;
+    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/auth/google`;
   };
 
   const handleLogout = async () => {

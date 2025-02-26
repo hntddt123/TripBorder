@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { BACKEND_DOMAIN } from '../constants/constants';
+import { BACKEND_DOMAIN, PORT } from '../constants/constants';
 
 const fetchUsers = async () => {
-  const response = await fetch(`https://${BACKEND_DOMAIN}/api/users`, {
+  const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/users`, {
     credentials: 'include',
   });
   if (!response.ok) {
@@ -12,7 +12,7 @@ const fetchUsers = async () => {
 };
 
 const fetchMileages = async () => {
-  const response = await fetch(`https://${BACKEND_DOMAIN}/api/mileages`, {
+  const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/mileages`, {
     credentials: 'include',
   });
   if (!response.ok) {

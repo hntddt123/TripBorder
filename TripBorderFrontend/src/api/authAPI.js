@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BACKEND_DOMAIN } from '../constants/constants';
+import { BACKEND_DOMAIN, PORT } from '../constants/constants';
 
 export const authApi = createApi({
   reducerPath: 'authApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://${BACKEND_DOMAIN}:443`, // Replace with your Express backend URL
+    baseUrl: `https://${BACKEND_DOMAIN}:${PORT}`, // Replace with your Express backend URL
     credentials: 'include', // Include cookies in requests
   }),
   tagTypes: ['Auth'],
