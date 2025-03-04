@@ -22,6 +22,10 @@ body {
     @apply bg-primary-light dark:bg-primary-dark;
   }
 
+  div {
+    @apply dark:text-white
+  }
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -39,7 +43,49 @@ body {
     @apply bg-primary-light dark:bg-primary-dark
   }
 
-  .customdiv {
+  input {
+    margin: theme('spacing.2');
+    padding: theme('spacing.2');
+    border-radius: theme('borderRadius.xl');
+    @apply bg-primary-light dark:bg-primary-dark
+  }
+
+  input:focus {
+    @apply dark:bg-primary-dark
+  }
+
+  input[type="file"]::-webkit-file-upload-button {
+    border-width: 0;
+    border-radius: theme('borderRadius.xl');
+    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+    dark:text-white
+  }
+
+  input[type="file"]::-webkit-file-upload-button:hover {
+    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  select {
+    margin: theme('spacing.2');
+    padding: theme('spacing.2');
+    border-width: 0;
+    border-radius: theme('borderRadius.xl');
+    @apply bg-primary-light dark:bg-primary-dark
+  }
+
+  select:focus {
+    @apply dark:bg-primary-dark
+  }
+
+  .  {
     @apply dark:text-white;
   }
 
@@ -65,7 +111,7 @@ body {
     line-height: 2rem;
     text-align: center;
     align-content: center;
-    margin: 0.5rem;
+    margin: theme('spacing.2');
     border-radius: theme('borderRadius.3xl');
     padding: theme('spacing.4');
     box-shadow: theme('boxShadow.sm');
@@ -110,12 +156,10 @@ body {
     background-color: theme('backgroundColor.red.800');
   }
 
-
   .title {
-    padding: 0.2rem;
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 2rem;
+    font-size: 1.5rem;
     line-height: 2.25rem;
     text-align: center;
     @apply 
