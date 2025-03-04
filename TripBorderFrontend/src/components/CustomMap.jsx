@@ -130,7 +130,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     if (getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating) {
       return (
         <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
-          <div className=' flex-center text-lg top-20'>
+          <div className='flex-center text-lg top-20'>
             <div className='sidebarInstructionsContent'>
               {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
                 // eslint-disable-next-line react/no-array-index-key

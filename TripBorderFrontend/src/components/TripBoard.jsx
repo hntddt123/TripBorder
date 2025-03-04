@@ -3,8 +3,8 @@ import CustomButton from './CustomButton';
 
 function TripBoard({ component }) {
   return (
-    <div className='customdiv cardTrip text-left'>
-      <div className='grid grid-cols-1 container mx-auto max-w-4xl'>
+    <div className='cardTrip text-left'>
+      <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
         <div>
           {component}
         </div>

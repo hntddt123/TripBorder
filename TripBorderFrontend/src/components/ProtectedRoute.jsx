@@ -5,11 +5,11 @@ function ProtectedRoute() {
   const { data, isLoading, error } = useCheckAuthStatusQuery();
 
   if (isLoading) {
-    return <div className='customdiv'>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div className='customdiv'>Error checking auth status: {error.error}</div>;
+    return <div>Error checking auth status: {error.error}</div>;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;

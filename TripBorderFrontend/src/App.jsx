@@ -27,7 +27,7 @@ function App() {
                 {(MODE === 'development')
                   ? <CustomButton label='Database Table Dev' to='/database' />
                   : null}
-                <p className='customdiv text-2xl m-2'>Version: {VERSION_NUMBER} {MODE}</p>
+                <p className='text-2xl m-2'>Version: {VERSION_NUMBER} {MODE}</p>
               </div>
             )}
           />
@@ -71,7 +71,7 @@ function App() {
             path='*'
             element={(
               <div className='flex flex-col container justify-center text-center mx-auto m-4 max-w-2xl'>
-                <h2 className='customdiv text-center text-4xl'>404 not found 🗺️</h2>
+                <h2 className='text-center text-4xl'>404 not found 🗺️</h2>
                 <CustomButton label='Back' to='/' />
               </div>
             )}

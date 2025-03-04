@@ -50,11 +50,11 @@ function Auth() {
   };
 
   if (isLoading) {
-    return <div className='customdiv'>Loading...</div>;
+    return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div className='customdiv'>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;
@@ -65,7 +65,7 @@ function Auth() {
     <div>
       {isLoggedIn ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max'>
-          <p className='customdiv text-2xl'>Welcome, {userName}!</p>
+          <p className='text-2xl'>Welcome, {userName}!</p>
           <img className='profilepic' src={profilePicture} alt='userprofile' />
           <CustomButton label='New Trip' to='/newtrip' />
           <CustomButton label='View Trips' to='/trips' />
@@ -79,7 +79,7 @@ function Auth() {
         </div>
       ) : (
         <div>
-          <p className='customdiv text-2xl m-2'>Login with following options</p>
+          <p className='text-2xl m-2'>Login with following options</p>
           <GoogleSignInButton onClick={handleLogin} />
         </div>
       )}
