@@ -49,6 +49,7 @@ module.exports = {
     'default-param-last': 'off',
     'react/jsx-one-expression-per-line': 'off',
     'no-restricted-globals': 'warn',
-    'prefer-destructuring': 'warn'
+    'prefer-destructuring': 'warn',
+    'no-bitwise': 'off'
   }
 };
