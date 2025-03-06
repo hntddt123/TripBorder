@@ -50,6 +50,15 @@ module.exports = {
     'react/jsx-one-expression-per-line': 'off',
     'no-restricted-globals': 'warn',
     'prefer-destructuring': 'warn',
-    'no-bitwise': 'off'
+    'no-bitwise': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        labelComponents: [],
+        labelAttributes: ['htmlFor'],
+        controlComponents: ['input', 'select', 'textarea'],
+        assert: 'either'
+      }
+    ]
   }
 };
