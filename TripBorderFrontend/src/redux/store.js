@@ -1,22 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from './reducers/counterReducer';
 import { mapReducer } from './reducers/mapReducer';
-import { foursquareApi } from '../api/foursquareSliceAPI';
-import { mapboxApi } from '../api/mapboxSliceAPI';
-import { authApi } from '../api/authAPI';
+import { foursquareAPI } from '../api/foursquareSliceAPI';
+import { mapboxAPI } from '../api/mapboxSliceAPI';
+import { authAPI } from '../api/authAPI';
+import { mileageAPI } from '../api/mileageAPI';
 
 const store = configureStore({
   reducer: {
     counterReducer,
     mapReducer,
-    [foursquareApi.reducerPath]: foursquareApi.reducer,
-    [mapboxApi.reducerPath]: mapboxApi.reducer,
-    [authApi.reducerPath]: authApi.reducer
+    [foursquareAPI.reducerPath]: foursquareAPI.reducer,
+    [mapboxAPI.reducerPath]: mapboxAPI.reducer,
+    [authAPI.reducerPath]: authAPI.reducer,
+    [mileageAPI.reducerPath]: mileageAPI.reducer
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    foursquareApi.middleware,
-    mapboxApi.middleware,
-    authApi.middleware
+    foursquareAPI.middleware,
+    mapboxAPI.middleware,
+    authAPI.middleware,
+    mileageAPI.middleware
   )
 });
 

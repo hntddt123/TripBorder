@@ -58,7 +58,7 @@ function Auth() {
   }
 
   const isLoggedIn = data?.isLoggedIn === true;
-  const userName = data?.user || null;
+  const userName = data?.name || null;
   const profilePicture = data?.profilePicture || null;
 
   return (

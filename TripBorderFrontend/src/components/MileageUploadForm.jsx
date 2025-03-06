@@ -1,9 +1,28 @@
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { BACKEND_DOMAIN, PORT } from '../constants/constants';
 import CustomButton from './CustomButton';
+import { authAPI } from '../api/authAPI';
+
+const uploadMileages = async (payload) => {
+  const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/uploadmileages`, {
+    method: 'POST',
+    body: JSON.stringify({ data: payload }),
+    headers: { 'Content-Type': 'application/json' }
+
+  });
+  if (!response.ok) {
+    throw new Error('Upload mileages failed');
+  }
+  return response.json();
+};
 
 function MileageUploadForm() {
+  const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
+  const email = user.data?.email;
+
   const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     uuid: '',
     frequent_flyer_number: '',
@@ -46,6 +65,7 @@ function MileageUploadForm() {
       }
 
       const payload = {
+        owner_email: email,
         frequent_flyer_number: formData.frequent_flyer_number,
         airline: formData.airline,
         mileage_price: formData.mileage_price ? parseFloat(formData.mileage_price) : undefined,
@@ -56,15 +76,9 @@ function MileageUploadForm() {
       };
 
       // Upload new mileage to server
-      const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/uploadmileages`, {
-        method: 'POST',
-        body: JSON.stringify({ data: payload }),
-        headers: { 'Content-Type': 'application/json' }
-      });
-
-      if (!response.ok) throw new Error('Request failed');
-      const result = await response.json();
-      console.log(result);
+      uploadMileages(payload)
+        .then((data) => setMessage(data.message))
+        .catch((err) => setError(err.message));
 
       // Reset form and refresh data
       setFormData({
@@ -83,96 +97,97 @@ function MileageUploadForm() {
   };
 
   return (
-    <div className='flex cardMileage   p-4 overflow-x-auto justify-between'>
+    <div className='flex cardMileage p-4 overflow-x-auto'>
       <form onSubmit={handleSubmit}>
         <h1 className='text-2xl'>Create New Mileage</h1>
-        <div>
+        <div className='inputField'>
           <label htmlFor='ffn'>
             Frequent Flyer Number
-            <input
-              id='ffn'
-              type='text'
-              name='frequent_flyer_number'
-              value={formData.frequent_flyer_number}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            id='ffn'
+            type='text'
+            name='frequent_flyer_number'
+            value={formData.frequent_flyer_number}
+            onChange={handleInputChange}
+          />
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='al'>
             Airline
-            <input
-              id='al'
-              type='text'
-              name='airline'
-              value={formData.airline}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            id='al'
+            type='text'
+            name='airline'
+            value={formData.airline}
+            onChange={handleInputChange}
+          />
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='mp'>
             Mileage Price
-            <input
-              id='mp'
-              type='number'
-              name='mileage_price'
-              value={formData.mileage_price}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            id='mp'
+            type='number'
+            name='mileage_price'
+            value={formData.mileage_price}
+            onChange={handleInputChange}
+          />
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='ma'>
             Mileage Amount
-            <input
-              id='ma'
-              type='number'
-              name='mileage_amount'
-              value={formData.mileage_amount}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            id='ma'
+            type='number'
+            name='mileage_amount'
+            value={formData.mileage_amount}
+            onChange={handleInputChange}
+          />
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='mu'>
             Mileage Unit
-            <select
-              id='mu'
-              name='mileage_unit'
-              value={formData.mileage_unit}
-              onChange={handleInputChange}
-            >
-              <option key='km' value='km'>km</option>
-              <option key='miles' value='miles'>miles</option>
-            </select>
           </label>
+          <select
+            id='mu'
+            name='mileage_unit'
+            value={formData.mileage_unit}
+            onChange={handleInputChange}
+          >
+            <option key='km' value='km'>km</option>
+            <option key='miles' value='miles'>miles</option>
+          </select>
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='ed'>
             Expiration Date
-            <input
-              id='ed'
-              type='date'
-              name='mileage_expired_at'
-              value={formData.mileage_expired_at}
-              onChange={handleInputChange}
-            />
           </label>
+          <input
+            id='ed'
+            type='date'
+            name='mileage_expired_at'
+            value={formData.mileage_expired_at}
+            onChange={handleInputChange}
+          />
         </div>
-        <div>
+        <div className='inputField'>
           <label htmlFor='mppng'>
             Mileage Picture (PNG)
-            <input
-              id='mppng'
-              type='file'
-              accept='image/png'
-              onChange={handleFileChange}
-            />
           </label>
+          <input
+            id='mppng'
+            type='file'
+            accept='image/png'
+            onChange={handleFileChange}
+          />
         </div>
         <CustomButton type='submit' label='Upload' />
         {error && <p className='text-red-600'>{error}</p>}
+        {message && <p>{message}</p>}
       </form>
     </div>
   );

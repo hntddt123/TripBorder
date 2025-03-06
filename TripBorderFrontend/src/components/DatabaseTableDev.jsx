@@ -1,32 +1,12 @@
 import { useState, useEffect } from 'react';
-import { BACKEND_DOMAIN, PORT } from '../constants/constants';
 import { processBytea } from '../utility/processBytea';
-
-const fetchUsers = async () => {
-  const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/users`, {
-    credentials: 'include',
-  });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
-
-const fetchMileages = async () => {
-  const response = await fetch(`https://${BACKEND_DOMAIN}:${PORT}/api/mileages`, {
-    credentials: 'include',
-  });
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return response.json();
-};
+import { useGetMileagesQuery } from '../api/mileageAPI';
+import { fetchUsers } from '../api/userAPI';
 
 function DatabaseTableDev() {
+  const { data: mileages, isLoading, error } = useGetMileagesQuery();
   const [users, setUsers] = useState([]);
-  const [mileages, setMilages] = useState([]);
   const [userError, setUserError] = useState(null);
-  const [mileageError, setMileageError] = useState(null);
 
   useEffect(() => {
     fetchUsers()
@@ -34,17 +14,16 @@ function DatabaseTableDev() {
       .catch((err) => setUserError(err.message));
   }, []);
 
-  useEffect(() => {
-    fetchMileages()
-      .then((data) => setMilages(data))
-      .catch((err) => setMileageError(err.message));
-  }, []);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+  }
 
   if (userError) {
     return <div className='text-2xl'>Error: User {userError}</div>;
-  }
-  if (mileageError) {
-    return <div className='text-2xl'>Error: Milage {mileageError}</div>;
   }
   return (
     <div className='cardTrip text-left'>
@@ -85,6 +64,7 @@ function DatabaseTableDev() {
               <thead>
                 <tr>
                   <th>verified</th>
+                  <th>owner_email</th>
                   <th>uuid</th>
                   <th>frequent_flyer_number</th>
                   <th>airline</th>
@@ -101,6 +81,7 @@ function DatabaseTableDev() {
                 {mileages.map((mileage) => (
                   <tr key={mileage.uuid}>
                     <td>{mileage.verified.toString()}</td>
+                    <td>{mileage.owner_email}</td>
                     <td>{mileage.uuid}</td>
                     <td>{mileage.frequent_flyer_number}</td>
                     <td>{mileage.airline}</td>

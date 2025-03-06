@@ -6,7 +6,7 @@ import Auth from './components/Auth';
 import ProtectedRoute from './components/ProtectedRoute';
 import Settings from './components/Settings';
 import DatabaseTableDev from './components/DatabaseTableDev';
-import Mileages from './components/Mileages';
+import MileagesList from './components/MileagesList';
 import { VERSION_NUMBER, MODE } from './constants/constants';
 
 function App() {
@@ -48,7 +48,7 @@ function App() {
             <Route
               index
               path='/mileages'
-              element={<TripBoard component={<Mileages />} />}
+              element={<TripBoard component={<MileagesList />} />}
             />
           </Route>
           <Route path='/settings' element={<ProtectedRoute />}>

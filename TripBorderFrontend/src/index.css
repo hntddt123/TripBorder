@@ -29,7 +29,7 @@ body {
   table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: theme('spacing.4');;
+    margin-bottom: theme('spacing.4');;
   }
   
   th, td {
@@ -176,8 +176,7 @@ body {
   }
 
   .cardTrip {
-    margin: auto;
-    padding: theme('spacing[0.5]');
+    margin: theme('spacing[2]');
     @apply dark:bg-primary-dark;
   }
 
@@ -218,36 +217,32 @@ body {
   .cardMileage {
     font-size: large;
     line-height: 1.5rem;
-    width: 99%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: theme('spacing.[0.5]');
+    width: 100%;
+    margin-bottom: theme('spacing.[1]');
     padding: theme('spacing[2]');
     border-radius: theme('borderRadius.lg');
     box-shadow: theme('boxShadow.md');
     border-color: theme('colors.amber.300');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.4');
-    border-right-width: theme('borderWidth.4');
+    border-left-width: theme('borderWidth.2');
+    border-right-width: theme('borderWidth.2');
     @apply 
     bg-amber-50 dark:bg-amber-500
     border-amber-400 dark:bg-primary-buttonDarkTransparent;
   }
 
-  .cardcardMileage:hover {
-    background-color: theme('backgroundColor.amber.100');
-    @apply  bg-amber-100 dark:bg-primary-buttonDark
+  .cardcardMileage:hover {  
+    @apply  bg-amber-100 dark:bg-primary-dark
   }
 
-  .cardcardMileage:active {
+  /* .cardcardMileage:active {
     @apply  bg-amber-100 dark:bg-amber-600
   }
 
   .cardcardMileage:focus, :focus-visible {
-    background-color: theme('backgroundColor.amber.200');
     @apply  bg-amber-200 dark:bg-amber-600
-  }
+  } */
 
   .cardPOIMarker {
     margin: theme('spacing.2');
@@ -295,15 +290,16 @@ body {
 
   .cardInfo {
     padding: theme('spacing.2');
+    margin-bottom: theme('spacing.2');
     box-shadow: theme('boxShadow.md');
     border-color: theme('colors.amber.400');
     border-radius: theme('borderRadius.lg');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.8');
+    border-left-width: theme('borderWidth.2');
     border-right-width: theme('borderWidth.0');
     @apply 
-    bg-primary-cardLight dark:bg-primary-cardDark
+    bg-amber-100 dark:bg-primary-cardDark
   }
 
   .picture {
@@ -486,10 +482,10 @@ body {
     background-color: theme('backgroundColor.amber.300');
   }
 
-
   .darkmodeButton {
       font-size: 1rem;
       line-height: 1rem;
+      width: 4rem;
       text-align: center;
       align-content: center;
       border-radius: theme('borderRadius.full');
@@ -595,6 +591,12 @@ body {
     align-self: center;
     border-radius: 8rem;
     margin: theme('spacing.2');
+  }
+
+  .inputField {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   /**

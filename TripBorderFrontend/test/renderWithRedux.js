@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from '../src/redux/reducers/counterReducer';
 import { mapReducer } from '../src/redux/reducers/mapReducer';
-import { authApi } from '../src/api/authAPI';
+import { authAPI } from '../src/api/authAPI';
 
 export const renderWithRedux = (
   component,
@@ -12,10 +12,10 @@ export const renderWithRedux = (
       reducer: {
         counterReducer,
         mapReducer,
-        [authApi.reducerPath]: authApi.reducer
+        [authAPI.reducerPath]: authAPI.reducer
       },
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-        authApi.middleware
+        authAPI.middleware
       )
     }),
   } = {}
