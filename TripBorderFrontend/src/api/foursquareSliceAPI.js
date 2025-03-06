@@ -16,8 +16,8 @@ import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 
   Place
 */
-export const foursquareApi = createApi({
-  reducerPath: 'foursquareApi',
+export const foursquareAPI = createApi({
+  reducerPath: 'foursquareAPI',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.foursquare.com/v3/',
     fetchFn: fetch,
@@ -43,4 +43,4 @@ export const foursquareApi = createApi({
   }),
 });
 
-export const { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } = foursquareApi;
+export const { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } = foursquareAPI;

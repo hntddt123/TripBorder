@@ -9,8 +9,8 @@ import { MAPBOX_API_KEY } from '../constants/constants';
   &geometries=geojson
   &access_token={token}
 */
-export const mapboxApi = createApi({
-  reducerPath: 'mapboxApi',
+export const mapboxAPI = createApi({
+  reducerPath: 'mapboxAPI',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api.mapbox.com/',
     fetchFn: fetch
@@ -24,4 +24,4 @@ export const mapboxApi = createApi({
   }),
 });
 
-export const { useLazyGetDirectionsQuery } = mapboxApi;
+export const { useLazyGetDirectionsQuery } = mapboxAPI;
