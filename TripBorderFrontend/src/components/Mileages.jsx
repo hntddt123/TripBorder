@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
-import { useGetMileagesQuery, useUpdateMileagesVerificationMutation } from '../api/mileagesAPI';
+import { useGetMileagesQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import CustomButton from './CustomButton';
 
@@ -11,7 +11,7 @@ function Mileages() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const { data: mileages, isLoading, error } = useGetMileagesQuery();
-  const [updateMileagesVerification, verification] = useUpdateMileagesVerificationMutation();
+  const [updateMileages, update] = useUpdateMileagesMutation();
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
 
   const showPopup = () => setIsPopupOpen(true);
@@ -25,9 +25,27 @@ function Mileages() {
     return <div>{`Status: ${error.status} - ${error.error}`}</div>;
   }
 
-  const handleMileageVerification = (uuid, verified) => {
-    updateMileagesVerification({ uuid: uuid, verified: verified });
+  const handleMileageUpdate = (uuid, updates) => {
+    updateMileages({ uuid: uuid, updates: updates });
     setSelectedUUID(uuid);
+  };
+
+  const renderPopUp = (mileage) => {
+    if (isPopupOpen) {
+      return (
+        <div className='popup'>
+          <div className='popup-content'>
+            <img
+              className='pictureMileage'
+              src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
+              alt='Mileage'
+            />
+            <CustomButton onClick={hidePopup} label='Close' />
+          </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   const renderMileagesItem = (mileage) => (
@@ -42,15 +60,6 @@ function Mileages() {
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
           <button onClick={showPopup}>
-            {/* {isPopupOpen && (
-              <div className='popup' onClick={hidePopup}>
-                <div className='popup-content' onClick={(e) => e.stopPropagation()}>
-                  <h2>Popup Title</h2>
-                  <p>This is a popup overlay!</p>
-                  <button onClick={hidePopup}>Close</button>
-                </div>
-              </div>
-            )} */}
             <img
               className='pictureMileage'
               src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
@@ -66,36 +75,53 @@ function Mileages() {
     if (mileages && user.data?.role === 'admin') {
       return (mileages?.map((mileage) => (
         <div key={mileage.uuid} className='cardMileage'>
-          <div className='flex justify-center text-center'>
+          <div className='flex-col justify-center text-center'>
             <div>
               <CustomButton
                 disabled={mileage.is_verified}
                 label='Verify'
-                onClick={() => handleMileageVerification(mileage.uuid, true)}
+                onClick={() => handleMileageUpdate(mileage.uuid, { is_verified: true })}
               />
               <CustomButton
                 disabled={!mileage.is_verified}
                 label='Unverify'
-                onClick={() => handleMileageVerification(mileage.uuid, false)}
+                onClick={() => handleMileageUpdate(mileage.uuid, { is_verified: false })}
+              />
+            </div>
+            <div>
+              <CustomButton
+                disabled={mileage.is_listed}
+                label='Enlist'
+                onClick={() => handleMileageUpdate(mileage.uuid, { is_listed: true })}
+              />
+              <CustomButton
+                disabled={!mileage.is_listed}
+                label='Unlist'
+                onClick={() => handleMileageUpdate(mileage.uuid, { is_listed: false })}
               />
               <div>
-                {(verification.data && selectedUUID === mileage.uuid)
-                  ? (verification.data.message)
+                {(update.data && selectedUUID === mileage.uuid)
+                  ? (update.data.message)
                   : null}
               </div>
             </div>
           </div>
           {renderMileagesItem(mileage)}
+          {renderPopUp(mileage)}
         </div>
       )));
     }
-    return (mileages?.filter((mileage) => mileage.is_verified)?.map((mileage) => (
-      <div key={mileage.uuid}>
-        <div className='cardMileage'>
-          {renderMileagesItem(mileage)}
+    return (mileages
+      ?.filter((mileage) => mileage.is_verified)
+      ?.filter((mileage) => mileage.is_listed)
+      ?.map((mileage) => (
+        <div key={mileage.uuid}>
+          <div className='cardMileage'>
+            {renderMileagesItem(mileage)}
+            {renderPopUp(mileage)}
+          </div>
         </div>
-      </div>
-    )));
+      )));
   };
 
   return (

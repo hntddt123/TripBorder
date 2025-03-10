@@ -34,11 +34,11 @@ export const mileagesAPI = createApi({
       }),
       invalidatesTags: ['Mileage'],
     }),
-    updateMileagesVerification: builder.mutation({
-      query: ({ uuid, verified }) => ({
-        url: `/verifymileages/${uuid}`,
+    updateMileages: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/updatemileages/${uuid}`,
         method: 'PATCH',
-        body: { data: verified },
+        body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
       }),
       invalidatesTags: ['Mileage'],
@@ -61,5 +61,5 @@ export const {
   useGetMileagesByEmailMutation,
   usePostMileagesMutation,
   useDeleteMileagesMutation,
-  useUpdateMileagesVerificationMutation
+  useUpdateMileagesMutation
 } = mileagesAPI;
