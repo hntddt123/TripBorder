@@ -33,6 +33,11 @@ function MileageUploadForm() {
     ) {
       setInputError('Numberic value cannot be negative');
       setFormData((prev) => ({ ...prev, [name]: '' }));
+    } else if ((e.target.name === 'mileage_expired_at')
+      && new Date(e.target.value) - new Date().setHours(0, 0, 0, 0) <= 0
+    ) {
+      setInputError('Expiration Date cannot be past');
+      setFormData((prev) => ({ ...prev, [name]: '' }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
       setInputError('');
@@ -83,14 +88,15 @@ function MileageUploadForm() {
   };
 
   return (
-    <div className='flex cardInfo p-4 overflow-x-auto'>
+    <div className='flex-col cardInfo p-4 overflow-x-auto'>
       <form onSubmit={handleSubmit}>
-        <h1 className='text-2xl'>Create New Mileage</h1>
+        <h1 className='text-2xl mb-4'>Create New Mileage</h1>
         <div className='inputField'>
           <label htmlFor='ffn'>
             Frequent Flyer Number*
           </label>
           <input
+            className='customInput'
             id='ffn'
             type='text'
             name='frequent_flyer_number'
@@ -106,6 +112,7 @@ function MileageUploadForm() {
             Airline*
           </label>
           <input
+            className='customInput'
             id='al'
             type='text'
             name='airline'
@@ -121,6 +128,7 @@ function MileageUploadForm() {
             Mileage Price*
           </label>
           <input
+            className='customInput'
             id='mp'
             name='mileage_price'
             value={formData.mileage_price}
@@ -136,6 +144,7 @@ function MileageUploadForm() {
             Mileage Amount*
           </label>
           <input
+            className='customInput'
             id='ma'
             name='mileage_amount'
             value={formData.mileage_amount}
@@ -151,6 +160,7 @@ function MileageUploadForm() {
             Mileage Unit*
           </label>
           <select
+            className='customInput text-nowrap'
             id='mu'
             name='mileage_unit'
             value={formData.mileage_unit}
@@ -166,6 +176,7 @@ function MileageUploadForm() {
             Expiration Date*
           </label>
           <input
+            className='customInput'
             id='ed'
             type='date'
             name='mileage_expired_at'
@@ -179,6 +190,7 @@ function MileageUploadForm() {
             Mileage Picture* (PNG)
           </label>
           <input
+            className='customInput mt-0 mb-2'
             ref={fileInputRef}
             id='mppng'
             type='file'
