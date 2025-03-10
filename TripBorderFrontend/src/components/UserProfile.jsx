@@ -10,6 +10,7 @@ function UserProfile() {
   const providerID = user.data?.provider_user_id;
   const createdAt = user.data?.createdAt;
   const updatedAt = user.data?.updatedAt;
+  const role = user.data?.role;
 
   return (
     <div className='cardInfo p-4'>
@@ -21,6 +22,7 @@ function UserProfile() {
       <div className='text-xl'>UUID: {uuid}</div>
       <div className='text-xl'>Created at: {createdAt}</div>
       <div className='text-xl'>Updated at: {updatedAt}</div>
+      <div className='text-xl'>Role: {role}</div>
     </div>
   );
 }

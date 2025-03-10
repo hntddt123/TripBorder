@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetMileagesByEmailMutation } from '../api/mileageAPI';
+import { useGetMileagesByEmailMutation, useDeleteMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
@@ -10,6 +10,7 @@ function MileagesByEmail() {
   const email = user.data?.email;
 
   const [getMileagesByEmail, { data: mileages, isLoading, error }] = useGetMileagesByEmailMutation();
+  const [deleteMielage] = useDeleteMileagesMutation();
 
   useEffect(() => {
     if (email) {
@@ -25,35 +26,44 @@ function MileagesByEmail() {
     return <div>{`Status: ${error.status} - ${error.error}`}</div>;
   }
 
+  const removeMileage = (uuid) => {
+    deleteMielage(uuid);
+  };
+
   return (
     <div>
       <div className='cardInfo text-3xl p-4'>Uploaded Mileages</div>
-      {(mileages) ? mileages.map((mileage) => (
-        <button key={mileage.uuid} className='cardMileage' onClick={() => console.log(`${mileage.uuid}Clicked`)}>
-          <div className='flex overflow-x-auto max-w-full items-center'>
-            <div className='p-4 space-x-2 space-y-2'>
-              <div>{`${mileage.airline}`}</div>
-              <div>{`${mileage.frequent_flyer_number}`}</div>
-              <div>{`$${mileage.mileage_price}`}</div>
-              <div>{`${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
+      {mileages?.map((mileage) => (
+        <div key={mileage.uuid} className='cardMileage overflow-x-auto max-w-full items-center'>
+          <div className='p-4'>
+            <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+          </div>
+          <div className='flex-col overflow-x-auto max-w-full items-center'>
+            <div className=''>
+              <div>{`Airline: ${mileage.airline}`}</div>
+              <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
+              <div>{`Price: $${mileage.mileage_price}`}</div>
+              <div>{`Mileage: ${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
             </div>
-            <div className='p-4 space-x-2 space-y-2'>
-              <div>{`Expire at ${getLocalTime(mileage.mileage_expired_at)}`}</div>
-              <div>{`Created at ${getLocalTime(mileage.created_at)}`}</div>
-              <div>{`Updated at ${getLocalTime(mileage.updated_at)}`}</div>
-              <div>{mileage.verified ? 'Verification' : 'Verification'}</div>
-              <div>{mileage.verified ? '✅' : '❌'}</div>
+            <div className=''>
+              <div>{`Expire: ${getLocalTime(mileage.mileage_expired_at)}`}</div>
+              <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
+              <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
             </div>
-            <div className='space-x-2 space-y-2 h-48 group'>
+          </div>
+          <div>
+            <button className='pictureContainer'>
               <img
-                className='group-hover:absolute min-w-48 h-48 object-contain rounded hover:scale-125 transition-transform duration-300'
                 src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
                 alt='Mileage'
               />
-            </div>
+            </button>
           </div>
-        </button>
-      )) : null}
+          <div className='p-4'>
+            <button onClick={() => removeMileage(mileage.uuid)}>Click to Delete 🗑️</button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

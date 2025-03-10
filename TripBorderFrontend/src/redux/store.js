@@ -4,7 +4,8 @@ import { mapReducer } from './reducers/mapReducer';
 import { foursquareAPI } from '../api/foursquareSliceAPI';
 import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { authAPI } from '../api/authAPI';
-import { mileageAPI } from '../api/mileageAPI';
+import { mileagesAPI } from '../api/mileagesAPI';
+import { usersAPI } from '../api/usersAPI';
 
 const store = configureStore({
   reducer: {
@@ -13,13 +14,15 @@ const store = configureStore({
     [foursquareAPI.reducerPath]: foursquareAPI.reducer,
     [mapboxAPI.reducerPath]: mapboxAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,
-    [mileageAPI.reducerPath]: mileageAPI.reducer
+    [mileagesAPI.reducerPath]: mileagesAPI.reducer,
+    [usersAPI.reducerPath]: usersAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
     foursquareAPI.middleware,
     mapboxAPI.middleware,
     authAPI.middleware,
-    mileageAPI.middleware
+    mileagesAPI.middleware,
+    usersAPI.middleware
   )
 });
 
