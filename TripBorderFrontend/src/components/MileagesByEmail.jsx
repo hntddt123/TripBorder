@@ -37,6 +37,7 @@ function MileagesByEmail() {
         <div key={mileage.uuid} className='cardMileage overflow-x-auto max-w-full items-center'>
           <div className='p-4'>
             <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+            <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
           </div>
           <div className='flex-col overflow-x-auto max-w-full items-center'>
             <div className=''>

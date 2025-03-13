@@ -14,7 +14,11 @@ function Mileages() {
   const [updateMileages, update] = useUpdateMileagesMutation();
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
 
-  const showPopup = () => setIsPopupOpen(true);
+  const handlePictureClick = (uuid) => {
+    setIsPopupOpen(true);
+    setSelectedUUID(uuid);
+  };
+
   const hidePopup = () => setIsPopupOpen(false);
 
   if (isLoading) {
@@ -30,16 +34,22 @@ function Mileages() {
     setSelectedUUID(uuid);
   };
 
-  const renderPopUp = (mileage) => {
-    if (isPopupOpen) {
+  const renderPopUp = () => {
+    let mileage;
+    if (selectedUUID !== undefined) {
+      mileage = mileages?.filter((m) => m.uuid === selectedUUID)[0];
+    }
+    if (isPopupOpen && mileage.mileage_picture && mileage.mileage_picture.data.length > 0) {
       return (
         <div className='popup'>
           <div className='popup-content'>
-            <img
-              className='pictureMileage'
-              src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
-              alt='Mileage'
-            />
+            <div className='flex justify-center'>
+              <img
+                className='pictureMileagePopUp'
+                src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
+                alt='Mileage'
+              />
+            </div>
             <CustomButton onClick={hidePopup} label='Close' />
           </div>
         </div>
@@ -59,7 +69,7 @@ function Mileages() {
         <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
-          <button onClick={showPopup}>
+          <button onClick={() => handlePictureClick(mileage.uuid)}>
             <img
               className='pictureMileage'
               src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
@@ -107,7 +117,6 @@ function Mileages() {
             </div>
           </div>
           {renderMileagesItem(mileage)}
-          {renderPopUp(mileage)}
         </div>
       )));
     }
@@ -118,7 +127,6 @@ function Mileages() {
         <div key={mileage.uuid}>
           <div className='cardMileage'>
             {renderMileagesItem(mileage)}
-            {renderPopUp(mileage)}
           </div>
         </div>
       )));
@@ -128,6 +136,7 @@ function Mileages() {
     <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>Mileages Exchange</div>
       {renderMileages()}
+      {renderPopUp()}
     </div>
   );
 }

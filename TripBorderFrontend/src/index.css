@@ -339,8 +339,15 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
-    max-width: 300px;
-    left: 50%;
+    width: 75vw;
+  }
+
+  .pictureMileagePopUp {
+    display: block;
+    border-width: 0;
+    border-radius: theme('borderRadius.md');
+    padding: 0;
+    width: 100vw;
   }
 
   .popup {
@@ -357,10 +364,7 @@ body {
   }
 
   .popup-content {
-    transform: translate(0%, 0%) scale(2);
-    transform-origin: bottom center;
-    -webkit-transform-origin: bottom center;
-    -webkit-transform: translate(0%, 0%) scale(2);
+    width: 95vw;
     padding: theme('spacing.4');
     border-radius: theme('borderRadius.lg');
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
