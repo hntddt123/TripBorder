@@ -2,7 +2,8 @@
 This is the project to help myself learning the app development processes
 
 # Frontend setup
-![image](/Images/TripBorderDev.png)
+![image](/Images/TripBorderDev1.png)
+![image](/Images/TripBorderDev2.png)
 
 ### Requirements
 
@@ -36,8 +37,10 @@ Runs the app in the development mode with Vite
 Runs the app in the preview production mode with Vite
 
 ```npm run docker```  
-Runs with docker, see Dockerfile and compose.yml in the folder
+Runs with docker, see Dockerfile and compose.dev.yml in the folder
 
+```npm run dockerprod```  
+Runs with docker, see Dockerfile and compose.prod.yml in the folder
 
 ```npm run test``` 
 ```npm run test:coverage```  
