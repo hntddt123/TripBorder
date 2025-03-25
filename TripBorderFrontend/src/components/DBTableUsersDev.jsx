@@ -27,10 +27,10 @@ function DBTableUsersDev() {
         <thead>
           <tr>
             <th>uuid</th>
+            <th>email</th>
             <th>role</th>
             <th>provider</th>
             <th>provider_user_id</th>
-            <th>email</th>
             <th>name</th>
             <th>created_at</th>
             <th>updated_at</th>
@@ -40,6 +40,7 @@ function DBTableUsersDev() {
           {users?.map((user) => (
             <tr key={user.uuid}>
               <td>{user.uuid}</td>
+              <td>{user.email}</td>
               <td>
                 {user.role}
                 <CustomButton
@@ -58,7 +59,6 @@ function DBTableUsersDev() {
               </td>
               <td>{user.provider}</td>
               <td>{user.provider_user_id}</td>
-              <td>{user.email}</td>
               <td>{user.name}</td>
               <td>{user.created_at}</td>
               <td>{user.updated_at}</td>
