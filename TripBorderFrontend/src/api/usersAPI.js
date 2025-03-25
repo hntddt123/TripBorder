@@ -13,10 +13,21 @@ export const usersAPI = createApi({
         url: '/users',
         method: 'GET',
       }),
+      providesTags: ['User']
+    }),
+    updateUser: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/updateuser/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['User'],
     }),
   })
 });
 
 export const {
   useGetUsersQuery,
+  useUpdateUserMutation
 } = usersAPI;
