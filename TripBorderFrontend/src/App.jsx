@@ -66,15 +66,13 @@ function App() {
               element={<TripBoard component={<Settings />} />}
             />
           </Route>
-          {(MODE === 'development')
-            ? (
-              <Route
-                index
-                path='/database'
-                element={<TripBoard component={<DatabaseTableDev />} />}
-              />
-            )
-            : null}
+          <Route path='/database' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/database'
+              element={<TripBoard component={<DatabaseTableDev />} />}
+            />
+          </Route>
           <Route
             path='*'
             element={(
