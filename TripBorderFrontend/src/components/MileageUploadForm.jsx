@@ -8,6 +8,7 @@ import { formatHex } from '../utility/formatHex';
 function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
   const [inputError, setInputError] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -23,6 +24,10 @@ function MileageUploadForm() {
     mileage_expired_at: '',
     mileage_picture: null,
   });
+
+  const toggleForm = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -87,124 +92,130 @@ function MileageUploadForm() {
     });
   };
 
+  const renderFormInputs = () => (
+    <form onSubmit={handleSubmit}>
+      <div className='inputField mt-4'>
+        <label htmlFor='ffn'>
+          Frequent Flyer Number*
+        </label>
+        <input
+          className='customInput'
+          id='ffn'
+          type='text'
+          name='frequent_flyer_number'
+          value={formData.frequent_flyer_number}
+          onChange={handleInputChange}
+          required
+          placeholder='your flyer number'
+          maxLength={50}
+        />
+      </div>
+      <div className='inputField'>
+        <label htmlFor='al'>
+          Airline*
+        </label>
+        <input
+          className='customInput'
+          id='al'
+          type='text'
+          name='airline'
+          value={formData.airline}
+          onChange={handleInputChange}
+          required
+          placeholder='airline'
+          maxLength={50}
+        />
+      </div>
+      <div className='inputField'>
+        <label htmlFor='mp'>
+          Mileage Price*
+        </label>
+        <input
+          className='customInput'
+          id='mp'
+          name='mileage_price'
+          value={formData.mileage_price}
+          onChange={handleInputChange}
+          required
+          placeholder='$'
+          min={0}
+          maxLength={20}
+        />
+      </div>
+      <div className='inputField'>
+        <label htmlFor='ma'>
+          Mileage Amount*
+        </label>
+        <input
+          className='customInput'
+          id='ma'
+          name='mileage_amount'
+          value={formData.mileage_amount}
+          onChange={handleInputChange}
+          required
+          placeholder='distance'
+          min={1}
+          maxLength={20}
+        />
+      </div>
+      <div className='inputField'>
+        <label htmlFor='mu'>
+          Mileage Unit*
+        </label>
+        <select
+          className='customInput text-nowrap'
+          id='mu'
+          name='mileage_unit'
+          value={formData.mileage_unit}
+          onChange={handleInputChange}
+          required
+        >
+          <option key='km' value='km'>km</option>
+          <option key='miles' value='miles'>miles</option>
+        </select>
+      </div>
+      <div className='inputField'>
+        <label htmlFor='ed'>
+          Expiration Date*
+        </label>
+        <input
+          className='customInput'
+          id='ed'
+          type='date'
+          name='mileage_expired_at'
+          value={formData.mileage_expired_at}
+          onChange={handleInputChange}
+          required
+        />
+      </div>
+      <div className='inputField'>
+        <label htmlFor='mppng'>
+          Mileage Picture* (PNG)
+        </label>
+        <input
+          className='customInput mt-0 mb-2'
+          ref={fileInputRef}
+          id='mppng'
+          type='file'
+          accept='image/png'
+          onChange={handleFileChange}
+          required
+        />
+      </div>
+      <CustomButton type='submit' label='Upload' />
+      {(isLoading) ? <div>Uploading...</div> : null}
+      {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
+      {(error) ? <div className='text-red-600'>{`Status: ${error.status} - ${error.data.error}`}</div> : null}
+      {(message) ? <div>{`${message.message}`}</div> : null}
+    </form>
+  );
+
   return (
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
-      <form onSubmit={handleSubmit}>
-        <h1 className='text-2xl mb-4'>Create New Mileage</h1>
-        <div className='inputField'>
-          <label htmlFor='ffn'>
-            Frequent Flyer Number*
-          </label>
-          <input
-            className='customInput'
-            id='ffn'
-            type='text'
-            name='frequent_flyer_number'
-            value={formData.frequent_flyer_number}
-            onChange={handleInputChange}
-            required
-            placeholder='your flyer number'
-            maxLength={50}
-          />
-        </div>
-        <div className='inputField'>
-          <label htmlFor='al'>
-            Airline*
-          </label>
-          <input
-            className='customInput'
-            id='al'
-            type='text'
-            name='airline'
-            value={formData.airline}
-            onChange={handleInputChange}
-            required
-            placeholder='airline'
-            maxLength={50}
-          />
-        </div>
-        <div className='inputField'>
-          <label htmlFor='mp'>
-            Mileage Price*
-          </label>
-          <input
-            className='customInput'
-            id='mp'
-            name='mileage_price'
-            value={formData.mileage_price}
-            onChange={handleInputChange}
-            required
-            placeholder='$'
-            min={0}
-            maxLength={20}
-          />
-        </div>
-        <div className='inputField'>
-          <label htmlFor='ma'>
-            Mileage Amount*
-          </label>
-          <input
-            className='customInput'
-            id='ma'
-            name='mileage_amount'
-            value={formData.mileage_amount}
-            onChange={handleInputChange}
-            required
-            placeholder='distance'
-            min={1}
-            maxLength={20}
-          />
-        </div>
-        <div className='inputField'>
-          <label htmlFor='mu'>
-            Mileage Unit*
-          </label>
-          <select
-            className='customInput text-nowrap'
-            id='mu'
-            name='mileage_unit'
-            value={formData.mileage_unit}
-            onChange={handleInputChange}
-            required
-          >
-            <option key='km' value='km'>km</option>
-            <option key='miles' value='miles'>miles</option>
-          </select>
-        </div>
-        <div className='inputField'>
-          <label htmlFor='ed'>
-            Expiration Date*
-          </label>
-          <input
-            className='customInput'
-            id='ed'
-            type='date'
-            name='mileage_expired_at'
-            value={formData.mileage_expired_at}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div className='inputField'>
-          <label htmlFor='mppng'>
-            Mileage Picture* (PNG)
-          </label>
-          <input
-            className='customInput mt-0 mb-2'
-            ref={fileInputRef}
-            id='mppng'
-            type='file'
-            accept='image/png'
-            onChange={handleFileChange}
-            required
-          />
-        </div>
-        <CustomButton type='submit' label='Upload' />
-        {(isLoading) ? <div>Uploading...</div> : null}
-        {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-        {(error) ? <div className='text-red-600'>{`Status: ${error.status} - ${error.data.error}`}</div> : null}
-        {(message) ? <div>{`${message.message}`}</div> : null}
-      </form>
+      <button className='text-2xl' onClick={toggleForm}>
+        {isOpen ? 'Create New Mileage ▼ ' : 'Create New Mileage ▶'}
+      </button>
+      {(isOpen) ? renderFormInputs() : null}
     </div>
   );
 }

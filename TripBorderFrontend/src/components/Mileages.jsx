@@ -9,10 +9,18 @@ import CustomButton from './CustomButton';
 function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 10;
 
-  const { data: mileages, isLoading, error } = useGetMileagesQuery();
+  const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
   const [updateMileages, update] = useUpdateMileagesMutation();
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
+
+  const { mileages, total, totalPages, page: currentPage } = data || {};
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   const handlePictureClick = (uuid) => {
     setIsPopupOpen(true);
@@ -59,8 +67,8 @@ function Mileages() {
   };
 
   const renderMileagesItem = (mileage) => (
-    <div className='flex overflow-x-auto max-w-full justify-center'>
-      <div>
+    <div className='flex justify-center'>
+      <div className='container overflow-x-auto font-mono -tracking-wider text-center'>
         <div>{`Airline: ${mileage.airline}`}</div>
         <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
         <div>{`Price: $${mileage.mileage_price}`}</div>
@@ -135,6 +143,23 @@ function Mileages() {
   return (
     <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>Mileages Exchange</div>
+      <div className='text-center'>
+        <div>
+          Page {currentPage} of {totalPages}
+          (Total: {total} items)
+          {isFetching && <div>Fetching new page...</div>}
+        </div>
+        <CustomButton
+          label='Previous'
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1 || isFetching}
+        />
+        <CustomButton
+          label='Next'
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages || isFetching}
+        />
+      </div>
       {renderMileages()}
       {renderPopUp()}
     </div>

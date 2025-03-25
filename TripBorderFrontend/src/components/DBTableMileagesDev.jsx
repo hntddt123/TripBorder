@@ -1,8 +1,17 @@
+import { useState } from 'react';
 import { processBytea } from '../utility/processBytea';
 import { useGetMileagesQuery } from '../api/mileagesAPI';
+import CustomButton from './CustomButton';
 
 function DBTableMileagesDev() {
-  const { data: mileages, isLoading, error } = useGetMileagesQuery();
+  const [page, setPage] = useState(1);
+  const limit = 10;
+  const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
+  const { mileages, total, totalPages, page: currentPage } = data || {};
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -15,6 +24,25 @@ function DBTableMileagesDev() {
   return (
     <div>
       <div>mileages</div>
+      <div className='text-center'>
+        <CustomButton
+          label='Previous'
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1 || isFetching}
+        />
+
+        <span>
+          Page {currentPage} of {totalPages}
+          (Total: {total} items)
+        </span>
+
+        <CustomButton
+          label='Next'
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages || isFetching}
+        />
+      </div>
+      {isFetching && <div>Fetching new page...</div>}
       <table>
         <thead>
           <tr>

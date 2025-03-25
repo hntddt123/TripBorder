@@ -10,9 +10,10 @@ export const mileagesAPI = createApi({
   tagTypes: ['Mileage'],
   endpoints: (builder) => ({
     getMileages: builder.query({
-      query: () => ({
+      query: ({ page = 1, limit = 10 }) => ({
         url: '/mileages',
         method: 'GET',
+        params: { page, limit },
       }),
       providesTags: ['Mileage'],
     }),

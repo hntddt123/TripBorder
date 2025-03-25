@@ -339,7 +339,6 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
-    width: 75vw;
   }
 
   .pictureMileagePopUp {
@@ -347,7 +346,7 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
-    width: 100vw;
+    max-width: 100vw;
   }
 
   .popup {

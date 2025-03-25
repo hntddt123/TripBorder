@@ -60,17 +60,30 @@ function Auth() {
   const isLoggedIn = data?.isLoggedIn === true;
   const userName = data?.name || null;
   const profilePicture = data?.profilePicture || null;
+  const role = data?.role || null;
+
+  const renderAdminFeatures = () => {
+    if (role === 'admin') {
+      return (
+        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='View Trips' to='/trips' />
+          <CustomButton label='Database Table' to='/database' />
+        </div>
+      );
+    }
+    return null;
+  };
 
   return (
     <div>
       {isLoggedIn ? (
-        <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max'>
+        <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
           <p className='text-2xl'>Welcome, {userName}!</p>
           <img className='profilepic' src={profilePicture} alt='userprofile' />
-          <CustomButton label='New Trip' to='/newtrip' />
-          <CustomButton label='View Trips' to='/trips' />
           <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
+          {renderAdminFeatures()}
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

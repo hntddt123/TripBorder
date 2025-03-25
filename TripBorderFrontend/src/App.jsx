@@ -8,6 +8,7 @@ import Settings from './components/Settings';
 import DatabaseTableDev from './components/DatabaseTableDev';
 import MileagesList from './components/MileagesList';
 import { VERSION_NUMBER, MODE } from './constants/constants';
+import DevMode from './components/DevMode';
 
 function App() {
   return (
@@ -22,12 +23,11 @@ function App() {
           <Route
             path='/'
             element={(
-              <div className='flex flex-col container justify-center text-center mx-auto m-2 max-w-2xl'>
+              <div className='flex flex-col container justify-center text-center mx-auto m-2 max-w-lg'>
                 <Auth />
                 {(MODE === 'development')
-                  ? <CustomButton label='Database Table Dev' to='/database' />
-                  : null}
-                <p className='text-2xl m-2'>Version: {VERSION_NUMBER} {MODE}</p>
+                  ? <DevMode />
+                  : <p className='text-2xl m-2'>Version: {VERSION_NUMBER}</p>}
               </div>
             )}
           />
