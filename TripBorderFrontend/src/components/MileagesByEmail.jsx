@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';

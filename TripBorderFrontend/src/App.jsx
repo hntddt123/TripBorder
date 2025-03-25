@@ -9,6 +9,7 @@ import DatabaseTableDev from './components/DatabaseTableDev';
 import MileagesList from './components/MileagesList';
 import { VERSION_NUMBER, MODE } from './constants/constants';
 import DevMode from './components/DevMode';
+import MileagesAdmin from './components/MileagesAdmin';
 
 function App() {
   return (
@@ -49,6 +50,13 @@ function App() {
               index
               path='/mileages'
               element={<TripBoard component={<MileagesList />} />}
+            />
+          </Route>
+          <Route path='/mileagesverification' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/mileagesverification'
+              element={<TripBoard component={<MileagesAdmin />} />}
             />
           </Route>
           <Route path='/settings' element={<ProtectedRoute />}>
