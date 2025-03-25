@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetMileagesByEmailMutation, useDeleteMileagesMutation } from '../api/mileagesAPI';
+import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
@@ -10,16 +10,10 @@ function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
-  const [getMileagesByEmail, { data: mileages, isLoading, error, refetch }] = useGetMileagesByEmailMutation();
+  const { data: mileages, isLoading, error } = useGetMileagesByEmailQuery(email);
   const [deleteMielage] = useDeleteMileagesMutation();
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
-  useEffect(() => {
-    if (email) {
-      getMileagesByEmail(email);
-    }
-  }, [email, getMileagesByEmail]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -38,7 +32,6 @@ function MileagesByEmail() {
 
   const removeMileage = (uuid) => {
     deleteMielage(uuid);
-    refetch();
   };
 
   const renderPopUp = () => {

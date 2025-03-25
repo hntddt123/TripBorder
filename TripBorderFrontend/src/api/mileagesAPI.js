@@ -17,7 +17,7 @@ export const mileagesAPI = createApi({
       }),
       providesTags: ['Mileage'],
     }),
-    getMileagesByEmail: builder.mutation({
+    getMileagesByEmail: builder.query({
       query: (email) => ({
         url: '/mileagesbyemail',
         method: 'POST',
@@ -59,7 +59,7 @@ export const mileagesAPI = createApi({
 // Export hooks for usage in components
 export const {
   useGetMileagesQuery,
-  useGetMileagesByEmailMutation,
+  useGetMileagesByEmailQuery,
   usePostMileagesMutation,
   useDeleteMileagesMutation,
   useUpdateMileagesMutation
