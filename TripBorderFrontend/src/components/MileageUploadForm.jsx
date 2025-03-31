@@ -51,7 +51,7 @@ function MileageUploadForm() {
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
-    if (file && file.type === 'image/png') {
+    if (file) {
       setFormData((prev) => ({ ...prev, mileage_picture: file }));
     }
   };
@@ -190,14 +190,14 @@ function MileageUploadForm() {
       </div>
       <div className='inputField'>
         <label htmlFor='mppng'>
-          Mileage Picture* (PNG)
+          Mileage Picture* (PNG, JPEG, HEIC)
         </label>
         <input
           className='customInput mt-0 mb-2'
           ref={fileInputRef}
           id='mppng'
           type='file'
-          accept='image/png'
+          accept='image/png, image/jpeg, image/heic'
           onChange={handleFileChange}
           required
         />

@@ -45,7 +45,7 @@ function Mileages() {
             <div className='flex justify-center'>
               <img
                 className='pictureMileagePopUp'
-                src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
+                src={processBytea(mileage.mileage_picture)}
                 alt='Mileage'
               />
             </div>
@@ -71,7 +71,9 @@ function Mileages() {
           <button onClick={() => handlePictureClick(mileage.uuid)}>
             <img
               className='pictureMileage'
-              src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
+              src={mileage.mileage_picture.data.length !== 0
+                ? processBytea(mileage.mileage_picture)
+                : null}
               alt='Mileage'
             />
           </button>

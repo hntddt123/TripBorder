@@ -73,7 +73,13 @@ function DBTableMileagesDev() {
               <td>{mileage.mileage_price}</td>
               <td>{mileage.mileage_amount}</td>
               <td>{mileage.mileage_unit}</td>
-              <td>{processBytea(mileage.mileage_picture).substring(0, 20)}</td>
+              <td>
+                {
+                  mileage.mileage_picture.data.length !== 0
+                    ? processBytea(mileage.mileage_picture).substring(0, 30)
+                    : 'error'
+                }
+              </td>
               <td>{mileage.mileage_expired_at}</td>
               <td>{mileage.created_at}</td>
               <td>{mileage.updated_at}</td>
