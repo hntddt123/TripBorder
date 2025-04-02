@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { processBytea } from '../utility/processBytea';
 import { useGetMileagesQuery } from '../api/mileagesAPI';
 import CustomButton from './CustomButton';
+import CustomImageComponent from './CustomImageComponent';
 
 function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
@@ -73,12 +73,11 @@ function DBTableMileagesDev() {
               <td>{mileage.mileage_price}</td>
               <td>{mileage.mileage_amount}</td>
               <td>{mileage.mileage_unit}</td>
-              <td>
-                {
-                  mileage.mileage_picture.data.length !== 0
-                    ? processBytea(mileage.mileage_picture).substring(0, 30)
-                    : 'error'
-                }
+              <td className='max-w-1'>
+                <CustomImageComponent
+                  uuid={mileage.uuid}
+                  bytea={mileage.mileage_picture}
+                />
               </td>
               <td>{mileage.mileage_expired_at}</td>
               <td>{mileage.created_at}</td>

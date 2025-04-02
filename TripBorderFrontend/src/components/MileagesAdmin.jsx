@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
 import { useGetMileagesQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import CustomButton from './CustomButton';
+import CustomImageComponent from './CustomImageComponent';
 
 function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -52,12 +52,9 @@ function MileagesAdmin() {
         <div className='popup'>
           <div className='popup-content'>
             <div className='flex justify-center'>
-              <img
-                className='pictureMileagePopUp'
-                src={mileage.mileage_picture.data.length !== 0
-                  ? processBytea(mileage.mileage_picture)
-                  : null}
-                alt='Mileage'
+              <CustomImageComponent
+                uuid={mileage.uuid}
+                bytea={mileage.mileage_picture}
               />
             </div>
             <CustomButton onClick={hidePopup} label='Close' />
@@ -80,10 +77,9 @@ function MileagesAdmin() {
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
           <button onClick={() => handlePictureClick(mileage.uuid)}>
-            <img
-              className='pictureMileage'
-              src={`data:image/png;base64,${processBytea(mileage.mileage_picture)}`}
-              alt='Mileage'
+            <CustomImageComponent
+              uuid={mileage.uuid}
+              bytea={mileage.mileage_picture}
             />
           </button>
         </div>

@@ -1,3 +1,5 @@
+import heic2any from 'heic2any';
+
 // Convert byte array to base64 without btoa
 const arrayToBase64 = (byteArray) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -50,13 +52,39 @@ const detectImageFormat = (bytes) => {
   return null;
 };
 
-export function processBytea(bytea) {
+const blobToBase64 = (blob) => new Promise((resolve, reject) => {
+  const reader = new FileReader();
+  reader.onloadend = () => resolve(reader.result.split(',')[1]);
+  reader.onerror = reject;
+  reader.readAsDataURL(blob);
+});
+
+export async function processBytea(bytea) {
   const base64String = arrayToBase64(bytea.data);
   const mimeType = detectImageFormat(bytea.data);
 
   if (!mimeType) {
-    throw new Error('Unsupported image format');
+    return 'Unsupported image format';
   }
 
-  return `data:${mimeType};base64,${base64String}`;
+  let dataUrl = `data:${mimeType};base64,${base64String}`;
+
+  // If HEIC, convert to JPG using heic2any
+  if (mimeType === 'image/heic') {
+    try {
+      dataUrl = `data:${mimeType};base64,${base64String}`;
+      const blob = await fetch(dataUrl).then((res) => res.blob());
+      const convertedBlob = await heic2any({
+        blob,
+        toType: 'image/jpeg'
+      });
+      const convertedBase64 = await blobToBase64(convertedBlob);
+      return `data:image/jpeg;base64,${convertedBase64}`;
+    } catch (e) {
+      console.error('HEIC conversion failed:', e);
+      // Fallback: Return original HEIC data URL (won’t render in Brave)
+      return dataUrl;
+    }
+  }
+  return dataUrl;
 }

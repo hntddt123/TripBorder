@@ -339,6 +339,7 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
+    max-height: 50;
   }
 
   .pictureMileagePopUp {

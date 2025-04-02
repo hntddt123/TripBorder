@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
 import { useGetMileagesQuery } from '../api/mileagesAPI';
 import CustomButton from './CustomButton';
+import CustomImageComponent from './CustomImageComponent';
 
 function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -43,10 +43,9 @@ function Mileages() {
         <div className='popup'>
           <div className='popup-content'>
             <div className='flex justify-center'>
-              <img
-                className='pictureMileagePopUp'
-                src={processBytea(mileage.mileage_picture)}
-                alt='Mileage'
+              <CustomImageComponent
+                uuid={mileage.uuid}
+                bytea={mileage.mileage_picture}
               />
             </div>
             <CustomButton onClick={hidePopup} label='Close' />
@@ -69,12 +68,9 @@ function Mileages() {
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
           <button onClick={() => handlePictureClick(mileage.uuid)}>
-            <img
-              className='pictureMileage'
-              src={mileage.mileage_picture.data.length !== 0
-                ? processBytea(mileage.mileage_picture)
-                : null}
-              alt='Mileage'
+            <CustomImageComponent
+              uuid={mileage.uuid}
+              bytea={mileage.mileage_picture}
             />
           </button>
         </div>

@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
-import { processBytea } from '../utility/processBytea';
 import { getLocalTime } from '../utility/time';
 import CustomButton from './CustomButton';
+import CustomImageComponent from './CustomImageComponent';
 
 function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -44,12 +44,9 @@ function MileagesByEmail() {
         <div className='popup'>
           <div className='popup-content'>
             <div className='flex justify-center'>
-              <img
-                className='pictureMileagePopUp'
-                src={mileage.mileage_picture.data.length !== 0
-                  ? processBytea(mileage.mileage_picture)
-                  : null}
-                alt='Mileage'
+              <CustomImageComponent
+                uuid={mileage.uuid}
+                bytea={mileage.mileage_picture}
               />
             </div>
             <CustomButton onClick={hidePopup} label='Close' />
@@ -78,12 +75,9 @@ function MileagesByEmail() {
               <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
               <div>
                 <button onClick={() => handlePictureClick(mileage.uuid)}>
-                  <img
-                    className='pictureMileage'
-                    src={mileage.mileage_picture.data.length !== 0
-                      ? processBytea(mileage.mileage_picture)
-                      : null}
-                    alt='Mileage'
+                  <CustomImageComponent
+                    uuid={mileage.uuid}
+                    bytea={mileage.mileage_picture}
                   />
                 </button>
               </div>

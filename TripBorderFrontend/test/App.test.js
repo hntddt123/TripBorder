@@ -2,6 +2,11 @@ import { screen } from '@testing-library/react';
 import App from '../src/App';
 import { renderWithRedux } from './renderWithRedux';
 
+jest.mock('heic2any', () => ({
+  __esModule: true,
+  default: async ({ toType }) => new Blob(['mocked-jpeg-data'], { type: toType || 'image/jpeg' }),
+}));
+
 jest.mock('../src/constants/constants.js', () => ({
   API_KEY: ''
 }));
