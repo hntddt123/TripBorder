@@ -67,18 +67,16 @@ export async function processBytea(bytea) {
     return 'Unsupported image format';
   }
 
-  let dataUrl = `data:${mimeType};base64,${base64String}`;
+  const dataUrl = `data:${mimeType};base64,${base64String}`;
 
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
   // If HEIC, convert to JPG using heic2any
-  if (mimeType === 'image/heic') {
+  if (mimeType === 'image/heic' && !isIOS) {
     try {
-      dataUrl = `data:${mimeType};base64,${base64String}`;
       const blob = await fetch(dataUrl).then((res) => res.blob());
-      const convertedBlob = await heic2any({
-        blob,
-        toType: 'image/jpeg'
-      });
+      const convertedBlob = await heic2any({ blob, toType: 'image/jpeg', quality: 0.9 });
       const convertedBase64 = await blobToBase64(convertedBlob);
+
       return `data:image/jpeg;base64,${convertedBase64}`;
     } catch (e) {
       console.error('HEIC conversion failed:', e);

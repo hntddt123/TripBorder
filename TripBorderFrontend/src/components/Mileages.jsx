@@ -18,9 +18,11 @@ function Mileages() {
     setPage(newPage);
   };
 
-  const handlePictureClick = (uuid) => {
-    setIsPopupOpen(true);
-    setSelectedUUID(uuid);
+  const handlePictureClick = (mileage) => {
+    if (mileage.mileage_picture.data.length > 0) {
+      setIsPopupOpen(true);
+      setSelectedUUID(mileage.uuid);
+    }
   };
 
   const hidePopup = () => setIsPopupOpen(false);
@@ -67,7 +69,7 @@ function Mileages() {
         <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
-          <button onClick={() => handlePictureClick(mileage.uuid)}>
+          <button onClick={() => handlePictureClick(mileage)}>
             <CustomImageComponent
               uuid={mileage.uuid}
               bytea={mileage.mileage_picture}

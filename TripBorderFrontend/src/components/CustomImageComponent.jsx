@@ -1,16 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { processBytea } from '../utility/processBytea';
 import { ImageComponentByteaPropTypes, ImageComponentUUIDPropTypes } from '../constants/imagePropTypes';
 
 function CustomImageComponent({ uuid, bytea }) {
-  const [imageSrc, setImageSrc] = useState([]);
+  const [imageSrc, setImageSrc] = useState({ src: null, loading: false, error: null });
+
+  const loadImage = useCallback(async () => {
+    const src = await processBytea(bytea);
+    setImageSrc({ src, loading: false, error: null });
+  }, [bytea]);
 
   useEffect(() => {
-    const loadImage = async () => {
-      const src = await processBytea(bytea);
-      setImageSrc(src);
-    };
-    loadImage();
+    if (bytea && bytea.data.length > 0) {
+      requestIdleCallback(() => {
+        loadImage();
+      });
+    }
   }, [bytea]);
 
   if (imageSrc.length === 0) {
@@ -20,8 +25,9 @@ function CustomImageComponent({ uuid, bytea }) {
   return (
     <img
       key={uuid}
-      src={imageSrc}
+      src={imageSrc.src}
       alt={`Mileage ${uuid}`}
+      loading='lazy'
     />
   );
 }
