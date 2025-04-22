@@ -624,11 +624,10 @@ body {
   }
 
   .profilepic {
-    width: 8rem;
-    height: 8rem;
     align-self: center;
     border-radius: 8rem;
     margin: theme('spacing.2');
+    @apply bg-primary-light dark:bg-primary-dark
   }
 
   .inputField {

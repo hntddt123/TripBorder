@@ -81,7 +81,7 @@ function Auth() {
       {isLoggedIn ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
           <p className='text-2xl'>Welcome, {userName}!</p>
-          <img className='profilepic' src={profilePicture} alt='userprofile' />
+          <img className='profilepic' src={profilePicture} alt='profilepic' />
           <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
           {renderAdminFeatures()}
