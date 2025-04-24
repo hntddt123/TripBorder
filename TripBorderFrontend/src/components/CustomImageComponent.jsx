@@ -12,9 +12,11 @@ function CustomImageComponent({ uuid, bytea }) {
 
   useEffect(() => {
     if (bytea && bytea.data.length > 0) {
-      requestIdleCallback(() => {
-        loadImage();
-      });
+      if (window.requestIdleCallback) {
+        requestIdleCallback(loadImage);
+      } else {
+        setTimeout(loadImage, 0); // Fallback for Safari
+      }
     }
   }, [bytea]);
 
