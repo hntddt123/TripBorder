@@ -15,12 +15,14 @@ jest.mock('@mapbox/mapbox-gl-geocoder', () => ({
   MapboxGeocoder: ''
 }));
 
-test('Canary Test', () => {
-  expect(1).toBe(1);
-});
+describe('App tests', () => {
+  test('Canary Test', () => {
+    expect(1).toBe(1);
+  });
 
-test('renders Trip Border title', () => {
-  renderWithRedux(<App />);
-  const linkElement = screen.getByText(/Trip Border/i);
-  expect(linkElement).toBeInTheDocument();
+  test('renders Trip Border title', () => {
+    renderWithRedux(<App />);
+    const linkElement = screen.getByText(/Trip Border/i);
+    expect(linkElement).toBeInTheDocument();
+  });
 });

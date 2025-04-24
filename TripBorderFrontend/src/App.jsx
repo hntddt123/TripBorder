@@ -16,9 +16,7 @@ function App() {
     <div className='safeArea'>
       <BrowserRouter basename='/'>
         <header className='flex title justify-center'>
-          <div className='content-center'>
-            Trip Border
-          </div>
+          Trip Border
         </header>
         <Routes>
           <Route

@@ -8,8 +8,10 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
   return render(ui, { wrapper: BrowserRouter });
 };
 
-test('renders TripBoard', () => {
-  renderWithRouter(<TripBoard />);
-
-  expect(screen.getByText((content, element) => element.tagName.toLowerCase() === 'a')).toBeInTheDocument();
+describe('DevMode tests', () => {
+  test('renders TripBoard', () => {
+    renderWithRouter(<TripBoard />);
+    const tag = screen.getByText((content, element) => element.tagName.toLowerCase() === 'a');
+    expect(tag).toBeInTheDocument();
+  });
 });
