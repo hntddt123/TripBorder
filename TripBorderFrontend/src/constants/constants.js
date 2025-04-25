@@ -22,38 +22,38 @@ function formatDateNowUTC() {
   return now.toISOString().slice(0, 19).replace('T', ' '); // "2025-04-25 12:34:56"
 }
 
-export const TestMileages = [
-  {
-    uuid: '1',
-    frequent_flyer_number: 'TB123456789',
-    airline: 'Tripborder Air',
-    mileage_price: '100.00',
-    mileage_amount: '2000.0',
-    mileage_picture: '1',
-    mileage_unit: 'km',
-    mileage_expired_at: '9999-12-31 23:59:59',
-    is_verified: true,
-    is_listed: true,
-    created_at: formatDateNowUTC(),
-    updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
-  },
-  {
-    uuid: '2',
-    frequent_flyer_number: 'TB987654321',
-    airline: 'Tripborder Air',
-    mileage_price: '200.99',
-    mileage_amount: '4000.0',
-    mileage_picture: '1',
-    mileage_unit: 'miles',
-    mileage_expired_at: '2030-12-31',
-    is_verified: true,
-    is_listed: true,
-    created_at: formatDateNowUTC(),
-    updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
-  },
-];
+// export const TestMileages = [
+//   {
+//     uuid: '1',
+//     frequent_flyer_number: 'TB123456789',
+//     airline: 'Tripborder Air',
+//     mileage_price: '100.00',
+//     mileage_amount: '2000.0',
+//     mileage_picture: '1',
+//     mileage_unit: 'km',
+//     mileage_expired_at: '9999-12-31 23:59:59',
+//     is_verified: true,
+//     is_listed: true,
+//     created_at: formatDateNowUTC(),
+//     updated_at: formatDateNowUTC(),
+//     owner_email: 'test@tripborder.com'
+//   },
+//   {
+//     uuid: '2',
+//     frequent_flyer_number: 'TB987654321',
+//     airline: 'Tripborder Air',
+//     mileage_price: '200.99',
+//     mileage_amount: '4000.0',
+//     mileage_picture: '1',
+//     mileage_unit: 'miles',
+//     mileage_expired_at: '2030-12-31',
+//     is_verified: true,
+//     is_listed: true,
+//     created_at: formatDateNowUTC(),
+//     updated_at: formatDateNowUTC(),
+//     owner_email: 'test@tripborder.com'
+//   },
+// ];
 
 // Test coordinaties
 export const LineStringTestCoordinates = [
