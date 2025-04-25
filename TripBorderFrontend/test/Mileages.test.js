@@ -3,7 +3,7 @@ import nock from 'nock';
 import { screen, waitFor } from '@testing-library/react';
 import Mileages from '../src/components/Mileages';
 import { renderWithRedux } from './renderWithRedux';
-import { TestMileages } from '../src/constants/constants';
+// import { TestMileages } from '../src/constants/constants';
 
 describe('Mileages tests', () => {
   const baseUrl = 'https://localhost:5173';
