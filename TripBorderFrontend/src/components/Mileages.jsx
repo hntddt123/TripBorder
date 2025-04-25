@@ -32,7 +32,7 @@ function Mileages() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <div>{`Status: ${error.status} - ${error.data?.error}`}</div>;
   }
 
   const renderPopUp = () => {
