@@ -11,7 +11,7 @@ function CustomImageComponent({ uuid, bytea }) {
   }, [bytea]);
 
   useEffect(() => {
-    if (bytea && bytea.data.length > 0) {
+    if (bytea && bytea.data?.length > 0) {
       if (window.requestIdleCallback) {
         requestIdleCallback(loadImage);
       } else {

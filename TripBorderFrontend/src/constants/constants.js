@@ -17,43 +17,51 @@ export const {
   PORT
 } = getEnv();
 
-// function formatDateNowUTC() {
-//   const now = new Date(Date.now());
-//   return now.toISOString().slice(0, 19).replace('T', ' '); // "2025-04-25 12:34:56"
-// }
+function formatDateNowUTC() {
+  const now = new Date(Date.now());
+  return now.toISOString().slice(0, 19).replace('T', ' '); // "2025-04-25 12:34:56"
+}
 
-// export const TestMileages = [
-//   {
-//     uuid: '1',
-//     frequent_flyer_number: 'TB123456789',
-//     airline: 'Tripborder Air',
-//     mileage_price: '100.00',
-//     mileage_amount: '2000.0',
-//     mileage_picture: '1',
-//     mileage_unit: 'km',
-//     mileage_expired_at: '9999-12-31 23:59:59',
-//     is_verified: true,
-//     is_listed: true,
-//     created_at: formatDateNowUTC(),
-//     updated_at: formatDateNowUTC(),
-//     owner_email: 'test@tripborder.com'
-//   },
-//   {
-//     uuid: '2',
-//     frequent_flyer_number: 'TB987654321',
-//     airline: 'Tripborder Air',
-//     mileage_price: '200.99',
-//     mileage_amount: '4000.0',
-//     mileage_picture: '1',
-//     mileage_unit: 'miles',
-//     mileage_expired_at: '2030-12-31',
-//     is_verified: true,
-//     is_listed: true,
-//     created_at: formatDateNowUTC(),
-//     updated_at: formatDateNowUTC(),
-//     owner_email: 'test@tripborder.com'
-//   },
-// ];
+export const TestMileages = [
+  {
+    uuid: '1',
+    frequent_flyer_number: 'TB123456789',
+    airline: 'Tripborder Air',
+    mileage_price: '100.00',
+    mileage_amount: '2000.0',
+    mileage_picture: { data: [1, 2, 3] }, // Malformated test
+    mileage_unit: 'km',
+    mileage_expired_at: '9999-12-31 23:59:59',
+    is_verified: true,
+    is_listed: true,
+    created_at: formatDateNowUTC(),
+    updated_at: formatDateNowUTC(),
+    owner_email: 'test@tripborder.com'
+  },
+  {
+    uuid: '2',
+    frequent_flyer_number: 'TB987654321',
+    airline: 'Tripborder Air',
+    mileage_price: '200.99',
+    mileage_amount: '4000.0',
+    mileage_picture: { // Should be data:image/png;base64
+      data: [
+        137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82,
+        0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 0, 0, 0, 31, 21, 196,
+        137, 0, 0, 0, 13, 73, 68, 65, 84, 120, 218, 191, 248,
+        255, 159, 33, 14, 0, 7, 226, 2, 127, 223, 0, 0, 0, 0,
+        73, 69, 78, 68, 174, 66, 96, 130
+      ]
+    },
+    mileage_unit: 'miles',
+    mileage_expired_at: '2030-12-31',
+    is_verified: true,
+    is_listed: true,
+    created_at: formatDateNowUTC(),
+    updated_at: formatDateNowUTC(),
+    owner_email: 'test@tripborder.com'
+  },
+];
 
 // Test coordinaties
 export const LineStringTestCoordinates = [

@@ -3,7 +3,7 @@ import nock from 'nock';
 import { screen, waitFor } from '@testing-library/react';
 import Mileages from '../src/components/Mileages';
 import { renderWithRedux } from './renderWithRedux';
-// import { TestMileages } from '../src/constants/constants';
+import { TestMileages } from '../src/constants/constants';
 
 describe('Mileages tests', () => {
   const baseUrl = 'https://localhost:5173';
@@ -49,23 +49,23 @@ describe('Mileages tests', () => {
     });
   });
 
-  // test('renders mileages data after successful fetch', async () => {
-  //   nock(baseUrl)
-  //     .get('/api/mileages')
-  //     .query({ page: 1, limit: 10 })
-  //     .delay(100)
-  //     .reply(200, {
-  //       TestMileages,
-  //       total: 2,
-  //       totalPages: 1,
-  //       page: 1
-  //     });
+  test('renders mileages data after successful fetch', async () => {
+    nock(baseUrl)
+      .get('/api/mileages')
+      .query({ page: 1, limit: 10 })
+      .delay(100)
+      .reply(200, {
+        mileages: TestMileages,
+        total: 2,
+        totalPages: 1,
+        page: 1
+      });
 
-  //   renderWithRedux(<Mileages />);
+    renderWithRedux(<Mileages />);
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText('2000.0')).toBeInTheDocument();
-  //     expect(screen.getByText('4000.0')).toBeInTheDocument();
-  //   });
-  // });
+    await waitFor(() => {
+      expect(screen.getByText(/2000.0/i)).toBeInTheDocument();
+      expect(screen.getByText(/4000.0/i)).toBeInTheDocument();
+    });
+  });
 });
