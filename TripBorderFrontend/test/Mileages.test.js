@@ -6,7 +6,6 @@ import { renderWithRedux } from './renderWithRedux';
 import { TestMileages, TestBaseUrl } from '../src/constants/testConstants';
 
 describe('Mileages tests', () => {
-
   beforeEach(() => {
     // Clear Nock mocks before each test
     nock.cleanAll();
