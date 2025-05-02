@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { getLocalTime } from '../utility/time';
 import { useGetMileagesQuery } from '../api/mileagesAPI';
 import CustomButton from './CustomButton';
@@ -12,11 +12,21 @@ function Mileages() {
 
   const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
 
-  const { mileages, total, totalPages, page: currentPage } = data || {};
+  const { mileages, totalPages, page: currentPage } = data || {};
 
   const handlePageChange = (newPage) => {
-    setPage(newPage);
+    if (newPage > 0 && (!data || newPage <= data.totalPages)) {
+      setPage(newPage);
+    }
   };
+
+  const handlePreviousPage = useCallback(() => {
+    handlePageChange(page - 1);
+  }, [page]);
+
+  const handleNextPage = useCallback(() => {
+    handlePageChange(page + 1);
+  }, [page]);
 
   const handlePictureClick = (mileage) => {
     if (mileage.mileage_picture.data.length > 0) {
@@ -69,7 +79,11 @@ function Mileages() {
         <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
         <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
         <div>
-          <button onClick={() => handlePictureClick(mileage)}>
+          <button
+            aria-label={`Mileage Picture Button ${mileage.uuid}`}
+            id={mileage.uuid}
+            onClick={() => handlePictureClick(mileage)}
+          >
             <CustomImageComponent
               uuid={mileage.uuid}
               bytea={mileage.mileage_picture}
@@ -91,25 +105,29 @@ function Mileages() {
       </div>
     )));
 
+  const filteredMileages = data?.mileages.filter(
+    (mileage) => mileage.is_verified && mileage.is_listed
+  );
+
   return (
     <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>Mileages Exchange</div>
       <div className='text-center'>
         <div>
-          Total: {total} Mileages
+          Listed {filteredMileages.length} Mileages
         </div>
-        <div>
-          Page {currentPage} of {totalPages}
-        </div>
+        <div>Page {currentPage} of {totalPages}</div>
         {isFetching && <div>Fetching new page...</div>}
         <CustomButton
+          aria-label='Next Page Button'
           label='Previous'
-          onClick={() => handlePageChange(page - 1)}
+          onClick={handlePreviousPage}
           disabled={page === 1 || isFetching}
         />
         <CustomButton
+          aria-label='Previous Page Button'
           label='Next'
-          onClick={() => handlePageChange(page + 1)}
+          onClick={handleNextPage}
           disabled={page === totalPages || isFetching}
         />
       </div>
