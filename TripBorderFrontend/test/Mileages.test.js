@@ -3,7 +3,7 @@ import nock from 'nock';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
 import Mileages from '../src/components/Mileages';
 import { renderWithRedux } from './renderWithRedux';
-import { TestMileages, TestMileagesPage1, TestMileagesPage2, TestBaseUrl } from '../src/constants/testConstants';
+import { TestMileages, TestBaseUrl } from '../src/constants/testConstants';
 
 describe('Mileages tests', () => {
 
