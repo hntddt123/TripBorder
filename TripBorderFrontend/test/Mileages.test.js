@@ -3,7 +3,7 @@ import nock from 'nock';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
 import Mileages from '../src/components/Mileages';
 import { renderWithRedux } from './renderWithRedux';
-import { TestMileages, TestBaseUrl } from '../src/constants/testConstants';
+import { TestMileages, TestMileagesPage1, TestMileagesPage2, TestBaseUrl } from '../src/constants/testConstants';
 
 describe('Mileages tests', () => {
   beforeEach(() => {
@@ -114,44 +114,50 @@ describe('Mileages tests', () => {
     });
   });
 
-  // test('renders mileages data and handle 2 Mileage per page next/prev button', async () => {
-  //   nock(TestBaseUrl)
-  //     .get('/api/mileages')
-  //     .query({ page: 1, limit: 10 })
-  //     .delay(100)
-  //     .reply(200, {
-  //       mileages: TestMileagesPage1,
-  //       total: 40,
-  //       totalPages: 2,
-  //       page: 1
-  //     });
+  test('renders mileages data and handle 2 Mileage per page next/prev button', async () => {
+    nock(TestBaseUrl)
+      .get('/api/mileages')
+      .query({ page: 1, limit: 10 })
+      .delay(100)
+      .reply(200, {
+        mileages: TestMileagesPage1,
+        total: 40,
+        totalPages: 2,
+        page: 1
+      });
 
-  //   nock(TestBaseUrl)
-  //     .get('/api/mileages')
-  //     .query({ page: 2, limit: 10 })
-  //     .delay(100)
-  //     .reply(200, {
-  //       mileages: TestMileagesPage2,
-  //       total: 40,
-  //       totalPages: 2,
-  //       page: 2
-  //     });
+    nock(TestBaseUrl)
+      .get('/api/mileages')
+      .query({ page: 2, limit: 10 })
+      .delay(100)
+      .reply(200, {
+        mileages: TestMileagesPage2,
+        total: 40,
+        totalPages: 2,
+        page: 2
+      });
 
-  //   renderWithRedux(<Mileages />);
+    renderWithRedux(<Mileages />);
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/2025/)).toBeInTheDocument();
-  //   });
+    await waitFor(() => {
+      expect(screen.getByText(/2025/)).toBeInTheDocument();
+    });
 
-  //   const nextButton = await screen.findByRole('button', { name: 'Next Page Button' });
+    const nextButton = await screen.findByRole('button', { name: 'Next Page Button' });
 
-  //   // const prevbutton = await screen.findByRole('button', { name: 'Previous Page Button' });
-  //   fireEvent.click(nextButton);
+    expect(nextButton).toBeInTheDocument();
+    expect(nextButton).not.toBeDisabled();
+    fireEvent.click(nextButton);
 
-  //   // fireEvent.click(prevbutton);
+    await waitFor(() => {
+      expect(screen.getByText(/2099/)).toBeInTheDocument();
+    });
 
-  //   await waitFor(() => {
-  //     expect(screen.getByText(/2099/)).toBeInTheDocument();
-  //   });
-  // });
+    const prevButton = await screen.findByRole('button', { name: 'Previous Page Button' });
+    fireEvent.click(prevButton);
+
+    await waitFor(() => {
+      expect(screen.getByText(/2025/)).toBeInTheDocument();
+    });
+  });
 });

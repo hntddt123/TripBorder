@@ -119,13 +119,13 @@ function Mileages() {
         <div>Page {currentPage} of {totalPages}</div>
         {isFetching && <div>Fetching new page...</div>}
         <CustomButton
-          aria-label='Next Page Button'
+          aria-label='Previous Page Button'
           label='Previous'
           onClick={handlePreviousPage}
           disabled={page === 1 || isFetching}
         />
         <CustomButton
-          aria-label='Previous Page Button'
+          aria-label='Next Page Button'
           label='Next'
           onClick={handleNextPage}
           disabled={page === totalPages || isFetching}
