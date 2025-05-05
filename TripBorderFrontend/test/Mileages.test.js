@@ -114,7 +114,7 @@ describe('Mileages tests', () => {
     });
   });
 
-  test('renders mileages data and handle 2 Mileage per page next/prev button', async () => {
+  test('renders mileages data and handle 10 Mileage per page with next/prev button', async () => {
     nock(TestBaseUrl)
       .get('/api/mileages')
       .query({ page: 1, limit: 10 })
@@ -140,6 +140,7 @@ describe('Mileages tests', () => {
     renderWithRedux(<Mileages />);
 
     await waitFor(() => {
+      expect(screen.getByText(/Delta/)).toBeInTheDocument();
       expect(screen.getByText(/2025/)).toBeInTheDocument();
     });
 
@@ -150,6 +151,7 @@ describe('Mileages tests', () => {
     fireEvent.click(nextButton);
 
     await waitFor(() => {
+      expect(screen.getByText(/Emirates/)).toBeInTheDocument();
       expect(screen.getByText(/2099/)).toBeInTheDocument();
     });
 
@@ -157,6 +159,7 @@ describe('Mileages tests', () => {
     fireEvent.click(prevButton);
 
     await waitFor(() => {
+      expect(screen.getByText(/Delta/)).toBeInTheDocument();
       expect(screen.getByText(/2025/)).toBeInTheDocument();
     });
   });
