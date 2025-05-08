@@ -3,7 +3,7 @@ const getEnv = () => ({
   MODE: import.meta.env.VITE_MODE || 'development',
   MAPBOX_API_KEY: import.meta.env.VITE_MAPBOX_API_KEY || 'mockMAPBOXKey',
   FOURSQUARE_API_KEY: import.meta.env.VITE_FOURSQUARE_API_KEY || 'mockFOURSQUAREKey',
-  VERSION_NUMBER: import.meta.env.VITE_VERSION_NUMBER || '2.0.0',
+  VERSION_NUMBER: import.meta.env.VITE_VERSION_NUMBER || '2.0.1',
   BACKEND_DOMAIN: import.meta.env.VITE_BACKEND_DOMAIN || 'localhost',
   PORT: import.meta.env.VITE_PORT || '5173',
 });
