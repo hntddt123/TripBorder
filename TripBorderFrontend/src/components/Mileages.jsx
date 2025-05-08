@@ -56,6 +56,7 @@ function Mileages() {
           <div className='popup-content'>
             <div className='flex justify-center'>
               <CustomImageComponent
+                className='max-h-96'
                 uuid={mileage.uuid}
                 bytea={mileage.mileage_picture}
               />
@@ -85,6 +86,7 @@ function Mileages() {
             onClick={() => handlePictureClick(mileage)}
           >
             <CustomImageComponent
+              className='max-h-60'
               uuid={mileage.uuid}
               bytea={mileage.mileage_picture}
             />

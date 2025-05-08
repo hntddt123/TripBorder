@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getLocalTime } from '../utility/time';
+import { getLocalTime, isMileageExpired } from '../utility/time';
 import { useGetMileagesQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import CustomButton from './CustomButton';
@@ -53,6 +53,7 @@ function MileagesAdmin() {
           <div className='popup-content'>
             <div className='flex justify-center'>
               <CustomImageComponent
+                className='max-h-96'
                 uuid={mileage.uuid}
                 bytea={mileage.mileage_picture}
               />
@@ -78,6 +79,7 @@ function MileagesAdmin() {
         <div>
           <button onClick={() => handlePictureClick(mileage.uuid)}>
             <CustomImageComponent
+              className='max-h-60'
               uuid={mileage.uuid}
               bytea={mileage.mileage_picture}
             />
@@ -93,6 +95,8 @@ function MileagesAdmin() {
         <div key={mileage.uuid} className='cardMileage'>
           <div className='flex-col justify-center text-center'>
             <div>
+              <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+              <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
               <CustomButton
                 disabled={mileage.is_verified}
                 label='Verify'
@@ -106,7 +110,7 @@ function MileagesAdmin() {
             </div>
             <div>
               <CustomButton
-                disabled={mileage.is_listed}
+                disabled={mileage.is_listed || isMileageExpired(mileage.mileage_expired_at)}
                 label='Enlist'
                 onClick={() => handleMileageUpdate(mileage.uuid, { is_listed: true })}
               />

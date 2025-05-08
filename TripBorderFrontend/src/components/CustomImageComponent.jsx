@@ -1,8 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { processBytea } from '../utility/processBytea';
 import { ImageComponentByteaPropTypes, ImageComponentUUIDPropTypes } from '../constants/imagePropTypes';
 
-function CustomImageComponent({ uuid, bytea }) {
+function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
   const [imageSrc, setImageSrc] = useState({ src: null, loading: false, error: null });
 
   const loadImage = useCallback(async () => {
@@ -26,6 +27,7 @@ function CustomImageComponent({ uuid, bytea }) {
 
   return (
     <img
+      className={className}
       key={uuid}
       src={imageSrc.src}
       alt={`Mileage ${uuid}`}
@@ -36,7 +38,8 @@ function CustomImageComponent({ uuid, bytea }) {
 
 CustomImageComponent.propTypes = {
   bytea: ImageComponentByteaPropTypes,
-  uuid: ImageComponentUUIDPropTypes
+  uuid: ImageComponentUUIDPropTypes,
+  className: PropTypes.string,
 };
 
 export default CustomImageComponent;
