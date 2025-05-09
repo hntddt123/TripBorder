@@ -1,4 +1,4 @@
-import heic2any from 'heic2any';
+import { heicTo } from "heic-to"
 
 // Convert byte array to base64 without btoa
 const arrayToBase64 = (byteArray) => {
@@ -70,11 +70,11 @@ export async function processBytea(bytea) {
   const dataUrl = `data:${mimeType};base64,${base64String}`;
 
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  // If HEIC, convert to JPG using heic2any
+  // If HEIC, convert to JPG using heicTo
   if (mimeType === 'image/heic' && !isIOS) {
     try {
       const blob = await fetch(dataUrl).then((res) => res.blob());
-      const convertedBlob = await heic2any({ blob, toType: 'image/jpeg', quality: 0.9 });
+      const convertedBlob = await heicTo({ blob, toType: 'image/jpeg', quality: 0.9 });
       const convertedBase64 = await blobToBase64(convertedBlob);
 
       return `data:image/jpeg;base64,${convertedBase64}`;

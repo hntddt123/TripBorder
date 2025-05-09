@@ -22,7 +22,7 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockedUsedNavigate,
 }));
 
-jest.mock('heic2any', () => ({
+jest.mock('heicTo', () => ({
   __esModule: true,
   default: async ({ toType }) => new Blob(['mocked-jpeg-data'], { type: toType || 'image/jpeg' }),
 }));
