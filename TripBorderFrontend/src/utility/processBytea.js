@@ -1,4 +1,4 @@
-import { heicTo } from "heic-to"
+import { heicTo } from 'heic-to';
 
 // Convert byte array to base64 without btoa
 const arrayToBase64 = (byteArray) => {

@@ -59,6 +59,7 @@ module.exports = {
         controlComponents: ['input', 'select', 'textarea'],
         assert: 'either'
       }
-    ]
+    ],
+    'import/no-extraneous-dependencies': 'off'
   }
 };
