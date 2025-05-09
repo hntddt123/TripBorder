@@ -27,7 +27,7 @@ describe('Mileages tests', () => {
 
   test('renders error state if no query detail provided', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages');
+      .get('/api/mileagesselling');
 
     renderWithRedux(<Mileages />);
     await waitFor(() => {
@@ -37,7 +37,7 @@ describe('Mileages tests', () => {
 
   test('renders error state', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 1, limit: 10 })
       .reply(500, { error: 'Internal server error' });
 
@@ -49,7 +49,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data after successful fetch', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -69,7 +69,7 @@ describe('Mileages tests', () => {
 
   test('renders only 2 verified and listed example mileages data', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -88,7 +88,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data and handle click on image popup and close', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -116,7 +116,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data and handle 10 Mileage per page with next/prev button', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -127,7 +127,7 @@ describe('Mileages tests', () => {
       });
 
     nock(TestBaseUrl)
-      .get('/api/mileages')
+      .get('/api/mileagesselling')
       .query({ page: 2, limit: 10 })
       .delay(100)
       .reply(200, {

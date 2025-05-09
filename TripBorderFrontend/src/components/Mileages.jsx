@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { getLocalTime } from '../utility/time';
-import { useGetMileagesQuery } from '../api/mileagesAPI';
+import { useGetMileagesSellingQuery } from '../api/mileagesAPI';
 import CustomButton from './CustomButton';
 import CustomImageComponent from './CustomImageComponent';
 
@@ -10,7 +10,7 @@ function Mileages() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetMileagesSellingQuery({ page, limit });
 
   const { mileages, totalPages, page: currentPage } = data || {};
 

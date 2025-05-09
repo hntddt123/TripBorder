@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getLocalTime, isMileageExpired } from '../utility/time';
-import { useGetMileagesQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
+import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
 import { authAPI } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import CustomImageComponent from './CustomImageComponent';
@@ -12,7 +12,7 @@ function MileagesAdmin() {
   const [page, setPage] = useState(1);
   const limit = 10;
 
-  const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetMileagesAllQuery({ page, limit });
   const [updateMileages, update] = useUpdateMileagesMutation();
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
 

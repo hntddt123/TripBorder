@@ -9,9 +9,17 @@ export const mileagesAPI = createApi({
   }),
   tagTypes: ['Mileage'],
   endpoints: (builder) => ({
-    getMileages: builder.query({
+    getMileagesAll: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
         url: '/mileages',
+        method: 'GET',
+        params: { page, limit },
+      }),
+      providesTags: ['Mileage'],
+    }),
+    getMileagesSelling: builder.query({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: '/mileagesselling',
         method: 'GET',
         params: { page, limit },
       }),
@@ -58,7 +66,8 @@ export const mileagesAPI = createApi({
 
 // Export hooks for usage in components
 export const {
-  useGetMileagesQuery,
+  useGetMileagesAllQuery,
+  useGetMileagesSellingQuery,
   useGetMileagesByEmailQuery,
   usePostMileagesMutation,
   useDeleteMileagesMutation,

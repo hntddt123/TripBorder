@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useGetMileagesQuery } from '../api/mileagesAPI';
+import { useGetMileagesAllQuery } from '../api/mileagesAPI';
 import CustomButton from './CustomButton';
 import CustomImageComponent from './CustomImageComponent';
 
 function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
   const limit = 10;
-  const { data, isLoading, isFetching, error } = useGetMileagesQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetMileagesAllQuery({ page, limit });
   const { mileages, total, totalPages, page: currentPage } = data || {};
 
   const handlePageChange = (newPage) => {
