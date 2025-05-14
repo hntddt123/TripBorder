@@ -376,9 +376,9 @@ body {
   .sidebarInstructionsContent {
     flex-wrap: wrap;
     overflow-y: scroll;
-    padding: 0.5rem;
+    padding: 0.25rem;
     width: 15rem;
-    height: 16rem;
+    height: 12rem;
     border-radius: theme('borderRadius.lg');
     @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
   }
@@ -387,7 +387,7 @@ body {
     border-radius: theme('borderRadius.lg');
     position: absolute;
     width: 1.618rem;
-    height: 2.4rem;
+    height: 3rem;
     overflow: visible;
     display: flex;
     justify-content: center;
@@ -425,7 +425,7 @@ body {
   .bottommenu {
     position: absolute;
     z-index: 1;
-    top: 75%;
+    top: 70%;
     bottom: 6%;
     width: 100%;
     overflow-y: scroll;
@@ -465,6 +465,8 @@ body {
   }
 
   .poiCancelButton {
+    position: absolute;
+    top: 12rem;
     font-size: 1.5rem;
     line-height: 1.5rem;
     align-content: center;
