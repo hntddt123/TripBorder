@@ -13,7 +13,7 @@ import MileagesAdmin from './components/MileagesAdmin';
 
 function App() {
   return (
-    <div className='safeArea'>
+    <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
         <header className='flex title justify-center'>
           Trip Border

@@ -22,10 +22,6 @@ body {
     @apply bg-primary-light dark:bg-primary-dark;
   }
 
-  div {
-    @apply dark:text-white
-  }
-
   table {
     width: 100%;
     border-collapse: collapse;
@@ -41,6 +37,10 @@ body {
   
   th {
     @apply bg-primary-light dark:bg-primary-dark
+  }
+
+  .customdiv {
+    @apply text-primary-dark dark:text-white
   }
 
   .customInput {
@@ -263,7 +263,7 @@ body {
   }
 
   .cardPOIMarker:active {
-    @apply bg-amber-200 dark:bg-primary-buttonDarkTransparentActive
+    @apply bg-amber-200 dark:bg-primary-buttonDarkTransparentActive;
   }
 
   .cardPOIAddInfo {
