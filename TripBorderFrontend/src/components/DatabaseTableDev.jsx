@@ -5,7 +5,7 @@ import DBTableUsersDev from './DBTableUsersDev';
 
 function DatabaseTableDev() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
-  const role = user.data?.role;
+  const role = user?.data?.role;
 
   if (role === 'admin') {
     return (
