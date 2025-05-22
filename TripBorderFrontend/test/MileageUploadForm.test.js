@@ -16,10 +16,9 @@ describe('Mileages tests', () => {
     nock.cleanAll();
   });
 
-  test('renders Mileage loading component if no RTKquery not called', () => {
+  test('renders MileageUploadForm have Create wording', () => {
     renderWithRedux(<MileageUploadForm />);
-    const mileage = screen.getByText(/Create/i);
 
-    expect(mileage).toHaveTextContent('Create');
+    expect(screen.getByText(/Create/i)).toHaveTextContent('Create');
   });
 });

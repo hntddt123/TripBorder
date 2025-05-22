@@ -30,6 +30,7 @@ describe('Mileages tests', () => {
       .get('/api/mileagesselling');
 
     renderWithRedux(<Mileages />);
+
     await waitFor(() => {
       expect(screen.getByText(/Status: FETCH_ERROR/i)).toBeInTheDocument();
     });
@@ -42,6 +43,7 @@ describe('Mileages tests', () => {
       .reply(500, { error: 'Internal server error' });
 
     renderWithRedux(<Mileages />);
+
     await waitFor(() => {
       expect(screen.getByText(/Status: 500 - Internal server error/i)).toBeInTheDocument();
     });

@@ -1,7 +1,7 @@
 import { heicTo } from 'heic-to';
 
 // Convert byte array to base64 without btoa
-const arrayToBase64 = (byteArray) => {
+export const arrayToBase64 = (byteArray) => {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
   const bytes = new Uint8Array(byteArray); // Ensure it’s a Uint8Array
   let result = '';

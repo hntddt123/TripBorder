@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import { baseUrl } from '../constants/constants';
 
 export const mileagesAPI = createApi({
   reducerPath: 'mileagesAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://${BACKEND_DOMAIN}:${PORT}/api`,
+    baseUrl: `${baseUrl}/api`,
     credentials: 'include',
   }),
   tagTypes: ['Mileage'],

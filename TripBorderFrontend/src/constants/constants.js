@@ -16,3 +16,7 @@ export const {
   BACKEND_DOMAIN,
   PORT
 } = getEnv();
+
+export const baseUrl = `https://${BACKEND_DOMAIN}:${PORT}`;
+export const fourSquareBaseUrl = 'https://api.foursquare.com/v3/';
+export const mapBoxBaseUrl = 'https://api.mapbox.com/';

@@ -93,7 +93,7 @@ function MileageUploadForm() {
   };
 
   const renderFormInputs = () => (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType='multipart/form-data'>
       <div className='inputField mt-4'>
         <label htmlFor='ffn'>
           Frequent Flyer Number*
@@ -107,6 +107,7 @@ function MileageUploadForm() {
           onChange={handleInputChange}
           required
           placeholder='your flyer number'
+          minLength={6}
           maxLength={50}
         />
       </div>
@@ -197,6 +198,7 @@ function MileageUploadForm() {
           ref={fileInputRef}
           id='mppng'
           type='file'
+          name='mileage_picture'
           accept='image/png, image/jpeg, image/heic'
           onChange={handleFileChange}
           required

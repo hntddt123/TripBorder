@@ -6,6 +6,7 @@ function DBTableUsersDev() {
   const [selectedUUID, setSelectedUUID] = useState();
   const { data: users, isLoading, error } = useGetUsersQuery();
   const [updateUser, update] = useUpdateUserMutation();
+  console.log(users);
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -96,6 +96,7 @@ function MileagesAdmin() {
           <div className='flex-col justify-center text-center'>
             <div>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+              <div>{mileage.is_ocr_verified ? 'OCR Verified ✅' : 'OCR Verified ❌'}</div>
               <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
               <CustomButton
                 disabled={mileage.is_verified}

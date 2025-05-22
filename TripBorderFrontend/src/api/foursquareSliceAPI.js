@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { FOURSQUARE_API_KEY } from '../constants/constants';
+import { FOURSQUARE_API_KEY, fourSquareBaseUrl } from '../constants/constants';
 import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 
 /*
@@ -19,7 +19,7 @@ import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 export const foursquareAPI = createApi({
   reducerPath: 'foursquareAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.foursquare.com/v3/',
+    baseUrl: fourSquareBaseUrl,
     fetchFn: fetch,
     prepareHeaders: (headers) => {
       headers.set('Authorization', FOURSQUARE_API_KEY);

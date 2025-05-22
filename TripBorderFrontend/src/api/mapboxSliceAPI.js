@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MAPBOX_API_KEY } from '../constants/constants';
+import { MAPBOX_API_KEY, mapBoxBaseUrl } from '../constants/constants';
 
 /*
   Get Directions
@@ -12,7 +12,7 @@ import { MAPBOX_API_KEY } from '../constants/constants';
 export const mapboxAPI = createApi({
   reducerPath: 'mapboxAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.mapbox.com/',
+    baseUrl: mapBoxBaseUrl,
     fetchFn: fetch
   }),
   endpoints: (builder) => ({

@@ -173,7 +173,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       touchZoomRotate={false}
     >
       <GeocoderControl
-        className='poiButton'
         mapboxAccessToken={MAPBOX_API_KEY}
         position='top-left'
       />

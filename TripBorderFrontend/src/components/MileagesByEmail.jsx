@@ -66,6 +66,7 @@ function MileagesByEmail() {
           <div className='flex-col overflow-x-auto max-w-full items-center'>
             <div className='overflow-x-auto font-mono -tracking-wider'>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+              <div>{mileage.is_ocr_verified ? 'OCR Verified ✅' : 'OCR Verified ❌'}</div>
               <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
               <div>{`Airline: ${mileage.airline}`}</div>
               <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
