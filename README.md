@@ -1,4 +1,4 @@
-# TripBorder Project
+# Trip Border Project
 This is the project to help myself learning the app development processes
 
 # Frontend setup

@@ -255,11 +255,11 @@ body {
     border-right-width: theme('borderWidth.0');
     font-size: 1.25rem;
     line-height: 1.75rem;
-    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent
+    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
 
   .cardPOIMarker:hover {
-    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover
+    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover;
   }
 
   .cardPOIMarker:active {
@@ -275,7 +275,7 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    @apply text-white dark:text-white
+    @apply text-white dark:text-white;
   }
 
   .cardPOIAddInfoPictures {
@@ -298,7 +298,7 @@ body {
     border-left-width: theme('borderWidth.2');
     border-right-width: theme('borderWidth.0');
     @apply 
-    bg-amber-100 dark:bg-primary-cardDark
+    bg-amber-100 dark:bg-primary-cardDark;
   }
 
   .picture {
@@ -369,7 +369,7 @@ body {
     border-radius: theme('borderRadius.lg');
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     text-align: center;
-    @apply bg-primary-light dark:bg-primary-dark
+    @apply bg-primary-light dark:bg-primary-dark;
   }
 
 
@@ -380,7 +380,7 @@ body {
     width: 15rem;
     height: 12rem;
     border-radius: theme('borderRadius.lg');
-    @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent
+    @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
 
   .sidebarInstructionsToggle {
@@ -443,14 +443,14 @@ body {
     border-color: theme('backgroundColor.amber.50');
     @apply  
     bg-primary-buttonLight dark:bg-primary-buttonDark
-    text-black dark:text-white
+    text-black dark:text-white;
   }
 
   .poiButton:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
     @apply  
-    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
   }
 
   .poiButton:active {
@@ -477,7 +477,7 @@ body {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.red.600');
     @apply  
-    text-black dark:text-white
+    text-black dark:text-white;
   }
 
   .poiCancelButton:hover {
@@ -501,14 +501,14 @@ body {
     border-color: theme('backgroundColor.amber.50');
     @apply  
     bg-primary-buttonLight dark:bg-primary-buttonDark
-    text-black dark:text-white
+    text-black dark:text-white;
   }
 
   .poiDropdownButton:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
     @apply  
-    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
   }
 
   .poiDropdownButton:active {
@@ -629,7 +629,7 @@ body {
     align-self: center;
     border-radius: 8rem;
     margin: theme('spacing.2');
-    @apply bg-primary-light dark:bg-primary-dark
+    @apply bg-primary-light dark:bg-primary-dark;
   }
 
   .inputField {
@@ -671,7 +671,7 @@ body {
     min-width: min-content;
     @apply bg-white dark:bg-primary-googleDark
     text-primary-googleTextWhite dark:text-primary-googleTextDark
-    dark:border-primary-googleBorderDark
+    dark:border-primary-googleBorderDark;
   }
   
   .gsi-material-button .gsi-material-button-icon {
@@ -719,7 +719,7 @@ body {
   .gsi-material-button:disabled {
     cursor: default;
     @apply bg-primary-googleDisabledLight dark:bg-primary-googleDisabledDark
-    border-primary-googleBorderLight dark:border-primary-googleBorderDisabledDark
+    border-primary-googleBorderLight dark:border-primary-googleBorderDisabledDark;
   }
   
   .gsi-material-button:disabled .gsi-material-button-contents {
@@ -733,7 +733,7 @@ body {
   .gsi-material-button:not(:disabled):active .gsi-material-button-state, 
   .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
     opacity: 12%;
-    @apply bg-primary-googlefocus dark:bg-white
+    @apply bg-primary-googlefocus dark:bg-white;
   }
   
   .gsi-material-button:not(:disabled):hover {
@@ -744,7 +744,7 @@ body {
   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
     background-color: #303030;
     opacity: 8%;
-    @apply bg-primary-googlefocus dark:bg-white
+    @apply bg-primary-googlefocus dark:bg-white;
   }
 
   .gsi-material-button:disabled .gsi-material-button-state {
