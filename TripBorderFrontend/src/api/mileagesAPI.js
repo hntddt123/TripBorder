@@ -26,10 +26,10 @@ export const mileagesAPI = createApi({
       providesTags: ['Mileage'],
     }),
     getMileagesByEmail: builder.query({
-      query: (email) => ({
+      query: ({ email, page = 1, limit = 10 }) => ({
         url: '/mileagesbyemail',
         method: 'POST',
-        body: { data: email },
+        body: { email, page, limit },
         headers: { 'Content-Type': 'application/json' }
       }),
       providesTags: ['Mileage'],
