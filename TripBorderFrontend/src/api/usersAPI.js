@@ -3,6 +3,7 @@ import { baseUrl } from '../constants/constants';
 
 export const usersAPI = createApi({
   reducerPath: 'usersAPI',
+  tagTypes: ['Users'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api`,
     credentials: 'include',
@@ -13,7 +14,7 @@ export const usersAPI = createApi({
         url: '/users',
         method: 'GET',
       }),
-      providesTags: ['User']
+      providesTags: ['Users']
     }),
     updateUser: builder.mutation({
       query: ({ uuid, updates }) => ({
@@ -22,7 +23,7 @@ export const usersAPI = createApi({
         body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Users'],
     }),
   })
 });

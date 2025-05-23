@@ -7,6 +7,7 @@ export const TestBaseUrl = 'https://localhost:5173';
 
 export const TestAdminUser = {
   data: {
+    isloggedIn: true,
     uuid: '777',
     email: 'test@tripborder.com',
     provider: 'tripborder',
@@ -18,30 +19,28 @@ export const TestAdminUser = {
   }
 };
 
-export const TestAdminUsers = {
-  users: [
-    {
-      uuid: '777',
-      email: 'test@tripborder.com',
-      provider: 'tripborder',
-      provider_user_id: '1',
-      name: 'Test',
-      created_at: '2025-12-02 23:59:59',
-      updated_at: '2025-12-02 23:59:59',
-      role: 'admin'
-    },
-    {
-      uuid: '777',
-      email: 'test@tripborder.com',
-      provider: 'tripborder',
-      provider_user_id: '1',
-      name: 'Test',
-      created_at: '2025-12-02 23:59:59',
-      updated_at: '2025-12-02 23:59:59',
-      role: 'admin'
-    },
-  ]
-};
+export const TestAdminUsers = [
+  {
+    uuid: '777',
+    email: 'test@tripborder.com',
+    provider: 'tripborder',
+    provider_user_id: '1',
+    name: 'Test',
+    created_at: '2025-12-02 23:59:59',
+    updated_at: '2025-12-02 23:59:59',
+    role: 'admin'
+  },
+  {
+    uuid: '777',
+    email: 'test@tripborder.com',
+    provider: 'tripborder',
+    provider_user_id: '1',
+    name: 'Test',
+    created_at: '2025-12-02 23:59:59',
+    updated_at: '2025-12-02 23:59:59',
+    role: 'admin'
+  },
+];
 
 export const TestMileages = [
   {
