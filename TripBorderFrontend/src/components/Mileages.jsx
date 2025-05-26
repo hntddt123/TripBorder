@@ -106,7 +106,7 @@ function Mileages() {
   );
 
   return (
-    <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
+    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>Mileages Exchange</div>
       <div className='text-center'>
         <div>
@@ -115,7 +115,6 @@ function Mileages() {
         <div>
           Listed {filteredMileages.length} Mileages
         </div>
-        <div>Page {currentPage} of {totalPages}</div>
         {isFetching && <div>Fetching new page...</div>}
         <CustomButton
           aria-label='Previous Page Button'
@@ -129,6 +128,7 @@ function Mileages() {
           onClick={handleNextPage}
           disabled={page === totalPages || isFetching}
         />
+        <div>Page {currentPage} of {totalPages}</div>
       </div>
       {renderMileages()}
       {renderPopUp()}

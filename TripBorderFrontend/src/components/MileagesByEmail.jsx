@@ -74,9 +74,8 @@ function MileagesByEmail() {
   return (
     <div>
       <div className='cardInfo text-3xl p-4'>Uploaded Mileages</div>
-      <div className='text-center'>
+      <div className='text-xl text-center'>
         <div>Total: {total}</div>
-        <div>Page {currentPage} of {totalPages}</div>
         {isFetching && <div>Fetching new page...</div>}
         <CustomButton
           aria-label='Previous Page Button'
@@ -90,6 +89,7 @@ function MileagesByEmail() {
           onClick={handleNextPage}
           disabled={page === totalPages || isFetching}
         />
+        <div>Page {currentPage} of {totalPages}</div>
       </div>
       {mileages?.map((mileage) => (
         <div key={mileage.uuid} className='cardMileage overflow-x-auto max-w-full items-center'>

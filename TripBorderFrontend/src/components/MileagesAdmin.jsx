@@ -137,7 +137,7 @@ function MileagesAdmin() {
   return (
     <div className='cardTrip'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
-        <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
+        <div className='text-xl overflow-x-auto table-fixed whitespace-nowrap'>
           <div className='text-center'>Mileages Exchange</div>
           <div className='text-center'>
             <div>

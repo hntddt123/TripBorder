@@ -4,14 +4,14 @@ import { baseUrl } from '../constants/constants';
 export const mileagesAPI = createApi({
   reducerPath: 'mileagesAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api`,
+    baseUrl: `${baseUrl}/api/mileages`,
     credentials: 'include',
   }),
   tagTypes: ['Mileage'],
   endpoints: (builder) => ({
     getMileagesAll: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
-        url: '/mileages',
+        url: '/',
         method: 'GET',
         params: { page, limit },
       }),
@@ -19,7 +19,7 @@ export const mileagesAPI = createApi({
     }),
     getMileagesSelling: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
-        url: '/mileagesselling',
+        url: '/selling',
         method: 'GET',
         params: { page, limit },
       }),
@@ -36,7 +36,7 @@ export const mileagesAPI = createApi({
     }),
     postMileages: builder.mutation({
       query: (newMileage) => ({
-        url: '/uploadmileages',
+        url: '/upload',
         method: 'POST',
         body: { data: newMileage },
         headers: { 'Content-Type': 'application/json' }
@@ -45,7 +45,7 @@ export const mileagesAPI = createApi({
     }),
     updateMileages: builder.mutation({
       query: ({ uuid, updates }) => ({
-        url: `/updatemileages/${uuid}`,
+        url: `/update/${uuid}`,
         method: 'PATCH',
         body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
@@ -54,7 +54,7 @@ export const mileagesAPI = createApi({
     }),
     deleteMileages: builder.mutation({
       query: (mileageID) => ({
-        url: '/removemileagebyid',
+        url: '/removebyid',
         method: 'DELETE',
         body: { data: mileageID },
         headers: { 'Content-Type': 'application/json' }

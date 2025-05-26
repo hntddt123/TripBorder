@@ -36,7 +36,7 @@ describe('Database Table tests', () => {
     authSpy.mockReturnValue(() => TestAdminUser);
 
     nock(TestBaseUrl)
-      .get('/api/users')
+      .get('/api/users/')
       .delay(100)
       .reply(200, TestAdminUsers);
 

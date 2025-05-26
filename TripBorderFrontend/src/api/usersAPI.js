@@ -5,20 +5,20 @@ export const usersAPI = createApi({
   reducerPath: 'usersAPI',
   tagTypes: ['Users'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api`,
+    baseUrl: `${baseUrl}/api/users`,
     credentials: 'include',
   }),
   endpoints: (builder) => ({
     getUsers: builder.query({
       query: () => ({
-        url: '/users',
+        url: '/',
         method: 'GET',
       }),
       providesTags: ['Users']
     }),
     updateUser: builder.mutation({
       query: ({ uuid, updates }) => ({
-        url: `/updateuser/${uuid}`,
+        url: `/update/${uuid}`,
         method: 'PATCH',
         body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
