@@ -4,7 +4,7 @@ import { baseUrl } from '../constants/constants';
 export const authAPI = createApi({
   reducerPath: 'authAPI',
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: `${baseUrl}/api/auth`,
     credentials: 'include', // Include cookies in requests
   }),
   tagTypes: ['Auth'],

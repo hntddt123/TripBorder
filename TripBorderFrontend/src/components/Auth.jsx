@@ -21,6 +21,7 @@ function Auth() {
       setShouldPoll(true);
       const timeout = setTimeout(() => {
         setShouldPoll(false);
+        navigate(location.pathname, { replace: true });
       }, 5000);
 
       return () => clearTimeout(timeout);
@@ -37,7 +38,7 @@ function Auth() {
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
-    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/auth/google`;
+    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/api/auth/google`;
   };
 
   const handleLogout = async () => {
