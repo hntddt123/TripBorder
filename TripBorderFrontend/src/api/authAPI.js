@@ -3,11 +3,11 @@ import { baseUrl } from '../constants/constants';
 
 export const authAPI = createApi({
   reducerPath: 'authAPI',
+  tagTypes: ['Auth'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api/auth`,
     credentials: 'include', // Include cookies in requests
   }),
-  tagTypes: ['Auth'],
   endpoints: (builder) => ({
     checkAuthStatus: builder.query({
       query: () => '/',

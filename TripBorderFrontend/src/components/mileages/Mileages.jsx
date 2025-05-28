@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { getLocalTime } from '../utility/time';
-import { useGetMileagesSellingQuery } from '../api/mileagesAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { getLocalTime } from '../../utility/time';
+import { useGetMileagesSellingQuery } from '../../api/mileagesAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();

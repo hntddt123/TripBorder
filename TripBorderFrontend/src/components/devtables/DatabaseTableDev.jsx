@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
-import { authAPI } from '../api/authAPI';
+import { authAPI } from '../../api/authAPI';
 import DBTableMileagesDev from './DBTableMileagesDev';
 import DBTableUsersDev from './DBTableUsersDev';
+import DBTableTripsDev from './DBTableTripsDev';
 
 function DatabaseTableDev() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -16,6 +17,7 @@ function DatabaseTableDev() {
               <div>Database Table</div>
               <DBTableUsersDev />
               <DBTableMileagesDev />
+              <DBTableTripsDev />
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useGetMileagesAllQuery } from '../api/mileagesAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
-import { arrayToBase64 } from '../utility/processBytea';
+import { useGetMileagesAllQuery } from '../../api/mileagesAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
+import { arrayToBase64 } from '../../utility/processBytea';
 
 function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 3;
   const { data, isLoading, isFetching, error } = useGetMileagesAllQuery({ page, limit });
   const { mileages, total, totalPages, page: currentPage } = data || {};
 

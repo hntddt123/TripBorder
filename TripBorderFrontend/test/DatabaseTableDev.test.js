@@ -1,8 +1,8 @@
 import nock from 'nock';
 import { screen, waitFor } from '@testing-library/react';
 import { renderWithRedux } from './renderWithRedux';
-import DatabaseTableDev from '../src/components/DatabaseTableDev';
-import { TestAdminUser, TestAdminUsers, TestBaseUrl } from '../src/constants/testConstants';
+import DatabaseTableDev from '../src/components/devtables/DatabaseTableDev';
+import { TestAdminUser, TestAdminUsers, TestBaseUrl, TestTrips } from '../src/constants/testConstants';
 import { authAPI } from '../src/api/authAPI';
 
 describe('Database Table tests', () => {
@@ -37,8 +37,25 @@ describe('Database Table tests', () => {
 
     nock(TestBaseUrl)
       .get('/api/users/')
+      .query({ page: 1, limit: 3 })
       .delay(100)
-      .reply(200, TestAdminUsers);
+      .reply(200, {
+        users: TestAdminUsers,
+        total: 2,
+        totalPages: 1,
+        page: 1
+      });
+
+    nock(TestBaseUrl)
+      .get('/api/trips/')
+      .query({ page: 1, limit: 3 })
+      .delay(100)
+      .reply(200, {
+        trips: TestTrips,
+        total: 2,
+        totalPages: 1,
+        page: 1
+      });
 
     renderWithRedux(<DatabaseTableDev />);
 
@@ -46,7 +63,8 @@ describe('Database Table tests', () => {
       expect(screen.getByText(/Database/i)).toHaveTextContent('Database Table');
       expect(screen.getByText(/user_accounts/i)).toHaveTextContent('user_accounts');
       expect(screen.getByText(/mileages/i)).toHaveTextContent('mileages');
-      expect(screen.getAllByText(/test@tripborder.com/i).length).toBe(2);
+      expect(screen.getAllByText(/testuser@tripborder.com/i).length).toBe(2);
+      expect(screen.getAllByText(/testtrip@tripborder.com/i).length).toBe(2);
     });
   });
 });

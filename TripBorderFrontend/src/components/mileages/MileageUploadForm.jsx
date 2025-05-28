@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import CustomButton from './CustomButton';
-import { authAPI } from '../api/authAPI';
-import { usePostMileagesMutation } from '../api/mileagesAPI';
-import { formatHex } from '../utility/formatHex';
+import CustomButton from '../CustomButton';
+import { authAPI } from '../../api/authAPI';
+import { usePostMileagesMutation } from '../../api/mileagesAPI';
+import { formatHex } from '../../utility/formatHex';
 
 function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();

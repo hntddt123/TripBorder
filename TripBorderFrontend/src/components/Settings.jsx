@@ -1,5 +1,5 @@
 import DarkModeToggle from './DarkModeToggle';
-import MileagesByEmail from './MileagesByEmail';
+import MileagesByEmail from './mileages/MileagesByEmail';
 import UserProfile from './UserProfile';
 
 function Settings() {

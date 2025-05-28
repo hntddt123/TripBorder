@@ -6,6 +6,7 @@ import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { authAPI } from '../api/authAPI';
 import { mileagesAPI } from '../api/mileagesAPI';
 import { usersAPI } from '../api/usersAPI';
+import { tripsAPI } from '../api/tripsAPI';
 
 const store = configureStore({
   reducer: {
@@ -16,13 +17,15 @@ const store = configureStore({
     [authAPI.reducerPath]: authAPI.reducer,
     [mileagesAPI.reducerPath]: mileagesAPI.reducer,
     [usersAPI.reducerPath]: usersAPI.reducer,
+    [tripsAPI.reducerPath]: tripsAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
     foursquareAPI.middleware,
     mapboxAPI.middleware,
     authAPI.middleware,
     mileagesAPI.middleware,
-    usersAPI.middleware
+    usersAPI.middleware,
+    tripsAPI.middleware
   )
 });
 

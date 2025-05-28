@@ -6,6 +6,7 @@ import { mapReducer } from '../src/redux/reducers/mapReducer';
 import { authAPI } from '../src/api/authAPI';
 import { mileagesAPI } from '../src/api/mileagesAPI';
 import { usersAPI } from '../src/api/usersAPI';
+import { tripsAPI } from '../src/api/tripsAPI';
 
 export const renderWithRedux = (
   component,
@@ -17,11 +18,13 @@ export const renderWithRedux = (
         [authAPI.reducerPath]: authAPI.reducer,
         [mileagesAPI.reducerPath]: mileagesAPI.reducer,
         [usersAPI.reducerPath]: usersAPI.reducer,
+        [tripsAPI.reducerPath]: tripsAPI.reducer,
       },
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authAPI.middleware,
         mileagesAPI.middleware,
-        usersAPI.middleware
+        usersAPI.middleware,
+        tripsAPI.middleware
       )
     }),
   } = {}

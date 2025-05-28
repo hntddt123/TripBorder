@@ -8,8 +8,8 @@ export const TestBaseUrl = 'https://localhost:5173';
 export const TestAdminUser = {
   data: {
     isloggedIn: true,
-    uuid: '777',
-    email: 'test@tripborder.com',
+    uuid: '550e8400-e29b-41d4-a716-446655440777',
+    email: 'testadmin@tripborder.com',
     provider: 'tripborder',
     provider_user_id: '1',
     name: 'Test',
@@ -21,8 +21,8 @@ export const TestAdminUser = {
 
 export const TestAdminUsers = [
   {
-    uuid: '777',
-    email: 'test@tripborder.com',
+    uuid: '550e8400-e29b-41d4-a716-446655440777',
+    email: 'testuser@tripborder.com',
     provider: 'tripborder',
     provider_user_id: '1',
     name: 'Test',
@@ -31,8 +31,8 @@ export const TestAdminUsers = [
     role: 'admin'
   },
   {
-    uuid: '777',
-    email: 'test@tripborder.com',
+    uuid: '550e8400-e29b-41d4-a716-446655440888',
+    email: 'testuser@tripborder.com',
     provider: 'tripborder',
     provider_user_id: '1',
     name: 'Test',
@@ -42,9 +42,30 @@ export const TestAdminUsers = [
   },
 ];
 
+export const TestTrips = [
+  {
+    uuid: '550e8400-e29b-41d4-a716-446655440777',
+    owner_email: 'testtrip@tripborder.com',
+    title: 'TestTrip1',
+    start_date: '2025-12-02 23:59:59',
+    end_date: '2025-12-02 23:59:59',
+    created_at: '2025-12-02 23:59:59',
+    updated_at: '2025-12-02 23:59:59',
+  },
+  {
+    uuid: '550e8400-e29b-41d4-a716-446655440777',
+    owner_email: 'testtrip@tripborder.com',
+    title: 'TestTrip2',
+    start_date: '2025-12-02 23:59:59',
+    end_date: '2025-12-02 23:59:59',
+    created_at: '2025-12-02 23:59:59',
+    updated_at: '2025-12-02 23:59:59',
+  },
+];
+
 export const TestMileages = [
   {
-    uuid: '1',
+    uuid: '550e8400-e29b-41d4-a716-446655440001',
     frequent_flyer_number: 'TB123456789',
     airline: 'Tripborder Air',
     mileage_price: '100.00',
@@ -56,10 +77,10 @@ export const TestMileages = [
     is_listed: true,
     created_at: formatDateNowUTC(),
     updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
+    owner_email: 'testmileage@tripborder.com'
   },
   {
-    uuid: '2',
+    uuid: '550e8400-e29b-41d4-a716-446655440002',
     frequent_flyer_number: 'TB987654321',
     airline: 'Tripborder Air',
     mileage_price: '200.99',
@@ -79,10 +100,10 @@ export const TestMileages = [
     is_listed: true,
     created_at: formatDateNowUTC(),
     updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
+    owner_email: 'testmileage@tripborder.com'
   },
   {
-    uuid: '3',
+    uuid: '550e8400-e29b-41d4-a716-446655440003',
     frequent_flyer_number: 'TB987654321',
     airline: 'Tripborder Air',
     mileage_price: '200.99',
@@ -102,10 +123,10 @@ export const TestMileages = [
     is_listed: true,
     created_at: formatDateNowUTC(),
     updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
+    owner_email: 'testmileage@tripborder.com'
   },
   {
-    uuid: '4',
+    uuid: '550e8400-e29b-41d4-a716-446655440004',
     frequent_flyer_number: 'TB987654321',
     airline: 'Tripborder Air',
     mileage_price: '100.99',
@@ -125,13 +146,13 @@ export const TestMileages = [
     is_listed: false,
     created_at: formatDateNowUTC(),
     updated_at: formatDateNowUTC(),
-    owner_email: 'test@tripborder.com'
+    owner_email: 'testmileage@tripborder.com'
   }
 ];
 
 export const TestMileagesPage1 = [
   {
-    uuid: '1',
+    uuid: '550e8400-e29b-41d4-a716-446655440001',
     airline: 'Delta',
     is_verified: true,
     is_listed: true,
@@ -141,7 +162,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [1, 2, 3] },
   },
   {
-    uuid: '2',
+    uuid: '550e8400-e29b-41d4-a716-446655440003',
     airline: 'American',
     is_verified: true,
     is_listed: true,
@@ -151,7 +172,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [7, 8, 9] },
   },
   {
-    uuid: '3',
+    uuid: '550e8400-e29b-41d4-a716-446655440003',
     airline: 'United',
     is_verified: true,
     is_listed: true,
@@ -161,7 +182,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [4, 5, 6] },
   },
   {
-    uuid: '4',
+    uuid: '550e8400-e29b-41d4-a716-446655440004',
     airline: 'Southwest',
     is_verified: true,
     is_listed: true,
@@ -171,7 +192,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [10, 11, 12] },
   },
   {
-    uuid: '5',
+    uuid: '550e8400-e29b-41d4-a716-446655440005',
     airline: 'JetBlue',
     is_verified: true,
     is_listed: true,
@@ -181,7 +202,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [13, 14, 15] },
   },
   {
-    uuid: '6',
+    uuid: '550e8400-e29b-41d4-a716-446655440006',
     airline: 'Alaska',
     is_verified: true,
     is_listed: true,
@@ -191,7 +212,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [16, 17, 18] },
   },
   {
-    uuid: '7',
+    uuid: '550e8400-e29b-41d4-a716-446655440007',
     airline: 'Frontier',
     is_verified: true,
     is_listed: true,
@@ -201,7 +222,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [19, 20, 21] },
   },
   {
-    uuid: '8',
+    uuid: '550e8400-e29b-41d4-a716-446655440008',
     airline: 'Spirit',
     is_verified: true,
     is_listed: true,
@@ -211,7 +232,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [22, 23, 24] },
   },
   {
-    uuid: '9',
+    uuid: '550e8400-e29b-41d4-a716-446655440009',
     airline: 'Allegiant',
     is_verified: true,
     is_listed: true,
@@ -221,7 +242,7 @@ export const TestMileagesPage1 = [
     mileage_picture: { data: [25, 26, 27] },
   },
   {
-    uuid: '10',
+    uuid: '550e8400-e29b-41d4-a716-446655440010',
     airline: 'Hawaiian',
     is_verified: true,
     is_listed: true,
@@ -234,7 +255,7 @@ export const TestMileagesPage1 = [
 
 export const TestMileagesPage2 = [
   {
-    uuid: '11',
+    uuid: '550e8400-e29b-41d4-a716-446655440011',
     airline: 'Lufthansa',
     is_verified: true,
     is_listed: true,
@@ -244,7 +265,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [31, 32, 33] },
   },
   {
-    uuid: '12',
+    uuid: '550e8400-e29b-41d4-a716-446655440012',
     airline: 'Air Canada',
     is_verified: true,
     is_listed: true,
@@ -254,7 +275,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [34, 35, 36] },
   },
   {
-    uuid: '13',
+    uuid: '550e8400-e29b-41d4-a716-446655440013',
     airline: 'British Airways',
     is_verified: true,
     is_listed: true,
@@ -264,7 +285,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [37, 38, 39] },
   },
   {
-    uuid: '14',
+    uuid: '550e8400-e29b-41d4-a716-446655440014',
     airline: 'Emirates',
     is_verified: true,
     is_listed: true,
@@ -274,7 +295,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [40, 41, 42] },
   },
   {
-    uuid: '15',
+    uuid: '550e8400-e29b-41d4-a716-446655440015',
     airline: 'Qantas',
     is_verified: true,
     is_listed: true,
@@ -284,7 +305,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [43, 44, 45] },
   },
   {
-    uuid: '16',
+    uuid: '550e8400-e29b-41d4-a716-446655440016',
     airline: 'Singapore Airlines',
     is_verified: true,
     is_listed: true,
@@ -294,7 +315,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [46, 47, 48] },
   },
   {
-    uuid: '17',
+    uuid: '550e8400-e29b-41d4-a716-446655440017',
     airline: 'Cathay Pacific',
     is_verified: true,
     is_listed: true,
@@ -304,7 +325,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [49, 50, 51] },
   },
   {
-    uuid: '18',
+    uuid: '550e8400-e29b-41d4-a716-446655440018',
     airline: 'Turkish Airlines',
     is_verified: true,
     is_listed: true,
@@ -314,7 +335,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [52, 53, 54] },
   },
   {
-    uuid: '19',
+    uuid: '550e8400-e29b-41d4-a716-446655440019',
     airline: 'Air France',
     is_verified: true,
     is_listed: true,
@@ -324,7 +345,7 @@ export const TestMileagesPage2 = [
     mileage_picture: { data: [55, 56, 57] },
   },
   {
-    uuid: '20',
+    uuid: '550e8400-e29b-41d4-a716-446655440020',
     airline: 'KLM',
     is_verified: true,
     is_listed: true,

@@ -1,10 +1,10 @@
 import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../api/mileagesAPI';
-import { authAPI } from '../api/authAPI';
-import { getLocalTime } from '../utility/time';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../../api/mileagesAPI';
+import { authAPI } from '../../api/authAPI';
+import { getLocalTime } from '../../utility/time';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());

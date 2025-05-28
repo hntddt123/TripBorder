@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import nock from 'nock';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
-import Mileages from '../src/components/Mileages';
+import Mileages from '../src/components/mileages/Mileages';
 import { renderWithRedux } from './renderWithRedux';
 import { TestMileages, TestMileagesPage1, TestMileagesPage2, TestBaseUrl } from '../src/constants/testConstants';
 
@@ -102,7 +102,7 @@ describe('Mileages tests', () => {
 
     renderWithRedux(<Mileages />);
 
-    const image = await screen.findByRole('button', { name: 'Mileage Picture Button 1' });
+    const image = await screen.findByRole('button', { name: 'Mileage Picture Button 550e8400-e29b-41d4-a716-446655440001' });
     fireEvent.click(image);
 
     await waitFor(() => {

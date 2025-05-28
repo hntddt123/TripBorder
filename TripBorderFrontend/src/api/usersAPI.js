@@ -10,9 +10,10 @@ export const usersAPI = createApi({
   }),
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => ({
+      query: ({ page = 1, limit = 10 }) => ({
         url: '/',
         method: 'GET',
+        params: { page, limit },
       }),
       providesTags: ['Users']
     }),

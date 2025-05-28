@@ -1,11 +1,19 @@
 import { useState } from 'react';
-import { useGetUsersQuery, useUpdateUserMutation } from '../api/usersAPI';
-import CustomButton from './CustomButton';
+import { useGetUsersQuery, useUpdateUserMutation } from '../../api/usersAPI';
+import CustomButton from '../CustomButton';
 
 function DBTableUsersDev() {
   const [selectedUUID, setSelectedUUID] = useState();
-  const { data: users, isLoading, error } = useGetUsersQuery();
+  const [page, setPage] = useState(1);
+  const limit = 3;
+  const { data, isLoading, isFetching, error } = useGetUsersQuery({ page, limit });
+  const { users, total, totalPages, page: currentPage } = data || {};
+
   const [updateUser, update] = useUpdateUserMutation();
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -23,6 +31,25 @@ function DBTableUsersDev() {
   return (
     <div>
       <div>user_accounts</div>
+      <div className='text-center'>
+        <CustomButton
+          label='Previous'
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1 || isFetching}
+        />
+
+        <span>
+          Page {currentPage} of {totalPages}
+          (Total: {total} items)
+        </span>
+
+        <CustomButton
+          label='Next'
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages || isFetching}
+        />
+      </div>
+      {isFetching && <div>Fetching new page...</div>}
       <table>
         <thead>
           <tr>

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import nock from 'nock';
 import { renderWithRedux } from './renderWithRedux';
-import MileageUploadForm from '../src/components/MileageUploadForm';
+import MileageUploadForm from '../src/components/mileages/MileageUploadForm';
 
 describe('Mileages tests', () => {
   beforeEach(() => {

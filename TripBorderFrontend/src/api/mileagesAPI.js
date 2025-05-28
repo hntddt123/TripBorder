@@ -3,11 +3,11 @@ import { baseUrl } from '../constants/constants';
 
 export const mileagesAPI = createApi({
   reducerPath: 'mileagesAPI',
+  tagTypes: ['Mileage'],
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api/mileages`,
     credentials: 'include',
   }),
-  tagTypes: ['Mileage'],
   endpoints: (builder) => ({
     getMileagesAll: builder.query({
       query: ({ page = 1, limit = 10 }) => ({

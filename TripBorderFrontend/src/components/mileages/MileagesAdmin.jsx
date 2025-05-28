@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getLocalTime, isMileageExpired } from '../utility/time';
-import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
-import { authAPI } from '../api/authAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { getLocalTime, isMileageExpired } from '../../utility/time';
+import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../../api/mileagesAPI';
+import { authAPI } from '../../api/authAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
