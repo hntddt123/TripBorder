@@ -1,0 +1,75 @@
+import { useState } from 'react';
+import { useGethotelsAllQuery } from '../../api/hotelsAPI';
+import CustomButton from '../CustomButton';
+
+function DBTableHotelsDev() {
+  const [page, setPage] = useState(1);
+  const limit = 3;
+  const { data, isLoading, isFetching, error } = useGethotelsAllQuery({ page, limit });
+  const { hotels, total, totalPages, page: currentPage } = data || {};
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+  };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+  }
+
+  return (
+    <div>
+      <div>hotels</div>
+      <div className='text-center'>
+        <CustomButton
+          label='Previous'
+          onClick={() => handlePageChange(page - 1)}
+          disabled={page === 1 || isFetching}
+        />
+
+        <span>
+          Page {currentPage} of {totalPages}
+          (Total: {total} items)
+        </span>
+
+        <CustomButton
+          label='Next'
+          onClick={() => handlePageChange(page + 1)}
+          disabled={page === totalPages || isFetching}
+        />
+      </div>
+      {isFetching && <div>Fetching new page...</div>}
+      <table>
+        <thead>
+          <tr>
+            <th>uuid</th>
+            <th>trips_uuid</th>
+            <th>name</th>
+            <th>address</th>
+            <th>check_in</th>
+            <th>check_out</th>
+            <th>booking_reference</th>
+          </tr>
+        </thead>
+        <tbody>
+          {hotels?.map((hotel) => (
+            <tr key={hotel.uuid}>
+              <td>{hotel.uuid}</td>
+              <td>{hotel.trips_uuid}</td>
+              <td>{hotel.name}</td>
+              <td>{hotel.address}</td>
+              <td>{hotel.check_in}</td>
+              <td>{hotel.check_out}</td>
+              <td>{hotel.booking_reference}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default DBTableHotelsDev;

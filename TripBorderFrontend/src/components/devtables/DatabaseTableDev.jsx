@@ -3,6 +3,13 @@ import { authAPI } from '../../api/authAPI';
 import DBTableMileagesDev from './DBTableMileagesDev';
 import DBTableUsersDev from './DBTableUsersDev';
 import DBTableTripsDev from './DBTableTripsDev';
+import DBTableMealsDev from './DBTableMealsDev';
+import DBTablePOIsDev from './DBTablePOIsDev';
+import DBTableHotelsDev from './DBTableHotelsDev';
+import DBTableTransportsDev from './DBTableTransportsDev';
+import DBTableTagsDev from './DBTableTagsDev';
+import DBTableTripTagsDev from './DBTableTripTagsDev';
+import DBTableRatingsDev from './DBTableRatingsDev';
 
 function DatabaseTableDev() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -18,6 +25,13 @@ function DatabaseTableDev() {
               <DBTableUsersDev />
               <DBTableMileagesDev />
               <DBTableTripsDev />
+              <DBTableMealsDev />
+              <DBTablePOIsDev />
+              <DBTableHotelsDev />
+              <DBTableTransportsDev />
+              <DBTableTagsDev />
+              <DBTableTripTagsDev />
+              <DBTableRatingsDev />
             </div>
           </div>
         </div>
