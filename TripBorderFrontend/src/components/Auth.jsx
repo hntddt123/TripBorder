@@ -76,6 +76,18 @@ function Auth() {
     return null;
   };
 
+  const renderPremiumUserFeatures = () => {
+    if (role === 'premium_user') {
+      return (
+        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='View Trips' to='/trips' />
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div>
       {isLoggedIn ? (
@@ -83,7 +95,9 @@ function Auth() {
           <p className='text-2xl'>Welcome, {userName}!</p>
           <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
+          <CustomButton label='Disclaimers' to='/disclaimers' />
           {renderAdminFeatures()}
+          {renderPremiumUserFeatures()}
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

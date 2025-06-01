@@ -107,12 +107,11 @@ body {
   .button {
     min-width: 8rem;
     font-size: 1.5rem;
-    line-height: 2rem;
     text-align: center;
     align-content: center;
     margin: theme('spacing.2');
-    border-radius: theme('borderRadius.3xl');
-    padding: theme('spacing.4');
+    border-radius: theme('borderRadius.full');
+    padding: theme('spacing[2]');
     box-shadow: theme('boxShadow.sm');
     @apply 
     bg-primary-buttonLight dark:bg-primary-buttonDark 
@@ -134,6 +133,28 @@ body {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
+  }
+
+  .backButton {
+    min-width: 8rem;
+    text-align: center;
+    align-content: center;
+    border-radius: theme('borderRadius.lg');
+    padding: theme('spacing[1]');
+    @apply 
+    bg-amber-100 dark:bg-primary-cardDark
+    text-black dark:text-white;
+  }
+
+  .backButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .backButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
   }
 
   .cancelButton {

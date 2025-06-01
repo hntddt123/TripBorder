@@ -10,6 +10,7 @@ import MileagesList from './components/mileages/MileagesList';
 import { VERSION_NUMBER, MODE } from './constants/constants';
 import DevMode from './components/DevMode';
 import MileagesAdmin from './components/mileages/MileagesAdmin';
+import Disclaimers from './components/Disclaimers';
 
 function App() {
   return (
@@ -62,6 +63,13 @@ function App() {
               index
               path='/settings'
               element={<TripBoard component={<Settings />} />}
+            />
+          </Route>
+          <Route path='/disclaimers' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/disclaimers'
+              element={<TripBoard component={<Disclaimers />} />}
             />
           </Route>
           <Route path='/database' element={<ProtectedRoute />}>

@@ -76,6 +76,11 @@ function DBTableUsersDev() {
                   onClick={() => handleUserUpdate(user.uuid, { role: 'admin' })}
                 />
                 <CustomButton
+                  disabled={user.role === 'premium_user' || user.role === 'admin'}
+                  label='Promote to Premium User'
+                  onClick={() => handleUserUpdate(user.uuid, { role: 'premium_user' })}
+                />
+                <CustomButton
                   disabled={user.role !== 'admin' || user.email === 'nientaiho@gmail.com'}
                   label='Demote to User'
                   onClick={() => handleUserUpdate(user.uuid, { role: 'user' })}
