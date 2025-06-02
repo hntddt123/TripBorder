@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
-import TripsList from './components/TripsList';
+import TripsList from './components/trips/TripsList';
 import CustomButton from './components/CustomButton';
 import Auth from './components/Auth';
 import ProtectedRoute from './components/ProtectedRoute';

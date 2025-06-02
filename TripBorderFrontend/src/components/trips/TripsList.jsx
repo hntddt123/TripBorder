@@ -4,7 +4,7 @@ import { skipToken } from '@reduxjs/toolkit/query/react';
 import Toggle from 'react-toggle';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import ReactSlider from 'react-slider';
-import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../api/foursquareSliceAPI';
+import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../../api/foursquareSliceAPI';
 import {
   setViewState,
   setIsFullPOIname,
@@ -15,9 +15,9 @@ import {
   setSelectedPOIRadius,
   setIsThrowingDice,
   setIsShowingAddtionalPopUp
-} from '../redux/reducers/mapReducer';
-import CustomMap from './trips/CustomMap';
-import CustomButton from './CustomButton';
+} from '../../redux/reducers/mapReducer';
+import CustomMap from './CustomMap';
+import CustomButton from '../CustomButton';
 // import fourSquareCategory from '../constants/foursquarePOICategory.json';
 
 const restaurantIcon = '🍱';
