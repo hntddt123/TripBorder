@@ -1,6 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedPOI, setViewState, setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI } from '../redux/reducers/mapReducer';
+import {
+  setSelectedPOI,
+  setViewState,
+  setIsShowingAddtionalPopUp,
+  setIsShowingOnlySelectedPOI
+} from '../../redux/reducers/mapReducer';
 
 function NearbyPOIList({ poi }) {
   const viewState = useSelector((state) => state.mapReducer.viewState);

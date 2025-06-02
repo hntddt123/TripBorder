@@ -3,7 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
-import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import {
   setViewState,
   setMarker,
@@ -12,15 +12,15 @@ import {
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
   setIsNavigating,
-} from '../redux/reducers/mapReducer';
-import { MAPBOX_API_KEY } from '../constants/constants';
-import { useLazyGetDirectionsQuery } from '../api/mapboxSliceAPI';
+} from '../../redux/reducers/mapReducer';
+import { MAPBOX_API_KEY } from '../../constants/constants';
+import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
 import DirectionLayer from './DirectionLayer';
 import NearbyPOIList from './NearbyPOIList';
-import CustomButton from './CustomButton';
+import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component

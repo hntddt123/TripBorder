@@ -16,7 +16,7 @@ import {
   setIsThrowingDice,
   setIsShowingAddtionalPopUp
 } from '../redux/reducers/mapReducer';
-import CustomMap from './CustomMap';
+import CustomMap from './trips/CustomMap';
 import CustomButton from './CustomButton';
 // import fourSquareCategory from '../constants/foursquarePOICategory.json';
 

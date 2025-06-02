@@ -6,7 +6,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import {
   setViewState,
   setLongPressedLonLat,
-} from '../redux/reducers/mapReducer';
+} from '../../redux/reducers/mapReducer';
 
 const noop = () => { };
 

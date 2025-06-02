@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
-import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
-import CustomButton from './CustomButton';
-import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../redux/reducers/mapReducer';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
+import CustomButton from '../CustomButton';
+import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../../redux/reducers/mapReducer';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
