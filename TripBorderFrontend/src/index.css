@@ -455,7 +455,7 @@ body {
 
   .poiButton {
     font-size: 1.5rem;
-    line-height: 1.5rem;
+    line-height: 1.25rem;
     align-content: center;
     border-radius: theme('borderRadius.lg');
     margin: theme('spacing.1');
@@ -513,9 +513,8 @@ body {
 
   .poiDropdownButton {
     font-size: 1.5rem;
-    line-height: 1.5rem;
+    line-height: 1.25rem;
     align-content: center;
-    border-radius: theme('borderRadius.3xl');
     margin: theme('spacing.1');
     padding: theme('spacing.1');
     box-shadow: theme('boxShadow.sm');
