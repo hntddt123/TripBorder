@@ -236,7 +236,7 @@ function TripsList() {
             </select>
             {getDiceToggle()}
             {getPlaceNameToggle()}
-            <button className='text-sm' onClick={toggleSearchTool}>
+            <button className='text-base' onClick={toggleSearchTool}>
               {isSearchToolOpen ? '⚙️ ▼ ' : '⚙️ ▶'}
             </button>
             {(isSearchToolOpen) ? renderSearchTools() : null}

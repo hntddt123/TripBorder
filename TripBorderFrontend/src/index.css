@@ -139,8 +139,8 @@ body {
     min-width: 8rem;
     text-align: center;
     align-content: center;
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing[1]');
+    border-radius: theme('borderRadius.full');
+    padding: theme('spacing[0.5]');
     @apply 
     bg-amber-100 dark:bg-primary-cardDark
     text-black dark:text-white;
@@ -180,7 +180,7 @@ body {
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.5rem;
-    line-height: 2.25rem;
+    line-height: 1.618rem;
     text-align: center;
     @apply 
     bg-primary-titleLight dark:bg-primary-titleDark
@@ -196,7 +196,9 @@ body {
   }
 
   .cardTrip {
-    margin: theme('spacing[2]');
+    margin-left: theme('spacing[1]');
+    margin-right: theme('spacing[1]');
+    margin-top: theme('spacing[1]');
     @apply dark:bg-primary-dark;
   }
 
@@ -458,7 +460,7 @@ body {
     line-height: 1.25rem;
     align-content: center;
     border-radius: theme('borderRadius.lg');
-    margin: theme('spacing.1');
+    margin: theme('spacing.[0.5]');
     padding: theme('spacing.2');
     box-shadow: theme('boxShadow.sm');
     border-color: theme('backgroundColor.amber.50');
