@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import CustomButton from './CustomButton';
-import { authAPI } from '../api/authAPI';
-import { usePostMileagesMutation } from '../api/mileagesAPI';
-import { formatHex } from '../utility/formatHex';
+import CustomButton from '../CustomButton';
+import { authAPI } from '../../api/authAPI';
+import { usePostMileagesMutation } from '../../api/mileagesAPI';
+import { formatHex } from '../../utility/formatHex';
 
 function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
@@ -93,7 +93,7 @@ function MileageUploadForm() {
   };
 
   const renderFormInputs = () => (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} encType='multipart/form-data'>
       <div className='inputField mt-4'>
         <label htmlFor='ffn'>
           Frequent Flyer Number*
@@ -107,6 +107,7 @@ function MileageUploadForm() {
           onChange={handleInputChange}
           required
           placeholder='your flyer number'
+          minLength={6}
           maxLength={50}
         />
       </div>
@@ -197,6 +198,7 @@ function MileageUploadForm() {
           ref={fileInputRef}
           id='mppng'
           type='file'
+          name='mileage_picture'
           accept='image/png, image/jpeg, image/heic'
           onChange={handleFileChange}
           required

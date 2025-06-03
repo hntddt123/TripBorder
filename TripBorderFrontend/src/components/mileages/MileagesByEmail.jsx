@@ -1,27 +1,32 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../api/mileagesAPI';
-import { authAPI } from '../api/authAPI';
-import { getLocalTime } from '../utility/time';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../../api/mileagesAPI';
+import { authAPI } from '../../api/authAPI';
+import { getLocalTime } from '../../utility/time';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
-  const { data: mileages, isLoading, error } = useGetMileagesByEmailQuery(email);
-  const [deleteMielage] = useDeleteMileagesMutation();
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const limit = 3;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  const { data, isLoading, isFetching, error } = useGetMileagesByEmailQuery({ email, page, limit });
+  const [deleteMileage] = useDeleteMileagesMutation();
 
-  if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
-  }
+  const { mileages, total, totalPages, page: currentPage } = data || {};
+
+  const handlePreviousPage = useCallback(() => {
+    setPage(page - 1);
+  }, [page]);
+
+  const handleNextPage = useCallback(() => {
+    setPage(page + 1);
+  }, [page]);
 
   const handlePictureClick = (uuid) => {
     setIsPopupOpen(true);
@@ -31,8 +36,16 @@ function MileagesByEmail() {
   const hidePopup = () => setIsPopupOpen(false);
 
   const removeMileage = (uuid) => {
-    deleteMielage(uuid);
+    deleteMileage(uuid);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+  }
 
   const renderPopUp = () => {
     let mileage;
@@ -61,11 +74,29 @@ function MileagesByEmail() {
   return (
     <div>
       <div className='cardInfo text-3xl p-4'>Uploaded Mileages</div>
+      <div className='text-xl text-center'>
+        <div>Total: {total}</div>
+        {isFetching && <div>Fetching new page...</div>}
+        <CustomButton
+          aria-label='Previous Page Button'
+          label='Previous'
+          onClick={handlePreviousPage}
+          disabled={page === 1 || isFetching}
+        />
+        <CustomButton
+          aria-label='Next Page Button'
+          label='Next'
+          onClick={handleNextPage}
+          disabled={page === totalPages || isFetching}
+        />
+        <div>Page {currentPage} of {totalPages}</div>
+      </div>
       {mileages?.map((mileage) => (
         <div key={mileage.uuid} className='cardMileage overflow-x-auto max-w-full items-center'>
           <div className='flex-col overflow-x-auto max-w-full items-center'>
             <div className='overflow-x-auto font-mono -tracking-wider'>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+              <div>{mileage.is_ocr_verified ? 'OCR Verified ✅' : 'OCR Verified ❌'}</div>
               <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
               <div>{`Airline: ${mileage.airline}`}</div>
               <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>

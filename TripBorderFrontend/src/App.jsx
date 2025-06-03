@@ -1,19 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import TripBoard from './components/TripBoard';
-import TripsList from './components/TripsList';
+import TripsList from './components/trips/TripsList';
 import CustomButton from './components/CustomButton';
 import Auth from './components/Auth';
 import ProtectedRoute from './components/ProtectedRoute';
 import Settings from './components/Settings';
-import DatabaseTableDev from './components/DatabaseTableDev';
-import MileagesList from './components/MileagesList';
+import DatabaseTableDev from './components/devtables/DatabaseTableDev';
+import MileagesList from './components/mileages/MileagesList';
 import { VERSION_NUMBER, MODE } from './constants/constants';
 import DevMode from './components/DevMode';
-import MileagesAdmin from './components/MileagesAdmin';
+import MileagesAdmin from './components/mileages/MileagesAdmin';
+import Disclaimers from './components/Disclaimers';
 
 function App() {
   return (
-    <div className='safeArea'>
+    <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
         <header className='flex title justify-center'>
           Trip Border
@@ -62,6 +63,13 @@ function App() {
               index
               path='/settings'
               element={<TripBoard component={<Settings />} />}
+            />
+          </Route>
+          <Route path='/disclaimers' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/disclaimers'
+              element={<TripBoard component={<Disclaimers />} />}
             />
           </Route>
           <Route path='/database' element={<ProtectedRoute />}>

@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
-import { getLocalTime } from '../utility/time';
-import { useGetMileagesSellingQuery } from '../api/mileagesAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { getLocalTime } from '../../utility/time';
+import { useGetMileagesSellingQuery } from '../../api/mileagesAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -12,20 +12,14 @@ function Mileages() {
 
   const { data, isLoading, isFetching, error } = useGetMileagesSellingQuery({ page, limit });
 
-  const { mileages, totalPages, page: currentPage } = data || {};
-
-  const handlePageChange = (newPage) => {
-    if (newPage > 0 && (!data || newPage <= data.totalPages)) {
-      setPage(newPage);
-    }
-  };
+  const { mileages, total, totalPages, page: currentPage } = data || {};
 
   const handlePreviousPage = useCallback(() => {
-    handlePageChange(page - 1);
+    setPage(page - 1);
   }, [page]);
 
   const handleNextPage = useCallback(() => {
-    handlePageChange(page + 1);
+    setPage(page + 1);
   }, [page]);
 
   const handlePictureClick = (mileage) => {
@@ -112,13 +106,15 @@ function Mileages() {
   );
 
   return (
-    <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
+    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>Mileages Exchange</div>
       <div className='text-center'>
         <div>
+          Total: {total}
+        </div>
+        <div>
           Listed {filteredMileages.length} Mileages
         </div>
-        <div>Page {currentPage} of {totalPages}</div>
         {isFetching && <div>Fetching new page...</div>}
         <CustomButton
           aria-label='Previous Page Button'
@@ -132,6 +128,7 @@ function Mileages() {
           onClick={handleNextPage}
           disabled={page === totalPages || isFetching}
         />
+        <div>Page {currentPage} of {totalPages}</div>
       </div>
       {renderMileages()}
       {renderPopUp()}

@@ -3,7 +3,7 @@ const getEnv = () => ({
   MODE: import.meta.env.VITE_MODE || 'development',
   MAPBOX_API_KEY: import.meta.env.VITE_MAPBOX_API_KEY || 'mockMAPBOXKey',
   FOURSQUARE_API_KEY: import.meta.env.VITE_FOURSQUARE_API_KEY || 'mockFOURSQUAREKey',
-  VERSION_NUMBER: import.meta.env.VITE_VERSION_NUMBER || '2.0.1',
+  VERSION_NUMBER: import.meta.env.VITE_VERSION_NUMBER || '2.1.0',
   BACKEND_DOMAIN: import.meta.env.VITE_BACKEND_DOMAIN || 'localhost',
   PORT: import.meta.env.VITE_PORT || '5173',
 });
@@ -16,3 +16,7 @@ export const {
   BACKEND_DOMAIN,
   PORT
 } = getEnv();
+
+export const baseUrl = `https://${BACKEND_DOMAIN}:${PORT}`;
+export const fourSquareBaseUrl = 'https://api.foursquare.com/v3/';
+export const mapBoxBaseUrl = 'https://api.mapbox.com/';

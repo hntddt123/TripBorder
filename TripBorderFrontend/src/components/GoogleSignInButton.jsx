@@ -25,5 +25,4 @@ GoogleSignInButton.propTypes = {
   onClick: PropTypes.func
 };
 
-
 export default GoogleSignInButton;

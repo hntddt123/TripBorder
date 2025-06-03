@@ -6,6 +6,7 @@ function UserProfile() {
   const email = user.data?.email;
   const username = user.data?.name;
   const uuid = user.data?.uuid;
+  const profilePicture = user.data?.profilePicture;
   const provider = user.data?.provider;
   const providerID = user.data?.provider_user_id;
   const createdAt = user.data?.createdAt;
@@ -14,6 +15,7 @@ function UserProfile() {
 
   return (
     <div className='cardInfo p-4'>
+      <img className='profilepic' src={profilePicture} alt='profilepic' />
       <div className='text-3xl'>Profile</div>
       <div className='text-xl'>Name: {username}</div>
       <div className='text-xl'>Email: {email}</div>

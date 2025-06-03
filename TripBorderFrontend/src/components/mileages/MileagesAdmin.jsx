@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getLocalTime, isMileageExpired } from '../utility/time';
-import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../api/mileagesAPI';
-import { authAPI } from '../api/authAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { getLocalTime, isMileageExpired } from '../../utility/time';
+import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../../api/mileagesAPI';
+import { authAPI } from '../../api/authAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
 
 function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -96,6 +96,7 @@ function MileagesAdmin() {
           <div className='flex-col justify-center text-center'>
             <div>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
+              <div>{mileage.is_ocr_verified ? 'OCR Verified ✅' : 'OCR Verified ❌'}</div>
               <div>{mileage.is_listed ? 'Listed ✅' : 'Listed ❌'}</div>
               <CustomButton
                 disabled={mileage.is_verified}
@@ -136,7 +137,7 @@ function MileagesAdmin() {
   return (
     <div className='cardTrip'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
-        <div className='text-3xl overflow-x-auto table-fixed whitespace-nowrap'>
+        <div className='text-xl overflow-x-auto table-fixed whitespace-nowrap'>
           <div className='text-center'>Mileages Exchange</div>
           <div className='text-center'>
             <div>

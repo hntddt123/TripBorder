@@ -21,6 +21,7 @@ function Auth() {
       setShouldPoll(true);
       const timeout = setTimeout(() => {
         setShouldPoll(false);
+        navigate(location.pathname, { replace: true });
       }, 5000);
 
       return () => clearTimeout(timeout);
@@ -37,7 +38,7 @@ function Auth() {
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
-    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/auth/google`;
+    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/api/auth/google`;
   };
 
   const handleLogout = async () => {
@@ -59,7 +60,6 @@ function Auth() {
 
   const isLoggedIn = data?.isLoggedIn === true;
   const userName = data?.name || null;
-  const profilePicture = data?.profilePicture || null;
   const role = data?.role || null;
 
   const renderAdminFeatures = () => {
@@ -76,15 +76,28 @@ function Auth() {
     return null;
   };
 
+  const renderPremiumUserFeatures = () => {
+    if (role === 'premium_user') {
+      return (
+        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='View Trips' to='/trips' />
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div>
       {isLoggedIn ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
           <p className='text-2xl'>Welcome, {userName}!</p>
-          <img className='profilepic' src={profilePicture} alt='profilepic' />
           <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
+          <CustomButton label='Disclaimers' to='/disclaimers' />
           {renderAdminFeatures()}
+          {renderPremiumUserFeatures()}
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

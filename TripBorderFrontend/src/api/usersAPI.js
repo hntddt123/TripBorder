@@ -1,28 +1,30 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import { baseUrl } from '../constants/constants';
 
 export const usersAPI = createApi({
   reducerPath: 'usersAPI',
+  tagTypes: ['Users'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://${BACKEND_DOMAIN}:${PORT}/api`,
+    baseUrl: `${baseUrl}/api/users`,
     credentials: 'include',
   }),
   endpoints: (builder) => ({
     getUsers: builder.query({
-      query: () => ({
-        url: '/users',
+      query: ({ page = 1, limit = 10 }) => ({
+        url: '/',
         method: 'GET',
+        params: { page, limit },
       }),
-      providesTags: ['User']
+      providesTags: ['Users']
     }),
     updateUser: builder.mutation({
       query: ({ uuid, updates }) => ({
-        url: `/updateuser/${uuid}`,
+        url: `/update/${uuid}`,
         method: 'PATCH',
         body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Users'],
     }),
   })
 });

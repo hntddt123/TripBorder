@@ -3,7 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
-import { FourSquareResponsePropTypes } from '../constants/fourSquarePropTypes';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import {
   setViewState,
   setMarker,
@@ -12,15 +12,15 @@ import {
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
   setIsNavigating,
-} from '../redux/reducers/mapReducer';
-import { MAPBOX_API_KEY } from '../constants/constants';
-import { useLazyGetDirectionsQuery } from '../api/mapboxSliceAPI';
+} from '../../redux/reducers/mapReducer';
+import { MAPBOX_API_KEY } from '../../constants/constants';
+import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
 import DirectionLayer from './DirectionLayer';
 import NearbyPOIList from './NearbyPOIList';
-import CustomButton from './CustomButton';
+import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component
@@ -130,7 +130,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     if (getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating) {
       return (
         <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
-          <div className='flex-center text-lg top-20'>
+          <div className='flex-center text-lg top-14'>
             <div className='sidebarInstructionsContent'>
               {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
                 // eslint-disable-next-line react/no-array-index-key
@@ -138,11 +138,11 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
                   {i + 1} {step.maneuver.instruction}
                 </div>
               ))}
-              <CustomButton className='poiCancelButton justify-center' label='Cancel Navigation' onClick={handleCancelDirectionButton} />
             </div>
             <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
               {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
             </button>
+            <CustomButton className='poiCancelButton' label='Stop Direction' onClick={handleCancelDirectionButton} />
           </div>
         </div>
       );
@@ -173,7 +173,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       touchZoomRotate={false}
     >
       <GeocoderControl
-        className='poiButton'
         mapboxAccessToken={MAPBOX_API_KEY}
         position='top-left'
       />

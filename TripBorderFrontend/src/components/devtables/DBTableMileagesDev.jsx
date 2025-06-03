@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { useGetMileagesAllQuery } from '../api/mileagesAPI';
-import CustomButton from './CustomButton';
-import CustomImageComponent from './CustomImageComponent';
+import { useGetMileagesAllQuery } from '../../api/mileagesAPI';
+import CustomButton from '../CustomButton';
+import CustomImageComponent from '../CustomImageComponent';
+import { arrayToBase64 } from '../../utility/processBytea';
 
 function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 3;
   const { data, isLoading, isFetching, error } = useGetMileagesAllQuery({ page, limit });
   const { mileages, total, totalPages, page: currentPage } = data || {};
 
@@ -48,6 +49,7 @@ function DBTableMileagesDev() {
           <tr>
             <th>is_listed</th>
             <th>is_verified</th>
+            <th>is_ocr_verified</th>
             <th>owner_email</th>
             <th>uuid</th>
             <th>frequent_flyer_number</th>
@@ -56,6 +58,7 @@ function DBTableMileagesDev() {
             <th>mileage_amount</th>
             <th>mileage_unit</th>
             <td>mileage_picture</td>
+            <td>mileage_picture_base64</td>
             <th>mileage_expired_at</th>
             <th>created_at</th>
             <th>updated_at</th>
@@ -66,6 +69,7 @@ function DBTableMileagesDev() {
             <tr key={mileage.uuid}>
               <td>{mileage.is_listed.toString()}</td>
               <td>{mileage.is_verified.toString()}</td>
+              <td>{mileage.is_ocr_verified.toString()}</td>
               <td>{mileage.owner_email}</td>
               <td>{mileage.uuid}</td>
               <td>{mileage.frequent_flyer_number}</td>
@@ -73,11 +77,14 @@ function DBTableMileagesDev() {
               <td>{mileage.mileage_price}</td>
               <td>{mileage.mileage_amount}</td>
               <td>{mileage.mileage_unit}</td>
-              <td className='max-w-1'>
+              <td>
                 <CustomImageComponent
                   uuid={mileage.uuid}
                   bytea={mileage.mileage_picture}
                 />
+              </td>
+              <td>
+                {arrayToBase64(mileage.mileage_picture.data).slice(0, 20)}
               </td>
               <td>{mileage.mileage_expired_at}</td>
               <td>{mileage.created_at}</td>

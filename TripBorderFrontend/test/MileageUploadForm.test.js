@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 import nock from 'nock';
 import { renderWithRedux } from './renderWithRedux';
-import MileageUploadForm from '../src/components/MileageUploadForm';
+import MileageUploadForm from '../src/components/mileages/MileageUploadForm';
 
 describe('Mileages tests', () => {
   beforeEach(() => {
@@ -16,10 +16,9 @@ describe('Mileages tests', () => {
     nock.cleanAll();
   });
 
-  test('renders Mileage loading component if no RTKquery not called', () => {
+  test('renders MileageUploadForm have Create wording', () => {
     renderWithRedux(<MileageUploadForm />);
-    const mileage = screen.getByText(/Create/i);
 
-    expect(mileage).toHaveTextContent('Create');
+    expect(screen.getByText(/Create/i)).toHaveTextContent('Create');
   });
 });

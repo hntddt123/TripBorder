@@ -1,17 +1,17 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import { baseUrl } from '../constants/constants';
 
 export const mileagesAPI = createApi({
   reducerPath: 'mileagesAPI',
+  tagTypes: ['Mileage'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `https://${BACKEND_DOMAIN}:${PORT}/api`,
+    baseUrl: `${baseUrl}/api/mileages`,
     credentials: 'include',
   }),
-  tagTypes: ['Mileage'],
   endpoints: (builder) => ({
     getMileagesAll: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
-        url: '/mileages',
+        url: '/',
         method: 'GET',
         params: { page, limit },
       }),
@@ -19,24 +19,24 @@ export const mileagesAPI = createApi({
     }),
     getMileagesSelling: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
-        url: '/mileagesselling',
+        url: '/selling',
         method: 'GET',
         params: { page, limit },
       }),
       providesTags: ['Mileage'],
     }),
     getMileagesByEmail: builder.query({
-      query: (email) => ({
+      query: ({ email, page = 1, limit = 10 }) => ({
         url: '/mileagesbyemail',
         method: 'POST',
-        body: { data: email },
+        body: { email, page, limit },
         headers: { 'Content-Type': 'application/json' }
       }),
       providesTags: ['Mileage'],
     }),
     postMileages: builder.mutation({
       query: (newMileage) => ({
-        url: '/uploadmileages',
+        url: '/upload',
         method: 'POST',
         body: { data: newMileage },
         headers: { 'Content-Type': 'application/json' }
@@ -45,7 +45,7 @@ export const mileagesAPI = createApi({
     }),
     updateMileages: builder.mutation({
       query: ({ uuid, updates }) => ({
-        url: `/updatemileages/${uuid}`,
+        url: `/update/${uuid}`,
         method: 'PATCH',
         body: { data: updates },
         headers: { 'Content-Type': 'application/json' }
@@ -54,7 +54,7 @@ export const mileagesAPI = createApi({
     }),
     deleteMileages: builder.mutation({
       query: (mileageID) => ({
-        url: '/removemileagebyid',
+        url: '/removebyid',
         method: 'DELETE',
         body: { data: mileageID },
         headers: { 'Content-Type': 'application/json' }

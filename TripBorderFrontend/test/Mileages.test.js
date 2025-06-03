@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import nock from 'nock';
 import { screen, waitFor, fireEvent } from '@testing-library/react';
-import Mileages from '../src/components/Mileages';
+import Mileages from '../src/components/mileages/Mileages';
 import { renderWithRedux } from './renderWithRedux';
 import { TestMileages, TestMileagesPage1, TestMileagesPage2, TestBaseUrl } from '../src/constants/testConstants';
 
@@ -27,9 +27,10 @@ describe('Mileages tests', () => {
 
   test('renders error state if no query detail provided', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling');
+      .get('/api/mileages/selling');
 
     renderWithRedux(<Mileages />);
+
     await waitFor(() => {
       expect(screen.getByText(/Status: FETCH_ERROR/i)).toBeInTheDocument();
     });
@@ -37,11 +38,12 @@ describe('Mileages tests', () => {
 
   test('renders error state', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 1, limit: 10 })
       .reply(500, { error: 'Internal server error' });
 
     renderWithRedux(<Mileages />);
+
     await waitFor(() => {
       expect(screen.getByText(/Status: 500 - Internal server error/i)).toBeInTheDocument();
     });
@@ -49,7 +51,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data after successful fetch', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -69,7 +71,7 @@ describe('Mileages tests', () => {
 
   test('renders only 2 verified and listed example mileages data', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -88,7 +90,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data and handle click on image popup and close', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -100,7 +102,7 @@ describe('Mileages tests', () => {
 
     renderWithRedux(<Mileages />);
 
-    const image = await screen.findByRole('button', { name: 'Mileage Picture Button 1' });
+    const image = await screen.findByRole('button', { name: 'Mileage Picture Button 550e8400-e29b-41d4-a716-446655440001' });
     fireEvent.click(image);
 
     await waitFor(() => {
@@ -116,7 +118,7 @@ describe('Mileages tests', () => {
 
   test('renders mileages data and handle 10 Mileage per page with next/prev button', async () => {
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 1, limit: 10 })
       .delay(100)
       .reply(200, {
@@ -127,7 +129,7 @@ describe('Mileages tests', () => {
       });
 
     nock(TestBaseUrl)
-      .get('/api/mileagesselling')
+      .get('/api/mileages/selling')
       .query({ page: 2, limit: 10 })
       .delay(100)
       .reply(200, {
