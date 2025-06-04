@@ -6,6 +6,6 @@ describe('DevMode tests', () => {
     render(<DevMode />);
     const versionText = screen.getByText(/Version:/i);
 
-    expect(versionText).toHaveTextContent('2.1.0');
+    expect(versionText).toHaveTextContent('2.1.1');
   });
 });
