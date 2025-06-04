@@ -19,14 +19,15 @@ import {
 import CustomMap from './CustomMap';
 import CustomButton from '../CustomButton';
 // import fourSquareCategory from '../constants/foursquarePOICategory.json';
-
-const restaurantIcon = '🍱';
-const hotelIcon = '🛌';
-const carIcon = '🚘';
-const GPSIcon = '🛰️🔎';
-const pinIcon = '📍🔎';
-const diceIcon = '🎲';
-const numIcon = '🔢';
+import {
+  restaurantIcon,
+  hotelIcon,
+  carIcon,
+  GPSIcon,
+  pinIcon,
+  diceIcon,
+  numIcon
+} from '../../constants/constants';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
@@ -133,7 +134,7 @@ function TripsList() {
 
   const getPlaceNameToggle = () => (
     <Toggle
-      className='ml-2 mr-2 align-middle'
+      className='ml-1 mr-1 align-middle'
       icons={{
         checked: <div className='text-xs leading-3'>{numIcon}</div>,
         unchecked: <div className='text-xs leading-3'>{numIcon}</div>,
@@ -145,7 +146,7 @@ function TripsList() {
 
   const getDiceToggle = () => (
     <Toggle
-      className='ml-1 align-middle justify-center'
+      className='ml-0.5 align-middle justify-center'
       icons={{
         checked: <div className='text-xs leading-3'>{diceIcon}</div>,
         unchecked: <div className='text-xs leading-3'>{diceIcon}</div>,
@@ -212,8 +213,8 @@ function TripsList() {
   return (
     <div className='mx-auto'>
       <div className='text-2xl'>
-        <div className='flex-col overflow-x-auto mt-2'>
-          <div className=''>
+        <div className='flex-col overflow-x-auto mt-1'>
+          <div>
             <CustomButton
               className='poiButton'
               label={GPSIcon}
