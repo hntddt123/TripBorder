@@ -45,6 +45,8 @@ function TripsList() {
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
+  const randomPOINumber = useSelector((state) => state.mapReducer.randomPOINumber);
+  const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
@@ -107,6 +109,13 @@ function TripsList() {
   const handleDiceToggle = () => {
     dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
     dispatch(setIsThrowingDice(!isThrowingDice));
+    if (poi !== undefined && isThrowingDice === false) {
+      dispatch(setViewState({
+        latitude: poi.results[randomPOINumber].geocodes.main.latitude,
+        longitude: poi.results[randomPOINumber].geocodes.main.longitude,
+        zoom: viewState.zoom
+      }));
+    }
   };
 
   const handleFullNameToggle = () => {
@@ -206,7 +215,6 @@ function TripsList() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      {/* <CustomButton label='Save' /> */}
     </div>
   );
 

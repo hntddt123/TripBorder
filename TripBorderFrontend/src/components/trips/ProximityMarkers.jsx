@@ -1,12 +1,13 @@
 import { Marker } from 'react-map-gl';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedPOI,
   setViewState,
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI,
-  setSelectedPOILonLat
+  setSelectedPOILonLat,
+  setRandomPOINumber
 } from '../../redux/reducers/mapReducer';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
@@ -20,14 +21,13 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const viewState = useSelector((state) => state.mapReducer.viewState);
+  const randomPOINumber = useSelector((state) => state.mapReducer.randomPOINumber);
   const dispatch = useDispatch();
   const setPOIPhotosQuery = (fsqId) => ({ fsqId });
 
-  const [randomNumber, setRandomNumber] = useState(0);
-
   useEffect(() => {
     if (data && data.results.length > 0) {
-      setRandomNumber(Math.floor(Math.random() * data.results.length));
+      dispatch(setRandomPOINumber(Math.floor(Math.random() * data.results.length)));
     }
   }, [data]);
 
@@ -38,7 +38,11 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       longitude: marker.geocodes.main.longitude,
       latitude: marker.geocodes.main.latitude
     }));
-    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: viewState.zoom }));
+    dispatch(setViewState({
+      latitude: marker.geocodes.main.latitude,
+      longitude: marker.geocodes.main.longitude,
+      zoom: viewState.zoom
+    }));
     dispatch(setIsShowingAddtionalPopUp(true));
     dispatch(setIsShowingOnlySelectedPOI(true));
   };
@@ -62,17 +66,45 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     </div>
   ));
 
-  const renderSelectedPOIMarker = () => {
+  const renderRandomSelectedPOIMarker = () => {
     let filteredResult;
+
     if (isThrowingDice) {
-      filteredResult = data.results[randomNumber];
+      filteredResult = data.results[randomPOINumber];
     } else {
       [filteredResult] = data.results.filter((marker) => marker.fsq_id === selectedPOI);
     }
     if (filteredResult) {
       const filterText = (isFullPOIname)
-        ? `${randomNumber + 1} ${filteredResult.name} ${filteredResult.distance}m`
-        : `${randomNumber + 1} ${filteredResult.distance}m`;
+        ? `${randomPOINumber + 1} ${filteredResult.name} ${filteredResult.distance}m`
+        : `${randomPOINumber + 1} ${filteredResult.distance}m`;
+      return (
+        <div key={filteredResult.fsq_id}>
+          <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
+            <div className='text-4xl'>{selectedPOIIcon}</div>
+          </Marker>
+          <Marker
+            onClick={() => handlePOIMarkerClick(filteredResult)}
+            longitude={filteredResult.geocodes.main.longitude}
+            latitude={filteredResult.geocodes.main.latitude}
+            offset={[0, 40]}
+          >
+            <CustomButton className='cardPOIMarker' label={filterText} />
+          </Marker>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderSelectedPOIMarker = () => {
+    const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
+    const index = data.results.findIndex((marker) => marker.fsq_id === filteredResult.fsq_id) + 1;
+
+    if (filteredResult) {
+      const filterText = (isFullPOIname)
+        ? `${index} ${filteredResult.name} ${filteredResult.distance}m`
+        : `${index} ${filteredResult.distance}m`;
 
       return (
         <div key={filteredResult.fsq_id}>
@@ -96,7 +128,10 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
     return renderPOIMarkers();
   }
-  if (data && data.results.length > 0 && isShowingOnlySelectedPOI) {
+  if (data && data.results.length > 0 && isThrowingDice) {
+    return renderRandomSelectedPOIMarker();
+  }
+  if (data && data.results.length > 0 && isShowingOnlySelectedPOI && !isThrowingDice) {
     return renderSelectedPOIMarker();
   }
 }
