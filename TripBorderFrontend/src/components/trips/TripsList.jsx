@@ -71,6 +71,12 @@ function TripsList() {
         selectedPOIIDNumber,
         selectedPOIIcon
       ), true);
+      dispatch(setViewState({
+        longitude: longPressedLonLat.longitude,
+        latitude: longPressedLonLat.latitude,
+        pitch: 30,
+        zoom: 16
+      }));
       if (isThrowingDice) {
         dispatch(setIsShowingOnlySelectedPOI(true));
       } else {
@@ -93,6 +99,7 @@ function TripsList() {
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
+        pitch: 30,
         zoom: 16
       }));
 
