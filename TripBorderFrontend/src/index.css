@@ -212,11 +212,11 @@ body {
     padding: theme('spacing[2]');
     border-radius: theme('borderRadius.lg');
     box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.300');
+    border-color: theme('colors.amber.600');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.4');
-    border-right-width: theme('borderWidth.4');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
     @apply 
     bg-amber-50 dark:bg-amber-500
     border-amber-400 dark:bg-primary-buttonDarkTransparent;

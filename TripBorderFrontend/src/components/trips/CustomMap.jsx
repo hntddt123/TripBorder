@@ -127,7 +127,9 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   };
 
   const renderDirectionMenu = () => {
-    if (getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized && isNavigating) {
+    if (getDirectionsQueryResults.isSuccess
+      && !getDirectionsQueryResults.isUninitialized
+      && isNavigating) {
       return (
         <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
           <div className='flex-center text-lg top-14'>
@@ -191,7 +193,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       {renderBottomMenu()}
-      {renderDirectionMenu()}
+      {(getDirectionsQueryResults.isError) ? null : renderDirectionMenu()}
     </Map>
   );
 }
