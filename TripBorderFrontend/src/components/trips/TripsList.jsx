@@ -14,13 +14,16 @@ import {
   setSelectedPOICount,
   setSelectedPOIRadius,
   setIsThrowingDice,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setSelectedPOIIcon
 } from '../../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from '../CustomButton';
 // import fourSquareCategory from '../constants/foursquarePOICategory.json';
 import {
+  iconMap,
   restaurantIcon,
+  museumIcon,
   hotelIcon,
   carIcon,
   GPSIcon,
@@ -30,7 +33,7 @@ import {
 } from '../../constants/constants';
 
 function TripsList() {
-  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
+  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
   const [isSearchToolOpen, setIsSearchToolOpen] = useState(false);
 
@@ -52,11 +55,13 @@ function TripsList() {
 
   const hasGPSLonLat = () => (
     gpsLonLat.longitude !== null
-    && gpsLonLat.latitude !== null);
+    && gpsLonLat.latitude !== null
+  );
 
   const hasLongPressedLonLat = () => (
     longPressedLonLat.longitude !== null
-    && longPressedLonLat.latitude !== null);
+    && longPressedLonLat.latitude !== null
+  );
 
   const toggleSearchTool = () => {
     setIsSearchToolOpen(!isSearchToolOpen);
@@ -64,6 +69,8 @@ function TripsList() {
 
   const handleDropdownOnChange = (event) => {
     dispatch(setSelectedPOIIDNumber(event.target.value));
+    dispatch(setSelectedPOIIcon(iconMap[event.target.value]));
+    reset();
   };
 
   const handleLongPressedMarkerButton = () => {
@@ -152,7 +159,7 @@ function TripsList() {
     </div>
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
 
-  const getPlaceNameToggle = () => (
+  const renderPlaceNameToggle = () => (
     <Toggle
       className='ml-1 mr-1 align-middle'
       icons={{
@@ -164,7 +171,7 @@ function TripsList() {
     />
   );
 
-  const getDiceToggle = () => (
+  const renderDiceToggle = () => (
     <Toggle
       className='ml-0.5 align-middle justify-center'
       icons={{
@@ -190,6 +197,19 @@ function TripsList() {
 
     return '';
   };
+
+  const renderPOISelection = () => (
+    <select
+      className='poiDropdownButton'
+      onChange={(event) => handleDropdownOnChange(event)}
+      disabled={isFetching}
+    >
+      <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
+      <option value='4bf58dd8d48988d181941735'> {museumIcon}</option>
+      <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
+      <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
+    </select>
+  );
 
   const renderSearchTools = () => (
     <div className='text-xl m-2'>
@@ -246,16 +266,9 @@ function TripsList() {
               onClick={handleLongPressedMarkerButton}
               disabled={!hasLongPressedLonLat()}
             />
-            <select
-              className='poiDropdownButton'
-              onChange={(event) => handleDropdownOnChange(event)}
-            >
-              <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
-              <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
-              <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
-            </select>
-            {getDiceToggle()}
-            {getPlaceNameToggle()}
+            {renderPOISelection()}
+            {renderDiceToggle()}
+            {renderPlaceNameToggle()}
             <button className='text-base' onClick={toggleSearchTool}>
               {isSearchToolOpen ? '⚙️ ▼ ' : '⚙️ ▶'}
             </button>

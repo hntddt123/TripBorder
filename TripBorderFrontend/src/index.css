@@ -276,8 +276,8 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
 
@@ -456,10 +456,9 @@ body {
   }
 
   .poiButton {
-    font-size: 1.5rem;
     line-height: 1rem;
     align-content: center;
-    border-radius: theme('borderRadius.lg');
+    border-radius: theme('borderRadius.full');
     margin: theme('spacing.[0.5]');
     padding: theme('spacing.2');
     box-shadow: theme('boxShadow.sm');
@@ -514,12 +513,11 @@ body {
   }
 
   .poiDropdownButton {
-    font-size: 1.5rem;
     line-height: 1rem;
     align-content: center;
     margin: theme('spacing.[0.5]');
     padding: theme('spacing.[0.5]');
-    box-shadow: theme('boxShadow.sm');
+    border-radius: theme('borderRadius.full');
     border-color: theme('backgroundColor.amber.50');
     @apply  
     bg-primary-buttonLight dark:bg-primary-buttonDark

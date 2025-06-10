@@ -37,7 +37,8 @@ export default function GeocoderControl({ mapboxAccessToken, position,
         onResult(event);
 
         const { result } = event;
-        const location = result && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
+        const location = result
+          && (result.center || (result.geometry?.type === 'Point' && result.geometry.coordinates));
         if (location && marker) {
           setGeocoderMarker(getMarker(location[0], location[1]));
           dispatch(setLongPressedLonLat({ longitude: location[0], latitude: location[1] }));

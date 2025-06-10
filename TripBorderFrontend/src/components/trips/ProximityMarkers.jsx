@@ -50,16 +50,16 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const renderPOIMarkers = () => data.results.map((marker, i) => (
     <div key={marker.fsq_id}>
       <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-        <div className='text-4xl'>{selectedPOIIcon}</div>
+        <div className='text-2xl'>{selectedPOIIcon}</div>
       </Marker>
       <Marker
         onClick={() => handlePOIMarkerClick(marker)}
         longitude={marker.geocodes.main.longitude}
         latitude={marker.geocodes.main.latitude}
-        offset={[0, 40]}
+        offset={[0, 30]}
       >
         <CustomButton
-          className={`cardPOIMarker text-xl ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
+          className={`cardPOIMarker ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
           label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
         />
       </Marker>
@@ -81,13 +81,13 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
-            <div className='text-4xl'>{selectedPOIIcon}</div>
+            <div className='text-2xl'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
             onClick={() => handlePOIMarkerClick(filteredResult)}
             longitude={filteredResult.geocodes.main.longitude}
             latitude={filteredResult.geocodes.main.latitude}
-            offset={[0, 40]}
+            offset={[0, 30]}
           >
             <CustomButton className='cardPOIMarker' label={filterText} />
           </Marker>
@@ -109,7 +109,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
-            <div className='text-4xl'>{selectedPOIIcon}</div>
+            <div className='text-3xl'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
             onClick={() => handlePOIMarkerClick(filteredResult)}
