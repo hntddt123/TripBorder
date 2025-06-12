@@ -4,7 +4,7 @@ import CustomButton from './CustomButton';
 function TripBoard({ component }) {
   return (
     <div className='cardTrip text-left'>
-      <CustomButton className='backButton pl-2 pr-2' label='←' to='/' />
+      <CustomButton className='backButton pl-4 pr-4 mr-1' label='←' to='/' />
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
         <div>
           {component}
@@ -15,7 +15,7 @@ function TripBoard({ component }) {
 }
 
 TripBoard.propTypes = {
-  component: PropTypes.node
+  component: PropTypes.node,
 };
 
 export default TripBoard;
