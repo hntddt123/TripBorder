@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByEmailPaginationQuery } from '../utility/RTKQueryFactory';
 
 export const mileagesAPI = createApi({
   reducerPath: 'mileagesAPI',
@@ -25,15 +26,13 @@ export const mileagesAPI = createApi({
       }),
       providesTags: ['Mileage'],
     }),
-    getMileagesByEmail: builder.query({
-      query: ({ email, page = 1, limit = 10 }) => ({
+    getMileagesByEmail: createByEmailPaginationQuery(
+      builder,
+      {
         url: '/mileagesbyemail',
-        method: 'POST',
-        body: { email, page, limit },
-        headers: { 'Content-Type': 'application/json' }
-      }),
-      providesTags: ['Mileage'],
-    }),
+        tagName: 'Mileage'
+      }
+    ),
     postMileages: builder.mutation({
       query: (newMileage) => ({
         url: '/upload',

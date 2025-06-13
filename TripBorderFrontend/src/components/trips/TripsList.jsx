@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import Toggle from 'react-toggle';
@@ -31,11 +31,11 @@ import {
   diceIcon,
   numIcon
 } from '../../constants/constants';
+import CustomToggle from '../CustomToggle';
 
 function TripsList() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
-  const [isSearchToolOpen, setIsSearchToolOpen] = useState(false);
 
   const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
@@ -62,10 +62,6 @@ function TripsList() {
     longPressedLonLat.longitude !== null
     && longPressedLonLat.latitude !== null
   );
-
-  const toggleSearchTool = () => {
-    setIsSearchToolOpen(!isSearchToolOpen);
-  };
 
   const handleDropdownOnChange = (event) => {
     dispatch(setSelectedPOIIDNumber(event.target.value));
@@ -269,10 +265,10 @@ function TripsList() {
             {renderPOISelection()}
             {renderDiceToggle()}
             {renderPlaceNameToggle()}
-            <button className='text-base' onClick={toggleSearchTool}>
-              {isSearchToolOpen ? '⚙️ ▼ ' : '⚙️ ▶'}
-            </button>
-            {(isSearchToolOpen) ? renderSearchTools() : null}
+            <CustomToggle
+              title='⚙️'
+              component={renderSearchTools()}
+            />
           </div>
 
           {getAPIStatus()}

@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByEmailPaginationQuery } from '../utility/RTKQueryFactory';
 
 export const tripsAPI = createApi({
   reducerPath: 'tripsAPI',
@@ -17,10 +18,18 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
+    getTripsByEmail: createByEmailPaginationQuery(
+      builder,
+      {
+        url: '/tripsbyemail',
+        tagName: 'Trips'
+      }
+    )
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetTripsAllQuery,
+  useGetTripsByEmailQuery
 } = tripsAPI;

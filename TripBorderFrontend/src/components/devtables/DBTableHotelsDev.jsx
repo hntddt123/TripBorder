@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useGethotelsAllQuery } from '../../api/hotelsAPI';
+import { useGetHotelsAllQuery } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 
 function DBTableHotelsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGethotelsAllQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetHotelsAllQuery({ page, limit });
   const { hotels, total, totalPages, page: currentPage } = data || {};
 
   const handlePageChange = (newPage) => {

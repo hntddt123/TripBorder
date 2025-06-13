@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const transportsAPI = createApi({
   reducerPath: 'transportsAPI',
@@ -17,10 +18,18 @@ export const transportsAPI = createApi({
       }),
       providesTags: ['Transports'],
     }),
+    getTransportByTripID: createByTripQuery(
+      builder,
+      {
+        url: '/transportsbytrip',
+        tagName: 'Transports'
+      }
+    )
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetTransportsAllQuery,
+  useGetTransportByTripIDQuery
 } = transportsAPI;
