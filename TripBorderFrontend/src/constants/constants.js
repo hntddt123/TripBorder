@@ -26,6 +26,7 @@ export const restaurantIcon = '🍱';
 export const museumIcon = '🏛️';
 export const hotelIcon = '🛌';
 export const carIcon = '🚘';
+export const shoppingIcon = '🛍️';
 // FoursquarePOI icon list End
 
 export const GPSIcon = '🛰️🔎';

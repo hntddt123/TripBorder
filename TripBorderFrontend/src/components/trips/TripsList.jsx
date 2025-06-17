@@ -29,7 +29,8 @@ import {
   GPSIcon,
   pinIcon,
   diceIcon,
-  numIcon
+  numIcon,
+  shoppingIcon
 } from '../../constants/constants';
 import CustomToggle from '../CustomToggle';
 
@@ -204,6 +205,7 @@ function TripsList() {
       <option value='4bf58dd8d48988d181941735'> {museumIcon}</option>
       <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
       <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
+      <option value='4bf58dd8d48988d1fd941735'> {shoppingIcon}</option>
     </select>
   );
 

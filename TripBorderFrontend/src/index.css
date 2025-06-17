@@ -258,14 +258,6 @@ body {
     @apply  bg-amber-100 dark:bg-primary-dark
   }
 
-  /* .cardcardMileage:active {
-    @apply  bg-amber-100 dark:bg-amber-600
-  }
-
-  .cardcardMileage:focus, :focus-visible {
-    @apply  bg-amber-200 dark:bg-amber-600
-  } */
-
   .cardPOIMarker {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
@@ -658,6 +650,21 @@ body {
     justify-content: space-between;
   }
 
+  .toggle {
+    text-align: center;
+    align-content: center;
+    border-radius: theme('borderRadius.full');
+    @apply 
+    bg-primary-buttonLight dark:bg-primary-dark 
+    text-black dark:text-white;
+  }
+
+  .toggle:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-primary-googlefocus ;
+  }
+
   /**
    Light Google Sign in button styles beginning
    */
@@ -773,6 +780,4 @@ body {
   /**
    Google Sign in button styles End
    */
-  
-
 }
