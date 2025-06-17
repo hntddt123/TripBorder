@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const hotelsAPI = createApi({
   reducerPath: 'hotelsAPI',
@@ -9,7 +10,7 @@ export const hotelsAPI = createApi({
     credentials: 'include',
   }),
   endpoints: (builder) => ({
-    gethotelsAll: builder.query({
+    getHotelsAll: builder.query({
       query: ({ page = 1, limit = 10 }) => ({
         url: '/',
         method: 'GET',
@@ -17,10 +18,18 @@ export const hotelsAPI = createApi({
       }),
       providesTags: ['Hotels'],
     }),
+    getHotelsByTripID: createByTripQuery(
+      builder,
+      {
+        url: '/hotelsbytrip',
+        tagName: 'Hotels'
+      }
+    )
   })
 });
 
 // Export hooks for usage in components
 export const {
-  useGethotelsAllQuery,
+  useGetHotelsAllQuery,
+  useGetHotelsByTripIDQuery
 } = hotelsAPI;

@@ -17,9 +17,32 @@ export const mapboxAPI = createApi({
   }),
   endpoints: (builder) => ({
     getDirections: builder.query({
-      query: ({ lonStart, latStart, lonEnd, latEnd }) =>
-        // eslint-disable-next-line implicit-arrow-linebreak
-        `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`,
+      query: ({ lonStart, latStart, lonEnd, latEnd }) => {
+        const isValidCoord = (lon, lat) => typeof lon === 'number'
+          && typeof lat === 'number'
+          && lon >= -180 && lon <= 180
+          && lat >= -90 && lat <= 90;
+
+        if (!isValidCoord(lonStart, latStart) || !isValidCoord(lonEnd, latEnd)) {
+          throw new Error('Invalid coordinates provided');
+        }
+
+        if (lonStart === lonEnd && latStart === latEnd) {
+          throw new Error('Start and end coordinates cannot be identical');
+        }
+
+        return `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`;
+      },
+      transformErrorResponse: (response) => {
+        if (response.status === 422) {
+          return {
+            status: 422,
+            error: 'Unprocessable Entity: Invalid coordinates.',
+            details: response.data,
+          };
+        }
+        return response;
+      },
     }),
   }),
 });

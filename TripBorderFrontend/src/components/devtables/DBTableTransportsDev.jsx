@@ -24,22 +24,22 @@ function DBTableTransportsDev() {
     <div>
       <div>transports</div>
       <div className='text-center'>
-        <CustomButton
-          label='Previous'
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1 || isFetching}
-        />
-
+        <div>
+          <CustomButton
+            label='Previous'
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1 || isFetching}
+          />
+          <CustomButton
+            label='Next'
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages || isFetching || totalPages === 0}
+          />
+        </div>
         <span>
           Page {currentPage} of {totalPages}
           (Total: {total} items)
         </span>
-
-        <CustomButton
-          label='Next'
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPages || isFetching}
-        />
       </div>
       {isFetching && <div>Fetching new page...</div>}
       <table>

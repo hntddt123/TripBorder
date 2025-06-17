@@ -24,20 +24,38 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   };
 
   const handleDirectionButton = () => {
-    if (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null) {
-      getDirectionsQueryTrigger(setRouteQuery(
-        gpsLonLat.longitude,
-        gpsLonLat.latitude,
-        selectedPOILonLat.longitude,
-        selectedPOILonLat.latitude
-      ));
-    } else {
-      getDirectionsQueryTrigger(setRouteQuery(
-        longPressedLonLat.longitude,
-        longPressedLonLat.latitude,
-        selectedPOILonLat.longitude,
-        selectedPOILonLat.latitude
-      ));
+    if (gpsLonLat.longitude !== null
+      && gpsLonLat.latitude !== null) {
+      try {
+        getDirectionsQueryTrigger(setRouteQuery(
+          gpsLonLat.longitude,
+          gpsLonLat.latitude,
+          selectedPOILonLat.longitude,
+          selectedPOILonLat.latitude
+        ));
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingOnlySelectedPOI(true));
+    dispatch(setIsShowingSideBar(true));
+    dispatch(setIsNavigating(true));
+  };
+
+  const handlePinDirectionButton = () => {
+    if (longPressedLonLat.longitude !== null
+      && longPressedLonLat.latitude !== null) {
+      try {
+        getDirectionsQueryTrigger(setRouteQuery(
+          longPressedLonLat.longitude,
+          longPressedLonLat.latitude,
+          selectedPOILonLat.longitude,
+          selectedPOILonLat.latitude
+        ));
+      } catch (err) {
+        console.error(err);
+      }
     }
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
@@ -93,7 +111,8 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             }}
           >
             <CustomButton className='cancelButton' label='X' onClick={handleCloseButton} />
-            <CustomButton className='poiButton justify-center ml-4' label='Get Direction' onClick={handleDirectionButton} />
+            <CustomButton className='poiButton justify-center ml-4' label='Walk from here' onClick={handleDirectionButton} />
+            <CustomButton className='poiButton justify-center ml-4' label='Walk from 📍' onClick={handlePinDirectionButton} />
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>

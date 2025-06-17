@@ -1,9 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
+import Auth from './components/Auth';
+import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
 import TripsList from './components/trips/TripsList';
-import CustomButton from './components/CustomButton';
-import Auth from './components/Auth';
-import ProtectedRoute from './components/ProtectedRoute';
+import TripsHistory from './components/trips/TripsHistory';
 import Settings from './components/Settings';
 import DatabaseTableDev from './components/devtables/DatabaseTableDev';
 import MileagesList from './components/mileages/MileagesList';
@@ -41,7 +42,7 @@ function App() {
             <Route
               index
               path='/trips'
-              element={<TripBoard />}
+              element={<TripBoard component={<TripsHistory />} title='Trip History' />}
             />
           </Route>
           <Route path='/mileages' element={<ProtectedRoute />}>
@@ -62,7 +63,7 @@ function App() {
             <Route
               index
               path='/settings'
-              element={<TripBoard component={<Settings />} />}
+              element={<TripBoard component={<Settings />} title='Settings' />}
             />
           </Route>
           <Route path='/disclaimers' element={<ProtectedRoute />}>

@@ -4,11 +4,11 @@ import CustomButton from '../CustomButton';
 import { authAPI } from '../../api/authAPI';
 import { usePostMileagesMutation } from '../../api/mileagesAPI';
 import { formatHex } from '../../utility/formatHex';
+import CustomToggle from '../CustomToggle';
 
 function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
   const [inputError, setInputError] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
   const fileInputRef = useRef(null);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -24,10 +24,6 @@ function MileageUploadForm() {
     mileage_expired_at: '',
     mileage_picture: null,
   });
-
-  const toggleForm = () => {
-    setIsOpen(!isOpen);
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -214,10 +210,11 @@ function MileageUploadForm() {
 
   return (
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
-      <button className='text-2xl' onClick={toggleForm}>
-        {isOpen ? 'Create New Mileage ▼ ' : 'Create New Mileage ▶'}
-      </button>
-      {(isOpen) ? renderFormInputs() : null}
+      <CustomToggle
+        className='text-2xl'
+        title='Create New Mileage'
+        component={renderFormInputs()}
+      />
     </div>
   );
 }

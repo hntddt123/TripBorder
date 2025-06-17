@@ -18,6 +18,7 @@ const initialMapState = {
   selectedPOILonLat: { longitude: null, latitude: null },
   selectedPOIRadius: 500, // 100 ~ 1000m
   selectedPOICount: 20, // 5 ~ 50
+  randomPOINumber: -1,
   isFullPOIname: true,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
@@ -43,6 +44,7 @@ const mapSlice = createSlice({
     setSelectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
     setSelectedPOIRadius: (state, action) => ({ ...state, selectedPOIRadius: action.payload }),
     setSelectedPOICount: (state, action) => ({ ...state, selectedPOICount: action.payload }),
+    setRandomPOINumber: (state, action) => ({ ...state, randomPOINumber: action.payload }),
     setIsFullPOIname: (state, action) => ({ ...state, isFullPOIname: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
@@ -65,6 +67,7 @@ export const {
   setSelectedPOILonLat,
   setSelectedPOIRadius,
   setSelectedPOICount,
+  setRandomPOINumber,
   setIsFullPOIname,
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp,

@@ -212,11 +212,11 @@ body {
     padding: theme('spacing[2]');
     border-radius: theme('borderRadius.lg');
     box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.300');
+    border-color: theme('colors.amber.600');
     border-top-width: theme('borderWidth.0');
     border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.4');
-    border-right-width: theme('borderWidth.4');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
     @apply 
     bg-amber-50 dark:bg-amber-500
     border-amber-400 dark:bg-primary-buttonDarkTransparent;
@@ -258,14 +258,6 @@ body {
     @apply  bg-amber-100 dark:bg-primary-dark
   }
 
-  /* .cardcardMileage:active {
-    @apply  bg-amber-100 dark:bg-amber-600
-  }
-
-  .cardcardMileage:focus, :focus-visible {
-    @apply  bg-amber-200 dark:bg-amber-600
-  } */
-
   .cardPOIMarker {
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.lg');
@@ -276,8 +268,8 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
 
@@ -456,10 +448,9 @@ body {
   }
 
   .poiButton {
-    font-size: 1.5rem;
     line-height: 1rem;
     align-content: center;
-    border-radius: theme('borderRadius.lg');
+    border-radius: theme('borderRadius.full');
     margin: theme('spacing.[0.5]');
     padding: theme('spacing.2');
     box-shadow: theme('boxShadow.sm');
@@ -514,12 +505,11 @@ body {
   }
 
   .poiDropdownButton {
-    font-size: 1.5rem;
     line-height: 1rem;
     align-content: center;
     margin: theme('spacing.[0.5]');
     padding: theme('spacing.[0.5]');
-    box-shadow: theme('boxShadow.sm');
+    border-radius: theme('borderRadius.full');
     border-color: theme('backgroundColor.amber.50');
     @apply  
     bg-primary-buttonLight dark:bg-primary-buttonDark
@@ -660,6 +650,21 @@ body {
     justify-content: space-between;
   }
 
+  .toggle {
+    text-align: center;
+    align-content: center;
+    border-radius: theme('borderRadius.full');
+    @apply 
+    bg-primary-buttonLight dark:bg-primary-dark 
+    text-black dark:text-white;
+  }
+
+  .toggle:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-primary-googlefocus ;
+  }
+
   /**
    Light Google Sign in button styles beginning
    */
@@ -775,6 +780,4 @@ body {
   /**
    Google Sign in button styles End
    */
-  
-
 }

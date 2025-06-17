@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const ratingsAPI = createApi({
   reducerPath: 'ratingsAPI',
@@ -17,10 +18,18 @@ export const ratingsAPI = createApi({
       }),
       providesTags: ['Ratings'],
     }),
+    getRatingsByTripID: createByTripQuery(
+      builder,
+      {
+        url: '/ratingsbytrip',
+        tagName: 'Ratings'
+      }
+    )
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetRatingsAllQuery,
+  useGetRatingsByTripIDQuery
 } = ratingsAPI;

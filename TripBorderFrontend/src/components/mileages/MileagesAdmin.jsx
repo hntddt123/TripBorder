@@ -155,7 +155,7 @@ function MileagesAdmin() {
             <CustomButton
               label='Next'
               onClick={() => handlePageChange(page + 1)}
-              disabled={page === totalPages || isFetching}
+              disabled={page === totalPages || isFetching || totalPages === 0}
             />
           </div>
           {renderMileages()}

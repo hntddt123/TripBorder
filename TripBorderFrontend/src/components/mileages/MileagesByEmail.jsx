@@ -87,7 +87,7 @@ function MileagesByEmail() {
           aria-label='Next Page Button'
           label='Next'
           onClick={handleNextPage}
-          disabled={page === totalPages || isFetching}
+          disabled={page === totalPages || isFetching || totalPages === 0}
         />
         <div>Page {currentPage} of {totalPages}</div>
       </div>

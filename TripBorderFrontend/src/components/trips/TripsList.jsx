@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import Toggle from 'react-toggle';
@@ -14,25 +14,29 @@ import {
   setSelectedPOICount,
   setSelectedPOIRadius,
   setIsThrowingDice,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setSelectedPOIIcon
 } from '../../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from '../CustomButton';
 // import fourSquareCategory from '../constants/foursquarePOICategory.json';
 import {
+  iconMap,
   restaurantIcon,
+  museumIcon,
   hotelIcon,
   carIcon,
   GPSIcon,
   pinIcon,
   diceIcon,
-  numIcon
+  numIcon,
+  shoppingIcon
 } from '../../constants/constants';
+import CustomToggle from '../CustomToggle';
 
 function TripsList() {
-  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
+  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
-  const [isSearchToolOpen, setIsSearchToolOpen] = useState(false);
 
   const mapRef = useRef();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
@@ -40,24 +44,30 @@ function TripsList() {
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
-  const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
+  const randomPOINumber = useSelector((state) => state.mapReducer.randomPOINumber);
+  const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
 
   const setPOIQuery = (ll, radius, limit, category, icon) => ({ ll, radius, limit, category, icon });
 
-  const hasGPSLonLat = () => (gpsLonLat.longitude !== null && gpsLonLat.latitude !== null && !isNavigating);
-  const hasLongPressedLonLat = () => (longPressedLonLat.longitude !== null && longPressedLonLat.latitude !== null && !isNavigating);
+  const hasGPSLonLat = () => (
+    gpsLonLat.longitude !== null
+    && gpsLonLat.latitude !== null
+  );
 
-  const toggleSearchTool = () => {
-    setIsSearchToolOpen(!isSearchToolOpen);
-  };
+  const hasLongPressedLonLat = () => (
+    longPressedLonLat.longitude !== null
+    && longPressedLonLat.latitude !== null
+  );
 
   const handleDropdownOnChange = (event) => {
     dispatch(setSelectedPOIIDNumber(event.target.value));
+    dispatch(setSelectedPOIIcon(iconMap[event.target.value]));
+    reset();
   };
 
   const handleLongPressedMarkerButton = () => {
@@ -69,6 +79,12 @@ function TripsList() {
         selectedPOIIDNumber,
         selectedPOIIcon
       ), true);
+      dispatch(setViewState({
+        longitude: longPressedLonLat.longitude,
+        latitude: longPressedLonLat.latitude,
+        pitch: 30,
+        zoom: 16
+      }));
       if (isThrowingDice) {
         dispatch(setIsShowingOnlySelectedPOI(true));
       } else {
@@ -91,6 +107,7 @@ function TripsList() {
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
+        pitch: 30,
         zoom: 16
       }));
 
@@ -107,6 +124,13 @@ function TripsList() {
   const handleDiceToggle = () => {
     dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
     dispatch(setIsThrowingDice(!isThrowingDice));
+    if (poi !== undefined && isThrowingDice === false) {
+      dispatch(setViewState({
+        latitude: poi.results[randomPOINumber].geocodes.main.latitude,
+        longitude: poi.results[randomPOINumber].geocodes.main.longitude,
+        zoom: viewState.zoom
+      }));
+    }
   };
 
   const handleFullNameToggle = () => {
@@ -132,7 +156,7 @@ function TripsList() {
     </div>
   ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
 
-  const getPlaceNameToggle = () => (
+  const renderPlaceNameToggle = () => (
     <Toggle
       className='ml-1 mr-1 align-middle'
       icons={{
@@ -144,7 +168,7 @@ function TripsList() {
     />
   );
 
-  const getDiceToggle = () => (
+  const renderDiceToggle = () => (
     <Toggle
       className='ml-0.5 align-middle justify-center'
       icons={{
@@ -170,6 +194,20 @@ function TripsList() {
 
     return '';
   };
+
+  const renderPOISelection = () => (
+    <select
+      className='poiDropdownButton'
+      onChange={(event) => handleDropdownOnChange(event)}
+      disabled={isFetching}
+    >
+      <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
+      <option value='4bf58dd8d48988d181941735'> {museumIcon}</option>
+      <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
+      <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
+      <option value='4bf58dd8d48988d1fd941735'> {shoppingIcon}</option>
+    </select>
+  );
 
   const renderSearchTools = () => (
     <div className='text-xl m-2'>
@@ -206,7 +244,6 @@ function TripsList() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      {/* <CustomButton label='Save' /> */}
     </div>
   );
 
@@ -227,20 +264,13 @@ function TripsList() {
               onClick={handleLongPressedMarkerButton}
               disabled={!hasLongPressedLonLat()}
             />
-            <select
-              className='poiDropdownButton'
-              onChange={(event) => handleDropdownOnChange(event)}
-            >
-              <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
-              <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
-              <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
-            </select>
-            {getDiceToggle()}
-            {getPlaceNameToggle()}
-            <button className='text-base' onClick={toggleSearchTool}>
-              {isSearchToolOpen ? '⚙️ ▼ ' : '⚙️ ▶'}
-            </button>
-            {(isSearchToolOpen) ? renderSearchTools() : null}
+            {renderPOISelection()}
+            {renderDiceToggle()}
+            {renderPlaceNameToggle()}
+            <CustomToggle
+              title='⚙️'
+              component={renderSearchTools()}
+            />
           </div>
 
           {getAPIStatus()}

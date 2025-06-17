@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../constants/constants';
+import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const poisAPI = createApi({
   reducerPath: 'poisAPI',
@@ -17,10 +18,18 @@ export const poisAPI = createApi({
       }),
       providesTags: ['POIs'],
     }),
+    getPOIsByTripID: createByTripQuery(
+      builder,
+      {
+        url: '/poisbytrip',
+        tagName: 'POIs'
+      }
+    )
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetPOIsAllQuery,
+  useGetPOIsByTripIDQuery
 } = poisAPI;

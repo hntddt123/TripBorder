@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useGethotelsAllQuery } from '../../api/hotelsAPI';
+import { useGetHotelsAllQuery } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 
 function DBTableHotelsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGethotelsAllQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetHotelsAllQuery({ page, limit });
   const { hotels, total, totalPages, page: currentPage } = data || {};
 
   const handlePageChange = (newPage) => {
@@ -24,22 +24,22 @@ function DBTableHotelsDev() {
     <div>
       <div>hotels</div>
       <div className='text-center'>
-        <CustomButton
-          label='Previous'
-          onClick={() => handlePageChange(page - 1)}
-          disabled={page === 1 || isFetching}
-        />
-
+        <div>
+          <CustomButton
+            label='Previous'
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page === 1 || isFetching}
+          />
+          <CustomButton
+            label='Next'
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page === totalPages || isFetching || totalPages === 0}
+          />
+        </div>
         <span>
           Page {currentPage} of {totalPages}
           (Total: {total} items)
         </span>
-
-        <CustomButton
-          label='Next'
-          onClick={() => handlePageChange(page + 1)}
-          disabled={page === totalPages || isFetching}
-        />
       </div>
       {isFetching && <div>Fetching new page...</div>}
       <table>
