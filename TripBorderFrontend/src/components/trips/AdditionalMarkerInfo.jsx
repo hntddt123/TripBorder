@@ -110,9 +110,22 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
             }}
           >
-            <CustomButton className='cancelButton' label='X' onClick={handleCloseButton} />
-            <CustomButton className='poiButton justify-center ml-4' label='Walk from here' onClick={handleDirectionButton} />
-            <CustomButton className='poiButton justify-center ml-4' label='Walk from 📍' onClick={handlePinDirectionButton} />
+            <CustomButton
+              className='cancelButton'
+              label='X'
+              onClick={handleCloseButton}
+            />
+            <CustomButton
+              className='poiButton justify-center ml-4'
+              label='Walk from here'
+              onClick={handleDirectionButton}
+            />
+            <CustomButton
+              className='poiButton justify-center ml-4'
+              label='Walk from 📍'
+              onClick={handlePinDirectionButton}
+              disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
+            />
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
