@@ -19,7 +19,6 @@ import {
 } from '../../redux/reducers/mapReducer';
 import CustomMap from './CustomMap';
 import CustomButton from '../CustomButton';
-// import fourSquareCategory from '../constants/foursquarePOICategory.json';
 import {
   iconMap,
   restaurantIcon,
@@ -33,8 +32,9 @@ import {
   shoppingIcon
 } from '../../constants/constants';
 import CustomToggle from '../CustomToggle';
+import CurrentTrip from './CurrentTrip';
 
-function TripsList() {
+function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
@@ -154,7 +154,7 @@ function TripsList() {
         {`Latitude: ${gpsLonLat.latitude.toFixed(8)}`}
       </div>
     </div>
-  ) : <div className='cardInfo text-2xl'>Press location button to get current GPS location for searching</div>);
+  ) : <div className='cardInfo text-sm'>Press location button to get current GPS location for searching</div>);
 
   const renderPlaceNameToggle = () => (
     <Toggle
@@ -244,6 +244,7 @@ function TripsList() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
+      <CurrentTrip />
     </div>
   );
 
@@ -287,4 +288,4 @@ function TripsList() {
   );
 }
 
-export default TripsList;
+export default TripsItems;
