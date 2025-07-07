@@ -40,8 +40,8 @@ function MileageUploadForm() {
       setInputError('Expiration Date cannot be past');
       setFormData((prev) => ({ ...prev, [name]: '' }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
       setInputError('');
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 

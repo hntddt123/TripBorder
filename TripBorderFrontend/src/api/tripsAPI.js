@@ -18,6 +18,13 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
+    getTripByUUID: builder.query({
+      query: () => ({
+        url: '/tripsbyuuid',
+        method: 'GET'
+      }),
+      providesTags: ['Trips'],
+    }),
     getTripsByEmail: createByEmailPaginationQuery(
       builder,
       {

@@ -72,6 +72,16 @@ body {
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
+    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+  }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
     @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
   }
 
