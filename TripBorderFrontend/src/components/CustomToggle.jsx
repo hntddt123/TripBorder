@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function CustomToggle({ className = 'toggle dark:toggle text-base', title, component, type = 'button', disabled = false, ...props }) {
-  const [isOpen, setIsOpen] = useState(false);
+function CustomToggle({
+  className = 'toggle dark:toggle text-base',
+  title,
+  component,
+  type = 'button',
+  disabled = false,
+  isOpened = false,
+  ...props
+}) {
+  const [isOpen, setIsOpen] = useState(isOpened);
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -30,6 +38,7 @@ CustomToggle.propTypes = {
   component: PropTypes.node,
   type: PropTypes.string,
   disabled: PropTypes.bool,
+  isOpened: PropTypes.bool,
   label: PropTypes.string
 };
 

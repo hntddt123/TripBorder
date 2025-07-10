@@ -35,21 +35,22 @@ const store = configureStore({
     [tripTagsAPI.reducerPath]: tripTagsAPI.reducer,
     [ratingsAPI.reducerPath]: ratingsAPI.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    foursquareAPI.middleware,
-    mapboxAPI.middleware,
-    authAPI.middleware,
-    mileagesAPI.middleware,
-    usersAPI.middleware,
-    tripsAPI.middleware,
-    mealsAPI.middleware,
-    poisAPI.middleware,
-    hotelsAPI.middleware,
-    transportsAPI.middleware,
-    tagsAPI.middleware,
-    tripTagsAPI.middleware,
-    ratingsAPI.middleware
-  )
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(
+      foursquareAPI.middleware,
+      mapboxAPI.middleware,
+      authAPI.middleware,
+      mileagesAPI.middleware,
+      usersAPI.middleware,
+      tripsAPI.middleware,
+      mealsAPI.middleware,
+      poisAPI.middleware,
+      hotelsAPI.middleware,
+      transportsAPI.middleware,
+      tagsAPI.middleware,
+      tripTagsAPI.middleware,
+      ratingsAPI.middleware
+    )
 });
 
 export default store;

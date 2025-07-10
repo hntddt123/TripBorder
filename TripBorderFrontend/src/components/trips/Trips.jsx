@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
-import { useGetTripsByEmailQuery } from '../../api/tripsAPI';
+import {
+  useGetTripsByEmailQuery,
+  useDeleteTripsMutation
+} from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
@@ -20,6 +23,7 @@ function Trips() {
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTripsByEmailQuery({ email, page, limit });
   const { trips, total, totalPages, page: currentPage } = data || {};
+  const [deleteTrip] = useDeleteTripsMutation();
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -85,6 +89,7 @@ function Trips() {
             <Transports tripID={trip.uuid} />
             <Ratings tripID={trip.uuid} />
             <TripTags tripID={trip.uuid} />
+            <CustomButton label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} />
           </div>
         </div>
       )))}

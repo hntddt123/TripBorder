@@ -18,25 +18,54 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
-    getTripByUUID: builder.query({
-      query: () => ({
-        url: '/tripsbyuuid',
-        method: 'GET'
-      }),
-      providesTags: ['Trips'],
-    }),
     getTripsByEmail: createByEmailPaginationQuery(
       builder,
       {
         url: '/tripsbyemail',
         tagName: 'Trips'
       }
-    )
+    ),
+    getTripByUUID: builder.mutation({
+      query: ({ uuid }) => ({
+        url: `/update/${uuid}`,
+        method: 'GET'
+      }),
+      invalidatesTags: ['Trips'],
+    }),
+    updateTripByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Trips'],
+    }),
+    initTripByEmail: builder.mutation({
+      query: (ownerEmail) => ({
+        url: '/init',
+        method: 'POST',
+        body: { data: ownerEmail },
+      }),
+      providesTags: ['Trips'],
+    }),
+    deleteTrips: builder.mutation({
+      query: (tripID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: tripID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Trips'],
+    })
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetTripsAllQuery,
-  useGetTripsByEmailQuery
+  useGetTripsByEmailQuery,
+  useInitTripByEmailMutation,
+  useUpdateTripByUUIDMutation,
+  useDeleteTripsMutation
 } = tripsAPI;

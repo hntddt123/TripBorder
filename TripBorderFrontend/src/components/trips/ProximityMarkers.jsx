@@ -12,7 +12,6 @@ import {
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 
-// eslint-disable-next-line react/prop-types
 export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);

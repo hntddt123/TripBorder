@@ -1,5 +1,5 @@
-/* eslint-disable react/prop-types */
 import 'mapbox-gl/dist/mapbox-gl.css';
+import PropTypes from 'prop-types';
 import { useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
@@ -11,7 +11,7 @@ import {
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
-  setIsNavigating,
+  setIsNavigating
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -39,9 +39,13 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const dispatch = useDispatch();
   const mapCSSStyle = { width: '100%', height: '90vh', borderRadius: 10 };
   const pressTimer = useRef(null);
+  const geoLocateRef = useRef(null);
+
+  const handleGeoRef = (ref) => {
+    geoLocateRef.current = ref;
+  };
 
   const handleStyleLoad = (map) => {
-    setMapLoaded(true);
     map.target.touchZoomRotate.enable();
     map.target.touchZoomRotate.disableRotation();
     map.target.dragRotate.enable();
@@ -52,6 +56,8 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
     } else {
       map.target.setConfigProperty('basemap', 'lightPreset', 'day');
     }
+    geoLocateRef.current?.trigger();
+    setMapLoaded(true);
   };
 
   const onMove = useCallback((event) => {
@@ -180,6 +186,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       />
       <FullscreenControl position='top-right' />
       <GeolocateControl
+        ref={(ref) => handleGeoRef(ref)}
         position='top-right'
         positionOptions={{ enableHighAccuracy: true }}
         onGeolocate={handleCurrentLocation}
@@ -200,4 +207,6 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
 CustomMap.propTypes = {
   data: FourSquareResponsePropTypes,
+  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
+  getPOIPhotosQueryTrigger: PropTypes.func
 };
