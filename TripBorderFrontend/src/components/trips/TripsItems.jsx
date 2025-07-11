@@ -8,6 +8,7 @@ import ToggleDice from './ToggleDice';
 import TripSearchTools from './TripSearchTools';
 import ButtonGPSSearch from './ButtonGPSSearch';
 import ButtonPinSearch from './ButtonPinSearch';
+import CustomError from '../CustomError';
 
 function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
@@ -22,7 +23,7 @@ function TripsItems() {
     }
 
     if (error) {
-      return `Error: ${error.error}`;
+      return <CustomError error={error} />;
     }
 
     return '';

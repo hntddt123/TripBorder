@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetTagsAllQuery } from '../../api/tagsAPI';
 import CustomButton from '../CustomButton';
+import CustomError from '../CustomError';
 
 function DBTableTagsDev() {
   const [page, setPage] = useState(1);
@@ -17,7 +18,7 @@ function DBTableTagsDev() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   return (

@@ -5,6 +5,7 @@ import { authAPI } from '../../api/authAPI';
 import { getLocalTime } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
+import CustomError from '../CustomError';
 
 function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -44,7 +45,7 @@ function MileagesByEmail() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderPopUp = () => {

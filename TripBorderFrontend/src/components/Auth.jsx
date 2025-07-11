@@ -4,6 +4,7 @@ import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import CustomError from './CustomError';
 
 function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
@@ -55,7 +56,7 @@ function Auth() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;

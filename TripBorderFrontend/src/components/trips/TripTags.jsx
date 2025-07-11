@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useGetTripTagsByTripIDQuery } from '../../api/tripTagsAPI';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function TripTags({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
@@ -11,7 +12,7 @@ function TripTags({ tripID }) {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = () => (

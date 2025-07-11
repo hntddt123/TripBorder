@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetUsersQuery, useUpdateUserMutation } from '../../api/usersAPI';
 import CustomButton from '../CustomButton';
+import CustomError from '../CustomError';
 
 function DBTableUsersDev() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -20,7 +21,7 @@ function DBTableUsersDev() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const handleUserUpdate = (uuid, updates) => {

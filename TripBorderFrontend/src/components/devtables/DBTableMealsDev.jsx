@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGetMealsAllQuery } from '../../api/mealsAPI';
 import CustomButton from '../CustomButton';
+import CustomError from '../CustomError';
 
 function DBTableMealsDev() {
   const [page, setPage] = useState(1);
@@ -17,7 +18,7 @@ function DBTableMealsDev() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   return (

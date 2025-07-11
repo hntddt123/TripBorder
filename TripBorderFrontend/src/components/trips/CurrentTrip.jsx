@@ -12,6 +12,7 @@ import { getLocalTimeToMin, getLocalTimeToSecond } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import TripUploadForm from './TripUploadForm';
+import CustomError from '../CustomError';
 
 function CurrentTrip({ initTripByEmail, initTripByEmailData }) {
   const { data, isLoading, error } = initTripByEmailData;
@@ -59,8 +60,6 @@ function CurrentTrip({ initTripByEmail, initTripByEmailData }) {
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='cardInfo text-center'>
-        {console.log(data)}
-        {console.log(tripData)}
         {data || tripData.uuid ? (
           <CustomToggle
             className='text-2xl'
@@ -75,7 +74,7 @@ function CurrentTrip({ initTripByEmail, initTripByEmailData }) {
           />
         )}
         {(isLoading) ? <div>Creating...</div> : null}
-        {(error) ? <div className='text-red-600'>{`Status: ${error.status} - ${error.data.error}`}</div> : null}
+        {(error) ? <CustomError error={error} /> : null}
       </div>
       {data ? (
         <div className='text-base text-center'>
@@ -93,7 +92,30 @@ function CurrentTrip({ initTripByEmail, initTripByEmailData }) {
 
 CurrentTrip.propTypes = {
   initTripByEmail: PropTypes.func,
-  initTripByEmailData: { trip: {}, message: {} }
+  initTripByEmailData: PropTypes.shape(
+    {
+      data: PropTypes.shape({
+        trip: PropTypes.shape({
+          uuid: PropTypes.string.isRequired,
+          title: PropTypes.string.isRequired,
+          owner_email: PropTypes.string.isRequired,
+          start_date: PropTypes.string,
+          end_date: PropTypes.string,
+          created_at: PropTypes.string.isRequired,
+          updated_at: PropTypes.string.isRequired
+        }),
+        message: PropTypes.string.isRequired
+      }),
+      isLoading: PropTypes.bool,
+      error: PropTypes.shape({
+        status: PropTypes.string,
+        error: PropTypes.string,
+        data: PropTypes.shape({
+          error: PropTypes.string
+        })
+      })
+    }
+  )
 };
 
 export default CurrentTrip;

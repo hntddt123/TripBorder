@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useGetPOIsByTripIDQuery } from '../../api/poisAPI';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function POIs({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
@@ -11,7 +12,7 @@ function POIs({ tripID }) {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = (poi) => (

@@ -14,6 +14,7 @@ import POIs from './POIs';
 import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
+import CustomError from '../CustomError';
 
 function Trips() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -34,7 +35,7 @@ function Trips() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = (trip) => (

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useGetTransportByTripIDQuery } from '../../api/transportsAPI';
 import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function Transports({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
@@ -12,7 +13,7 @@ function Transports({ tripID }) {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = (transport) => (

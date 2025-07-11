@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useGetMealsByTripIDQuery } from '../../api/mealsAPI';
 import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function Meals({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
@@ -12,7 +13,7 @@ function Meals({ tripID }) {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = (meal) => (

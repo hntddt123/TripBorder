@@ -3,6 +3,7 @@ import { getLocalTime } from '../../utility/time';
 import { useGetMileagesSellingQuery } from '../../api/mileagesAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
+import CustomError from '../CustomError';
 
 function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -36,7 +37,7 @@ function Mileages() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.data?.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderPopUp = () => {

@@ -3,6 +3,7 @@ import { useGetMileagesAllQuery } from '../../api/mileagesAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import { arrayToBase64 } from '../../utility/processBytea';
+import CustomError from '../CustomError';
 
 function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
@@ -19,7 +20,7 @@ function DBTableMileagesDev() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   return (
