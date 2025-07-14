@@ -67,7 +67,7 @@ function Auth() {
     if (role === 'admin') {
       return (
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
           <CustomButton label='Mileage Verification' to='/mileagesverification' />
           <CustomButton label='Database Table' to='/database' />
@@ -81,7 +81,7 @@ function Auth() {
     if (role === 'premium_user') {
       return (
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
         </div>
       );

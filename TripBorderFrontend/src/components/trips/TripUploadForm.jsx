@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setTrip,
+  setTitle,
   setStartDate,
-  setEndDate,
-  setUpdatedDate
+  setEndDate
 } from '../../redux/reducers/tripReducer';
+import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
+import CustomButton from '../CustomButton';
 
 function TripUploadForm() {
   const [inputError, setInputError] = useState('');
 
   const tripData = useSelector((state) => state.tripReducer);
+  const [updateTripByUUID, { isLoading: updateLoading }] = useUpdateTripByUUIDMutation();
 
   const dispatch = useDispatch();
 
@@ -18,7 +20,7 @@ function TripUploadForm() {
     const { name } = e.target;
 
     if (name === 'trip_title') {
-      dispatch(setTrip(e.target.value));
+      dispatch(setTitle(e.target.value));
     }
     if (name === 'trip_start_date') {
       if (new Date(e.target.value) - new Date().setHours(0, 0, 0, 0) <= 0) {
@@ -38,19 +40,25 @@ function TripUploadForm() {
         dispatch(setEndDate(e.target.value));
       }
     }
-
-    dispatch(setUpdatedDate(Date.now()));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    updateTripByUUID({
+      uuid: tripData.uuid,
+      updates: {
+        title: tripData.title,
+        start_date: tripData.start_date,
+        end_date: tripData.end_date,
+      }
+    });
   };
 
   return (
     <form onSubmit={handleSubmit} encType='multipart/form-data'>
-      <div className='inputField mt-4'>
+      <div className='inputField mt-2'>
         <label htmlFor='trip_title'>
-          Title
+          Trip Name
         </label>
         <input
           className='customInput'
@@ -70,7 +78,7 @@ function TripUploadForm() {
         <input
           className='customInput'
           id='trip_start_date'
-          type='datetime-local'
+          type='date'
           name='trip_start_date'
           value={tripData.start_date}
           onChange={handleInputChange}
@@ -82,14 +90,16 @@ function TripUploadForm() {
         <input
           className='customInput'
           id='trip_end_date'
-          type='datetime-local'
+          type='date'
           name='trip_end_date'
           value={tripData.end_date}
           onChange={handleInputChange}
           required
         />
+        <CustomButton type='submit' label='Save' />
       </div>
       {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
+      {(updateLoading) ? 'Upadting' : null}
     </form>
   );
 }

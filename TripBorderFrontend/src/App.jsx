@@ -32,7 +32,7 @@ function App() {
               </div>
             )}
           />
-          <Route path='/newtrip' element={<ProtectedRoute />}>
+          <Route path='/plantrip' element={<ProtectedRoute />}>
             <Route
               index
               element={<TripBoard component={<TripsItems />} />}

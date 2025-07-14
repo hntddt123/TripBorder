@@ -26,12 +26,14 @@ function TripTags({ tripID }) {
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       {isFetching && <div>Fetching new page...</div>}
-      <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
-        aria-label='TripTag Button'
-        title='Tags'
-        component={renderDetail()}
-      />
+      {(tripTags.length > 0) ? (
+        <CustomToggle
+          className='container overflow-x-auto -tracking-wider text-center'
+          aria-label='TripTag Button'
+          title='Tags'
+          component={renderDetail()}
+        />
+      ) : null}
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import { DateTime } from 'luxon';
 
+export const getDate = (date) => DateTime.fromISO(date).toISODate();
+
 export const getLocalTime = (date) => new Date(date).toLocaleString(undefined, {
   year: 'numeric',
   month: 'long',

@@ -1,14 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import ReactSlider from 'react-slider';
-import { useInitTripByEmailMutation } from '../../api/tripsAPI';
-import CurrentTrip from './CurrentTrip';
+import TripCurrent from './TripCurrent';
 import {
   setSelectedPOICount,
   setSelectedPOIRadius
 } from '../../redux/reducers/mapReducer';
 
 function TripSearchTools() {
-  const [initTripByEmail, initTripByEmailData] = useInitTripByEmailMutation();
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const dispatch = useDispatch();
 
@@ -76,7 +74,7 @@ function TripSearchTools() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      <CurrentTrip initTripByEmail={initTripByEmail} initTripByEmailData={initTripByEmailData} />
+      <TripCurrent />
     </div>
   );
 }

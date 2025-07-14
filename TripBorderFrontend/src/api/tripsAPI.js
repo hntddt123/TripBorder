@@ -18,19 +18,20 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
-    getTripsByEmail: createByEmailPaginationQuery(
+    getTripsByEmailPagination: createByEmailPaginationQuery(
       builder,
       {
-        url: '/tripsbyemail',
+        url: '/tripsbyemailpagination',
         tagName: 'Trips'
       }
     ),
     getTripByUUID: builder.mutation({
-      query: ({ uuid }) => ({
-        url: `/update/${uuid}`,
-        method: 'GET'
+      query: (uuid) => ({
+        url: '/tripsbyuuid',
+        method: 'POST',
+        body: { data: uuid },
       }),
-      invalidatesTags: ['Trips'],
+      providesTags: ['Trips'],
     }),
     updateTripByUUID: builder.mutation({
       query: ({ uuid, updates }) => ({
@@ -47,7 +48,7 @@ export const tripsAPI = createApi({
         method: 'POST',
         body: { data: ownerEmail },
       }),
-      providesTags: ['Trips'],
+      invalidatesTags: ['Trips'],
     }),
     deleteTrips: builder.mutation({
       query: (tripID) => ({
@@ -64,7 +65,8 @@ export const tripsAPI = createApi({
 // Export hooks for usage in components
 export const {
   useGetTripsAllQuery,
-  useGetTripsByEmailQuery,
+  useGetTripsByEmailPaginationQuery,
+  useGetTripByUUIDMutation,
   useInitTripByEmailMutation,
   useUpdateTripByUUIDMutation,
   useDeleteTripsMutation

@@ -1,4 +1,4 @@
-import Trips from './Trips';
+import TripsPast from './TripsPast';
 
 function TripsHistory() {
   return (
@@ -6,7 +6,7 @@ function TripsHistory() {
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
         <div className='cardInfo p-4'>
           <div className='text-3xl'>Trip History</div>
-          <Trips />
+          <TripsPast />
         </div>
       </div>
     </div>

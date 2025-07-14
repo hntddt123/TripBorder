@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../../redux/reducers/mapReducer';
+import ButtonMealsUpload from './ButtonMealsUpload';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -116,16 +117,18 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               onClick={handleCloseButton}
             />
             <CustomButton
-              className='poiButton justify-center ml-4'
-              label='Walk from here'
+              className='poiButton ml-4'
+              label='Walk'
               onClick={handleDirectionButton}
             />
             <CustomButton
-              className='poiButton justify-center ml-4'
+              className='poiButton'
               label='Walk from 📍'
               onClick={handlePinDirectionButton}
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
             />
+            <ButtonMealsUpload filteredResult={filteredResult} />
+
             <div className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
