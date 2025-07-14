@@ -107,7 +107,7 @@ function Auth() {
         </div>
       ) : (
         <div>
-          <p className='text-2xl m-2'>Login with following options</p>
+          <div className='text-2xl m-2'>Login with following options</div>
           <GoogleSignInButton onClick={handleLogin} />
         </div>
       )}

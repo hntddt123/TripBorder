@@ -43,7 +43,7 @@ function TripSearchTools() {
     <div className='text-xl m-2'>
       Item Count
       <ReactSlider
-        className='slider'
+        className='slider notranslate'
         markClassName='sliderMark'
         thumbClassName='sliderThumbCount'
         trackClassName='sliderTrackCount'
@@ -60,7 +60,7 @@ function TripSearchTools() {
       />
       Radius (meter)
       <ReactSlider
-        className='slider'
+        className='slider notranslate'
         markClassName='sliderMark'
         thumbClassName='sliderThumbRadius'
         trackClassName='sliderTrackRadius'

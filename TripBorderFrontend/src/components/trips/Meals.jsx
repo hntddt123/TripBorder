@@ -20,13 +20,14 @@ function Meals({ tripID }) {
   const renderDetail = (meal) => (
     <div>
       <div>{`Time: ${getLocalTimeToSecond(meal.meal_time)}`}</div>
-      <div>{`Address: ${meal.address}`}</div>
+      <div translate='no'>{`Address: ${meal.address}`}</div>
     </div>
   );
 
   const renderMealsItem = (meal) => (
     <div className='flex justify-center'>
       <CustomToggle
+        translate='no'
         className='container overflow-x-auto -tracking-wider text-center'
         aria-label={`Meal Button ${meal.uuid}`}
         id={meal.uuid}
@@ -39,8 +40,16 @@ function Meals({ tripID }) {
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-center'>
-        {meals?.length > 0 ? 'Meals' : null}
-        {meals?.length > 0 ? <CustomButton className='editButton' label='✏️' onClick={handleEditButton} /> : null}
+        {meals?.length > 0 ? <span>Meals</span> : null}
+        {meals?.length > 0
+          ? (
+            <CustomButton
+              translate='no'
+              className='editButton'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
       </div>
       {meals?.map(((meal) => (
         <div key={meal.uuid}>
@@ -48,7 +57,15 @@ function Meals({ tripID }) {
             {renderMealsItem(meal)}
           </div>
           <div className='text-center'>
-            {(isEditing) ? <CustomButton label={`🗑️ ${meal.name}`} onClick={() => deleteMeal(meal.uuid)} /> : null}
+            {(isEditing)
+              ? (
+                <CustomButton
+                  translate='no'
+                  label={`🗑️ ${meal.name}`}
+                  onClick={() => deleteMeal(meal.uuid)}
+                />
+              )
+              : null}
           </div>
         </div>
       )))}

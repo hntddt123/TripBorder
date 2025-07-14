@@ -52,6 +52,7 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
 
   return (
     <CustomButton
+      translate='no'
       className='poiButton'
       label={GPSIcon}
       onClick={handleButtonGPSSearch}

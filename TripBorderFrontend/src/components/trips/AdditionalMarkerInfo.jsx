@@ -112,6 +112,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             }}
           >
             <CustomButton
+              translate='no'
               className='cancelButton'
               label='X'
               onClick={handleCloseButton}
@@ -129,7 +130,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             />
             <ButtonMealsUpload filteredResult={filteredResult} />
 
-            <div className='text-2xl'>
+            <div translate='no' className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
             <div className='cardPOIAddInfoPictures'>

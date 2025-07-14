@@ -16,17 +16,17 @@ function TripsItems() {
 
   const getAPIStatus = () => {
     if (isLoading) {
-      return 'Loading...';
+      return <span>Loading...</span>;
     }
     if (isFetching) {
-      return 'Fetching...';
+      return <span>Fetching...</span>;
     }
 
     if (error) {
       return <CustomError error={error} />;
     }
 
-    return '';
+    return null;
   };
 
   return (
@@ -40,6 +40,7 @@ function TripsItems() {
             <ToggleDice poi={poi} />
             <TogglePlaceName />
             <CustomToggle
+              translate='no'
               title='⚙️'
               component={<TripSearchTools />}
             />

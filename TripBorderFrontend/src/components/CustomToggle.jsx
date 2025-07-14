@@ -25,7 +25,7 @@ function CustomToggle({
         disabled={disabled}
         {...props}
       >
-        {isOpen ? `${title} ▼` : `${title} ▶`}
+        {isOpen ? <span>{title} ▼</span> : <span>{title} ▶</span>}
       </button>
       {isOpen ? component : null}
     </span>

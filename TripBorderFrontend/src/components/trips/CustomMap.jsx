@@ -142,7 +142,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
             <div className='sidebarInstructionsContent'>
               {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
                 // eslint-disable-next-line react/no-array-index-key
-                <div key={getDirectionsQueryResults.data.uuid + i}>
+                <div translate='no' key={getDirectionsQueryResults.data.uuid + i}>
                   {i + 1} {step.maneuver.instruction}
                 </div>
               ))}

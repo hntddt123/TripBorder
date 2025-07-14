@@ -28,7 +28,7 @@ function App() {
                 <Auth />
                 {(MODE === 'development')
                   ? <DevMode />
-                  : <p className='text-2xl m-2'>Version: {VERSION_NUMBER}</p>}
+                  : <div className='text-2xl m-2'>Version: {VERSION_NUMBER}</div>}
               </div>
             )}
           />

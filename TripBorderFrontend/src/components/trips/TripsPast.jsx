@@ -83,7 +83,12 @@ function TripsPast() {
         title={trip.title}
         component={renderDetail(trip)}
       />
-      <CustomButton className='editButton' label='✏️' onClick={handleEditButton} />
+      <CustomButton
+        translate='no'
+        className='editButton'
+        label='✏️'
+        onClick={handleEditButton}
+      />
     </div>
   );
 
@@ -122,7 +127,7 @@ function TripsPast() {
               <CustomButton label='Load' onClick={() => handleLoad(trip)} />
             </div>
             <div className='text-center'>
-              {(isEditing) ? <CustomButton label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} /> : null}
+              {(isEditing) ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} /> : null}
             </div>
           </div>
         </div>

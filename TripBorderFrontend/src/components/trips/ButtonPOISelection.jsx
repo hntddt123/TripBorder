@@ -24,6 +24,8 @@ function ButtonPOISelection({ reset, isFetching }) {
 
   return (
     <select
+      translate='no'
+      id='poiSeletion'
       className='poiDropdownButton'
       onChange={(event) => handleDropdownOnChange(event)}
       disabled={isFetching}

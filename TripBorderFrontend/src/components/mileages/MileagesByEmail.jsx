@@ -118,7 +118,7 @@ function MileagesByEmail() {
             </div>
           </div>
           <div className='p-4'>
-            <CustomButton label='Delete 🗑️' onClick={() => removeMileage(mileage.uuid)} />
+            <CustomButton translate='no' label='Delete 🗑️' onClick={() => removeMileage(mileage.uuid)} />
           </div>
         </div>
       ))}

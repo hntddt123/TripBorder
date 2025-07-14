@@ -13,6 +13,7 @@ function TogglePlaceName() {
 
   return (
     <Toggle
+      translate='no'
       className='ml-1 mr-1 align-middle'
       icons={{
         checked: <div className='text-xs leading-3'>{numIcon}</div>,
