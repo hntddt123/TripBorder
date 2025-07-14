@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from './reducers/counterReducer';
 import { mapReducer } from './reducers/mapReducer';
+import { tripReducer } from './reducers/tripReducer';
 import { foursquareAPI } from '../api/foursquareSliceAPI';
 import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { authAPI } from '../api/authAPI';
@@ -19,6 +20,7 @@ const store = configureStore({
   reducer: {
     counterReducer,
     mapReducer,
+    tripReducer,
     [foursquareAPI.reducerPath]: foursquareAPI.reducer,
     [mapboxAPI.reducerPath]: mapboxAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,
@@ -33,21 +35,22 @@ const store = configureStore({
     [tripTagsAPI.reducerPath]: tripTagsAPI.reducer,
     [ratingsAPI.reducerPath]: ratingsAPI.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-    foursquareAPI.middleware,
-    mapboxAPI.middleware,
-    authAPI.middleware,
-    mileagesAPI.middleware,
-    usersAPI.middleware,
-    tripsAPI.middleware,
-    mealsAPI.middleware,
-    poisAPI.middleware,
-    hotelsAPI.middleware,
-    transportsAPI.middleware,
-    tagsAPI.middleware,
-    tripTagsAPI.middleware,
-    ratingsAPI.middleware
-  )
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+    .concat(
+      foursquareAPI.middleware,
+      mapboxAPI.middleware,
+      authAPI.middleware,
+      mileagesAPI.middleware,
+      usersAPI.middleware,
+      tripsAPI.middleware,
+      mealsAPI.middleware,
+      poisAPI.middleware,
+      hotelsAPI.middleware,
+      transportsAPI.middleware,
+      tagsAPI.middleware,
+      tripTagsAPI.middleware,
+      ratingsAPI.middleware
+    )
 });
 
 export default store;

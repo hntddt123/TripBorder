@@ -1,5 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
+import CustomError from './CustomError';
 
 function ProtectedRoute() {
   const { data, isLoading, error } = useCheckAuthStatusQuery();
@@ -9,7 +10,7 @@ function ProtectedRoute() {
   }
 
   if (error) {
-    return <div>Error checking auth status: {error.error}</div>;
+    return <CustomError error={error} />;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;

@@ -4,6 +4,7 @@ import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import CustomError from './CustomError';
 
 function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
@@ -55,7 +56,7 @@ function Auth() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const isLoggedIn = data?.isLoggedIn === true;
@@ -66,7 +67,7 @@ function Auth() {
     if (role === 'admin') {
       return (
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
           <CustomButton label='Mileage Verification' to='/mileagesverification' />
           <CustomButton label='Database Table' to='/database' />
@@ -80,7 +81,7 @@ function Auth() {
     if (role === 'premium_user') {
       return (
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='New Trip' to='/newtrip' />
+          <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
         </div>
       );
@@ -106,7 +107,7 @@ function Auth() {
         </div>
       ) : (
         <div>
-          <p className='text-2xl m-2'>Login with following options</p>
+          <div className='text-2xl m-2'>Login with following options</div>
           <GoogleSignInButton onClick={handleLogin} />
         </div>
       )}

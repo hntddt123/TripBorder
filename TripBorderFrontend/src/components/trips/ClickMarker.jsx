@@ -44,10 +44,10 @@ export default function ClickMarker() {
   return ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
-        <div className='text-4xl'>📍</div>
+        <div translate='no' className='text-4xl'>📍</div>
       </Marker>
       <Marker longitude={marker.lng} latitude={marker.lat} offset={[0, 30]}>
-        <div className='text-2xl  text-red-600'>{marker.restaurantName}</div>
+        <div translate='no' className='text-2xl  text-red-600'>{marker.restaurantName}</div>
       </Marker>
 
       <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>

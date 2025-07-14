@@ -12,7 +12,6 @@ import {
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 
-// eslint-disable-next-line react/prop-types
 export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -50,7 +49,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const renderPOIMarkers = () => data.results.map((marker, i) => (
     <div key={marker.fsq_id}>
       <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
-        <div className='text-2xl'>{selectedPOIIcon}</div>
+        <div className='text-2xl' translate='no'>{selectedPOIIcon}</div>
       </Marker>
       <Marker
         onClick={() => handlePOIMarkerClick(marker)}
@@ -59,6 +58,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         offset={[0, 30]}
       >
         <CustomButton
+          translate='no'
           className={`cardPOIMarker ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
           label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
         />
@@ -81,7 +81,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
-            <div className='text-2xl'>{selectedPOIIcon}</div>
+            <div className='text-2xl' translate='no'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
             onClick={() => handlePOIMarkerClick(filteredResult)}
@@ -109,7 +109,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       return (
         <div key={filteredResult.fsq_id}>
           <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
-            <div className='text-3xl'>{selectedPOIIcon}</div>
+            <div className='text-3xl' translate='no'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
             onClick={() => handlePOIMarkerClick(filteredResult)}

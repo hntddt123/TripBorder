@@ -5,6 +5,7 @@ import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../../api/mil
 import { authAPI } from '../../api/authAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
+import CustomError from '../CustomError';
 
 function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -34,7 +35,7 @@ function MileagesAdmin() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const handleMileageUpdate = (uuid, updates) => {

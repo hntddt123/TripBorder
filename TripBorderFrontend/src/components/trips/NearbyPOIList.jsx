@@ -21,7 +21,7 @@ function NearbyPOIList({ poi }) {
   return (
     <div>
       {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
-        <button className='flex cardPOI justify-between items-center' key={marker.fsq_id} onClick={handlePOIListItemClick(marker)}>
+        <button translate='no' className='flex cardPOI justify-between items-center' key={marker.fsq_id} onClick={handlePOIListItemClick(marker)}>
           <div>{`${i + 1} ${marker.name} (${marker.location.address})`}</div>
           <div className='justify-end'>
             <div>{`${marker.distance} m`}</div>

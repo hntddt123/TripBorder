@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useGetTripTagsByTripIDQuery } from '../../api/tripTagsAPI';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function TripTags({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
@@ -11,7 +12,7 @@ function TripTags({ tripID }) {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = () => (
@@ -25,12 +26,14 @@ function TripTags({ tripID }) {
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       {isFetching && <div>Fetching new page...</div>}
-      <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
-        aria-label='TripTag Button'
-        title='Tags'
-        component={renderDetail()}
-      />
+      {(tripTags.length > 0) ? (
+        <CustomToggle
+          className='container overflow-x-auto -tracking-wider text-center'
+          aria-label='TripTag Button'
+          title='Tags'
+          component={renderDetail()}
+        />
+      ) : null}
     </div>
   );
 }

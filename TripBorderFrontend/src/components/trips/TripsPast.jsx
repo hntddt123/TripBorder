@@ -1,9 +1,19 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
-import { useGetTripsByEmailQuery } from '../../api/tripsAPI';
+import {
+  useGetTripsByEmailPaginationQuery,
+  useDeleteTripsMutation
+} from '../../api/tripsAPI';
+import {
+  setTripUUID,
+  setTitle,
+  setOwnerEmail,
+  setStartDate,
+  setEndDate
+} from '../../redux/reducers/tripReducer';
+import { getLocalTime, getLocalTimeToSecond, getDate } from '../../utility/time';
 import CustomButton from '../CustomButton';
-import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import Meals from './Meals';
 import Hotels from './Hotels';
@@ -11,15 +21,37 @@ import POIs from './POIs';
 import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
+import CustomError from '../CustomError';
 
-function Trips() {
+function TripsPast() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
+  const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
+  const [isEditing, setIsEditing] = useState(false);
+
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGetTripsByEmailQuery({ email, page, limit });
+  const { data, isLoading, isFetching, error } = useGetTripsByEmailPaginationQuery({ email, page, limit });
   const { trips, total, totalPages, page: currentPage } = data || {};
+
+  const [deleteTrip] = useDeleteTripsMutation();
+
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const handleLoad = (trip) => {
+    dispatch(setTripUUID(trip.uuid));
+    dispatch(setTitle(trip.title));
+    dispatch(setOwnerEmail(trip.onwer_email));
+    if (trip.start_date) {
+      dispatch(setStartDate(getDate(trip.start_date)));
+    }
+    if (trip.end_date) {
+      dispatch(setEndDate(getDate(trip.end_date)));
+    }
+  };
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -30,15 +62,15 @@ function Trips() {
   }
 
   if (error) {
-    return <div>{`Status: ${error.status} - ${error.error}`}</div>;
+    return <CustomError error={error} />;
   }
 
   const renderDetail = (trip) => (
     <div>
       <div>{`Start: ${getLocalTime(trip.start_date)}`}</div>
       <div>{`End: ${getLocalTime(trip.end_date)}`}</div>
-      <div>{`Created: ${getLocalTime(trip.created_at)}`}</div>
-      <div>{`Updated: ${getLocalTime(trip.updated_at)}`}</div>
+      <div>{`Created: ${getLocalTimeToSecond(trip.created_at)}`}</div>
+      <div>{`Updated: ${getLocalTimeToSecond(trip.updated_at)}`}</div>
     </div>
   );
 
@@ -50,6 +82,12 @@ function Trips() {
         id={trip.uuid}
         title={trip.title}
         component={renderDetail(trip)}
+      />
+      <CustomButton
+        translate='no'
+        className='editButton'
+        label='✏️'
+        onClick={handleEditButton}
       />
     </div>
   );
@@ -85,6 +123,12 @@ function Trips() {
             <Transports tripID={trip.uuid} />
             <Ratings tripID={trip.uuid} />
             <TripTags tripID={trip.uuid} />
+            <div className='text-center'>
+              <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+            </div>
+            <div className='text-center'>
+              {(isEditing) ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} /> : null}
+            </div>
           </div>
         </div>
       )))}
@@ -92,4 +136,4 @@ function Trips() {
   );
 }
 
-export default Trips;
+export default TripsPast;

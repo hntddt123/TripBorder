@@ -44,7 +44,7 @@ body {
   }
 
   .customInput {
-    margin: theme('spacing.2');
+    margin: theme('spacing.[1]');
     padding: theme('spacing.2');
     border-radius: theme('borderRadius.xl');
     @apply bg-primary-light dark:bg-primary-dark
@@ -72,6 +72,16 @@ body {
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
+    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+  }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+  }
+
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+    cursor: pointer;
     @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
   }
 
@@ -106,12 +116,12 @@ body {
 
   .button {
     min-width: 8rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     text-align: center;
     align-content: center;
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.full');
-    padding: theme('spacing[2]');
+    padding: theme('spacing[1]');
     box-shadow: theme('boxShadow.sm');
     @apply 
     bg-primary-buttonLight dark:bg-primary-buttonDark 
@@ -136,7 +146,7 @@ body {
   }
 
   .backButton {
-    min-width: 8rem;
+    min-width: 2rem;
     text-align: center;
     align-content: center;
     border-radius: theme('borderRadius.full');
@@ -153,6 +163,28 @@ body {
   }
 
   .backButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .editButton {
+    min-width: 2rem;
+    text-align: center;
+    align-content: center;
+    border-radius: theme('borderRadius.full');
+    padding: theme('spacing[1]');
+    @apply 
+    bg-amber-100 dark:bg-primary-cardDark
+    text-black dark:text-white;
+  }
+
+  .editButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .editButton:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }

@@ -24,12 +24,32 @@ export const mealsAPI = createApi({
         url: '/mealsbytrip',
         tagName: 'Meals'
       }
-    )
-  })
+    ),
+    postMealsByTripID: builder.mutation({
+      query: (newMeal) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newMeal },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Meals'],
+    }),
+    deleteMeals: builder.mutation({
+      query: (mealID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: mealID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Meals'],
+    })
+  }),
 });
 
 // Export hooks for usage in components
 export const {
   useGetMealsAllQuery,
-  useGetMealsByTripIDQuery
+  useGetMealsByTripIDQuery,
+  usePostMealsByTripIDMutation,
+  useDeleteMealsMutation
 } = mealsAPI;

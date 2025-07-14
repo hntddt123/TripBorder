@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../../redux/reducers/mapReducer';
+import ButtonMealsUpload from './ButtonMealsUpload';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -110,10 +111,26 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
             }}
           >
-            <CustomButton className='cancelButton' label='X' onClick={handleCloseButton} />
-            <CustomButton className='poiButton justify-center ml-4' label='Walk from here' onClick={handleDirectionButton} />
-            <CustomButton className='poiButton justify-center ml-4' label='Walk from 📍' onClick={handlePinDirectionButton} />
-            <div className='text-2xl'>
+            <CustomButton
+              translate='no'
+              className='cancelButton'
+              label='X'
+              onClick={handleCloseButton}
+            />
+            <CustomButton
+              className='poiButton ml-4'
+              label='Walk'
+              onClick={handleDirectionButton}
+            />
+            <CustomButton
+              className='poiButton'
+              label='Walk from 📍'
+              onClick={handlePinDirectionButton}
+              disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
+            />
+            <ButtonMealsUpload filteredResult={filteredResult} />
+
+            <div translate='no' className='text-2xl'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
             <div className='cardPOIAddInfoPictures'>

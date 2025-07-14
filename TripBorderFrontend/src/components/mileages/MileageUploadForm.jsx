@@ -5,6 +5,7 @@ import { authAPI } from '../../api/authAPI';
 import { usePostMileagesMutation } from '../../api/mileagesAPI';
 import { formatHex } from '../../utility/formatHex';
 import CustomToggle from '../CustomToggle';
+import CustomError from '../CustomError';
 
 function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
@@ -40,8 +41,8 @@ function MileageUploadForm() {
       setInputError('Expiration Date cannot be past');
       setFormData((prev) => ({ ...prev, [name]: '' }));
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
       setInputError('');
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
@@ -203,7 +204,7 @@ function MileageUploadForm() {
       <CustomButton type='submit' label='Upload' />
       {(isLoading) ? <div>Uploading...</div> : null}
       {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-      {(error) ? <div className='text-red-600'>{`Status: ${error.status} - ${error.data.error}`}</div> : null}
+      {(error) ? <CustomError error={error} /> : null}
       {(message) ? <div>{`${message.message}`}</div> : null}
     </form>
   );

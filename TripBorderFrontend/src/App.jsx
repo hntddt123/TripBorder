@@ -3,7 +3,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
-import TripsList from './components/trips/TripsList';
+import TripsItems from './components/trips/TripsItems';
 import TripsHistory from './components/trips/TripsHistory';
 import Settings from './components/Settings';
 import DatabaseTableDev from './components/devtables/DatabaseTableDev';
@@ -28,21 +28,21 @@ function App() {
                 <Auth />
                 {(MODE === 'development')
                   ? <DevMode />
-                  : <p className='text-2xl m-2'>Version: {VERSION_NUMBER}</p>}
+                  : <div className='text-2xl m-2'>Version: {VERSION_NUMBER}</div>}
               </div>
             )}
           />
-          <Route path='/newtrip' element={<ProtectedRoute />}>
+          <Route path='/plantrip' element={<ProtectedRoute />}>
             <Route
               index
-              element={<TripBoard component={<TripsList />} />}
+              element={<TripBoard component={<TripsItems />} />}
             />
           </Route>
           <Route path='/trips' element={<ProtectedRoute />}>
             <Route
               index
               path='/trips'
-              element={<TripBoard component={<TripsHistory />} title='Trip History' />}
+              element={<TripBoard component={<TripsHistory />} />}
             />
           </Route>
           <Route path='/mileages' element={<ProtectedRoute />}>
@@ -63,7 +63,7 @@ function App() {
             <Route
               index
               path='/settings'
-              element={<TripBoard component={<Settings />} title='Settings' />}
+              element={<TripBoard component={<Settings />} />}
             />
           </Route>
           <Route path='/disclaimers' element={<ProtectedRoute />}>
