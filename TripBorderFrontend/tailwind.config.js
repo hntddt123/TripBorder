@@ -25,6 +25,7 @@ export default {
           buttonDarkHover: '#dd7700',
           buttonLightActive: '#fcd34d',
           buttonDarkActive: '##b45309',
+          buttonDarkLessTransparent: 'rgba(0,0,0,0.9)',
           buttonDarkTransparent: 'rgba(0,0,0,0.7)',
           buttonDarkTransparentHover: 'rgba(0,0,0,0.8)',
           buttonDarkTransparentActive: 'rgba(0,0,0,0.9)',

@@ -236,7 +236,7 @@ body {
 
   .cardPOI {
     font-size: large;
-    line-height: 1.5rem;
+    line-height: 1.618rem;
     width: 99%;
     margin-left: auto;
     margin-right: auto;
@@ -268,7 +268,7 @@ body {
     @apply  bg-amber-200 dark:bg-amber-600
   }
 
-  .cardMileage {
+  .cardBorderLR {
     font-size: large;
     line-height: 1.5rem;
     width: 100%;
@@ -286,8 +286,57 @@ body {
     border-amber-400 dark:bg-primary-buttonDarkTransparent;
   }
 
-  .cardcardMileage:hover {  
-    @apply  bg-amber-100 dark:bg-primary-dark
+  .cardBorderTB {
+    font-size: large;
+    line-height: 1.5rem;
+    width: 100%;
+    margin-bottom: theme('spacing.[1]');
+    padding: theme('spacing[2]');
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.2');
+    border-bottom-width: theme('borderWidth.2');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .cardBorderT {
+    font-size: large;
+    line-height: 1.5rem;
+    width: 100%;
+    margin-bottom: theme('spacing.[1]');
+    padding: theme('spacing[2]');
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.2');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+  }
+
+  .cardBorderless {
+    font-size: large;
+    line-height: 1.5rem;
+    margin-bottom: theme('spacing.[1]');
+    padding: theme('spacing[2]');
+    border-radius: theme('borderRadius.lg');
+    box-shadow: theme('boxShadow.md');
+    border-color: theme('colors.amber.300');
+    border-top-width: theme('borderWidth.0');
+    border-bottom-width: theme('borderWidth.0');
+    border-left-width: theme('borderWidth.0');
+    border-right-width: theme('borderWidth.0');
+    @apply 
+    bg-amber-50 dark:bg-amber-500
+    border-amber-400 dark:bg-primary-buttonDarkTransparent;
   }
 
   .cardPOIMarker {
@@ -420,6 +469,19 @@ body {
   }
 
 
+  .tripAbsoluteContent {
+    position: absolute;
+    z-index: 10;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    padding: theme('spacing.2');  
+    left: theme('spacing.[0]');
+    right: theme('spacing.[0.5]');
+    width: 99%;
+    border-radius: theme('borderRadius.lg');
+    @apply  bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
+  }
+
   .sidebarInstructionsContent {
     flex-wrap: wrap;
     overflow-y: scroll;
@@ -483,9 +545,11 @@ body {
     line-height: 1rem;
     align-content: center;
     border-radius: theme('borderRadius.full');
-    margin: theme('spacing.[0.5]');
+    margin-left: theme('spacing.[0.5]');
+    margin-right: theme('spacing.[0.5]');
+    margin-top: theme('spacing.[0]');
+    margin-bottom: theme('spacing.[0.5]');
     padding: theme('spacing.2');
-    box-shadow: theme('boxShadow.sm');
     border-color: theme('backgroundColor.amber.50');
     @apply  
     bg-primary-buttonLight dark:bg-primary-buttonDark
@@ -539,8 +603,14 @@ body {
   .poiDropdownButton {
     line-height: 1rem;
     align-content: center;
-    margin: theme('spacing.[0.5]');
-    padding: theme('spacing.[0.5]');
+    margin-top: theme('spacing.[0]');
+    margin-bottom: theme('spacing.[0]');
+    margin-left: theme('spacing.[0.5]');
+    margin-right: theme('spacing.[0.5]');
+    padding-top: theme('spacing.[0]');
+    padding-bottom: theme('spacing.[0]');
+    padding-left: theme('spacing.[1]');
+    padding-right: theme('spacing.[1]');
     border-radius: theme('borderRadius.full');
     border-color: theme('backgroundColor.amber.50');
     @apply  

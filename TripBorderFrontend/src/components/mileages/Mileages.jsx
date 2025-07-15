@@ -96,7 +96,7 @@ function Mileages() {
     ?.filter((mileage) => mileage.is_listed)
     ?.map((mileage) => (
       <div key={mileage.uuid}>
-        <div className='cardMileage'>
+        <div className='cardBorderLR'>
           {renderMileagesItem(mileage)}
         </div>
       </div>

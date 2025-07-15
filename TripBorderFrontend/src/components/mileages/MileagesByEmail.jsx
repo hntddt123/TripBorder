@@ -93,7 +93,7 @@ function MileagesByEmail() {
         <div>Page {currentPage} of {totalPages}</div>
       </div>
       {mileages?.map((mileage) => (
-        <div key={mileage.uuid} className='cardMileage overflow-x-auto max-w-full items-center'>
+        <div key={mileage.uuid} className='cardBorderLR overflow-x-auto max-w-full items-center'>
           <div className='flex-col overflow-x-auto max-w-full items-center'>
             <div className='overflow-x-auto font-mono -tracking-wider'>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>

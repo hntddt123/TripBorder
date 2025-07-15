@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function CustomToggle({
-  className = 'toggle dark:toggle text-base',
+  className = 'toggle dark:toggle text-base ml-0.5 mr-0.5',
   title,
   component,
   type = 'button',

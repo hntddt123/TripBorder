@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import ReactSlider from 'react-slider';
-import TripCurrent from './TripCurrent';
 import {
   setSelectedPOICount,
   setSelectedPOIRadius
 } from '../../redux/reducers/mapReducer';
+import TogglePlaceName from './TogglePlaceName';
 
 function TripSearchTools() {
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
@@ -25,10 +25,10 @@ function TripSearchTools() {
 
   const getLocation = () => ((hasGPSLonLat()) ? (
     <div className='cardInfo'>
-      <div className='text-xl'>
+      <div className='text-lg'>
         {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
       </div>
-      <div className='text-xl'>
+      <div className='text-lg'>
         {`Latitude: ${gpsLonLat.latitude.toFixed(8)}`}
       </div>
     </div>
@@ -40,7 +40,11 @@ function TripSearchTools() {
   );
 
   return (
-    <div className='text-xl m-2'>
+    <div className='text-lg tripAbsoluteContent'>
+      <div>
+        <span>Show Only Number on Map</span>
+        <TogglePlaceName />
+      </div>
       Item Count
       <ReactSlider
         className='slider notranslate'
@@ -74,7 +78,6 @@ function TripSearchTools() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      <TripCurrent />
     </div>
   );
 }

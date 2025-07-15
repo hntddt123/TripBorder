@@ -93,7 +93,7 @@ function MileagesAdmin() {
   const renderMileages = () => {
     if (mileages && user.data?.role === 'admin') {
       return (mileages?.map((mileage) => (
-        <div key={mileage.uuid} className='cardMileage'>
+        <div key={mileage.uuid} className='cardBorderLR'>
           <div className='flex-col justify-center text-center'>
             <div>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>

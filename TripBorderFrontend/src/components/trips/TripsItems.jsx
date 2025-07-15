@@ -3,12 +3,12 @@ import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../../api/fo
 import CustomMap from './CustomMap';
 import CustomToggle from '../CustomToggle';
 import ButtonPOISelection from './ButtonPOISelection';
-import TogglePlaceName from './TogglePlaceName';
 import ToggleDice from './ToggleDice';
 import TripSearchTools from './TripSearchTools';
 import ButtonGPSSearch from './ButtonGPSSearch';
 import ButtonPinSearch from './ButtonPinSearch';
 import CustomError from '../CustomError';
+import TripPlanningTools from './TripPlanningTools';
 
 function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
@@ -38,11 +38,15 @@ function TripsItems() {
             <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
             <ButtonPOISelection reset={reset} isFetching={isFetching} />
             <ToggleDice poi={poi} />
-            <TogglePlaceName />
             <CustomToggle
               translate='no'
               title='⚙️'
               component={<TripSearchTools />}
+            />
+            <CustomToggle
+              translate='no'
+              title='🏖️'
+              component={<TripPlanningTools />}
             />
           </div>
           {getAPIStatus()}
