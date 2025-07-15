@@ -8,16 +8,8 @@ function Transports({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   const renderDetail = (transport) => (
-    <div>
+    <div className='text-pretty'>
       <div>{`booking_reference: ${transport.booking_reference}`}</div>
       <div>{`Departure Time: ${getLocalTime(transport.departure_time)}`}</div>
       <div>{`Arrival Time: ${getLocalTime(transport.arrival_time)}`}</div>
@@ -43,7 +35,6 @@ function Transports({ tripID }) {
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      {isFetching && <div>Fetching new page...</div>}
       {transports?.map(((transport) => (
         <div key={transport.uuid}>
           <div>
@@ -51,6 +42,9 @@ function Transports({ tripID }) {
           </div>
         </div>
       )))}
+      {(isLoading) ? <div>Loading Transports...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

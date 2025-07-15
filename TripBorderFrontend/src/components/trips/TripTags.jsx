@@ -7,17 +7,13 @@ function TripTags({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
   const { tripTags } = data || {};
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (error) {
     return <CustomError error={error} />;
   }
 
   const renderDetail = () => (
     tripTags?.map((tag) => (
-      <div key={tag.uuid} className='flex justify-center'>
+      <div key={tag.uuid} className='flex justify-center text-pretty'>
         {tag.name}
       </div>
     ))
@@ -25,8 +21,7 @@ function TripTags({ tripID }) {
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      {isFetching && <div>Fetching new page...</div>}
-      {(tripTags.length > 0) ? (
+      {(tripTags?.length > 0) ? (
         <CustomToggle
           className='container overflow-x-auto -tracking-wider text-center'
           aria-label='TripTag Button'
@@ -34,6 +29,9 @@ function TripTags({ tripID }) {
           component={renderDetail()}
         />
       ) : null}
+      {(isLoading) ? <div>Loading Trip Tags...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

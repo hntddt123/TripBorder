@@ -8,16 +8,8 @@ function Ratings({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetRatingsByTripIDQuery({ tripID });
   const { ratings } = data || {};
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   const renderDetail = (rating) => (
-    <div>
+    <div className='text-pretty'>
       <div>{`${rating.comment}`}</div>
       <div>{`score: ${rating.score}`}</div>
       <div>{`created_at: ${getLocalTime(rating.created_at)}`}</div>
@@ -39,7 +31,6 @@ function Ratings({ tripID }) {
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      {isFetching && <div>Fetching new page...</div>}
       {ratings?.map(((rating) => (
         <div key={rating.uuid}>
           <div>
@@ -47,6 +38,9 @@ function Ratings({ tripID }) {
           </div>
         </div>
       )))}
+      {(isLoading) ? <div>Loading Ratings...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

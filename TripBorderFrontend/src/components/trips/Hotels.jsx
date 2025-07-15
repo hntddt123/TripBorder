@@ -8,16 +8,8 @@ function Hotels({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   const renderDetail = (hotel) => (
-    <div>
+    <div className='text-pretty'>
       <div>{`Booking reference: ${hotel.booking_reference}`}</div>
       <div>{`Check in: ${getLocalTime(hotel.check_in)}`}</div>
       <div>{`Check out: ${getLocalTime(hotel.check_out)}`}</div>
@@ -39,7 +31,6 @@ function Hotels({ tripID }) {
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      {isFetching && <div>Fetching new page...</div>}
       {hotels?.map(((hotel) => (
         <div key={hotel.uuid}>
           <div>
@@ -47,6 +38,9 @@ function Hotels({ tripID }) {
           </div>
         </div>
       )))}
+      {(isLoading) ? <div>Loading Hotels...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

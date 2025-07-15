@@ -7,16 +7,8 @@ function POIs({ tripID }) {
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   const renderDetail = (poi) => (
-    <div>
+    <div className='text-pretty'>
       <div>{`Address: ${poi.address}`}</div>
     </div>
   );
@@ -35,7 +27,6 @@ function POIs({ tripID }) {
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      {isFetching && <div>Fetching new page...</div>}
       {pois?.map(((poi) => (
         <div key={poi.uuid}>
           <div>
@@ -43,6 +34,9 @@ function POIs({ tripID }) {
           </div>
         </div>
       )))}
+      {(isLoading) ? <div>Loading POIs...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

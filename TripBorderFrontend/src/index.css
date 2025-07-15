@@ -364,7 +364,7 @@ body {
 
   .cardPOIAddInfo {
     z-index: 2;
-    margin-top: 6.5rem;
+    margin-top: 8rem;
     border-color: theme('colors.amber.300');
     border-radius: theme('borderRadius.lg');
     border-top-width: theme('borderWidth.0');
@@ -477,7 +477,7 @@ body {
     padding: theme('spacing.2');  
     left: theme('spacing.[0]');
     right: theme('spacing.[0.5]');
-    width: 99%;
+    width: 100%;
     border-radius: theme('borderRadius.lg');
     @apply  bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
   }

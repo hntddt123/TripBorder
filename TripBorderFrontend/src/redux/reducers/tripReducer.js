@@ -6,7 +6,8 @@ const initialTripState = {
   owner_email: '',
   start_date: '',
   end_date: '',
-  created_at: ''
+  created_at: '',
+  isLoadTrip: false
 };
 
 const tripSlice = createSlice({
@@ -19,6 +20,7 @@ const tripSlice = createSlice({
     setStartDate: (state, action) => ({ ...state, start_date: action.payload }),
     setEndDate: (state, action) => ({ ...state, end_date: action.payload }),
     setCreatedDate: (state, action) => ({ ...state, created_at: action.payload }),
+    setIsLoadTrip: (state, action) => ({ ...state, isLoadTrip: action.payload }),
     resetTrip: () => (initialTripState)
   }
 });
@@ -30,6 +32,7 @@ export const {
   setStartDate,
   setEndDate,
   setCreatedDate,
+  setIsLoadTrip,
   resetTrip
 } = tripSlice.actions;
 

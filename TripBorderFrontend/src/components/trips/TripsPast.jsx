@@ -10,7 +10,8 @@ import {
   setTitle,
   setOwnerEmail,
   setStartDate,
-  setEndDate
+  setEndDate,
+  setIsLoadTrip
 } from '../../redux/reducers/tripReducer';
 import { getLocalTime, getLocalTimeToSecond, getDate } from '../../utility/time';
 import CustomButton from '../CustomButton';
@@ -24,6 +25,7 @@ import TripTags from './TripTags';
 import CustomError from '../CustomError';
 
 function TripsPast() {
+  const tripData = useSelector((state) => state.tripReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const dispatch = useDispatch();
@@ -51,6 +53,7 @@ function TripsPast() {
     if (trip.end_date) {
       dispatch(setEndDate(getDate(trip.end_date)));
     }
+    dispatch(setIsLoadTrip(false));
   };
 
   const handlePageChange = (newPage) => {
@@ -66,7 +69,7 @@ function TripsPast() {
   }
 
   const renderDetail = (trip) => (
-    <div>
+    <div className='text-pretty'>
       <div>{`Start: ${getLocalTime(trip.start_date)}`}</div>
       <div>{`End: ${getLocalTime(trip.end_date)}`}</div>
       <div>{`Created: ${getLocalTimeToSecond(trip.created_at)}`}</div>
@@ -83,12 +86,15 @@ function TripsPast() {
         title={trip.title}
         component={renderDetail(trip)}
       />
-      <CustomButton
-        translate='no'
-        className='editButton'
-        label='✏️'
-        onClick={handleEditButton}
-      />
+      {!tripData.isLoadTrip
+        ? (
+          <CustomButton
+            translate='no'
+            className='editButton'
+            label='✏️'
+            onClick={handleEditButton}
+          />
+        ) : null}
     </div>
   );
 
@@ -115,7 +121,7 @@ function TripsPast() {
       {isFetching && <div>Fetching new page...</div>}
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
-          <div className='cardMileage'>
+          <div className='cardBorderT'>
             {renderTripsItem(trip)}
             <Meals tripID={trip.uuid} />
             <Hotels tripID={trip.uuid} />
@@ -124,10 +130,14 @@ function TripsPast() {
             <Ratings tripID={trip.uuid} />
             <TripTags tripID={trip.uuid} />
             <div className='text-center'>
-              <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+              {(tripData.isLoadTrip)
+                ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+                : null}
             </div>
             <div className='text-center'>
-              {(isEditing) ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} /> : null}
+              {(isEditing)
+                ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} />
+                : null}
             </div>
           </div>
         </div>

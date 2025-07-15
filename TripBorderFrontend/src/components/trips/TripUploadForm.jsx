@@ -56,7 +56,7 @@ function TripUploadForm() {
 
   return (
     <form onSubmit={handleSubmit} encType='multipart/form-data'>
-      <div className='inputField mt-2'>
+      <div className='inputField mt-2 text-left'>
         <label htmlFor='trip_title'>
           Trip Name
         </label>

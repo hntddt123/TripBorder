@@ -5,13 +5,13 @@ import {
   setTripUUID,
   setOwnerEmail,
   setCreatedDate,
+  setIsLoadTrip,
   resetTrip
 } from '../../redux/reducers/tripReducer';
-import { getLocalTime } from '../../utility/time';
+import { formatDateMMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
-import TripUploadForm from './TripUploadForm';
 import CustomError from '../CustomError';
 import Meals from './Meals';
 import Hotels from './Hotels';
@@ -20,14 +20,16 @@ import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
 import TripsPast from './TripsPast';
+import TripUploadForm from './TripUploadForm';
 
 function TripCurrent() {
-  const [isLoadTrip, setIsLoadTrip] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const tripData = useSelector((state) => state.tripReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
-  const tripData = useSelector((state) => state.tripReducer);
 
   const dispatch = useDispatch();
 
@@ -39,8 +41,12 @@ function TripCurrent() {
     }
   }, [data]);
 
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
+
   const handleBackButton = () => {
-    setIsLoadTrip(false);
+    dispatch(setIsLoadTrip(false));
     dispatch(resetTrip());
   };
 
@@ -49,17 +55,17 @@ function TripCurrent() {
   };
 
   const handleLoadTripButtonClick = () => {
-    setIsLoadTrip(true);
+    dispatch(setIsLoadTrip(true));
   };
 
   const renderTripDetail = () => (
     <div>
-      <div>{`Start: ${getLocalTime(tripData.start_date)}`}</div>
-      <div>{`End: ${getLocalTime(tripData.end_date)}`}</div>
+      <div>{`Start: ${formatDateMMMMddyyyy(tripData.start_date)}`}</div>
+      <div>{`End: ${formatDateMMMMddyyyy(tripData.end_date)}`}</div>
     </div>
   );
 
-  const renderTripsItem = () => (
+  const renderTrips = () => (
     <div className='flex justify-center'>
       <CustomToggle
         className='container overflow-x-auto font-mono -tracking-wider text-center'
@@ -73,7 +79,7 @@ function TripCurrent() {
 
   const renderTripOptions = () => {
     if (tripData.uuid === '') {
-      if (isLoadTrip) {
+      if (tripData.isLoadTrip) {
         return <TripsPast />;
       }
       return (
@@ -89,44 +95,47 @@ function TripCurrent() {
         </div>
       );
     }
-    return (
-      <div>
-        <CustomButton className='backButton' label='←' onClick={handleBackButton} />
-        <div className='text-center'>
-          <CustomToggle
-            className='text-2xl'
-            title='Plan Trip'
-            component={<TripUploadForm />}
-            isOpened
-          />
-        </div>
-      </div>
-    );
+    return null;
   };
 
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      <div className='cardInfo'>
-        {renderTripOptions()}
-        {(isLoading) ? <div>Creating...</div> : null}
-        {(error) ? <CustomError error={error} /> : null}
-      </div>
-      {tripData.uuid ? (
-        <div className='text-base text-center'>
-          Current Trips
-          <div key={tripData.uuid}>
-            <div className='cardMileage'>
-              {renderTripsItem()}
-              <Meals tripID={tripData.uuid} />
-              <Hotels tripID={tripData.uuid} />
-              <POIs tripID={tripData.uuid} />
-              <Transports tripID={tripData.uuid} />
-              <Ratings tripID={tripData.uuid} />
-              <TripTags tripID={tripData.uuid} />
+      {(tripData.uuid)
+        ? (
+          <div className='text-base'>
+            <div className='cardInfo'>
+              <div className='flex justify-between'>
+                <CustomButton className='backButton' label='←Trip Selection' onClick={handleBackButton} />
+                <CustomButton className='backButton' label={(isEditing) ? 'Edit' : 'Done'} onClick={handleEditButton} />
+              </div>
+              {(isEditing)
+                ? (
+                  <div>
+                    {renderTrips()}
+                    <Meals tripID={tripData.uuid} />
+                    <Hotels tripID={tripData.uuid} />
+                    <POIs tripID={tripData.uuid} />
+                    <Transports tripID={tripData.uuid} />
+                    <Ratings tripID={tripData.uuid} />
+                    <TripTags tripID={tripData.uuid} />
+                  </div>
+                )
+                : (
+                  <div className='text-center'>
+                    <CustomToggle
+                      className='text-xl'
+                      title='Edit Trip'
+                      component={<TripUploadForm />}
+                      isOpened
+                    />
+                  </div>
+                )}
             </div>
           </div>
-        </div>
-      ) : ''}
+        )
+        : renderTripOptions()}
+      {(isLoading) ? <div>Creating...</div> : null}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

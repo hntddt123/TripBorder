@@ -2,6 +2,9 @@ import { DateTime } from 'luxon';
 
 export const getDate = (date) => DateTime.fromISO(date).toISODate();
 
+export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy');
+export const formatDateMMMMddyyyyhhmmss = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy hh:mm:ss');
+
 export const getLocalTime = (date) => new Date(date).toLocaleString(undefined, {
   year: 'numeric',
   month: 'long',

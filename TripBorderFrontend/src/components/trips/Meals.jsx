@@ -38,37 +38,39 @@ function Meals({ tripID }) {
   );
 
   return (
-    <div className='text-center'>
-      {meals?.length > 0 ? <span>Meals</span> : null}
-      {meals?.length > 0 && !tripData.isLoadTrip
-        ? (
-          <CustomButton
-            translate='no'
-            className='editButton'
-            label='✏️'
-            onClick={handleEditButton}
-          />
-        ) : null}
-      {meals?.map(((meal) => (
-        <div key={meal.uuid}>
-          <div className='text-pretty'>
-            {renderMealsItem(meal)}
+    <div>
+      <div className='text-center'>
+        {meals?.length > 0 ? <span>Meals</span> : null}
+        {meals?.length > 0 && !tripData.isLoadTrip
+          ? (
+            <CustomButton
+              translate='no'
+              className='editButton'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
+        {meals?.map(((meal) => (
+          <div key={meal.uuid}>
+            <div className='text-pretty'>
+              {renderMealsItem(meal)}
+            </div>
+            <div>
+              {(isEditing)
+                ? (
+                  <CustomButton
+                    translate='no'
+                    label={`🗑️ ${meal.name}`}
+                    onClick={() => deleteMeal(meal.uuid)}
+                  />
+                )
+                : null}
+            </div>
           </div>
-          <div>
-            {(isEditing)
-              ? (
-                <CustomButton
-                  translate='no'
-                  label={`🗑️ ${meal.name}`}
-                  onClick={() => deleteMeal(meal.uuid)}
-                />
-              )
-              : null}
-          </div>
-        </div>
-      )))}
+        )))}
+      </div>
       {isFetching && <div>Fetching new page...</div>}
-      {(isLoading) ? <div>Creating...</div> : null}
+      {(isLoading) ? <div>Loading Meals...</div> : null}
       {(error) ? <CustomError error={error} /> : null}
     </div>
   );

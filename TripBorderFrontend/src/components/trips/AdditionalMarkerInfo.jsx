@@ -73,14 +73,16 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           alt={`${photo.prefix}400x400${photo.suffix}`}
         />
       </button>
-    )) : null);
+    ))
+    : null
+  );
 
   const getPhotos = () => {
     if (getPOIPhotosQueryResult.isFetching) {
-      return 'Loading';
+      return <span>Loading</span>;
     }
     if (getPOIPhotosQueryResult.isError) {
-      return 'Photo Not Found';
+      return <span>Photo Not Found</span>;
     }
     if (getPOIPhotosQueryResult.isSuccess) {
       return formatPhotos();
