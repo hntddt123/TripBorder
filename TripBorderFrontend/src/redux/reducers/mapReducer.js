@@ -19,7 +19,7 @@ const initialMapState = {
   selectedPOIRadius: 500, // 100 ~ 1000m
   selectedPOICount: 20, // 5 ~ 50
   randomPOINumber: -1,
-  isFullPOIname: true,
+  isFullPOIname: false,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
