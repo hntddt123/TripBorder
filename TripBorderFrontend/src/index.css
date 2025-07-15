@@ -116,7 +116,7 @@ body {
 
   .button {
     min-width: 8rem;
-    font-size: 1.25rem;
+    font-size: large;
     text-align: center;
     align-content: center;
     margin: theme('spacing.2');
@@ -211,7 +211,7 @@ body {
   .title {
     font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5rem;
+    font-size: x-large;
     line-height: 1.618rem;
     text-align: center;
     @apply 
@@ -349,7 +349,7 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    font-size: 1rem;
+    font-size: large;
     line-height: 1.5rem;
     @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
@@ -577,7 +577,7 @@ body {
   .poiCancelButton {
     position: absolute;
     top: 12rem;
-    font-size: 1.5rem;
+    font-size: large;
     line-height: 1.5rem;
     align-content: center;
     border-radius: theme('borderRadius.lg');
@@ -637,7 +637,7 @@ body {
   }
 
   .darkmodeButton {
-      font-size: 1rem;
+      font-size: large;
       line-height: 1rem;
       width: 4rem;
       text-align: center;
