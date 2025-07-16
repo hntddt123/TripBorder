@@ -105,10 +105,10 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             style={{ display: 'none' }}
           />
           <div
-            className='mapboxgl-popup-content text-xl cardPOIAddInfo'
+            className='text-lg cardPOIAddInfo'
             style={{
-              borderRadius: 20,
-              backgroundColor: 'rgba(0,0,0,0.7)',
+              borderRadius: 10,
+              backgroundColor: 'rgba(0,0,0,0.8)',
               overflow: 'auto',
               width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
             }}
@@ -131,8 +131,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
             />
             <ButtonMealsUpload filteredResult={filteredResult} />
-
-            <div translate='no' className='text-2xl'>
+            <div translate='no' className='text-lg'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
             <div className='cardPOIAddInfoPictures'>

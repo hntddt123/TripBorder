@@ -34,12 +34,18 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
-
   const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
-  const mapCSSStyle = { width: '100%', height: '90vh', borderRadius: 10 };
+  const mapCSSStyle = { width: '100%', height: '88vh', borderRadius: 10 };
   const pressTimer = useRef(null);
   const geoLocateRef = useRef(null);
+
+  const screenHeight = window.innerHeight;
+  // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
+  const percentage = 7.28;
+  const pixelShift = (percentage / 100) * screenHeight;
+  // Nice for padding mechanics
+  const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
 
   const handleGeoRef = (ref) => {
     geoLocateRef.current = ref;
@@ -179,6 +185,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
       pitchWithRotate={false}
       dragRotate={false}
       touchZoomRotate={false}
+      padding={mapViewPadding}
     >
       <GeocoderControl
         mapboxAccessToken={MAPBOX_API_KEY}

@@ -17,7 +17,6 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
   const isShowingOnlySelectedPOI = useSelector((state) => state.mapReducer.isShowingOnlySelectedPOI);
-  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const randomPOINumber = useSelector((state) => state.mapReducer.randomPOINumber);
@@ -37,10 +36,11 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       longitude: marker.geocodes.main.longitude,
       latitude: marker.geocodes.main.latitude
     }));
+
     dispatch(setViewState({
       latitude: marker.geocodes.main.latitude,
       longitude: marker.geocodes.main.longitude,
-      zoom: viewState.zoom
+      zoom: viewState.zoom,
     }));
     dispatch(setIsShowingAddtionalPopUp(true));
     dispatch(setIsShowingOnlySelectedPOI(true));
@@ -59,7 +59,7 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       >
         <CustomButton
           translate='no'
-          className={`cardPOIMarker ${isShowingAddtionalPopUp ? 'blur-sm' : null}`}
+          className='cardPOIMarker'
           label={`${i + 1} ${isFullPOIname ? `${marker.name} ${marker.distance}m` : ''}`}
         />
       </Marker>
