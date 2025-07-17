@@ -1,22 +1,24 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomButton from '../CustomButton';
-import { usePostMealsByTripIDMutation } from '../../api/mealsAPI';
+import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomError from '../CustomError';
 
-function ButtonMealsUpload({ filteredResult }) {
-  const [PostMealsByTripID, { isLoading, error }] = usePostMealsByTripIDMutation();
+function ButtonHotelsUpload({ filteredResult }) {
   const tripData = useSelector((state) => state.tripReducer);
+  const [PostHotelsByTripID, { isLoading, error }] = usePostHotelsByTripIDMutation();
 
   const handleClick = () => {
     if (tripData.uuid) {
-      const meals = {
+      const hotels = {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        meal_time: tripData.start_date
+        // check_in: hotels.check_in,
+        // check_out: hotels.check_out,
+        // booking_reference: hotels.booking_reference
       };
-      PostMealsByTripID(meals);
+      PostHotelsByTripID(hotels);
     }
   };
 
@@ -24,7 +26,7 @@ function ButtonMealsUpload({ filteredResult }) {
     <>
       <CustomButton
         className='poiAddButton'
-        label='+Meals'
+        label='+Hotels'
         onClick={handleClick}
         disabled={tripData.uuid === ''}
       />
@@ -34,7 +36,7 @@ function ButtonMealsUpload({ filteredResult }) {
   );
 }
 
-ButtonMealsUpload.propTypes = {
+ButtonHotelsUpload.propTypes = {
   filteredResult: PropTypes.shape({
     name: PropTypes.string,
     location: PropTypes.shape({
@@ -43,4 +45,4 @@ ButtonMealsUpload.propTypes = {
   })
 };
 
-export default ButtonMealsUpload;
+export default ButtonHotelsUpload;

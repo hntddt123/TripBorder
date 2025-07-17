@@ -1,12 +1,23 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
+import { useGetHotelsByTripIDQuery, useDeleteHotelsMutation } from '../../api/hotelsAPI';
 import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomButton from '../CustomButton';
 
 function Hotels({ tripID }) {
+  const tripData = useSelector((state) => state.tripReducer);
+  const [isEditing, setIsEditing] = useState(false);
+
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
+  const [deleteHotel] = useDeleteHotelsMutation();
+
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
 
   const renderDetail = (hotel) => (
     <div className='text-pretty'>
@@ -17,24 +28,42 @@ function Hotels({ tripID }) {
     </div>
   );
 
-  const renderHotelsItem = (hotel) => (
-    <div className='flex justify-center'>
-      <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
-        aria-label={`Hotel Button ${hotel.uuid}`}
-        id={hotel.uuid}
-        title={hotel.name}
-        component={renderDetail(hotel)}
-      />
-    </div>
-  );
-
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
+    <div>
+      <div className='text-xl text-center'>
+        {hotels?.length > 0 ? <span>Hotels</span> : null}
+        {hotels?.length > 0 && !tripData.isLoadTrip
+          ? (
+            <CustomButton
+              translate='no'
+              className='editButton'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
+      </div>
       {hotels?.map(((hotel) => (
         <div key={hotel.uuid}>
+          <div className='text-pretty px-2'>
+            <CustomToggle
+              className='toggle container overflow-x-auto -tracking-wider text-left px-2 mb-1'
+              aria-label={`Hotel Button ${hotel.uuid}`}
+              id={hotel.uuid}
+              title={hotel.name}
+              component={renderDetail(hotel)}
+            />
+          </div>
           <div>
-            {renderHotelsItem(hotel)}
+            {(isEditing)
+              ? (
+                <CustomButton
+                  className='tripButton'
+                  translate='no'
+                  label={`🗑️ ${hotel.name}`}
+                  onClick={() => deleteHotel(hotel.uuid)}
+                />
+              )
+              : null}
           </div>
         </div>
       )))}

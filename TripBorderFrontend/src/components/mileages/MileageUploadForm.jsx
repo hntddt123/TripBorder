@@ -212,7 +212,7 @@ function MileageUploadForm() {
   return (
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
       <CustomToggle
-        className='text-2xl'
+        className='toggle text-xl'
         title='Create New Mileage'
         component={renderFormInputs()}
       />

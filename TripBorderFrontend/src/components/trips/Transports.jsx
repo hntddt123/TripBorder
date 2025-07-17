@@ -1,12 +1,23 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useGetTransportByTripIDQuery } from '../../api/transportsAPI';
+import { useGetTransportByTripIDQuery, useDeleteTransportMutation } from '../../api/transportsAPI';
 import { getLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomButton from '../CustomButton';
 
 function Transports({ tripID }) {
+  const [isEditing, setIsEditing] = useState(false);
+
+  const tripData = useSelector((state) => state.tripReducer);
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
+  const [deleteTransport] = useDeleteTransportMutation();
+
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
 
   const renderDetail = (transport) => (
     <div className='text-pretty'>
@@ -21,24 +32,44 @@ function Transports({ tripID }) {
     </div>
   );
 
-  const renderTransportsItem = (transport) => (
-    <div className='flex justify-center'>
-      <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
-        aria-label={`Transport Button ${transport.uuid}`}
-        id={transport.uuid}
-        title={transport.name}
-        component={renderDetail(transport)}
-      />
-    </div>
-  );
-
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
+    <div>
+      <div className='text-xl text-center'>
+        <div>
+          {transports?.length > 0 ? <span>Transports</span> : null}
+          {transports?.length > 0 && !tripData.isLoadTrip
+            ? (
+              <CustomButton
+                translate='no'
+                className='editButton'
+                label='✏️'
+                onClick={handleEditButton}
+              />
+            ) : null}
+        </div>
+      </div>
       {transports?.map(((transport) => (
         <div key={transport.uuid}>
+          <div className='text-pretty px-2'>
+            <CustomToggle
+              className='toggle container overflow-x-auto -tracking-wider text-left px-2 mb-1'
+              aria-label={`Transport Button ${transport.uuid}`}
+              id={transport.uuid}
+              title={transport.name}
+              component={renderDetail(transport)}
+            />
+          </div>
           <div>
-            {renderTransportsItem(transport)}
+            {(isEditing)
+              ? (
+                <CustomButton
+                  className='tripButton'
+                  translate='no'
+                  label={`🗑️ ${transport.name}`}
+                  onClick={() => deleteTransport(transport.uuid)}
+                />
+              )
+              : null}
           </div>
         </div>
       )))}

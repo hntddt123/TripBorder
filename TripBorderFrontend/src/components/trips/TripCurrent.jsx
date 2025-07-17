@@ -8,7 +8,7 @@ import {
   setIsLoadTrip,
   resetTrip
 } from '../../redux/reducers/tripReducer';
-import { formatDateMMMMddyyyy } from '../../utility/time';
+import { formatDateMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
@@ -60,20 +60,18 @@ function TripCurrent() {
 
   const renderTripDetail = () => (
     <div>
-      <div>{`Start: ${formatDateMMMMddyyyy(tripData.start_date)}`}</div>
-      <div>{`End: ${formatDateMMMMddyyyy(tripData.end_date)}`}</div>
-    </div>
-  );
-
-  const renderTrips = () => (
-    <div className='flex justify-center'>
-      <CustomToggle
-        className='container overflow-x-auto font-mono -tracking-wider text-center'
-        aria-label={`Trip Button ${tripData.uuid}`}
-        id={tripData.uuid}
-        title={tripData.title}
-        component={renderTripDetail()}
-      />
+      <div className='flex flex-col text-pretty font-mono'>
+        <span>Start:</span>
+        <span>{formatDateMMMddyyyy(tripData.start_date)}</span>
+        <span>End:</span>
+        <span>{formatDateMMMddyyyy(tripData.end_date)}</span>
+      </div>
+      <Meals tripID={tripData.uuid} />
+      <Hotels tripID={tripData.uuid} />
+      <POIs tripID={tripData.uuid} />
+      <Transports tripID={tripData.uuid} />
+      <Ratings tripID={tripData.uuid} />
+      <TripTags tripID={tripData.uuid} />
     </div>
   );
 
@@ -105,19 +103,21 @@ function TripCurrent() {
           <div className='text-base'>
             <div className='cardInfo'>
               <div className='flex justify-between'>
-                <CustomButton className='backButton' label='←Trip Selection' onClick={handleBackButton} />
-                <CustomButton className='backButton' label={(isEditing) ? 'Edit' : 'Done'} onClick={handleEditButton} />
+                {(!isEditing)
+                  ? <CustomButton className='backButton' label='←Trip Selection' onClick={handleBackButton} />
+                  : <div />}
+                <CustomButton className='backButton' label={(!isEditing) ? 'Edit' : 'Done'} onClick={handleEditButton} />
               </div>
-              {(isEditing)
+              {(!isEditing)
                 ? (
                   <div>
-                    {renderTrips()}
-                    <Meals tripID={tripData.uuid} />
-                    <Hotels tripID={tripData.uuid} />
-                    <POIs tripID={tripData.uuid} />
-                    <Transports tripID={tripData.uuid} />
-                    <Ratings tripID={tripData.uuid} />
-                    <TripTags tripID={tripData.uuid} />
+                    <CustomToggle
+                      className='toggle container overflow-x-auto text-lg'
+                      aria-label={`Trip Button ${tripData.uuid}`}
+                      id={tripData.uuid}
+                      title={tripData.title}
+                      component={renderTripDetail()}
+                    />
                   </div>
                 )
                 : (

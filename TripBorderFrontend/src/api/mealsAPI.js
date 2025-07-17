@@ -43,7 +43,7 @@ export const mealsAPI = createApi({
       }),
       invalidatesTags: ['Meals'],
     })
-  }),
+  })
 });
 
 // Export hooks for usage in components

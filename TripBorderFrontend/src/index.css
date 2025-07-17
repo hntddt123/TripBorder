@@ -121,7 +121,7 @@ body {
     align-content: center;
     margin: theme('spacing.2');
     border-radius: theme('borderRadius.full');
-    padding: theme('spacing[1]');
+    padding: theme('spacing[2]');
     box-shadow: theme('boxShadow.sm');
     @apply 
     bg-primary-buttonLight dark:bg-primary-buttonDark 
@@ -143,6 +143,35 @@ body {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
+  }
+
+  .tripButton {
+    @apply
+    text-pretty
+    text-center content-center
+    m-2 py-1 px-4
+    rounded-full
+    bg-primary-buttonLight dark:bg-primary-buttonDark 
+    text-black dark:text-white;
+  }
+
+  .tripButton:hover {
+    @apply 
+    border-amber-50
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .tripButton:active {
+    @apply 
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .tripButton:disabled {
+    @apply
+    opacity-25
+    border-amber-300
+    bg-amber-300
   }
 
   .backButton {
@@ -168,25 +197,25 @@ body {
   }
 
   .editButton {
-    min-width: 2rem;
-    text-align: center;
-    align-content: center;
-    border-radius: theme('borderRadius.full');
-    padding: theme('spacing[1]');
     @apply 
+    text-center
+    content-center
+    rounded-full
+    p-1
     bg-amber-100 dark:bg-primary-cardDark
     text-black dark:text-white;
   }
 
   .editButton:hover {
-    border-color: theme('backgroundColor.amber.50');
     @apply 
+    border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
   .editButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
+    @apply
+    border-amber-50
+    bg-amber-600
   }
 
   .cancelButton {
@@ -569,6 +598,39 @@ body {
   }
 
   .poiButton:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+  .poiAddButton {
+    line-height: 1rem;
+    align-content: center;
+    border-radius: theme('borderRadius.full');
+    margin-left: theme('spacing.[0.5]');
+    margin-right: theme('spacing.[0.5]');
+    margin-top: theme('spacing.[0]');
+    margin-bottom: theme('spacing.[0.5]');
+    padding: theme('spacing.2');
+    border-color: theme('backgroundColor.amber.50');
+    @apply  
+    bg-primary-buttonLight dark:bg-primary-buttonDark
+    text-black dark:text-white;
+  }
+
+  .poiAddButton:hover {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.400');
+    @apply  
+    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
+  }
+
+  .poiAddButton:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .poiAddButton:disabled {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');

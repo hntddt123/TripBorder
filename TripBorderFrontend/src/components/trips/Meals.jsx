@@ -26,20 +26,9 @@ function Meals({ tripID }) {
     </div>
   );
 
-  const renderMealsItem = (meal) => (
-    <CustomToggle
-      translate='no'
-      className='container overflow-x-auto -tracking-wider text-center'
-      aria-label={`Meal Button ${meal.uuid}`}
-      id={meal.uuid}
-      title={meal.name}
-      component={renderDetail(meal)}
-    />
-  );
-
   return (
     <div>
-      <div className='text-center'>
+      <div className='text-xl text-center'>
         {meals?.length > 0 ? <span>Meals</span> : null}
         {meals?.length > 0 && !tripData.isLoadTrip
           ? (
@@ -50,27 +39,35 @@ function Meals({ tripID }) {
               onClick={handleEditButton}
             />
           ) : null}
-        {meals?.map(((meal) => (
-          <div key={meal.uuid}>
-            <div className='text-pretty'>
-              {renderMealsItem(meal)}
-            </div>
-            <div>
-              {(isEditing)
-                ? (
-                  <CustomButton
-                    translate='no'
-                    label={`🗑️ ${meal.name}`}
-                    onClick={() => deleteMeal(meal.uuid)}
-                  />
-                )
-                : null}
-            </div>
-          </div>
-        )))}
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      {meals?.map(((meal) => (
+        <div key={meal.uuid}>
+          <div className='text-pretty px-2'>
+            <CustomToggle
+              translate='no'
+              className='toggle container overflow-x-auto -tracking-wider text-left px-2 mb-1'
+              aria-label={`Meal Button ${meal.uuid}`}
+              id={meal.uuid}
+              title={meal.name}
+              component={renderDetail(meal)}
+            />
+          </div>
+          <div>
+            {(isEditing)
+              ? (
+                <CustomButton
+                  className='tripButton'
+                  translate='no'
+                  label={`🗑️ ${meal.name}`}
+                  onClick={() => deleteMeal(meal.uuid)}
+                />
+              )
+              : null}
+          </div>
+        </div>
+      )))}
       {(isLoading) ? <div>Loading Meals...</div> : null}
+      {isFetching && <div>Fetching new page...</div>}
       {(error) ? <CustomError error={error} /> : null}
     </div>
   );
