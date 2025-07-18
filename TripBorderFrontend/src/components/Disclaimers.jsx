@@ -1,6 +1,6 @@
 function Disclaimers() {
   return (
-    <div className='cardTrip'>
+    <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
         <div className='cardInfo p-4'>
           <div className='text-3xl mb-2'>Disclaimers</div>

@@ -19,6 +19,15 @@ export const getLocalTime = (date) => new Date(date).toLocaleString(undefined, {
   hour12: false
 });
 
+export const getLocalTimeToHour = (date) => new Date(date).toLocaleString(undefined, {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  timeZoneName: 'shortOffset',
+  hour12: false
+});
+
 export const getLocalTimeToMin = (date) => new Date(date).toLocaleString(undefined, {
   year: 'numeric',
   month: 'long',

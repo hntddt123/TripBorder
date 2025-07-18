@@ -17,7 +17,7 @@ function DatabaseTableDev() {
 
   if (role === 'admin') {
     return (
-      <div className='cardTrip text-left'>
+      <div className='cardMX1 text-left'>
         <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
           <div className='m-2'>
             <div className='cardInfo text-base overflow-x-auto table-fixed whitespace-nowrap'>

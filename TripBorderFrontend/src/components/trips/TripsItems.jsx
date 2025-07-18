@@ -30,27 +30,25 @@ function TripsItems() {
   };
 
   return (
-    <div className='mx-auto'>
-      <div className='text-2xl'>
-        <div className='flex-col overflow-x-auto mt-1'>
-          <div>
-            <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-            <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-            <ButtonPOISelection reset={reset} isFetching={isFetching} />
-            <ToggleDice poi={poi} />
-            <CustomToggle
-              translate='no'
-              title='⚙️'
-              component={<TripSearchTools />}
-            />
-            <CustomToggle
-              translate='no'
-              title='🏖️'
-              component={<TripPlanningTools />}
-            />
-          </div>
-          {getAPIStatus()}
+    <div>
+      <div className='flex-col overflow-x-auto mt-1 text-2xl'>
+        <div>
+          <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+          <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+          <ButtonPOISelection reset={reset} isFetching={isFetching} />
+          <ToggleDice poi={poi} />
+          <CustomToggle
+            translate='no'
+            title='⚙️'
+            component={<TripSearchTools />}
+          />
+          <CustomToggle
+            translate='no'
+            title='🏖️'
+            component={<TripPlanningTools />}
+          />
         </div>
+        {getAPIStatus()}
       </div>
       <div>
         <CustomMap

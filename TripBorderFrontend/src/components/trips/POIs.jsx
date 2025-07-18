@@ -19,13 +19,14 @@ function POIs({ tripID }) {
 
   const renderDetail = (poi) => (
     <div className='text-pretty'>
-      <div>{`Address: ${poi.address}`}</div>
+      <div className='underline underline-offset-2'>Address</div>
+      <div className='px-2 font-mono'>{poi.address}</div>
     </div>
   );
 
   return (
     <div>
-      <div className='text-xl text-center'>
+      <div className='text-lg text-center'>
         <div>
           {pois?.length > 0 ? <span>Tour Spots</span> : null}
           {pois?.length > 0 && !tripData.isLoadTrip

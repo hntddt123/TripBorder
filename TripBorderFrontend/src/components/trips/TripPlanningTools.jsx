@@ -2,7 +2,7 @@ import TripCurrent from './TripCurrent';
 
 function TripPlanningTools() {
   return (
-    <div className='text-lg tripAbsoluteContent'>
+    <div className='tripAbsoluteContent'>
       <TripCurrent />
     </div>
   );

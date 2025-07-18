@@ -60,11 +60,11 @@ function TripCurrent() {
 
   const renderTripDetail = () => (
     <div>
-      <div className='flex flex-col text-pretty font-mono'>
-        <span>Start:</span>
-        <span>{formatDateMMMddyyyy(tripData.start_date)}</span>
-        <span>End:</span>
-        <span>{formatDateMMMddyyyy(tripData.end_date)}</span>
+      <div className='text-pretty px-4 gap-x-1 '>
+        <div className='underline underline-offset-2'>Start</div>
+        <div className='px-2 font-mono'>{formatDateMMMddyyyy(tripData.start_date)}</div>
+        <div className='underline underline-offset-2'>End</div>
+        <div className='px-2 font-mono'>{formatDateMMMddyyyy(tripData.end_date)}</div>
       </div>
       <Meals tripID={tripData.uuid} />
       <Hotels tripID={tripData.uuid} />
@@ -97,20 +97,30 @@ function TripCurrent() {
   };
 
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
+    <div>
       {(tripData.uuid)
         ? (
           <div className='text-base'>
             <div className='cardInfo'>
               <div className='flex justify-between'>
                 {(!isEditing)
-                  ? <CustomButton className='backButton' label='←Trip Selection' onClick={handleBackButton} />
+                  ? (
+                    <CustomButton
+                      className='backButton'
+                      label='←Trip Selection'
+                      onClick={handleBackButton}
+                    />
+                  )
                   : <div />}
-                <CustomButton className='backButton' label={(!isEditing) ? 'Edit' : 'Done'} onClick={handleEditButton} />
+                <CustomButton
+                  className='backButton'
+                  label={(!isEditing) ? 'Edit' : 'Done'}
+                  onClick={handleEditButton}
+                />
               </div>
               {(!isEditing)
                 ? (
-                  <div>
+                  <div className='text-center'>
                     <CustomToggle
                       className='toggle container overflow-x-auto text-lg'
                       aria-label={`Trip Button ${tripData.uuid}`}

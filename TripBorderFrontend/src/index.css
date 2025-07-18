@@ -255,11 +255,16 @@ body {
     box-shadow: theme('boxShadow.sm');
   }
 
+  .cardMX1 {
+    @apply 
+    mx-1 mt-1
+    dark:bg-primary-dark;
+  }
+
   .cardTrip {
-    margin-left: theme('spacing[1]');
-    margin-right: theme('spacing[1]');
-    margin-top: theme('spacing[1]');
-    @apply dark:bg-primary-dark;
+    @apply 
+    mx-0 mt-1
+    dark:bg-primary-dark;
   }
 
   .cardPOI {
@@ -413,16 +418,10 @@ body {
   }
 
   .cardInfo {
-    padding: theme('spacing.2');
-    margin-bottom: theme('spacing.2');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.400');
-    border-radius: theme('borderRadius.lg');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.2');
-    border-right-width: theme('borderWidth.0');
-    @apply 
+    @apply
+    p-2 mb-0.5 
+    border-amber-400 rounded-lg 
+    border-t-0 border-b-0 border-l-2 border-r-0
     bg-amber-100 dark:bg-primary-cardDark;
   }
 
@@ -503,12 +502,12 @@ body {
     z-index: 10;
     flex-wrap: wrap;
     overflow-y: scroll;
-    padding: theme('spacing.2');  
-    left: theme('spacing.[0]');
-    right: theme('spacing.[0.5]');
+    padding: theme('spacing.2');
+    left: 0;
     width: 100%;
     border-radius: theme('borderRadius.lg');
-    @apply  bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
+    @apply 
+    bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
   }
 
   .sidebarInstructionsContent {

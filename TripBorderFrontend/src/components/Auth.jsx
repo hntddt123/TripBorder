@@ -93,7 +93,7 @@ function Auth() {
     <div>
       {isLoggedIn ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
-          <p className='text-2xl'>Welcome, {userName}!</p>
+          <div className='text-2xl'>Welcome, {userName}!</div>
           <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Settings' to='/settings' />
           <CustomButton label='Disclaimers' to='/disclaimers' />

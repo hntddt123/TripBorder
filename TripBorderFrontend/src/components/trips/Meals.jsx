@@ -20,15 +20,17 @@ function Meals({ tripID }) {
   };
 
   const renderDetail = (meal) => (
-    <div>
-      <div>{`Time: ${formatDateMMMMddyyyyhhmmss(meal.meal_time)}`}</div>
-      <div translate='no'>{`Address: ${meal.address}`}</div>
+    <div className='text-pretty px-4'>
+      <div className='underline underline-offset-2'>Time</div>
+      <div className='px-2 font-mono'>{formatDateMMMMddyyyyhhmmss(meal.meal_time)}</div>
+      <div className='underline underline-offset-2'>Address</div>
+      <div className='px-2 font-mono' translate='no'>{meal.address}</div>
     </div>
   );
 
   return (
     <div>
-      <div className='text-xl text-center'>
+      <div className='text-lg text-center'>
         {meals?.length > 0 ? <span>Meals</span> : null}
         {meals?.length > 0 && !tripData.isLoadTrip
           ? (
@@ -42,7 +44,7 @@ function Meals({ tripID }) {
       </div>
       {meals?.map(((meal) => (
         <div key={meal.uuid}>
-          <div className='text-pretty px-2'>
+          <div className='text-pretty'>
             <CustomToggle
               translate='no'
               className='toggle container overflow-x-auto -tracking-wider text-left px-2 mb-1'

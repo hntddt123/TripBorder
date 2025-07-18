@@ -24,7 +24,7 @@ function App() {
           <Route
             path='/'
             element={(
-              <div className='flex flex-col container justify-center text-center mx-auto m-2 max-w-lg'>
+              <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
                 <Auth />
                 {(MODE === 'development')
                   ? <DevMode />
