@@ -23,7 +23,7 @@ function TripTags({ tripID }) {
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       {(tripTags?.length > 0) ? (
         <CustomToggle
-          className='container overflow-x-auto -tracking-wider text-center'
+          className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-center'
           aria-label='TripTag Button'
           title='Tags'
           component={renderDetail()}

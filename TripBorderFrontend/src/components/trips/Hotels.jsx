@@ -57,7 +57,7 @@ function Hotels({ tripID }) {
         <div key={hotel.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle container overflow-x-auto -tracking-wider px-2 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-2 mb-1'
               aria-label={`Hotel Button ${hotel.uuid}`}
               id={hotel.uuid}
               title={hotel.name}

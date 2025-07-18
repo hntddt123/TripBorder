@@ -122,7 +122,7 @@ function TripCurrent() {
                 ? (
                   <div className='text-center'>
                     <CustomToggle
-                      className='toggle container overflow-x-auto text-lg'
+                      className='toggle min-h-12 min-w-80 max-w-80 overflow-x-auto text-lg'
                       aria-label={`Trip Button ${tripData.uuid}`}
                       id={tripData.uuid}
                       title={tripData.title}

@@ -20,7 +20,7 @@ function Ratings({ tripID }) {
   const renderRatingsItem = (rating) => (
     <div className='flex justify-center'>
       <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
+        className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-center'
         aria-label={`Rating Button ${rating.uuid}`}
         id={rating.uuid}
         title={`${rating.entity_type} rating`}

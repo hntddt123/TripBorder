@@ -72,8 +72,6 @@ function TripsPast() {
     <div className='text-pretty'>
       <div>{`Start: ${getLocalTime(trip.start_date)}`}</div>
       <div>{`End: ${getLocalTime(trip.end_date)}`}</div>
-      <div>{`Created: ${getLocalTimeToSecond(trip.created_at)}`}</div>
-      <div>{`Updated: ${getLocalTimeToSecond(trip.updated_at)}`}</div>
     </div>
   );
 
@@ -121,8 +119,10 @@ function TripsPast() {
       {isFetching && <div>Fetching new page...</div>}
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
-          <div className='cardBorderT'>
+          <div className='cardBorderT text-center'>
             {renderTripsItem(trip)}
+            <div>{`Created: ${getLocalTimeToSecond(trip.created_at)}`}</div>
+            <div>{`Updated: ${getLocalTimeToSecond(trip.updated_at)}`}</div>
             <Meals tripID={trip.uuid} />
             <Hotels tripID={trip.uuid} />
             <POIs tripID={trip.uuid} />
