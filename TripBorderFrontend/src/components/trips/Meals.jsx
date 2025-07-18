@@ -47,7 +47,7 @@ function Meals({ tripID }) {
           <div className='text-pretty'>
             <CustomToggle
               translate='no'
-              className='toggle container overflow-x-auto -tracking-wider text-left px-2 mb-1'
+              className='toggle container overflow-x-auto -tracking-wider px-2 mb-1'
               aria-label={`Meal Button ${meal.uuid}`}
               id={meal.uuid}
               title={meal.name}
