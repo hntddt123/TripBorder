@@ -13,7 +13,7 @@ function DarkModeToggle() {
   };
 
   return (
-    <button className='darkmodeButton bg-slate-100 dark:bg-slate-800 p-2' onClick={toggleDarkMode}>
+    <button className='buttonDarkmode bg-slate-100 dark:bg-slate-800 p-2' onClick={toggleDarkMode}>
       {darkMode ? '🌙' : '🌞'}
     </button>
   );

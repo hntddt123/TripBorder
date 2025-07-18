@@ -47,7 +47,7 @@ function Hotels({ tripID }) {
           ? (
             <CustomButton
               translate='no'
-              className='editButton'
+              className='buttonEdit'
               label='✏️'
               onClick={handleEditButton}
             />
@@ -68,7 +68,7 @@ function Hotels({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='tripButton'
+                  className='buttonTrip'
                   translate='no'
                   label={`🗑️ ${hotel.name}`}
                   onClick={() => deleteHotel(hotel.uuid)}

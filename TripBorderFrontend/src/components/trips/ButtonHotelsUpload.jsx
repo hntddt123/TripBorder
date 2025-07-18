@@ -25,7 +25,7 @@ function ButtonHotelsUpload({ filteredResult }) {
   return (
     <>
       <CustomButton
-        className='poiAddButton'
+        className='buttonPOIAdd'
         label='+Hotels'
         onClick={handleClick}
         disabled={tripData.uuid === ''}

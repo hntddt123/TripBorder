@@ -36,7 +36,7 @@ function Meals({ tripID }) {
           ? (
             <CustomButton
               translate='no'
-              className='editButton'
+              className='buttonEdit'
               label='✏️'
               onClick={handleEditButton}
             />
@@ -58,7 +58,7 @@ function Meals({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='tripButton'
+                  className='buttonTrip'
                   translate='no'
                   label={`🗑️ ${meal.name}`}
                   onClick={() => deleteMeal(meal.uuid)}

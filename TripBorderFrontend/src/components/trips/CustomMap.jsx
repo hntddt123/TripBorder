@@ -156,7 +156,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
             <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
               {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
             </button>
-            <CustomButton className='poiCancelButton' label='Stop Direction' onClick={handleCancelDirectionButton} />
+            <CustomButton className='buttonPOICancel' label='Stop Direction' onClick={handleCancelDirectionButton} />
           </div>
         </div>
       );

@@ -22,7 +22,7 @@ function ButtonPOIUpload({ filteredResult }) {
   return (
     <>
       <CustomButton
-        className='poiAddButton'
+        className='buttonPOIAdd'
         label='+Tour Spot'
         onClick={handleClick}
         disabled={tripData.uuid === ''}

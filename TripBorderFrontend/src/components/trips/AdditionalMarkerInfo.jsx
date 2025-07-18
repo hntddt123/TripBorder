@@ -118,17 +118,17 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           >
             <CustomButton
               translate='no'
-              className='cancelButton'
+              className='buttonCancel'
               label='X'
               onClick={handleCloseButton}
             />
             <CustomButton
-              className='poiButton ml-4'
+              className='buttonPOI ml-4'
               label='Walk'
               onClick={handleDirectionButton}
             />
             <CustomButton
-              className='poiButton'
+              className='buttonPOI'
               label='Walk from 📍'
               onClick={handlePinDirectionButton}
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}

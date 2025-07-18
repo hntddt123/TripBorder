@@ -106,14 +106,14 @@ function TripCurrent() {
                 {(!isEditing)
                   ? (
                     <CustomButton
-                      className='backButton'
+                      className='buttonBack'
                       label='←Trip Selection'
                       onClick={handleBackButton}
                     />
                   )
                   : <div />}
                 <CustomButton
-                  className='backButton'
+                  className='buttonBack'
                   label={(!isEditing) ? 'Edit' : 'Done'}
                   onClick={handleEditButton}
                 />

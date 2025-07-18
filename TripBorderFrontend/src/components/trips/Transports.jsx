@@ -79,7 +79,7 @@ function Transports({ tripID }) {
             ? (
               <CustomButton
                 translate='no'
-                className='editButton'
+                className='buttonEdit'
                 label='✏️'
                 onClick={handleEditButton}
               />
@@ -90,7 +90,7 @@ function Transports({ tripID }) {
         <div key={transport.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider px-2 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-2 mb-1'
               aria-label={`Transport Button ${transport.uuid}`}
               id={transport.uuid}
               title={transport.name}
@@ -101,7 +101,7 @@ function Transports({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='tripButton'
+                  className='buttonTrip'
                   translate='no'
                   label={`🗑️ ${transport.name}`}
                   onClick={() => deleteTransport(transport.uuid)}

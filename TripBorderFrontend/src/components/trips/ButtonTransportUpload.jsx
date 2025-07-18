@@ -36,7 +36,7 @@ function ButtonPOIUpload({ filteredResult }) {
   return (
     <>
       <CustomButton
-        className='poiAddButton'
+        className='buttonPOIAdd'
         label='+Transport'
         onClick={handleClick}
         disabled={tripData.uuid === ''}

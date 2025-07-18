@@ -20,7 +20,7 @@ function TripTags({ tripID }) {
   );
 
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
+    <div>
       {(tripTags?.length > 0) ? (
         <CustomToggle
           className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-center'

@@ -27,24 +27,22 @@ function POIs({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        <div>
-          {pois?.length > 0 ? <span>Tour Spots</span> : null}
-          {pois?.length > 0 && !tripData.isLoadTrip
-            ? (
-              <CustomButton
-                translate='no'
-                className='editButton'
-                label='✏️'
-                onClick={handleEditButton}
-              />
-            ) : null}
-        </div>
+        {pois?.length > 0 ? <span>Tour Spots</span> : null}
+        {pois?.length > 0 && !tripData.isLoadTrip
+          ? (
+            <CustomButton
+              translate='no'
+              className='buttonEdit'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
       </div>
       {pois?.map(((poi) => (
         <div key={poi.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider px-2 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-2 mb-1'
               aria-label={`Poi Button ${poi.uuid}`}
               id={poi.uuid}
               title={poi.name}
@@ -55,7 +53,7 @@ function POIs({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='tripButton'
+                  className='buttonTrip'
                   translate='no'
                   label={`🗑️ ${poi.name}`}
                   onClick={() => deletePOI(poi.uuid)}

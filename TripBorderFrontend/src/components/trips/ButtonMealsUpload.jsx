@@ -23,7 +23,7 @@ function ButtonMealsUpload({ filteredResult }) {
   return (
     <>
       <CustomButton
-        className='poiAddButton'
+        className='buttonPOIAdd'
         label='+Meals'
         onClick={handleClick}
         disabled={tripData.uuid === ''}

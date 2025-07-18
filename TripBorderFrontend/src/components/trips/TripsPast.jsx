@@ -88,7 +88,7 @@ function TripsPast() {
         ? (
           <CustomButton
             translate='no'
-            className='editButton'
+            className='buttonEdit'
             label='✏️'
             onClick={handleEditButton}
           />

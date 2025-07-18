@@ -145,7 +145,38 @@ body {
     background-color: theme('backgroundColor.amber.300');
   }
 
-  .tripButton {
+  .buttonStar {
+    min-width: 8rem;
+    font-size: large;
+    text-align: center;
+    align-content: center;
+    margin: theme('spacing.2');
+    border-radius: theme('borderRadius.full');
+    padding: theme('spacing[2]');
+    box-shadow: theme('boxShadow.sm');
+    @apply 
+    bg-primary-buttonLight dark:bg-primary-buttonDark 
+    text-black dark:text-white;
+  }
+
+  .buttonStar:hover {
+    border-color: theme('backgroundColor.amber.50');
+    @apply 
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .buttonStar:active {
+    border-color: theme('backgroundColor.amber.50');
+    background-color: theme('backgroundColor.amber.600');
+  }
+
+  .buttonStar:disabled {
+    opacity: 0.25;
+    border-color: theme('backgroundColor.amber.300');
+    background-color: theme('backgroundColor.amber.300');
+  }
+
+  .buttonTrip {
     @apply
     text-pretty
     text-center content-center
@@ -155,26 +186,26 @@ body {
     text-black dark:text-white;
   }
 
-  .tripButton:hover {
+  .buttonTrip:hover {
     @apply 
     border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .tripButton:active {
+  .buttonTrip:active {
     @apply 
     border-amber-50
     bg-amber-600;
   }
 
-  .tripButton:disabled {
+  .buttonTrip:disabled {
     @apply
     opacity-25
     border-amber-300
     bg-amber-300
   }
 
-  .backButton {
+  .buttonBack {
     min-width: 2rem;
     text-align: center;
     align-content: center;
@@ -185,18 +216,18 @@ body {
     text-black dark:text-white;
   }
 
-  .backButton:hover {
+  .buttonBack:hover {
     border-color: theme('backgroundColor.amber.50');
     @apply 
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .backButton:active {
+  .buttonBack:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }
 
-  .editButton {
+  .buttonEdit {
     @apply 
     text-center
     content-center
@@ -206,19 +237,19 @@ body {
     text-black dark:text-white;
   }
 
-  .editButton:hover {
+  .buttonEdit:hover {
     @apply 
     border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .editButton:active {
+  .buttonEdit:active {
     @apply
     border-amber-50
     bg-amber-600
   }
 
-  .cancelButton {
+  .buttonCancel {
     padding-left: theme('spacing.2');
     padding-right: theme('spacing.2');
     align-content: center;
@@ -228,11 +259,11 @@ body {
     @apply text-black dark:text-white;
   }
 
-  .cancelButton:hover {
+  .buttonCancel:hover {
     background-color: theme('backgroundColor.red.700');
   }
 
-  .cancelButton:active {
+  .buttonCancel:active {
     background-color: theme('backgroundColor.red.800');
   }
 
@@ -569,7 +600,7 @@ body {
     overflow-x: hidden;
   }
 
-  .poiButton {
+  .buttonPOI {
     line-height: 1rem;
     align-content: center;
     border-radius: theme('borderRadius.full');
@@ -584,25 +615,25 @@ body {
     text-black dark:text-white;
   }
 
-  .poiButton:hover {
+  .buttonPOI:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
     @apply  
     bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
   }
 
-  .poiButton:active {
+  .buttonPOI:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }
 
-  .poiButton:disabled {
+  .buttonPOI:disabled {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
   }
 
-  .poiAddButton {
+  .buttonPOIAdd {
     line-height: 1rem;
     align-content: center;
     border-radius: theme('borderRadius.full');
@@ -617,25 +648,25 @@ body {
     text-black dark:text-white;
   }
 
-  .poiAddButton:hover {
+  .buttonPOIAdd:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
     @apply  
     bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
   }
 
-  .poiAddButton:active {
+  .buttonPOIAdd:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }
 
-  .poiAddButton:disabled {
+  .buttonPOIAdd:disabled {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
   }
 
-  .poiCancelButton {
+  .buttonPOICancel {
     position: absolute;
     top: 12rem;
     font-size: large;
@@ -651,17 +682,17 @@ body {
     text-black dark:text-white;
   }
 
-  .poiCancelButton:hover {
+  .buttonPOICancel:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.red.700');
   }
 
-  .poiCancelButton:active {
+  .buttonPOICancel:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.red.800');
   }
 
-  .poiDropdownButton {
+  .buttonPOIDropdown {
     line-height: 1rem;
     align-content: center;
     margin-top: theme('spacing.[0]');
@@ -679,25 +710,25 @@ body {
     text-black dark:text-white;
   }
 
-  .poiDropdownButton:hover {
+  .buttonPOIDropdown:hover {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.400');
     @apply  
     bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
   }
 
-  .poiDropdownButton:active {
+  .buttonPOIDropdown:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }
 
-  .poiDropdownButton:disabled {
+  .buttonPOIDropdown:disabled {
     opacity: 0.25;
     border-color: theme('backgroundColor.amber.300');
     background-color: theme('backgroundColor.amber.300');
   }
 
-  .darkmodeButton {
+  .buttonDarkmode {
       font-size: large;
       line-height: 1rem;
       width: 4rem;
@@ -709,13 +740,13 @@ body {
       text-black dark:text-white;
   }
 
-  .darkmodeButton:hover {
+  .buttonDarkmode:hover {
     border-color: theme('backgroundColor.amber.50');
     @apply 
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .darkmodeButton:active {
+  .buttonDarkmode:active {
     border-color: theme('backgroundColor.amber.50');
     background-color: theme('backgroundColor.amber.600');
   }
