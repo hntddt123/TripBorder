@@ -8,6 +8,8 @@ import TogglePlaceName from './TogglePlaceName';
 
 function TripSearchTools() {
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
+  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const dispatch = useDispatch();
 
   const handleItemCountChange = (count) => {
@@ -51,7 +53,7 @@ function TripSearchTools() {
         markClassName='sliderMark'
         thumbClassName='sliderThumbCount'
         trackClassName='sliderTrackCount'
-        defaultValue={20}
+        defaultValue={selectedPOICount}
         marks={[10, 15, 20, 25, 30, 35, 40, 45, 50]}
         step={5}
         min={10}
@@ -68,7 +70,7 @@ function TripSearchTools() {
         markClassName='sliderMark'
         thumbClassName='sliderThumbRadius'
         trackClassName='sliderTrackRadius'
-        defaultValue={500}
+        defaultValue={selectedPOIRadius}
         marks={[100, 200, 300, 400, 500, 600, 700, 800, 900, 1000]}
         step={100}
         min={100}
