@@ -42,7 +42,16 @@ export const ratingsAPI = createApi({
         headers: { 'Content-Type': 'application/json' }
       }),
       invalidatesTags: ['Ratings'],
-    })
+    }),
+    updateRatingByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Ratings'],
+    }),
   })
 });
 
@@ -51,5 +60,6 @@ export const {
   useGetRatingsAllQuery,
   useGetRatingsByTripIDQuery,
   usePostRatingByTripIDMutation,
-  useDeleteRatingMutation
+  useDeleteRatingMutation,
+  useUpdateRatingByUUIDMutation
 } = ratingsAPI;

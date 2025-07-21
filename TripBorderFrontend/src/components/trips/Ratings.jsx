@@ -5,7 +5,8 @@ import { authAPI } from '../../api/authAPI';
 import {
   useDeleteRatingMutation,
   useGetRatingsByTripIDQuery,
-  usePostRatingByTripIDMutation
+  usePostRatingByTripIDMutation,
+  useUpdateRatingByUUIDMutation
 } from '../../api/ratingsAPI';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -13,6 +14,7 @@ import CustomButton from '../CustomButton';
 
 function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
+  const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const tripData = useSelector((state) => state.tripReducer);
 
@@ -23,10 +25,31 @@ function Ratings({ tripID }) {
   const { ratings } = data || {};
 
   const [postRating] = usePostRatingByTripIDMutation();
+  const [updateRating] = useUpdateRatingByUUIDMutation();
   const [deleteRating] = useDeleteRatingMutation();
+
+  const handleCommentSubmit = (rating) => () => {
+    updateRating({
+      uuid: rating.uuid,
+      updates: {
+        comment: comment
+      }
+    });
+    setIsEditing(!isEditing);
+  };
+
+  const handleCommentChange = (e) => {
+    const { value } = e.target;
+    setComment(value);
+  };
 
   const handleEditButton = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleDelete = (rating) => () => {
+    setStar(0);
+    deleteRating(rating.uuid);
   };
 
   const handleStarClick = (value) => () => {
@@ -44,8 +67,7 @@ function Ratings({ tripID }) {
 
   const renderDetail = (rating) => (
     <div className='text-pretty'>
-      <div>{`${rating.comment}`}</div>
-      <div>{`score: ${rating.score}`}</div>
+      <div>{`Score: ${rating.score}`}</div>
       {[...Array(10)].map((_, index) => (
         <span
           key={`${rating.uuid + index}`}
@@ -54,11 +76,36 @@ function Ratings({ tripID }) {
           {(index < rating.score) ? '★' : '☆'}
         </span>
       ))}
+      {rating.comment === 'No Comment' || isEditing
+        ? (
+          <div>
+            <label htmlFor='rate_comment'>
+              Comment
+            </label>
+            <div>
+              <input
+                className='customInput'
+                id='rate_comment'
+                type='text'
+                name='rate_comment'
+                value={comment}
+                onChange={handleCommentChange}
+                required
+              />
+            </div>
+            <CustomButton
+              type='submit'
+              label='Submit'
+              onClick={handleCommentSubmit(rating)}
+            />
+          </div>
+        )
+        : <div>{`${rating.comment}`}</div>}
     </div>
   );
 
   const renderNewRating = () => (
-    <div className='text-2xl'>
+    <div className='text-xl'>
       <div className='flex justify-center'>
         {Array.from({ length: 10 }, (_, index) => {
           const starValue = index + 1;
@@ -93,7 +140,7 @@ function Ratings({ tripID }) {
         <div key={rating.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-2 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-4 mb-1'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
               title={`${rating.entity_type}`}
@@ -106,7 +153,7 @@ function Ratings({ tripID }) {
                 className='buttonTrip'
                 translate='no'
                 label={`🗑️ This Rating of ${rating.score}`}
-                onClick={() => deleteRating(rating.uuid)}
+                onClick={handleDelete(rating)}
               />
             )
             : null}
