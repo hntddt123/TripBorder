@@ -31,7 +31,7 @@ function TripsItems() {
 
   return (
     <div>
-      <div className='flex-col overflow-x-auto mt-1 text-2xl'>
+      <div className='flex-col overflow-x-auto pt-1 text-2xl'>
         <div>
           <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
           <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />

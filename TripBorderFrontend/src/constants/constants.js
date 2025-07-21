@@ -34,9 +34,19 @@ export const pinIcon = '📍🔎';
 export const diceIcon = '🎲';
 export const numIcon = '🔢';
 
+// Define the Foursquare categories and their corresponding icons
 export const iconMap = {
-  '4d4b7105d754a06374d81259': restaurantIcon,
-  '4bf58dd8d48988d181941735': museumIcon,
-  '4bf58dd8d48988d1fa931735': hotelIcon,
-  '4d4b7105d754a06379d81259': carIcon,
+  '4d4b7105d754a06374d81259': { icon: restaurantIcon, label: 'Restaurant' },
+  '4bf58dd8d48988d181941735': { icon: museumIcon, label: 'Museum' },
+  '4bf58dd8d48988d1fa931735': { icon: hotelIcon, label: 'Hotel' },
+  '4d4b7105d754a06379d81259': { icon: carIcon, label: 'Car Rental' },
+  '4bf58dd8d48988d1fd941735': { icon: shoppingIcon, label: 'Shopping' },
 };
+
+export const poiCategories = Object
+  .entries(iconMap)
+  .map(([id, { icon, label }]) => ({
+    id,
+    icon,
+    label,
+  }));

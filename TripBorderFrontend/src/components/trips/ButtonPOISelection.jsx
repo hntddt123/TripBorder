@@ -5,36 +5,36 @@ import {
   setSelectedPOIIcon
 } from '../../redux/reducers/mapReducer';
 import {
-  iconMap,
-  restaurantIcon,
-  museumIcon,
-  hotelIcon,
-  carIcon,
-  shoppingIcon
+  poiCategories
 } from '../../constants/constants';
 
 function ButtonPOISelection({ reset, isFetching }) {
   const dispatch = useDispatch();
 
   const handleDropdownOnChange = (event) => {
-    dispatch(setSelectedPOIIDNumber(event.target.value));
-    dispatch(setSelectedPOIIcon(iconMap[event.target.value]));
+    const selectedID = event.target.value;
+    const selectedCategory = poiCategories.find((category) => category.id === selectedID);
+    dispatch(setSelectedPOIIDNumber(selectedID));
+    dispatch(setSelectedPOIIcon(selectedCategory.icon));
     reset();
   };
 
   return (
     <select
       translate='no'
-      id='poiSeletion'
+      id='poiSelection'
       className='buttonPOIDropdown'
-      onChange={(event) => handleDropdownOnChange(event)}
+      onChange={handleDropdownOnChange}
       disabled={isFetching}
     >
-      <option value='4d4b7105d754a06374d81259'> {restaurantIcon}</option>
-      <option value='4bf58dd8d48988d181941735'> {museumIcon}</option>
-      <option value='4bf58dd8d48988d1fa931735'> {hotelIcon}</option>
-      <option value='4d4b7105d754a06379d81259'> {carIcon}</option>
-      <option value='4bf58dd8d48988d1fd941735'> {shoppingIcon}</option>
+      {poiCategories.map((category) => (
+        <option
+          key={category.id}
+          value={category.id}
+        >
+          {category.icon}
+        </option>
+      ))}
     </select>
   );
 }
