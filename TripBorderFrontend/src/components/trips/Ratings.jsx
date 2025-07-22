@@ -138,9 +138,9 @@ function Ratings({ tripID }) {
       </div>
       {ratings?.map(((rating) => (
         <div key={rating.uuid}>
-          <div className='text-pretty px-2'>
+          <div className='text-pretty'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
               title={`${rating.entity_type}`}

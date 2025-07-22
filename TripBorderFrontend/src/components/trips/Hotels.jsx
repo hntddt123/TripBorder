@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useGetHotelsByTripIDQuery, useDeleteHotelsMutation } from '../../api/hotelsAPI';
-import { getLocalTimeToHour } from '../../utility/time';
+import { formatDateMMMddyyyy } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -31,9 +31,9 @@ function Hotels({ tripID }) {
         )
         : null}
       <div className='underline underline-offset-2'>Check in</div>
-      <div className='px-2 font-mono'>{getLocalTimeToHour(hotel.check_in)}</div>
+      <div className='px-2 font-mono'>{formatDateMMMddyyyy(hotel.check_in)}</div>
       <div className='underline underline-offset-2'>Check out</div>
-      <div className='px-2 font-mono'>{getLocalTimeToHour(hotel.check_out)}</div>
+      <div className='px-2 font-mono'>{formatDateMMMddyyyy(hotel.check_out)}</div>
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono'>{hotel.address}</div>
     </div>
@@ -57,7 +57,7 @@ function Hotels({ tripID }) {
         <div key={hotel.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Hotel Button ${hotel.uuid}`}
               id={hotel.uuid}
               title={hotel.name}

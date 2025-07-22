@@ -13,7 +13,7 @@ import {
   setEndDate,
   setIsLoadTrip
 } from '../../redux/reducers/tripReducer';
-import { getLocalTime, getLocalTimeToSecond, getDate } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ, formatDateMMMMddyyyyHHmmssZZZZ, getDate } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import Meals from './Meals';
@@ -66,15 +66,15 @@ function TripsPast() {
 
   const renderDetail = (trip) => (
     <div className='text-pretty'>
-      <div>{`Start: ${getLocalTime(trip.start_date)}`}</div>
-      <div>{`End: ${getLocalTime(trip.end_date)}`}</div>
+      <div>{`Start: ${formatDateMMMMddyyyyZZZZ(trip.start_date)}`}</div>
+      <div>{`End: ${formatDateMMMMddyyyyZZZZ(trip.end_date)}`}</div>
     </div>
   );
 
   const renderTripsItem = (trip) => (
     <div className='flex justify-center'>
       <CustomToggle
-        className='container overflow-x-auto font-mono text-center'
+        className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
         title={trip.title}
@@ -126,19 +126,19 @@ function TripsPast() {
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
             {renderTripsItem(trip)}
-            <div>{`Created: ${getLocalTimeToSecond(trip.created_at)}`}</div>
-            <div>{`Updated: ${getLocalTimeToSecond(trip.updated_at)}`}</div>
+            <div className='text-center'>
+              {(tripData.isLoadTrip)
+                ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+                : null}
+            </div>
+            <div>{`Created: ${formatDateMMMMddyyyyHHmmssZZZZ(trip.created_at)}`}</div>
+            <div>{`Updated: ${formatDateMMMMddyyyyHHmmssZZZZ(trip.updated_at)}`}</div>
             <Meals tripID={trip.uuid} />
             <Hotels tripID={trip.uuid} />
             <POIs tripID={trip.uuid} />
             <Transports tripID={trip.uuid} />
             <Ratings tripID={trip.uuid} />
             <TripTags tripID={trip.uuid} />
-            <div className='text-center'>
-              {(tripData.isLoadTrip)
-                ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
-                : null}
-            </div>
             <div className='text-center'>
               {(isEditing)
                 ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} />

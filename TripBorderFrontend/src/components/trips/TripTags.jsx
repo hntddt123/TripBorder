@@ -26,8 +26,8 @@ function TripTags({ tripID }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        <div>
+      <div>
+        <div className='text-lg text-center'>
           {tripTags?.length > 0 ? <span>Trip Tags</span> : null}
           {((tripTags?.length > 0) && !tripData.isLoadTrip)
             ? (
@@ -39,7 +39,7 @@ function TripTags({ tripID }) {
               />
             ) : null}
         </div>
-        <div className='flex flex-wrap justify-center text-base'>
+        <div className='flex flex-wrap justify-center'>
           {tripTags?.map((tag) => (
             <div key={tag.uuid} className='text-pretty'>
               <div className='toggle min-h-6 max-w-72 overflow-x-auto text-center px-4 mb-1'>

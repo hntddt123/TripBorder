@@ -9,45 +9,15 @@ export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
 export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
 export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
 export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy');
-export const formatDateMMMMddyyyyhhmmss = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy hh:mm:ss');
+export const formatDateMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm');
+export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy ZZZZ');
+export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
 
-export const getLocalTime = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
-
-export const getLocalTimeToHour = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
-
-export const getLocalTimeToMin = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
-
-export const getLocalTimeToSecond = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: '2-digit',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
+export const breakfastTime = DateTime.now().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+export const lunchTime = DateTime.now().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+export const dinnerTime = DateTime.now().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+export const checkInTime = DateTime.now();
+export const checkOutTime = DateTime.now();
 
 export const isMileageExpired = (mileageExpiredAt) => {
   // Parse PostgreSQL timestamp as UTC (adjust time zone if needed)

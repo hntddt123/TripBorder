@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../../api/mileagesAPI';
 import { authAPI } from '../../api/authAPI';
-import { getLocalTime } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
@@ -103,9 +103,9 @@ function MileagesByEmail() {
               <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
               <div>{`Price: $${mileage.mileage_price}`}</div>
               <div>{`Mileage: ${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
-              <div>{`Expire: ${getLocalTime(mileage.mileage_expired_at)}`}</div>
-              <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
-              <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
+              <div>{`Expire: ${formatDateMMMMddyyyyZZZZ(mileage.mileage_expired_at)}`}</div>
+              <div>{`Created: ${formatDateMMMMddyyyyZZZZ(mileage.created_at)}`}</div>
+              <div>{`Updated: ${formatDateMMMMddyyyyZZZZ(mileage.updated_at)}`}</div>
               <div>
                 <button onClick={() => handlePictureClick(mileage.uuid)}>
                   <CustomImageComponent

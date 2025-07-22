@@ -3,7 +3,12 @@ import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
-import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../../redux/reducers/mapReducer';
+import {
+  setIsShowingAddtionalPopUp,
+  setIsShowingOnlySelectedPOI,
+  setIsNavigating,
+  setIsShowingSideBar
+} from '../../redux/reducers/mapReducer';
 import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';

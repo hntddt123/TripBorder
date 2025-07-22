@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import CustomButton from '../CustomButton';
 import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomError from '../CustomError';
+import { checkInTime, checkOutTime } from '../../utility/time';
 
 function ButtonHotelsUpload({ filteredResult }) {
   const tripData = useSelector((state) => state.tripReducer);
@@ -14,8 +15,8 @@ function ButtonHotelsUpload({ filteredResult }) {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        // check_in: hotels.check_in,
-        // check_out: hotels.check_out,
+        check_in: checkInTime,
+        check_out: checkOutTime,
         // booking_reference: hotels.booking_reference
       };
       PostHotelsByTripID(hotels);

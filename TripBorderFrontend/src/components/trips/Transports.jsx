@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useGetTransportByTripIDQuery, useDeleteTransportMutation } from '../../api/transportsAPI';
-import { getLocalTime } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -30,9 +30,9 @@ function Transports({ tripID }) {
         )
         : null}
       <div className='underline underline-offset-2'>Departure Time</div>
-      <div className='px-2 font-mono'>{getLocalTime(transport.departure_time)}</div>
+      <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.departure_time)}</div>
       <div className='underline underline-offset-2'>Arrival Time</div>
-      <div className='px-2 font-mono'>{getLocalTime(transport.arrival_time)}</div>
+      <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.arrival_time)}</div>
       {transport.origin
         ? (
           <>
@@ -90,7 +90,7 @@ function Transports({ tripID }) {
         <div key={transport.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Transport Button ${transport.uuid}`}
               id={transport.uuid}
               title={transport.name}

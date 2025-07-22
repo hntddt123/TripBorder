@@ -3,18 +3,23 @@ import PropTypes from 'prop-types';
 import CustomButton from '../CustomButton';
 import { usePostMealsByTripIDMutation } from '../../api/mealsAPI';
 import CustomError from '../CustomError';
+import {
+  breakfastTime,
+  lunchTime,
+  dinnerTime
+} from '../../utility/time';
 
 function ButtonMealsUpload({ filteredResult }) {
   const [PostMealsByTripID, { isLoading, error }] = usePostMealsByTripIDMutation();
   const tripData = useSelector((state) => state.tripReducer);
 
-  const handleClick = () => {
+  const handleClick = (mealTime) => () => {
     if (tripData.uuid) {
       const meals = {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        // meal_time: tripData.start_date
+        meal_time: mealTime
       };
       PostMealsByTripID(meals);
     }
@@ -24,8 +29,20 @@ function ButtonMealsUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Meals'
-        onClick={handleClick}
+        label='+Breakfast'
+        onClick={handleClick(breakfastTime)}
+        disabled={tripData.uuid === ''}
+      />
+      <CustomButton
+        className='buttonPOIAdd'
+        label='+Lunch'
+        onClick={handleClick(lunchTime)}
+        disabled={tripData.uuid === ''}
+      />
+      <CustomButton
+        className='buttonPOIAdd'
+        label='+Dinner'
+        onClick={handleClick(dinnerTime)}
         disabled={tripData.uuid === ''}
       />
       {(isLoading) ? <div>Creating...</div> : null}

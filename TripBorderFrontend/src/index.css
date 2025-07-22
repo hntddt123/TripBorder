@@ -405,18 +405,13 @@ body {
   }
 
   .cardPOIMarker {
-    margin: theme('spacing.2');
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.1');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.400');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.0');
-    border-right-width: theme('borderWidth.0');
-    font-size: large;
-    line-height: 1.5rem;
-    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+    @apply 
+    min-w-8
+    px-2 p-0.5
+    rounded-full border-x-0
+    shadow-sm
+    text-lg
+    bg-amber-50 dark:bg-primary-buttonDarkTransparent;
   }
 
   .cardPOIMarker:hover {

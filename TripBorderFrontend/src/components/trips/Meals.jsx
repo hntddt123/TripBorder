@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useDeleteMealsMutation, useGetMealsByTripIDQuery } from '../../api/mealsAPI';
-import { formatDateMMMMddyyyyhhmmss } from '../../utility/time';
+import { formatDateMMMMddyyyyHHmm } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -25,7 +25,7 @@ function Meals({ tripID }) {
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyhhmmss(meal.meal_time)}</div>
+      <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(meal.meal_time)}</div>
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono' translate='no'>{meal.address}</div>
     </div>
@@ -50,7 +50,7 @@ function Meals({ tripID }) {
           <div className='text-pretty px-2'>
             <CustomToggle
               translate='no'
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Meal Button ${meal.uuid}`}
               id={meal.uuid}
               title={meal.name}

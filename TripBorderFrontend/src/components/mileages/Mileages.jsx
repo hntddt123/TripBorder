@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getLocalTime } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ } from '../../utility/time';
 import { useGetMileagesSellingQuery } from '../../api/mileagesAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
@@ -71,9 +71,9 @@ function Mileages() {
         <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
         <div>{`Price: $${mileage.mileage_price}`}</div>
         <div>{`Mileage: ${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
-        <div>{`Expire: ${getLocalTime(mileage.mileage_expired_at)}`}</div>
-        <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
-        <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
+        <div>{`Expire: ${formatDateMMMMddyyyyZZZZ(mileage.mileage_expired_at)}`}</div>
+        <div>{`Created: ${formatDateMMMMddyyyyZZZZ(mileage.created_at)}`}</div>
+        <div>{`Updated: ${formatDateMMMMddyyyyZZZZ(mileage.updated_at)}`}</div>
         <div>
           <button
             aria-label={`Mileage Picture Button ${mileage.uuid}`}

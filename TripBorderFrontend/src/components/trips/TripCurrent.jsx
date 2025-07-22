@@ -6,7 +6,9 @@ import {
   setOwnerEmail,
   setCreatedDate,
   setIsLoadTrip,
-  resetTrip
+  resetTrip,
+  setStartDate,
+  setEndDate
 } from '../../redux/reducers/tripReducer';
 import { formatDateMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
@@ -36,6 +38,9 @@ function TripCurrent() {
 
   useEffect(() => {
     if (data) {
+      dispatch(setStartDate(data.trip.start_date));
+      dispatch(setEndDate(data.trip.end_date));
+      dispatch(setTripUUID(data.trip.uuid));
       dispatch(setTripUUID(data.trip.uuid));
       dispatch(setOwnerEmail(data.trip.owner_email));
       dispatch(setCreatedDate(data.trip.created_at));
@@ -61,7 +66,7 @@ function TripCurrent() {
 
   const renderTripDetail = () => (
     <div>
-      <div className='text-pretty px-4 gap-x-1 '>
+      <div className='text-pretty px-4 gap-x-1'>
         <div className='underline underline-offset-2'>Start</div>
         <div className='px-2 font-mono'>{formatDateMMMddyyyy(tripData.start_date)}</div>
         <div className='underline underline-offset-2'>End</div>
@@ -71,9 +76,9 @@ function TripCurrent() {
       <Hotels tripID={tripData.uuid} />
       <POIs tripID={tripData.uuid} />
       <Transports tripID={tripData.uuid} />
-      <Ratings tripID={tripData.uuid} />
       <TripTags tripID={tripData.uuid} />
       <Tags tripID={tripData.uuid} />
+      <Ratings tripID={tripData.uuid} />
     </div>
   );
 
@@ -104,7 +109,7 @@ function TripCurrent() {
         ? (
           <div className='text-base'>
             <div className='cardInfo'>
-              <div className='flex justify-between'>
+              <div className='flex justify-between mb-1'>
                 {(!isEditing)
                   ? (
                     <CustomButton
@@ -116,7 +121,7 @@ function TripCurrent() {
                   : <div />}
                 <CustomButton
                   className='buttonBack'
-                  label={(!isEditing) ? 'Edit' : 'Done'}
+                  label={(!isEditing) ? 'Edit Trip' : 'Done'}
                   onClick={handleEditButton}
                 />
               </div>
