@@ -124,6 +124,7 @@ body {
     padding: theme('spacing[2]');
     box-shadow: theme('boxShadow.sm');
     @apply 
+    -tracking-wider
     bg-primary-buttonLight dark:bg-primary-buttonDark 
     text-black dark:text-white;
   }
@@ -849,6 +850,8 @@ body {
     align-content: center;
     border-radius: theme('borderRadius.full');
     @apply 
+    -tracking-wider
+    min-w-9
     bg-primary-buttonLight dark:bg-primary-dark 
     text-black dark:text-white;
   }

@@ -21,6 +21,7 @@ import Ratings from './Ratings';
 import TripTags from './TripTags';
 import TripsPast from './TripsPast';
 import TripUploadForm from './TripUploadForm';
+import Tags from './Tags';
 
 function TripCurrent() {
   const [isEditing, setIsEditing] = useState(false);
@@ -72,6 +73,7 @@ function TripCurrent() {
       <Transports tripID={tripData.uuid} />
       <Ratings tripID={tripData.uuid} />
       <TripTags tripID={tripData.uuid} />
+      <Tags tripID={tripData.uuid} />
     </div>
   );
 

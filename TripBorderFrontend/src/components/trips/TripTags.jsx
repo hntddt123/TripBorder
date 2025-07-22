@@ -1,34 +1,64 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useGetTripTagsByTripIDQuery } from '../../api/tripTagsAPI';
-import CustomToggle from '../CustomToggle';
+import {
+  useGetTripTagsByTripIDQuery,
+  useDeleteTripTagsMutation
+} from '../../api/tripTagsAPI';
 import CustomError from '../CustomError';
+import CustomButton from '../CustomButton';
 
 function TripTags({ tripID }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const tripData = useSelector((state) => state.tripReducer);
+
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
   const { tripTags } = data || {};
+  const [deleteTripTags] = useDeleteTripTagsMutation();
 
-  if (error) {
-    return <CustomError error={error} />;
-  }
+  const handleDeleteButton = (triptagID) => () => {
+    deleteTripTags(triptagID);
+  };
 
-  const renderDetail = () => (
-    tripTags?.map((tag) => (
-      <div key={tag.uuid} className='flex justify-center text-pretty'>
-        {tag.name}
-      </div>
-    ))
-  );
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
 
   return (
     <div>
-      {(tripTags?.length > 0) ? (
-        <CustomToggle
-          className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-center'
-          aria-label='TripTag Button'
-          title='Tags'
-          component={renderDetail()}
-        />
-      ) : null}
+      <div className='text-lg text-center'>
+        <div>
+          {tripTags?.length > 0 ? <span>Trip Tags</span> : null}
+          {((tripTags?.length > 0) && !tripData.isLoadTrip)
+            ? (
+              <CustomButton
+                translate='no'
+                className='buttonEdit'
+                label='✏️'
+                onClick={handleEditButton}
+              />
+            ) : null}
+        </div>
+        <div className='flex flex-wrap justify-center text-base'>
+          {tripTags?.map((tag) => (
+            <div key={tag.uuid} className='text-pretty'>
+              <div className='toggle min-h-6 max-w-72 overflow-x-auto text-center px-4 mb-1'>
+                {tag.name}
+              </div>
+              {(isEditing)
+                ? (
+                  <CustomButton
+                    className='buttonTrip'
+                    translate='no'
+                    label={`🗑️ ${tag.name}`}
+                    onClick={handleDeleteButton(tag.uuid)}
+                  />
+                )
+                : null}
+            </div>
+          ))}
+        </div>
+      </div>
       {(isLoading) ? <div>Loading Trip Tags...</div> : null}
       {isFetching && <div>Fetching new page...</div>}
       {(error) ? <CustomError error={error} /> : null}

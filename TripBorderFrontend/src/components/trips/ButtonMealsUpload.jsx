@@ -14,7 +14,7 @@ function ButtonMealsUpload({ filteredResult }) {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        meal_time: tripData.start_date
+        // meal_time: tripData.start_date
       };
       PostMealsByTripID(meals);
     }

@@ -39,6 +39,10 @@ function TripsPast() {
 
   const [deleteTrip] = useDeleteTripsMutation();
 
+  const handleBackButton = () => {
+    dispatch(setIsLoadTrip(false));
+  };
+
   const handleEditButton = () => {
     setIsEditing(!isEditing);
   };
@@ -60,14 +64,6 @@ function TripsPast() {
     setPage(newPage);
   };
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
-
   const renderDetail = (trip) => (
     <div className='text-pretty'>
       <div>{`Start: ${getLocalTime(trip.start_date)}`}</div>
@@ -78,7 +74,7 @@ function TripsPast() {
   const renderTripsItem = (trip) => (
     <div className='flex justify-center'>
       <CustomToggle
-        className='container overflow-x-auto font-mono -tracking-wider text-center'
+        className='container overflow-x-auto font-mono text-center'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
         title={trip.title}
@@ -99,21 +95,30 @@ function TripsPast() {
   return (
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-base text-center'>
-        <div>
+        <div className='flex justify-between'>
           <CustomButton
-            label='Previous'
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1 || isFetching}
-          />
-          <CustomButton
-            label='Next'
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page === totalPages || isFetching || totalPages === 0}
+            className='buttonBack'
+            label='←Trip Selection'
+            onClick={handleBackButton}
           />
         </div>
+        <div>
+          <div>
+            <CustomButton
+              label='Previous'
+              onClick={() => handlePageChange(page - 1)}
+              disabled={page === 1 || isFetching}
+            />
+            <CustomButton
+              label='Next'
+              onClick={() => handlePageChange(page + 1)}
+              disabled={page === totalPages || isFetching || totalPages === 0}
+            />
+          </div>
+        </div>
         <span>
-          Page {currentPage} of {totalPages}
-          (Total: {total} items)
+          {`Page ${currentPage} of ${totalPages}`}
+          (Total: {total} Trips)
         </span>
       </div>
       {isFetching && <div>Fetching new page...</div>}
@@ -142,6 +147,8 @@ function TripsPast() {
           </div>
         </div>
       )))}
+      {(isLoading) ? <div>Loading...</div> : null}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

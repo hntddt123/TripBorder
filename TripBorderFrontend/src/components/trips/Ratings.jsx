@@ -140,7 +140,7 @@ function Ratings({ tripID }) {
         <div key={rating.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
               title={`${rating.entity_type}`}
@@ -159,12 +159,12 @@ function Ratings({ tripID }) {
             : null}
         </div>
       )))}
-      {(ratings?.length > 0)
+      {(ratings?.length > 0 || tripData.isLoadTrip)
         ? null
         : (
           <div className='flex justify-center'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-center'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
               title='Rate this Trip'

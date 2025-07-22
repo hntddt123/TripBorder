@@ -15,6 +15,9 @@ function Meals({ tripID }) {
   const [deleteMeal] = useDeleteMealsMutation();
   const { meals } = data || {};
 
+  const handleDeleteButton = (mealID) => () => {
+    deleteMeal(mealID);
+  };
   const handleEditButton = () => {
     setIsEditing(!isEditing);
   };
@@ -47,7 +50,7 @@ function Meals({ tripID }) {
           <div className='text-pretty px-2'>
             <CustomToggle
               translate='no'
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto -tracking-wider text-left px-4 mb-1'
+              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-left px-4 mb-1'
               aria-label={`Meal Button ${meal.uuid}`}
               id={meal.uuid}
               title={meal.name}
@@ -61,7 +64,7 @@ function Meals({ tripID }) {
                   className='buttonTrip'
                   translate='no'
                   label={`🗑️ ${meal.name}`}
-                  onClick={() => deleteMeal(meal.uuid)}
+                  onClick={handleDeleteButton(meal.uuid)}
                 />
               )
               : null}
