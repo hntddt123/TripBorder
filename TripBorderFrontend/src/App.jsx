@@ -17,14 +17,14 @@ function App() {
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
-        <header className='flex title justify-center'>
+        <header className='title'>
           Trip Border
         </header>
         <Routes>
           <Route
             path='/'
             element={(
-              <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+              <div className='flex flex-col content container justify-center text-center mx-auto max-w-lg'>
                 <Auth />
                 {(MODE === 'development')
                   ? <DevMode />

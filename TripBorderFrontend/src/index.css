@@ -3,18 +3,15 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+html, body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
 }
 
 @layer components {
@@ -95,6 +92,11 @@ body {
 
   select:focus {
     @apply dark:bg-primary-dark
+  }
+
+  .content {
+    height: calc(100vh - 1.618rem);
+    overflow-y: auto;
   }
 
   .sign-in-google-button-icon {
@@ -275,6 +277,7 @@ body {
     line-height: 1.618rem;
     text-align: center;
     @apply 
+    flex justify-center
     bg-primary-titleLight dark:bg-primary-titleDark
     text-black dark:text-white;
   }
@@ -295,7 +298,6 @@ body {
 
   .cardTrip {
     @apply 
-    mx-0 mt-1
     dark:bg-primary-dark;
   }
 
@@ -446,7 +448,7 @@ body {
 
   .cardInfo {
     @apply
-    p-2 mb-0.5 
+    p-2 mb-0.5
     border-amber-400 rounded-lg 
     border-t-0 border-b-0 border-l-2 border-r-0
     bg-amber-100 dark:bg-primary-cardDark;
@@ -457,7 +459,8 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
-    @apply max-w-24
+    @apply 
+    max-w-24
   }
   
   .pictureContainer {
@@ -533,6 +536,7 @@ body {
     width: 100%;
     border-radius: theme('borderRadius.lg');
     @apply 
+    h-5/6
     bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
   }
 
