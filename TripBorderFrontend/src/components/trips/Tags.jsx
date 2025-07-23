@@ -67,6 +67,18 @@ function Tags({ tripID }) {
 
   const renderDetail = () => (
     <div>
+      <div className='text-lg text-center'>
+        {tags?.length > 0 ? <span>Customize Tags</span> : null}
+        {((tags?.length > 0) && !tripData.isLoadTrip)
+          ? (
+            <CustomButton
+              translate='no'
+              className='buttonEdit'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
+      </div>
       <div>
         <CustomButton
           label='Previous'
@@ -140,18 +152,6 @@ function Tags({ tripID }) {
   return (
     <div>
       <div>
-        <div className='text-lg text-center'>
-          {tags?.length > 0 ? <span>Customize Tags</span> : null}
-          {((tags?.length > 0) && !tripData.isLoadTrip)
-            ? (
-              <CustomButton
-                translate='no'
-                className='buttonEdit'
-                label='✏️'
-                onClick={handleEditButton}
-              />
-            ) : null}
-        </div>
         <CustomToggle
           className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
           aria-label='Tags Button'

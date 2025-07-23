@@ -433,15 +433,15 @@ body {
     border-bottom-width: theme('borderWidth.0');
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
-    @apply text-white dark:text-white;
+    @apply 
+    text-white dark:text-white;
   }
 
   .cardPOIAddInfoPictures {
-    z-index: 0;
-    display: flex;
-    overflow: scroll;
     padding-right: 30%;
     padding-bottom: 30%;
+    @apply
+    flex z-0 overflow-scroll;
   }
 
   .cardInfo {
@@ -457,8 +457,7 @@ body {
     border-width: 0;
     border-radius: theme('borderRadius.md');
     padding: 0;
-    max-height: 25vh;
-    max-width: 25vw;
+    @apply max-w-24
   }
   
   .pictureContainer {

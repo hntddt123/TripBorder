@@ -30,9 +30,13 @@ function Transports({ tripID }) {
         )
         : null}
       <div className='underline underline-offset-2'>Departure Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.departure_time)}</div>
+      {(transport.departure_time)
+        ? <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.departure_time)}</div>
+        : 'Time not selected'}
       <div className='underline underline-offset-2'>Arrival Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.arrival_time)}</div>
+      {(transport.arrival_time)
+        ? <div className='px-2 font-mono'>{formatDateMMMMddyyyyZZZZ(transport.arrival_time)}</div>
+        : 'Time not selected'}
       {transport.origin
         ? (
           <>
@@ -90,6 +94,7 @@ function Transports({ tripID }) {
         <div key={transport.uuid}>
           <div className='text-pretty px-2'>
             <CustomToggle
+              translate='no'
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Transport Button ${transport.uuid}`}
               id={transport.uuid}

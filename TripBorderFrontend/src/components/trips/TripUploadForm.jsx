@@ -7,6 +7,7 @@ import {
 } from '../../redux/reducers/tripReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
+import { formatDateyyyyMMdd } from '../../utility/time';
 
 function TripUploadForm() {
   const [inputError, setInputError] = useState('');
@@ -80,7 +81,7 @@ function TripUploadForm() {
           id='trip_start_date'
           type='date'
           name='trip_start_date'
-          value={tripData.start_date}
+          value={formatDateyyyyMMdd(tripData.start_date)}
           onChange={handleInputChange}
           required
         />
@@ -92,7 +93,7 @@ function TripUploadForm() {
           id='trip_end_date'
           type='date'
           name='trip_end_date'
-          value={tripData.end_date}
+          value={formatDateyyyyMMdd(tripData.end_date)}
           onChange={handleInputChange}
           required
         />

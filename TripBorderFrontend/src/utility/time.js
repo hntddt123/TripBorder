@@ -12,12 +12,11 @@ export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('M
 export const formatDateMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm');
 export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy ZZZZ');
 export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
+export const formatDateyyyyMMdd = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
 
 export const breakfastTime = DateTime.now().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
 export const lunchTime = DateTime.now().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 export const dinnerTime = DateTime.now().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
-export const checkInTime = DateTime.now();
-export const checkOutTime = DateTime.now();
 
 export const isMileageExpired = (mileageExpiredAt) => {
   // Parse PostgreSQL timestamp as UTC (adjust time zone if needed)

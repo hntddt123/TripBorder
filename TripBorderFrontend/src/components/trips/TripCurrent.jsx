@@ -113,14 +113,14 @@ function TripCurrent() {
                 {(!isEditing)
                   ? (
                     <CustomButton
-                      className='buttonBack'
+                      className='buttonBack px-4'
                       label='←Trip Selection'
                       onClick={handleBackButton}
                     />
                   )
                   : <div />}
                 <CustomButton
-                  className='buttonBack'
+                  className='buttonBack px-4'
                   label={(!isEditing) ? 'Edit Trip' : 'Done'}
                   onClick={handleEditButton}
                 />
@@ -129,6 +129,7 @@ function TripCurrent() {
                 ? (
                   <div className='text-center'>
                     <CustomToggle
+                      translate='no'
                       className='toggle min-h-12 min-w-80 max-w-80 overflow-x-auto text-lg'
                       aria-label={`Trip Button ${tripData.uuid}`}
                       id={tripData.uuid}
@@ -140,7 +141,7 @@ function TripCurrent() {
                 : (
                   <div className='text-center'>
                     <CustomToggle
-                      className='text-xl'
+                      className='toggle text-lg px-4'
                       title='Edit Trip'
                       component={<TripUploadForm />}
                       isOpened

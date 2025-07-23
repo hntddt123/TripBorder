@@ -35,7 +35,7 @@ function Ratings({ tripID }) {
         comment: comment
       }
     });
-    setIsEditing(!isEditing);
+    setIsEditing(false);
   };
 
   const handleCommentChange = (e) => {
@@ -152,7 +152,7 @@ function Ratings({ tripID }) {
               <CustomButton
                 className='buttonTrip'
                 translate='no'
-                label={`🗑️ This Rating of ${rating.score}`}
+                label={`🗑️ ${rating.entity_type} Rating`}
                 onClick={handleDelete(rating)}
               />
             )
@@ -164,10 +164,11 @@ function Ratings({ tripID }) {
         : (
           <div className='flex justify-center'>
             <CustomToggle
+              translate='no'
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
-              title='Rate this Trip'
+              title={`Rate ${tripData.title}`}
               component={renderNewRating()}
             />
           </div>
