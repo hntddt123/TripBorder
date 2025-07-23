@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from './reducers/counterReducer';
 import { mapReducer } from './reducers/mapReducer';
 import { tripReducer } from './reducers/tripReducer';
+import { userSettingsReducer } from './reducers/userSettingsReducer';
 import { foursquareAPI } from '../api/foursquareSliceAPI';
 import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { authAPI } from '../api/authAPI';
@@ -21,6 +22,7 @@ const store = configureStore({
     counterReducer,
     mapReducer,
     tripReducer,
+    userSettingsReducer,
     [foursquareAPI.reducerPath]: foursquareAPI.reducer,
     [mapboxAPI.reducerPath]: mapboxAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,

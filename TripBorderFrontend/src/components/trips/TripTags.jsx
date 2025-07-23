@@ -10,7 +10,7 @@ import CustomButton from '../CustomButton';
 
 function TripTags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
   const { tripTags } = data || {};
@@ -29,7 +29,7 @@ function TripTags({ tripID }) {
       <div>
         <div className='text-lg text-center'>
           {tripTags?.length > 0 ? <span>Trip Tags</span> : null}
-          {((tripTags?.length > 0) && !tripData.isLoadTrip)
+          {((tripTags?.length > 0) && !isLoadTrip)
             ? (
               <CustomButton
                 translate='no'

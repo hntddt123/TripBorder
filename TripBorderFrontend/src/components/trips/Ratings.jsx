@@ -17,6 +17,7 @@ function Ratings({ tripID }) {
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
@@ -28,7 +29,9 @@ function Ratings({ tripID }) {
   const [updateRating] = useUpdateRatingByUUIDMutation();
   const [deleteRating] = useDeleteRatingMutation();
 
-  const handleCommentSubmit = (rating) => () => {
+  const handleCommentSubmit = (rating) => (e) => {
+    e.preventDefault();
+
     updateRating({
       uuid: rating.uuid,
       updates: {
@@ -78,27 +81,26 @@ function Ratings({ tripID }) {
       ))}
       {rating.comment === 'No Comment' || isEditing
         ? (
-          <div>
-            <label htmlFor='rate_comment'>
-              Comment
-            </label>
+          <form onSubmit={handleCommentSubmit(rating)} encType='multipart/form-data'>
             <div>
-              <input
-                className='customInput'
-                id='rate_comment'
-                type='text'
-                name='rate_comment'
-                value={comment}
-                onChange={handleCommentChange}
-                required
-              />
+              <label htmlFor='rate_comment'>
+                Comment
+              </label>
+              <div>
+                <input
+                  className='customInput'
+                  id='rate_comment'
+                  type='text'
+                  name='rate_comment'
+                  value={comment}
+                  onChange={handleCommentChange}
+                  minLength={1}
+                  required
+                />
+              </div>
+              <CustomButton type='submit' label='Submit' />
             </div>
-            <CustomButton
-              type='submit'
-              label='Submit'
-              onClick={handleCommentSubmit(rating)}
-            />
-          </div>
+          </form>
         )
         : <div>{`${rating.comment}`}</div>}
     </div>
@@ -126,7 +128,7 @@ function Ratings({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         {ratings?.length > 0 ? <span>Ratings</span> : null}
-        {(ratings?.length > 0) && !tripData.isLoadTrip
+        {(ratings?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
               translate='no'
@@ -159,7 +161,7 @@ function Ratings({ tripID }) {
             : null}
         </div>
       )))}
-      {(ratings?.length > 0 || tripData.isLoadTrip)
+      {(ratings?.length > 0 || isLoadTrip)
         ? null
         : (
           <div className='flex justify-center'>

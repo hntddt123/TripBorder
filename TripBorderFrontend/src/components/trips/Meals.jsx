@@ -8,7 +8,7 @@ import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
 function Meals({ tripID }) {
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
@@ -35,7 +35,7 @@ function Meals({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         {meals?.length > 0 ? <span>Meals</span> : null}
-        {meals?.length > 0 && !tripData.isLoadTrip
+        {meals?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
               translate='no'

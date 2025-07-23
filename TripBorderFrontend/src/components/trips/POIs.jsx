@@ -8,7 +8,7 @@ import CustomButton from '../CustomButton';
 
 function POIs({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};
   const [deletePOI] = useDeletePOIMutation();
@@ -28,7 +28,7 @@ function POIs({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         {pois?.length > 0 ? <span>Tour Spots</span> : null}
-        {pois?.length > 0 && !tripData.isLoadTrip
+        {pois?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
               translate='no'

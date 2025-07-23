@@ -8,7 +8,7 @@ import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
 function Hotels({ tripID }) {
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
 
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
@@ -43,7 +43,7 @@ function Hotels({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         {hotels?.length > 0 ? <span>Hotels</span> : null}
-        {hotels?.length > 0 && !tripData.isLoadTrip
+        {hotels?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
               translate='no'

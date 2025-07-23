@@ -21,7 +21,7 @@ function Tags({ tripID }) {
   const [page, setPage] = useState(1);
   const limit = 4;
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const { data, isLoading, isFetching, error } = useGetTagsByEmailPaginationQuery({ email, page, limit });
@@ -51,7 +51,9 @@ function Tags({ tripID }) {
     setPage(newPage);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
     const newTag = {
       name: tagName,
       owner_email: email
@@ -69,7 +71,7 @@ function Tags({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         {tags?.length > 0 ? <span>Customize Tags</span> : null}
-        {((tags?.length > 0) && !tripData.isLoadTrip)
+        {((tags?.length > 0) && !isLoadTrip)
           ? (
             <CustomButton
               translate='no'
@@ -121,31 +123,30 @@ function Tags({ tripID }) {
           </div>
         )))}
       </div>
-      <div>
-        <label htmlFor='add_tag'>
-          Add Tag
-        </label>
-      </div>
-      <div>
-        <input
-          className='customInput'
-          id='add_tag'
-          type='text'
-          name='add_tag'
-          value={tagName}
-          placeholder='Tag Name'
-          maxLength={50}
-          onChange={handleTagNameChange}
-          required
-        />
-      </div>
-      <div>
-        <CustomButton
-          type='submit'
-          label='Add'
-          onClick={handleSubmit}
-        />
-      </div>
+      <form onSubmit={handleSubmit} encType='multipart/form-data'>
+        <div>
+          <label htmlFor='add_tag'>
+            Add Tag
+          </label>
+        </div>
+        <div>
+          <input
+            className='customInput'
+            id='add_tag'
+            type='text'
+            name='add_tag'
+            value={tagName}
+            placeholder='Tag Name'
+            onChange={handleTagNameChange}
+            minLength={1}
+            maxLength={50}
+            required
+          />
+        </div>
+        <div>
+          <CustomButton type='submit' label='Add' />
+        </div>
+      </form>
     </div>
   );
 

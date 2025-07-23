@@ -5,11 +5,13 @@ import {
   setTripUUID,
   setOwnerEmail,
   setCreatedDate,
-  setIsLoadTrip,
   resetTrip,
   setStartDate,
   setEndDate
 } from '../../redux/reducers/tripReducer';
+import {
+  setIsLoadTrip
+} from '../../redux/reducers/userSettingsReducer';
 import { formatDateMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
@@ -28,7 +30,9 @@ import Tags from './Tags';
 function TripCurrent() {
   const [isEditing, setIsEditing] = useState(false);
 
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const tripData = useSelector((state) => state.tripReducer);
+
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
@@ -84,7 +88,7 @@ function TripCurrent() {
 
   const renderTripOptions = () => {
     if (tripData.uuid === '') {
-      if (tripData.isLoadTrip) {
+      if (isLoadTrip) {
         return <TripsPast />;
       }
       return (

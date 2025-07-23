@@ -10,9 +10,11 @@ import {
   setTitle,
   setOwnerEmail,
   setStartDate,
-  setEndDate,
-  setIsLoadTrip
+  setEndDate
 } from '../../redux/reducers/tripReducer';
+import {
+  setIsLoadTrip
+} from '../../redux/reducers/userSettingsReducer';
 import { formatDateMMMMddyyyyZZZZ, formatDateMMMMddyyyyHHmmssZZZZ, getDate } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
@@ -25,7 +27,7 @@ import TripTags from './TripTags';
 import CustomError from '../CustomError';
 
 function TripsPast() {
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const dispatch = useDispatch();
@@ -80,7 +82,7 @@ function TripsPast() {
         title={trip.title}
         component={renderDetail(trip)}
       />
-      {!tripData.isLoadTrip
+      {!isLoadTrip
         ? (
           <CustomButton
             translate='no'
@@ -127,7 +129,7 @@ function TripsPast() {
           <div className='cardBorderT text-center'>
             {renderTripsItem(trip)}
             <div className='text-center'>
-              {(tripData.isLoadTrip)
+              {(isLoadTrip)
                 ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
                 : null}
             </div>

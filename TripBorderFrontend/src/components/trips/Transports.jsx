@@ -10,7 +10,7 @@ import CustomButton from '../CustomButton';
 function Transports({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
   const [deleteTransport] = useDeleteTransportMutation();
@@ -79,7 +79,7 @@ function Transports({ tripID }) {
       <div className='text-lg text-center'>
         <div>
           {transports?.length > 0 ? <span>Transports</span> : null}
-          {transports?.length > 0 && !tripData.isLoadTrip
+          {transports?.length > 0 && !isLoadTrip
             ? (
               <CustomButton
                 translate='no'
