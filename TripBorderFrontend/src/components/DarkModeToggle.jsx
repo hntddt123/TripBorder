@@ -9,7 +9,11 @@ function DarkModeToggle() {
 
   const toggleDarkMode = () => {
     dispatch(setDarkMode(!darkMode));
-    document.documentElement.classList.toggle('dark');
+    if (darkMode) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
   };
 
   return (
