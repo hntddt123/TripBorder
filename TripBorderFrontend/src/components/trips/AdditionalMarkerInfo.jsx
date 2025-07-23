@@ -113,7 +113,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             style={{ display: 'none' }}
           />
           <div
-            className='text-lg cardPOIAddInfo'
+            className='text-base cardPOIAddInfo'
             style={{
               borderRadius: 10,
               backgroundColor: 'rgba(0,0,0,0.8)',

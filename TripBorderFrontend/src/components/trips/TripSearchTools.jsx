@@ -42,7 +42,7 @@ function TripSearchTools() {
   );
 
   return (
-    <div className='text-lg tripAbsoluteContent'>
+    <div className='text-lg tripAbsoluteContent content'>
       <div>
         <span>Show Only Number on Map</span>
         <TogglePlaceName />

@@ -215,6 +215,7 @@ html, body {
     border-radius: theme('borderRadius.full');
     padding: theme('spacing[1]');
     @apply 
+    px-4 mx-1
     bg-amber-100 dark:bg-primary-cardDark
     text-black dark:text-white;
   }
@@ -426,9 +427,8 @@ html, body {
 
   .cardPOIAddInfo {
     z-index: 2;
-    margin-top: 35vh;
+    bottom: 0;
     padding: theme('spacing.2');
-    padding-bottom: 30vh;
     border-color: theme('colors.amber.300');
     border-radius: theme('borderRadius.lg');
     border-top-width: theme('borderWidth.0');
@@ -436,6 +436,7 @@ html, body {
     border-left-width: theme('borderWidth.0');
     border-right-width: theme('borderWidth.0');
     @apply 
+    absolute h-1/2
     text-white dark:text-white;
   }
 
@@ -527,7 +528,6 @@ html, body {
 
 
   .tripAbsoluteContent {
-    position: absolute;
     z-index: 10;
     flex-wrap: wrap;
     overflow-y: scroll;
@@ -536,7 +536,7 @@ html, body {
     width: 100%;
     border-radius: theme('borderRadius.lg');
     @apply 
-    h-5/6
+    absolute h-2/5
     bg-amber-50 dark:bg-primary-buttonDarkLessTransparent;
   }
 
