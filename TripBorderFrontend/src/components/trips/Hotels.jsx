@@ -69,7 +69,7 @@ function Hotels({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='buttonTrip'
+                  className='buttonDelete'
                   translate='no'
                   label={`🗑️ ${hotel.name}`}
                   onClick={() => deleteHotel(hotel.uuid)}

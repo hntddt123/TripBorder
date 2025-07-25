@@ -106,7 +106,7 @@ function Transports({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='buttonTrip'
+                  className='buttonDelete'
                   translate='no'
                   label={`🗑️ ${transport.name}`}
                   onClick={() => deleteTransport(transport.uuid)}

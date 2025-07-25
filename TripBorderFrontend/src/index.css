@@ -10,7 +10,7 @@
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 
   /* Spacing */
-   --spacing-0: 0;
+  --spacing-0: 0;
   --spacing-0\.5: 0.125rem;
   --spacing-1: 0.25rem;
   --spacing-2: 0.5rem;
@@ -29,7 +29,7 @@
   --color-primary-card-light: rgba(250, 190, 30, 0.3);
   --color-primary-card-dark: rgba(0, 0, 0, 0.7);
   --color-primary-button-light: #fcd34d;
-  --color-primary-button-dark: rgb(255, 135, 30);
+  --color-primary-button-dark: #ff871e;
   --color-primary-button-light-hover: rgb(250, 190, 35);
   --color-primary-button-dark-hover: #dd7700;
   --color-primary-button-light-active: #fcd34d;
@@ -105,39 +105,52 @@ html, body {
     dark:bg-primary-dark dark:text-white;
   }
 
+  input[type="text"]:focus {
+    @apply
+    dark:bg-primary-dark;
+  }
+
+  input[type="number"]:focus {
+    @apply
+    dark:bg-primary-dark;
+  }
+
   input[type="file"]::-webkit-file-upload-button {
     @apply 
+    px-2
     border-0
     rounded-xl
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
-    dark:text-white;
+  bg-primary-button-dark
+  dark:text-white;
   }
 
   input[type="file"]::-webkit-file-upload-button:hover {
     @apply 
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+    bg-primary-button-dark-hover;
+  }
+
+  input[type="date"]:focus{
+    @apply 
+    dark:bg-primary-dark;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
     @apply 
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark;
+    rounded-full;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    cursor: pointer;
     @apply 
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    @apply 
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark;
+    cursor-pointer
+    rounded-full
+  bg-primary-button-dark-hover;
   }
 
   input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
-    cursor: pointer;
     @apply 
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+    cursor-pointer
+    rounded-full
+  bg-primary-button-dark-hover;
   }
 
   select {
@@ -212,7 +225,7 @@ html, body {
     content-center 
     m-2 py-1 px-4 
     rounded-full 
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
@@ -232,6 +245,31 @@ html, body {
     opacity-25 border-amber-300 bg-amber-300;
   }
 
+  .buttonDelete {
+    @apply 
+    text-pretty text-center 
+    content-center 
+    m-2 py-1 px-4 
+    rounded-full 
+    bg-red-700 dark:bg-red-700
+    text-black dark:text-white;
+  }
+
+  .buttonDelete:hover {
+    @apply 
+    bg-red-800 dark:bg-red-800
+  }
+
+  .buttonDelete:active {
+    @apply 
+  dark:bg-red-900;
+  }
+
+  .buttonDelete:disabled {
+    @apply 
+    opacity-25 border-amber-300 bg-amber-300;
+  }
+
   .buttonBack {
     @apply
     min-w-8
@@ -239,7 +277,7 @@ html, body {
     content-center
     rounded-full
     px-4 py-1 mx-1 
-    bg-amber-100 dark:bg-(--color-primary-card-dark) 
+    bg-amber-100 dark:bg-primary-card-dark
     text-black dark:text-white;
   }
 
@@ -261,7 +299,7 @@ html, body {
     content-center 
     rounded-full 
     p-1 
-    bg-amber-100 dark:bg-(--color-primary-card-dark) 
+    bg-amber-100 dark:bg-primary-card-dark
     text-black dark:text-white;
   }
 
@@ -300,7 +338,7 @@ html, body {
     @apply 
     flex justify-center 
     font-light text-xl text-center
-    bg-(--color-primary-title-light) dark:bg-(--color-primary-title-dark) 
+    bg-primary-title-light dark:bg-primary-title-dark
     text-black dark:text-white;
   }
 
@@ -332,7 +370,7 @@ html, body {
     shadow-md
     text-lg
     border-amber-600
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOI:hover {
@@ -363,7 +401,7 @@ html, body {
     border-t-0 border-b-0 border-l-2 border-r-2
     rounded-lg
     border-amber-300
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardBorderTB {
@@ -376,7 +414,7 @@ html, body {
     border-t-2 border-b-2 border-l-0 border-r-0
     rounded-lg
     border-amber-300
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardBorderT {
@@ -389,7 +427,7 @@ html, body {
     border-t-2 border-b-0 border-l-0 border-r-0
     rounded-lg
     border-amber-300
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardBorderless {
@@ -401,14 +439,14 @@ html, body {
     border-0
     rounded-lg
     border-amber-300
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOIMarker {
     @apply 
     min-w-8 px-2 py-0.5 
     rounded-full border-x-0 shadow-xs text-lg 
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOIMarker:hover {
@@ -418,7 +456,7 @@ html, body {
 
   .cardPOIMarker:active {
     @apply 
-    bg-amber-200 dark:bg-(--color-primary-button-dark-transparent-active);
+    bg-amber-200 dark:bg-primary-button-dark-transparent-active;
   }
 
   .cardPOIAddInfo {
@@ -443,7 +481,7 @@ html, body {
     @apply 
     p-2 mb-0.5 
     border-amber-400 rounded-lg border-t-0 border-b-0 border-l-2 border-r-0 
-    bg-amber-100 dark:bg-(--color-primary-card-dark);
+    bg-amber-100 dark:bg-primary-card-dark;
   }
 
   .picture {
@@ -531,7 +569,7 @@ html, body {
     left-0
     overflow-y-scroll
     absolute h-2/5 
-    bg-amber-50 dark:bg-(--color-primary-button-dark-less-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
   .sidebarInstructionsContent {
@@ -543,7 +581,7 @@ html, body {
     p-1
     rounded-lg
     overflow-y-scroll
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .sidebarInstructionsToggle {
@@ -561,7 +599,7 @@ html, body {
   .sidebarInstructionsToggle.left {
     right: -2rem;
     @apply 
-    bg-amber-50 dark:bg-(--color-primary-button-dark-transparent);
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .sidebarInstructionsToggle:hover {
@@ -608,7 +646,7 @@ html, body {
     mx-0.5 mt-0 mb-0.5
     p-2
     border-amber-50
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
@@ -639,7 +677,7 @@ html, body {
     rounded-full
     content-center
     border-amber-50
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
@@ -698,7 +736,7 @@ html, body {
     rounded-full
     content-center
     border-amber-50
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
@@ -729,7 +767,7 @@ html, body {
     text-center
     content-center
     rounded-full
-    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
@@ -861,7 +899,7 @@ html, body {
     -tracking-wider 
     content-center
     rounded-full
-    bg-(--color-primary-button-light) dark:bg-primary-dark 
+    bg-primary-button-light dark:bg-primary-dark 
     text-black dark:text-white;
   }
 

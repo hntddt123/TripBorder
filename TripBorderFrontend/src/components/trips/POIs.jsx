@@ -21,6 +21,8 @@ function POIs({ tripID }) {
     <div className='text-pretty'>
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono'>{poi.address}</div>
+      <div className='underline underline-offset-2'>Visit Time</div>
+      <div className='px-2 font-mono'>{poi.visit_time ? poi.visit_time : 'Time not set'}</div>
     </div>
   );
 
@@ -54,7 +56,7 @@ function POIs({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='buttonTrip'
+                  className='buttonDelete'
                   translate='no'
                   label={`🗑️ ${poi.name}`}
                   onClick={() => deletePOI(poi.uuid)}

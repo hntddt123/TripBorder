@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
 import {
@@ -10,7 +10,8 @@ import {
   setEndDate
 } from '../../redux/reducers/tripReducer';
 import {
-  setIsLoadTrip
+  setIsLoadTrip,
+  setIsEditingTrip
 } from '../../redux/reducers/userSettingsReducer';
 import { formatDateMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
@@ -28,9 +29,8 @@ import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 
 function TripCurrent() {
-  const [isEditing, setIsEditing] = useState(false);
-
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isEditingTrip = useSelector((state) => state.userSettingsReducer.isEditingTrip);
   const tripData = useSelector((state) => state.tripReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -52,7 +52,7 @@ function TripCurrent() {
   }, [data]);
 
   const handleEditButton = () => {
-    setIsEditing(!isEditing);
+    dispatch(setIsEditingTrip(!isEditingTrip));
   };
 
   const handleBackButton = () => {
@@ -71,18 +71,39 @@ function TripCurrent() {
   const renderTripDetail = () => (
     <div>
       <div className='text-pretty px-4 gap-x-1'>
-        <div className='underline underline-offset-2'>Start</div>
-        <div className='px-2 font-mono'>{formatDateMMMddyyyy(tripData.start_date)}</div>
-        <div className='underline underline-offset-2'>End</div>
-        <div className='px-2 font-mono'>{formatDateMMMddyyyy(tripData.end_date)}</div>
+        <div className='underline underline-offset-2'>Travel Date</div>
+        {(tripData.start_date === tripData.end_date)
+          ? (
+            <div className='px-2 font-mono'>
+              {formatDateMMMddyyyy(tripData.end_date)}
+            </div>
+          )
+          : (
+            <div className='px-2 font-mono'>
+              {formatDateMMMddyyyy(tripData.start_date)} - {formatDateMMMddyyyy(tripData.end_date)}
+            </div>
+          )}
       </div>
-      <Meals tripID={tripData.uuid} />
-      <Hotels tripID={tripData.uuid} />
-      <POIs tripID={tripData.uuid} />
-      <Transports tripID={tripData.uuid} />
-      <TripTags tripID={tripData.uuid} />
-      <Tags tripID={tripData.uuid} />
-      <Ratings tripID={tripData.uuid} />
+      <div>
+        <CustomToggle
+          translate='no'
+          className='toggle min-h-12 min-w-72 max-w-72 text-lg mb-1'
+          aria-label='All Trip items'
+          title='All items'
+          component={(
+            <div>
+              <Meals tripID={tripData.uuid} />
+              <Hotels tripID={tripData.uuid} />
+              <POIs tripID={tripData.uuid} />
+              <Transports tripID={tripData.uuid} />
+              <TripTags tripID={tripData.uuid} />
+              <Tags tripID={tripData.uuid} />
+              <Ratings tripID={tripData.uuid} />
+            </div>
+          )}
+          isOpened
+        />
+      </div>
     </div>
   );
 
@@ -114,7 +135,7 @@ function TripCurrent() {
           <div className='text-base'>
             <div className='cardInfo'>
               <div className='flex justify-between mb-1'>
-                {(!isEditing)
+                {(!isEditingTrip)
                   ? (
                     <CustomButton
                       className='buttonBack'
@@ -125,11 +146,11 @@ function TripCurrent() {
                   : <div />}
                 <CustomButton
                   className='buttonBack'
-                  label={(!isEditing) ? 'Edit Trip' : 'Done'}
+                  label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
                   onClick={handleEditButton}
                 />
               </div>
-              {(!isEditing)
+              {(!isEditingTrip)
                 ? (
                   <div className='text-center'>
                     <CustomToggle
@@ -139,17 +160,13 @@ function TripCurrent() {
                       id={tripData.uuid}
                       title={tripData.title}
                       component={renderTripDetail()}
+                      isOpened
                     />
                   </div>
                 )
                 : (
                   <div className='text-center'>
-                    <CustomToggle
-                      className='toggle text-lg px-4'
-                      title='Edit Trip'
-                      component={<TripUploadForm />}
-                      isOpened
-                    />
+                    <TripUploadForm />
                   </div>
                 )}
             </div>

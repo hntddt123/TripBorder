@@ -14,6 +14,11 @@ export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toForma
 export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
 export const formatDateyyyyMMdd = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
 
+export const checkDateToDay = (date1, date2) => (date1.hasSame(date2, 'day'));
+export const isDatePast = (date) => ((DateTime.fromISO(date) - DateTime.now().startOf('day')) < 0);
+export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
+export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
+
 export const breakfastTime = DateTime.now().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
 export const lunchTime = DateTime.now().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 export const dinnerTime = DateTime.now().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });

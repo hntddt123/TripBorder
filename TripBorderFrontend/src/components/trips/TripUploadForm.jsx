@@ -7,7 +7,12 @@ import {
 } from '../../redux/reducers/tripReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
-import { formatDateyyyyMMdd } from '../../utility/time';
+import {
+  formatDateyyyyMMdd,
+  isDatePast,
+  isStartDateAfterEndDate,
+  isEndDateBeforeStartDate
+} from '../../utility/time';
 
 function TripUploadForm() {
   const [inputError, setInputError] = useState('');
@@ -24,17 +29,17 @@ function TripUploadForm() {
       dispatch(setTitle(e.target.value));
     }
     if (name === 'trip_start_date') {
-      if (new Date(e.target.value) - new Date().setHours(0, 0, 0, 0) <= 0) {
+      if (isDatePast(e.target.value)) {
         setInputError('Start Date cannot be past');
-      } else if (new Date(tripData.end_date) - new Date(e.target.value) < 0) {
-        setInputError('End Date cannot be before Start Date');
+      } else if (isStartDateAfterEndDate(e.target.value, tripData.end_date)) {
+        setInputError('Start Date cannot be after End Date');
       } else {
         setInputError('');
         dispatch(setStartDate(e.target.value));
       }
     }
     if (name === 'trip_end_date') {
-      if (new Date(e.target.value) - new Date(tripData.start_date) < 0) {
+      if (isEndDateBeforeStartDate(e.target.value, tripData.start_date)) {
         setInputError('End Date cannot be before Start Date');
       } else {
         setInputError('');
@@ -97,10 +102,10 @@ function TripUploadForm() {
           onChange={handleInputChange}
           required
         />
+        {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
+        {(updateLoading) ? 'Updating' : null}
         <CustomButton type='submit' label='Save' />
       </div>
-      {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-      {(updateLoading) ? 'Upadting' : null}
     </form>
   );
 }

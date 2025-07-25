@@ -113,7 +113,7 @@ function Tags({ tripID }) {
             {(isEditing)
               ? (
                 <CustomButton
-                  className='buttonTrip'
+                  className='buttonDelete'
                   translate='no'
                   label={`🗑️ ${tag.name}`}
                   onClick={handleDeleteTagButton(tag.uuid)}

@@ -152,7 +152,7 @@ function Ratings({ tripID }) {
           {(isEditing)
             ? (
               <CustomButton
-                className='buttonTrip'
+                className='buttonDelete'
                 translate='no'
                 label={`🗑️ ${rating.entity_type} Rating`}
                 onClick={handleDelete(rating)}

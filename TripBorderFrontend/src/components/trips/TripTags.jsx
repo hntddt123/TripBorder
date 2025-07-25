@@ -48,7 +48,7 @@ function TripTags({ tripID }) {
               {(isEditing)
                 ? (
                   <CustomButton
-                    className='buttonTrip'
+                    className='buttonDelete'
                     translate='no'
                     label={`🗑️ ${tag.name}`}
                     onClick={handleDeleteButton(tag.uuid)}
