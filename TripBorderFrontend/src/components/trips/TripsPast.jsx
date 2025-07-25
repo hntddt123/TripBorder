@@ -15,7 +15,7 @@ import {
 import {
   setIsLoadTrip
 } from '../../redux/reducers/userSettingsReducer';
-import { formatDateMMMMddyyyyZZZZ, formatDateMMMMddyyyyHHmmssZZZZ, getDate } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ, formatDateMMMMddyyyyHHmmssZZZZ } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import Meals from './Meals';
@@ -54,10 +54,10 @@ function TripsPast() {
     dispatch(setTitle(trip.title));
     dispatch(setOwnerEmail(trip.onwer_email));
     if (trip.start_date) {
-      dispatch(setStartDate(getDate(trip.start_date)));
+      dispatch(setStartDate(trip.start_date));
     }
     if (trip.end_date) {
-      dispatch(setEndDate(getDate(trip.end_date)));
+      dispatch(setEndDate(trip.end_date));
     }
     dispatch(setIsLoadTrip(false));
   };

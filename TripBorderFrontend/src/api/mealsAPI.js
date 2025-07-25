@@ -34,6 +34,15 @@ export const mealsAPI = createApi({
       }),
       invalidatesTags: ['Meals'],
     }),
+    updateMealsByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Meals'],
+    }),
     deleteMeals: builder.mutation({
       query: (mealID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetMealsAllQuery,
   useGetMealsByTripIDQuery,
   usePostMealsByTripIDMutation,
+  useUpdateMealsByUUIDMutation,
   useDeleteMealsMutation
 } = mealsAPI;

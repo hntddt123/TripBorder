@@ -11,7 +11,7 @@ const userSettingsSlice = createSlice({
   reducers: {
     setIsPageDarkMode: (state, action) => ({ ...state, isPageDarkMode: action.payload }),
     setIsLoadTrip: (state, action) => ({ ...state, isLoadTrip: action.payload }),
-    setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload }),
+    setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload })
   }
 });
 

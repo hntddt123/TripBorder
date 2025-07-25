@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon';
 
-export const getDate = (date) => DateTime.fromISO(date).toISODate();
-
 export const formatDateMM = (date) => DateTime.fromISO(date).toFormat('MM');
 export const formatDateMMM = (date) => DateTime.fromISO(date).toFormat('MMM');
 export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');
@@ -19,16 +17,45 @@ export const isDatePast = (date) => ((DateTime.fromISO(date) - DateTime.now().st
 export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 
-export const breakfastTime = DateTime.now().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
-export const lunchTime = DateTime.now().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-export const dinnerTime = DateTime.now().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+export const setLocalTime = (date) => DateTime.fromISO(date);
+export const breakfastTime = DateTime.local().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+export const lunchTime = DateTime.local().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+export const dinnerTime = DateTime.local().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+
+export const isMealTimeValid = (value, tripData) => {
+  if (value === '') {
+    return '';
+  }
+
+  const mealTime = DateTime.fromISO(value);
+  if (!mealTime.isValid) {
+    return 'Invalid Meal Time format';
+  }
+
+  const now = DateTime.local();
+  if (mealTime < now) {
+    return 'Meal Time cannot be past';
+  }
+  // e.g., 2025-07-25T00:00:00-06:00
+  const startDate = DateTime.fromISO(tripData.start_date).startOf('day');
+  if (mealTime < startDate) {
+    return 'Meal Time cannot be before Trip Start Date';
+  }
+  // Exclusive end: 2025-07-26T00:00:00-06:00
+  const endDate = DateTime.fromISO(tripData.end_date).plus({ days: 1 }).startOf('day');
+  if (mealTime >= endDate) {
+    return 'Meal Time cannot be after Trip End Date';
+  }
+
+  return '';
+};
 
 export const isMileageExpired = (mileageExpiredAt) => {
   // Parse PostgreSQL timestamp as UTC (adjust time zone if needed)
   const expiryDate = DateTime.fromISO(mileageExpiredAt, { zone: 'utc' });
 
   // Get current date at midnight in UTC
-  const today = DateTime.now().setZone('utc').startOf('day');
+  const today = DateTime.local().setZone('utc').startOf('day');
 
   return (expiryDate <= today);
 };
