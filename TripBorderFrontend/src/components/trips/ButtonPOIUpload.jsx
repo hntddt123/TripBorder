@@ -14,6 +14,7 @@ function ButtonPOIUpload({ filteredResult }) {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
+        visit_time: tripData.start_date
       };
       PostPOIByTripID(poi);
     }

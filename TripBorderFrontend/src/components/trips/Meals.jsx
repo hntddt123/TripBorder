@@ -1,27 +1,32 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useDeleteMealsMutation, useGetMealsByTripIDQuery, useUpdateMealsByUUIDMutation } from '../../api/mealsAPI';
+import {
+  useGetMealsByTripIDQuery,
+  useUpdateMealByUUIDMutation,
+  useDeleteMealMutation
+} from '../../api/mealsAPI';
 import {
   formatDateMMMMddyyyyHHmm,
   formatDateMMMddyyyy,
   setLocalTime,
-  isMealTimeValid
+  isTimeValid
 } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
 function Meals({ tripID }) {
-  const tripData = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
   const [mealTimes, setMealTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
 
+  const tripData = useSelector((state) => state.tripReducer);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
-  const [updateMeal] = useUpdateMealsByUUIDMutation();
-  const [deleteMeal] = useDeleteMealsMutation();
+  const [updateMeal] = useUpdateMealByUUIDMutation();
+  const [deleteMeal] = useDeleteMealMutation();
   const { meals } = data || {};
 
   // Group meals by formatted date
@@ -34,7 +39,7 @@ function Meals({ tripID }) {
     return result;
   })();
 
-  const validateMealTime = (value) => isMealTimeValid(value, tripData);
+  const validateMealTime = (value) => isTimeValid(value, tripData, 'Meal');
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
@@ -52,14 +57,12 @@ function Meals({ tripID }) {
         [mealID]: value,
       }));
       if (value !== '') {
-        updateMeal(
-          {
-            uuid: mealID,
-            updates: {
-              meal_time: setLocalTime(value)
-            }
+        updateMeal({
+          uuid: mealID,
+          updates: {
+            meal_time: setLocalTime(value)
           }
-        );
+        });
       }
     }
   };
@@ -75,17 +78,20 @@ function Meals({ tripID }) {
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Meal Time</div>
       <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(meal.meal_time)}</div>
-      <input
-        className='customInput'
-        id={`meal_time_${meal.uuid}`}
-        type='datetime-local'
-        name='meal_time'
-        value={mealTimes[meal.uuid] || ''}
-        onChange={handleInputChange(meal.uuid)}
-        required
-      />
-      {(inputErrors)
-        ? <div className='text-red-600'>{inputErrors[meal.uuid] || ''}</div>
+      {(isEditing) ? (
+        <div>
+          <input
+            className='customInput'
+            id={`meal_time_${meal.uuid}`}
+            type='datetime-local'
+            name='meal_time'
+            value={mealTimes[meal.uuid] || ''}
+            onChange={handleInputChange(meal.uuid)}
+            required
+          />
+          <div className='text-red-600'>{inputErrors[meal.uuid] || ''}</div>
+        </div>
+      )
         : null}
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono' translate='no'>{meal.address}</div>
@@ -106,39 +112,43 @@ function Meals({ tripID }) {
             />
           ) : null}
       </div>
-      {(dateGroupedMeals) ? Object.entries(dateGroupedMeals).map(([date, mealsForDate]) => (
-        <div key={date}>
-          <h3>{date}</h3>
-          {mealsForDate.map((meal) => (
-            <div key={meal.uuid}>
-              <div className='text-pretty px-2'>
-                <CustomToggle
-                  translate='no'
-                  className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
-                  aria-label={`Meal Button ${meal.uuid}`}
-                  id={meal.uuid}
-                  title={meal.name}
-                  component={renderDetail(meal)}
-                />
-              </div>
-              <div>
-                {isEditing ? (
-                  <div>
-                    <div>
-                      <CustomButton
-                        className='buttonDelete'
-                        translate='no'
-                        label={`🗑️ ${meal.name}`}
-                        onClick={handleDeleteButton(meal.uuid)}
-                      />
-                    </div>
-                  </div>
-                ) : null}
-              </div>
+      {(dateGroupedMeals)
+        ? Object.entries(dateGroupedMeals).map(([date, mealsForDate]) => (
+          <div key={date}>
+            <div>
+              {date}
             </div>
-          ))}
-        </div>
-      )) : null}
+            {mealsForDate.map((meal) => (
+              <div key={meal.uuid}>
+                <div className='text-pretty px-2'>
+                  <CustomToggle
+                    translate='no'
+                    className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                    aria-label={`Meal Button ${meal.uuid}`}
+                    id={meal.uuid}
+                    title={meal.name}
+                    component={renderDetail(meal)}
+                  />
+                </div>
+                <div>
+                  {(isEditing) ? (
+                    <div>
+                      <div>
+                        <CustomButton
+                          className='buttonDelete'
+                          translate='no'
+                          label={`🗑️ ${meal.name}`}
+                          onClick={handleDeleteButton(meal.uuid)}
+                        />
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            ))}
+          </div>
+        ))
+        : null}
       {(isLoading) ? <div>Loading Meals...</div> : null}
       {isFetching && <div>Fetching new page...</div>}
       {(error) ? <CustomError error={error} /> : null}

@@ -18,33 +18,33 @@ export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromIS
 export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 
 export const setLocalTime = (date) => DateTime.fromISO(date);
-export const breakfastTime = DateTime.local().set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
-export const lunchTime = DateTime.local().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-export const dinnerTime = DateTime.local().set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
+export const breakfastTime = (date) => DateTime.fromISO(date).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+export const lunchTime = (date) => DateTime.fromISO(date).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+export const dinnerTime = (date) => DateTime.fromISO(date).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
 
-export const isMealTimeValid = (value, tripData) => {
+export const isTimeValid = (value, tripData, name) => {
   if (value === '') {
     return '';
   }
 
-  const mealTime = DateTime.fromISO(value);
-  if (!mealTime.isValid) {
-    return 'Invalid Meal Time format';
+  const time = DateTime.fromISO(value);
+  if (!time.isValid) {
+    return `Invalid ${name} Time format`;
   }
 
   const now = DateTime.local();
-  if (mealTime < now) {
-    return 'Meal Time cannot be past';
+  if (time < now) {
+    return `${name} Time cannot be past`;
   }
   // e.g., 2025-07-25T00:00:00-06:00
   const startDate = DateTime.fromISO(tripData.start_date).startOf('day');
-  if (mealTime < startDate) {
-    return 'Meal Time cannot be before Trip Start Date';
+  if (time < startDate) {
+    return `${name} Time cannot be before Trip Start Date`;
   }
   // Exclusive end: 2025-07-26T00:00:00-06:00
   const endDate = DateTime.fromISO(tripData.end_date).plus({ days: 1 }).startOf('day');
-  if (mealTime >= endDate) {
-    return 'Meal Time cannot be after Trip End Date';
+  if (time >= endDate) {
+    return `${name} Time cannot be after Trip End Date`;
   }
 
   return '';

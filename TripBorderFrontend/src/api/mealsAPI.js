@@ -25,7 +25,7 @@ export const mealsAPI = createApi({
         tagName: 'Meals'
       }
     ),
-    postMealsByTripID: builder.mutation({
+    postMealByTripID: builder.mutation({
       query: (newMeal) => ({
         url: '/upload',
         method: 'POST',
@@ -34,7 +34,7 @@ export const mealsAPI = createApi({
       }),
       invalidatesTags: ['Meals'],
     }),
-    updateMealsByUUID: builder.mutation({
+    updateMealByUUID: builder.mutation({
       query: ({ uuid, updates }) => ({
         url: `/update/${uuid}`,
         method: 'PATCH',
@@ -43,7 +43,7 @@ export const mealsAPI = createApi({
       }),
       invalidatesTags: ['Meals'],
     }),
-    deleteMeals: builder.mutation({
+    deleteMeal: builder.mutation({
       query: (mealID) => ({
         url: '/removebyid',
         method: 'DELETE',
@@ -59,7 +59,7 @@ export const mealsAPI = createApi({
 export const {
   useGetMealsAllQuery,
   useGetMealsByTripIDQuery,
-  usePostMealsByTripIDMutation,
-  useUpdateMealsByUUIDMutation,
-  useDeleteMealsMutation
+  usePostMealByTripIDMutation,
+  useUpdateMealByUUIDMutation,
+  useDeleteMealMutation
 } = mealsAPI;

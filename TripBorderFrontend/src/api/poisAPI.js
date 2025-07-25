@@ -34,6 +34,15 @@ export const poisAPI = createApi({
       }),
       invalidatesTags: ['POIs'],
     }),
+    updatePOIByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['POIs'],
+    }),
     deletePOI: builder.mutation({
       query: (poiID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetPOIsAllQuery,
   useGetPOIsByTripIDQuery,
   usePostPOIByTripIDMutation,
+  useUpdatePOIByUUIDMutation,
   useDeletePOIMutation
 } = poisAPI;
