@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getLocalTime, isMileageExpired } from '../../utility/time';
+import { formatDateMMMMddyyyyZZZZ, isMileageExpired } from '../../utility/time';
 import { useGetMileagesAllQuery, useUpdateMileagesMutation } from '../../api/mileagesAPI';
 import { authAPI } from '../../api/authAPI';
 import CustomButton from '../CustomButton';
@@ -74,9 +74,9 @@ function MileagesAdmin() {
         <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
         <div>{`Price: $${mileage.mileage_price}`}</div>
         <div>{`Mileage: ${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
-        <div>{`Expire: ${getLocalTime(mileage.mileage_expired_at)}`}</div>
-        <div>{`Created: ${getLocalTime(mileage.created_at)}`}</div>
-        <div>{`Updated: ${getLocalTime(mileage.updated_at)}`}</div>
+        <div>{`Expire: ${formatDateMMMMddyyyyZZZZ(mileage.mileage_expired_at)}`}</div>
+        <div>{`Created: ${formatDateMMMMddyyyyZZZZ(mileage.created_at)}`}</div>
+        <div>{`Updated: ${formatDateMMMMddyyyyZZZZ(mileage.updated_at)}`}</div>
         <div>
           <button onClick={() => handlePictureClick(mileage.uuid)}>
             <CustomImageComponent
@@ -93,7 +93,7 @@ function MileagesAdmin() {
   const renderMileages = () => {
     if (mileages && user.data?.role === 'admin') {
       return (mileages?.map((mileage) => (
-        <div key={mileage.uuid} className='cardMileage'>
+        <div key={mileage.uuid} className='cardBorderLR'>
           <div className='flex-col justify-center text-center'>
             <div>
               <div>{mileage.is_verified ? 'Verified ✅' : 'Verified ❌'}</div>
@@ -136,7 +136,7 @@ function MileagesAdmin() {
   };
 
   return (
-    <div className='cardTrip'>
+    <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
         <div className='text-xl overflow-x-auto table-fixed whitespace-nowrap'>
           <div className='text-center'>Mileages Exchange</div>

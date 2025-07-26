@@ -1,31 +1,48 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomButton from '../CustomButton';
-import { usePostMealsByTripIDMutation } from '../../api/mealsAPI';
+import { usePostMealByTripIDMutation } from '../../api/mealsAPI';
 import CustomError from '../CustomError';
+import {
+  breakfastTime,
+  lunchTime,
+  dinnerTime
+} from '../../utility/time';
 
 function ButtonMealsUpload({ filteredResult }) {
-  const [PostMealsByTripID, { isLoading, error }] = usePostMealsByTripIDMutation();
+  const [PostMealByTripID, { isLoading, error }] = usePostMealByTripIDMutation();
   const tripData = useSelector((state) => state.tripReducer);
 
-  const handleClick = () => {
+  const handleClick = (mealTime) => () => {
     if (tripData.uuid) {
       const meals = {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        meal_time: tripData.start_date
+        meal_time: mealTime
       };
-      PostMealsByTripID(meals);
+      PostMealByTripID(meals);
     }
   };
 
   return (
     <>
       <CustomButton
-        className='poiButton'
-        label='+Meals'
-        onClick={handleClick}
+        className='buttonPOIAdd'
+        label='+Breakfast'
+        onClick={handleClick(breakfastTime(tripData.start_date))}
+        disabled={tripData.uuid === ''}
+      />
+      <CustomButton
+        className='buttonPOIAdd'
+        label='+Lunch'
+        onClick={handleClick(lunchTime(tripData.start_date))}
+        disabled={tripData.uuid === ''}
+      />
+      <CustomButton
+        className='buttonPOIAdd'
+        label='+Dinner'
+        onClick={handleClick(dinnerTime(tripData.start_date))}
         disabled={tripData.uuid === ''}
       />
       {(isLoading) ? <div>Creating...</div> : null}

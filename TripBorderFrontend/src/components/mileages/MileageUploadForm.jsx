@@ -131,6 +131,7 @@ function MileageUploadForm() {
         <input
           className='customInput'
           id='mp'
+          type='number'
           name='mileage_price'
           value={formData.mileage_price}
           onChange={handleInputChange}
@@ -147,6 +148,7 @@ function MileageUploadForm() {
         <input
           className='customInput'
           id='ma'
+          type='number'
           name='mileage_amount'
           value={formData.mileage_amount}
           onChange={handleInputChange}
@@ -212,7 +214,7 @@ function MileageUploadForm() {
   return (
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
       <CustomToggle
-        className='text-2xl'
+        className='toggle text-xl px-2'
         title='Create New Mileage'
         component={renderFormInputs()}
       />

@@ -1,52 +1,113 @@
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { useGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
-import { getLocalTime } from '../../utility/time';
+import { useGetHotelsByTripIDQuery, useDeleteHotelsMutation } from '../../api/hotelsAPI';
+import { formatDateMMMddyyyy, setLocalTime } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomButton from '../CustomButton';
 
 function Hotels({ tripID }) {
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const [isEditing, setIsEditing] = useState(false);
+
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
+  const [deleteHotel] = useDeleteHotelsMutation();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // Group hotels by formatted date
+  const dateGroupedHotels = hotels?.reduce((result, hotel) => {
+    const checkInDate = setLocalTime(hotel.check_in);
+    const checkOutDate = setLocalTime(hotel.check_out);
+    const newResult = { ...result };
 
-  if (error) {
-    return <CustomError error={error} />;
-  }
+    let currentDate = checkInDate;
+    while (currentDate < checkOutDate) {
+      const formattedDate = formatDateMMMddyyyy(currentDate);
+      newResult[formattedDate] = (newResult[formattedDate] || []).concat([hotel]);
+      currentDate = currentDate.plus({ days: 1 });
+    }
+
+    return newResult;
+  }, {}) ?? {};
+
+  const handleEditButton = () => {
+    setIsEditing(!isEditing);
+  };
 
   const renderDetail = (hotel) => (
-    <div>
-      <div>{`Booking reference: ${hotel.booking_reference}`}</div>
-      <div>{`Check in: ${getLocalTime(hotel.check_in)}`}</div>
-      <div>{`Check out: ${getLocalTime(hotel.check_out)}`}</div>
-      <div>{`Address: ${hotel.address}`}</div>
-    </div>
-  );
-
-  const renderHotelsItem = (hotel) => (
-    <div className='flex justify-center'>
-      <CustomToggle
-        className='container overflow-x-auto -tracking-wider text-center'
-        aria-label={`Hotel Button ${hotel.uuid}`}
-        id={hotel.uuid}
-        title={hotel.name}
-        component={renderDetail(hotel)}
-      />
+    <div className='text-pretty'>
+      {(hotel.booking_reference)
+        ? (
+          <>
+            <div className='underline underline-offset-2'>Booking reference</div>
+            <div>{hotel.booking_reference}1
+            </div>
+          </>
+        )
+        : null}
+      <div className='underline underline-offset-2'>Check in</div>
+      <div className='px-2 font-mono'>{formatDateMMMddyyyy(hotel.check_in)}</div>
+      <div className='underline underline-offset-2'>Check out</div>
+      <div className='px-2 font-mono'>{formatDateMMMddyyyy(hotel.check_out)}</div>
+      <div className='underline underline-offset-2'>Address</div>
+      <div className='px-2 font-mono'>{hotel.address}</div>
     </div>
   );
 
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
+    <div>
+      <div className='text-lg text-center'>
+        {hotels?.length > 0 ? <span>Hotels</span> : null}
+        {hotels?.length > 0 && !isLoadTrip
+          ? (
+            <CustomButton
+              translate='no'
+              className='buttonEdit'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
+      </div>
+      {(dateGroupedHotels)
+        ? Object.entries(dateGroupedHotels)
+          .map(([date, hotelsForDate]) => (
+            <div key={date}>
+              <div>
+                {date}
+              </div>
+              {hotelsForDate?.map(((hotel) => (
+                <div key={`${hotel.uuid}${date}`}>
+                  <div className='text-pretty px-2'>
+                    <CustomToggle
+                      translate='no'
+                      className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                      aria-label={`Hotel Button ${hotel.uuid}`}
+                      id={hotel.uuid}
+                      title={hotel.name}
+                      component={renderDetail(hotel)}
+                    />
+                  </div>
+                  <div>
+                    {(isEditing)
+                      ? (
+                        <CustomButton
+                          className='buttonDelete'
+                          translate='no'
+                          label={`🗑️ ${hotel.name}`}
+                          onClick={() => deleteHotel(hotel.uuid)}
+                        />
+                      )
+                      : null}
+                  </div>
+                </div>
+              )))}
+            </div>
+          ))
+        : null}
+      {(isLoading) ? <div>Loading Hotels...</div> : null}
       {isFetching && <div>Fetching new page...</div>}
-      {hotels?.map(((hotel) => (
-        <div key={hotel.uuid}>
-          <div>
-            {renderHotelsItem(hotel)}
-          </div>
-        </div>
-      )))}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

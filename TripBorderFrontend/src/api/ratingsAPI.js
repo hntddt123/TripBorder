@@ -24,12 +24,42 @@ export const ratingsAPI = createApi({
         url: '/ratingsbytrip',
         tagName: 'Ratings'
       }
-    )
+    ),
+    postRatingByTripID: builder.mutation({
+      query: (newRating) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newRating },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Ratings'],
+    }),
+    deleteRating: builder.mutation({
+      query: (ratingID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: ratingID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Ratings'],
+    }),
+    updateRatingByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Ratings'],
+    }),
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetRatingsAllQuery,
-  useGetRatingsByTripIDQuery
+  useGetRatingsByTripIDQuery,
+  usePostRatingByTripIDMutation,
+  useDeleteRatingMutation,
+  useUpdateRatingByUUIDMutation
 } = ratingsAPI;

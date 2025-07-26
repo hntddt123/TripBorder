@@ -21,15 +21,35 @@ export const tripTagsAPI = createApi({
     getTripTagsByTripID: createByTripQuery(
       builder,
       {
-        url: '/triptagsbytrip',
+        url: '/triptagsbytripid',
         tagName: 'TripTags'
       }
-    )
+    ),
+    postTripTagsByTripIDAndTagID: builder.mutation({
+      query: (newTripTag) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newTripTag },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['TripTags'],
+    }),
+    deleteTripTags: builder.mutation({
+      query: (TripTagID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: TripTagID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['TripTags'],
+    })
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetTripTagsAllQuery,
-  useGetTripTagsByTripIDQuery
+  useGetTripTagsByTripIDQuery,
+  usePostTripTagsByTripIDAndTagIDMutation,
+  useDeleteTripTagsMutation
 } = tripTagsAPI;

@@ -3,12 +3,12 @@ import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../../api/fo
 import CustomMap from './CustomMap';
 import CustomToggle from '../CustomToggle';
 import ButtonPOISelection from './ButtonPOISelection';
-import TogglePlaceName from './TogglePlaceName';
 import ToggleDice from './ToggleDice';
 import TripSearchTools from './TripSearchTools';
 import ButtonGPSSearch from './ButtonGPSSearch';
 import ButtonPinSearch from './ButtonPinSearch';
 import CustomError from '../CustomError';
+import TripPlanningTools from './TripPlanningTools';
 
 function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
@@ -30,23 +30,25 @@ function TripsItems() {
   };
 
   return (
-    <div className='mx-auto'>
-      <div className='text-2xl'>
-        <div className='flex-col overflow-x-auto mt-1'>
-          <div>
-            <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-            <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-            <ButtonPOISelection reset={reset} isFetching={isFetching} />
-            <ToggleDice poi={poi} />
-            <TogglePlaceName />
-            <CustomToggle
-              translate='no'
-              title='⚙️'
-              component={<TripSearchTools />}
-            />
-          </div>
-          {getAPIStatus()}
+    <div>
+      <div className='flex-col overflow-x-auto pt-1 text-2xl'>
+        <div>
+          <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+          <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+          <ButtonPOISelection reset={reset} isFetching={isFetching} />
+          <ToggleDice poi={poi} />
+          <CustomToggle
+            translate='no'
+            title='⚙️'
+            component={<TripSearchTools />}
+          />
+          <CustomToggle
+            translate='no'
+            title='🏖️'
+            component={<TripPlanningTools />}
+          />
         </div>
+        {getAPIStatus()}
       </div>
       <div>
         <CustomMap

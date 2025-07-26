@@ -24,12 +24,42 @@ export const poisAPI = createApi({
         url: '/poisbytrip',
         tagName: 'POIs'
       }
-    )
+    ),
+    postPOIByTripID: builder.mutation({
+      query: (newPOI) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newPOI },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['POIs'],
+    }),
+    updatePOIByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['POIs'],
+    }),
+    deletePOI: builder.mutation({
+      query: (poiID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: poiID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['POIs'],
+    })
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetPOIsAllQuery,
-  useGetPOIsByTripIDQuery
+  useGetPOIsByTripIDQuery,
+  usePostPOIByTripIDMutation,
+  useUpdatePOIByUUIDMutation,
+  useDeletePOIMutation
 } = poisAPI;

@@ -3,8 +3,16 @@ import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
-import { setIsShowingAddtionalPopUp, setIsShowingOnlySelectedPOI, setIsNavigating, setIsShowingSideBar } from '../../redux/reducers/mapReducer';
+import {
+  setIsShowingAddtionalPopUp,
+  setIsShowingOnlySelectedPOI,
+  setIsNavigating,
+  setIsShowingSideBar
+} from '../../redux/reducers/mapReducer';
 import ButtonMealsUpload from './ButtonMealsUpload';
+import ButtonHotelsUpload from './ButtonHotelsUpload';
+import ButtonPOIUpload from './ButtonPOIUpload';
+import ButtonTransportUpload from './ButtonTransportUpload';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
@@ -73,14 +81,16 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
           alt={`${photo.prefix}400x400${photo.suffix}`}
         />
       </button>
-    )) : null);
+    ))
+    : null
+  );
 
   const getPhotos = () => {
     if (getPOIPhotosQueryResult.isFetching) {
-      return 'Loading';
+      return <span>Loading</span>;
     }
     if (getPOIPhotosQueryResult.isError) {
-      return 'Photo Not Found';
+      return <span>Photo Not Found</span>;
     }
     if (getPOIPhotosQueryResult.isSuccess) {
       return formatPhotos();
@@ -103,34 +113,38 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             style={{ display: 'none' }}
           />
           <div
-            className='mapboxgl-popup-content text-xl cardPOIAddInfo'
+            className='text-base cardPOIAddInfo'
             style={{
-              borderRadius: 20,
-              backgroundColor: 'rgba(0,0,0,0.7)',
+              borderRadius: 10,
+              backgroundColor: 'rgba(0,0,0,0.8)',
               overflow: 'auto',
               width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
             }}
           >
             <CustomButton
               translate='no'
-              className='cancelButton'
+              className='buttonCancel'
               label='X'
               onClick={handleCloseButton}
             />
             <CustomButton
-              className='poiButton ml-4'
+              className='buttonPOI ml-4'
               label='Walk'
               onClick={handleDirectionButton}
             />
             <CustomButton
-              className='poiButton'
+              className='buttonPOI'
               label='Walk from 📍'
               onClick={handlePinDirectionButton}
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
             />
-            <ButtonMealsUpload filteredResult={filteredResult} />
-
-            <div translate='no' className='text-2xl'>
+            <div>
+              <ButtonMealsUpload filteredResult={filteredResult} />
+              <ButtonHotelsUpload filteredResult={filteredResult} />
+              <ButtonPOIUpload filteredResult={filteredResult} />
+              <ButtonTransportUpload filteredResult={filteredResult} />
+            </div>
+            <div translate='no' className='text-lg'>
               {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
             </div>
             <div className='cardPOIAddInfoPictures'>

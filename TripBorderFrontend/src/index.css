@@ -1,100 +1,174 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import 'tailwindcss';
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@theme {
+  /* Font Family */
+  --font-family-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+
+  /* Spacing */
+  --spacing-0: 0;
+  --spacing-0\.5: 0.125rem;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-safe-top: env(safe-area-inset-top);
+  --spacing-safe-right: env(safe-area-inset-right);
+  --spacing-safe-bottom: env(safe-area-inset-bottom);
+  --spacing-safe-left: env(safe-area-inset-left);
+
+  /* Colors */
+  --color-primary-light: rgba(225, 255, 180, 0.3);
+  --color-primary-dark: #171717;
+  --color-primary-title-light: #fcd34d;
+  --color-primary-title-dark: rgba(0, 0, 0, 0.7);
+  --color-primary-card-light: rgba(250, 190, 30, 0.3);
+  --color-primary-card-dark: rgba(0, 0, 0, 0.7);
+  --color-primary-button-light: #fcd34d;
+  --color-primary-button-dark: #ff871e;
+  --color-primary-button-light-hover: rgb(250, 190, 35);
+  --color-primary-button-dark-hover: #dd7700;
+  --color-primary-button-light-active: #fcd34d;
+  --color-primary-button-dark-active: #b45309;
+  --color-primary-button-dark-less-transparent: rgba(0, 0, 0, 0.9);
+  --color-primary-button-dark-transparent: rgba(0, 0, 0, 0.7);
+  --color-primary-button-dark-transparent-hover: rgba(0, 0, 0, 0.8);
+  --color-primary-button-dark-transparent-active: rgba(0, 0, 0, 0.9);
+  --color-primary-google-dark: #131314;
+  --color-primary-google-text-white: #1f1f1f;
+  --color-primary-google-text-dark: #e3e3e3;
+  --color-primary-google-border-light: #1f1f1f1f;
+  --color-primary-google-border-dark: #8e918f;
+  --color-primary-google-border-disabled-dark: #8e918f1f;
+  --color-primary-google-disabled-light: #ffffff61;
+  --color-primary-google-disabled-dark: #13131461;
+  --color-primary-google-focus: #303030;
 }
 
-#root {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @apply 
+  font-family-sans 
+  h-screen m-0 
+  overflow-hidden;
 }
 
 @layer components {
   body {
-    @apply bg-primary-light dark:bg-primary-dark;
+    @apply 
+    bg-primary-light dark:bg-primary-dark;
   }
 
   table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: theme('spacing.4');;
+    @apply
+    w-full 
+    mb-4
+    border-collapse;
   }
-  
-  th, td {
-    border-width: theme('borderWidth.2');
-    padding: theme('spacing.2');
-    text-align: left;
-    @apply bg-primary-light dark:bg-primary-dark
+
+  th,
+  td {
+    @apply 
+    bg-primary-light dark:bg-primary-dark
+    border-2 p-2 text-left;
   }
-  
+
   th {
-    @apply bg-primary-light dark:bg-primary-dark
+    @apply 
+    bg-primary-light dark:bg-primary-dark;
   }
 
   .customdiv {
-    @apply text-primary-dark dark:text-white
+    @apply 
+    text-primary-dark dark:text-white;
   }
 
   .customInput {
-    margin: theme('spacing.[1]');
-    padding: theme('spacing.2');
-    border-radius: theme('borderRadius.xl');
-    @apply bg-primary-light dark:bg-primary-dark
-    dark:text-white
+    @apply 
+    m-1 p-2
+    rounded-xl
+    bg-primary-light dark:bg-primary-dark 
+    dark:text-white;
   }
 
   .customInput:focus {
-    @apply dark:bg-primary-dark
-    dark:text-white
+    @apply 
+    dark:bg-primary-dark dark:text-white;
+  }
+
+  input[type="text"]:focus {
+    @apply
+    dark:bg-primary-dark;
+  }
+
+  input[type="number"]:focus {
+    @apply
+    dark:bg-primary-dark;
   }
 
   input[type="file"]::-webkit-file-upload-button {
-    border-width: 0;
-    border-radius: theme('borderRadius.xl');
-    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
-    dark:text-white
+    @apply 
+    px-2
+    border-0
+    rounded-xl
+  bg-primary-button-dark
+  dark:text-white;
   }
 
   input[type="file"]::-webkit-file-upload-button:hover {
-    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+    @apply 
+    bg-primary-button-dark-hover;
+  }
+
+  input[type="date"]:focus{
+    @apply 
+    dark:bg-primary-dark;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator {
-    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+    @apply 
+    rounded-full;
   }
 
   input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    cursor: pointer;
-    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
-  }
-
-  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    @apply bg-primary-buttonLight dark:bg-primary-buttonDark
+    @apply 
+    cursor-pointer
+    rounded-full
+  bg-primary-button-dark-hover;
   }
 
   input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
-    cursor: pointer;
-    @apply bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover
+    @apply 
+    cursor-pointer
+    rounded-full
+  bg-primary-button-dark-hover;
   }
 
   select {
-    margin: theme('spacing.2');
-    padding: theme('spacing.2');
-    border-width: 0;
-    border-radius: theme('borderRadius.xl');
-    @apply bg-primary-light dark:bg-primary-dark
+    @apply 
+    m-2 p-2
+    border-0 rounded-xl
+    bg-primary-light dark:bg-primary-dark;
   }
 
   select:focus {
-    @apply dark:bg-primary-dark
+    @apply 
+    dark:bg-primary-dark;
+  }
+
+  .content {
+    height: calc(100vh - 0.25rem);
+    @apply
+    overflow-y-auto;
   }
 
   .sign-in-google-button-icon {
@@ -107,268 +181,330 @@ body {
 
   .safeArea {
     min-height: 100vh;
-    padding-top: env(safe-area-inset-top);
-    padding-right: env(safe-area-inset-right);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
+    padding-top: var(--spacing-safe-top);
+    padding-right: var(--spacing-safe-right);
+    padding-bottom: var(--spacing-safe-bottom);
+    padding-left: var(--spacing-safe-left);
     box-sizing: border-box;
-  }  
+  }
 
   .button {
-    min-width: 8rem;
-    font-size: 1.25rem;
-    text-align: center;
-    align-content: center;
-    margin: theme('spacing.2');
-    border-radius: theme('borderRadius.full');
-    padding: theme('spacing[1]');
-    box-shadow: theme('boxShadow.sm');
     @apply 
-    bg-primary-buttonLight dark:bg-primary-buttonDark 
+    min-w-32
+    m-2 p-2
+    shadow-xs
+    text-lg
+    text-center
+    content-center
+    rounded-full -tracking-wider 
+    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
   .button:hover {
-    border-color: theme('backgroundColor.amber.50');
     @apply 
+    border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
   .button:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
+    @apply
+    border-amber-50
+    bg-amber-600;
   }
 
   .button:disabled {
-    opacity: 0.25;
-    border-color: theme('backgroundColor.amber.300');
-    background-color: theme('backgroundColor.amber.300');
+    @apply
+    opacity-25 
+    border-amber-300 bg-amber-300;
   }
 
-  .backButton {
-    min-width: 2rem;
-    text-align: center;
-    align-content: center;
-    border-radius: theme('borderRadius.full');
-    padding: theme('spacing[1]');
+  .buttonTrip {
     @apply 
-    bg-amber-100 dark:bg-primary-cardDark
+    text-pretty text-center 
+    content-center 
+    m-2 py-1 px-4 
+    rounded-full 
+    bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
   }
 
-  .backButton:hover {
-    border-color: theme('backgroundColor.amber.50');
+  .buttonTrip:hover {
     @apply 
+    border-amber-50 
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .backButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
+  .buttonTrip:active {
+    @apply 
+    border-amber-50 bg-amber-600;
   }
 
-  .editButton {
-    min-width: 2rem;
-    text-align: center;
-    align-content: center;
-    border-radius: theme('borderRadius.full');
-    padding: theme('spacing[1]');
+  .buttonTrip:disabled {
     @apply 
-    bg-amber-100 dark:bg-primary-cardDark
+    opacity-25 border-amber-300 bg-amber-300;
+  }
+
+  .buttonDelete {
+    @apply 
+    text-pretty text-center 
+    content-center 
+    m-2 py-1 px-4 
+    rounded-full 
+    bg-red-700 dark:bg-red-700
     text-black dark:text-white;
   }
 
-  .editButton:hover {
-    border-color: theme('backgroundColor.amber.50');
+  .buttonDelete:hover {
     @apply 
+    bg-red-800 dark:bg-red-800
+  }
+
+  .buttonDelete:active {
+    @apply 
+  dark:bg-red-900;
+  }
+
+  .buttonDelete:disabled {
+    @apply 
+    opacity-25 border-amber-300 bg-amber-300;
+  }
+
+  .buttonBack {
+    @apply
+    min-w-8
+    text-center
+    content-center
+    rounded-full
+    px-4 py-1 mx-1 
+    bg-amber-100 dark:bg-primary-card-dark
+    text-black dark:text-white;
+  }
+
+  .buttonBack:hover {
+    @apply 
+    border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .editButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
+  .buttonBack:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
   }
 
-  .cancelButton {
-    margin-bottom: 1rem;
-    padding-left: theme('spacing.2');
-    padding-right: theme('spacing.2');
-    align-content: center;
-    border-radius: 50%;
-    background-color: theme('backgroundColor.red.600');
-    opacity: 0.9;
-    @apply text-black dark:text-white;
+  .buttonEdit {
+    @apply 
+    text-center 
+    content-center 
+    rounded-full 
+    p-1 
+    bg-amber-100 dark:bg-primary-card-dark
+    text-black dark:text-white;
   }
 
-  .cancelButton:hover {
-    background-color: theme('backgroundColor.red.700');
+  .buttonEdit:hover {
+    @apply 
+    border-amber-50 
+    bg-amber-400 dark:bg-amber-600;
   }
 
-  .cancelButton:active {
-    background-color: theme('backgroundColor.red.800');
+  .buttonEdit:active {
+    @apply 
+    border-amber-50 bg-amber-600;
+  }
+
+  .buttonCancel {
+    @apply 
+    px-2
+    opacity-90
+    rounded-full
+    bg-red-600
+    text-black dark:text-white;
+  }
+
+  .buttonCancel:hover {
+    @apply
+    bg-red-800;
+  }
+
+  .buttonCancel:active {
+    @apply
+    bg-red-900;
   }
 
   .title {
-    font-weight: 300;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 1.5rem;
-    line-height: 1.618rem;
-    text-align: center;
     @apply 
-    bg-primary-titleLight dark:bg-primary-titleDark
+    flex justify-center 
+    font-light text-xl text-center
+    bg-primary-title-light dark:bg-primary-title-dark
     text-black dark:text-white;
   }
 
   .card {
-    margin: theme('spacing.4');
-    border-radius: theme('borderRadius.lg');
-    border-width: theme('borderWidth.4');
-    padding: theme('spacing.4');
-    box-shadow: theme('boxShadow.sm');
+    @apply
+    m-4 p-4
+    rounded-lg border-4 
+    shadow-xs;
+  }
+
+  .cardMX1 {
+    @apply 
+    mx-1 mt-1 
+    dark:bg-primary-dark;
   }
 
   .cardTrip {
-    margin-left: theme('spacing[1]');
-    margin-right: theme('spacing[1]');
-    margin-top: theme('spacing[1]');
-    @apply dark:bg-primary-dark;
+    @apply 
+    dark:bg-primary-dark;
   }
 
   .cardPOI {
-    font-size: large;
-    line-height: 1.5rem;
     width: 99%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: theme('spacing.[0.5]');
-    padding: theme('spacing[2]');
-    border-radius: theme('borderRadius.lg');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.600');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.0');
-    border-right-width: theme('borderWidth.0');
-    @apply 
-    bg-amber-50 dark:bg-amber-500
-    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+    @apply
+    ml-auto mr-auto mt-0.5
+    p-2
+    border-0
+    rounded-lg
+    shadow-md
+    text-lg
+    border-amber-600
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOI:hover {
-    background-color: theme('backgroundColor.amber.100');
-    @apply  bg-amber-100 dark:bg-primary-buttonDark
+    @apply 
+    bg-amber-100
+    dark:bg-primary-button-dark;
   }
 
   .cardPOI:active {
-    @apply  bg-amber-100 dark:bg-amber-600
-  }
-
-  .cardPOI:focus, :focus-visible {
-    background-color: theme('backgroundColor.amber.200');
-    @apply  bg-amber-200 dark:bg-amber-600
-  }
-
-  .cardMileage {
-    font-size: large;
-    line-height: 1.5rem;
-    width: 100%;
-    margin-bottom: theme('spacing.[1]');
-    padding: theme('spacing[2]');
-    border-radius: theme('borderRadius.lg');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.300');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.2');
-    border-right-width: theme('borderWidth.2');
     @apply 
-    bg-amber-50 dark:bg-amber-500
-    border-amber-400 dark:bg-primary-buttonDarkTransparent;
+    bg-amber-100 dark:bg-amber-600;
   }
 
-  .cardcardMileage:hover {  
-    @apply  bg-amber-100 dark:bg-primary-dark
+  .cardPOI:focus,
+  :focus-visible {
+    @apply 
+    bg-amber-200
+    dark:bg-amber-600;
+  }
+
+  .cardBorderLR {
+    @apply
+    w-full
+    mb-1
+    p-2
+    shadow-md
+    text-lg
+    border-t-0 border-b-0 border-l-2 border-r-2
+    rounded-lg
+    border-amber-300
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
+  }
+
+  .cardBorderTB {
+    @apply
+    w-full
+    mb-1
+    p-2
+    text-lg
+    shadow-md
+    border-t-2 border-b-2 border-l-0 border-r-0
+    rounded-lg
+    border-amber-300
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
+  }
+
+  .cardBorderT {
+    @apply 
+    w-full
+    mb-1
+    p-2
+    text-lg
+    shadow-md
+    border-t-2 border-b-0 border-l-0 border-r-0
+    rounded-lg
+    border-amber-300
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
+  }
+
+  .cardBorderless {
+    @apply
+    mb-1
+    p-2
+    text-lg
+    shadow-md
+    border-0
+    rounded-lg
+    border-amber-300
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOIMarker {
-    margin: theme('spacing.2');
-    border-radius: theme('borderRadius.lg');
-    padding: theme('spacing.1');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.400');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.0');
-    border-right-width: theme('borderWidth.0');
-    font-size: 1rem;
-    line-height: 1.5rem;
-    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+    @apply 
+    min-w-8 px-2 py-0.5 
+    rounded-full border-x-0 shadow-xs text-lg 
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOIMarker:hover {
-    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover;
+    @apply 
+    bg-amber-100 dark:bg-primary-button-dark-transparent-hover;
   }
 
   .cardPOIMarker:active {
-    @apply bg-amber-200 dark:bg-primary-buttonDarkTransparentActive;
+    @apply 
+    bg-amber-200 dark:bg-primary-button-dark-transparent-active;
   }
 
   .cardPOIAddInfo {
     z-index: 2;
-    margin-top: 6.5rem;
-    border-color: theme('colors.amber.300');
-    border-radius: theme('borderRadius.lg');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.0');
-    border-right-width: theme('borderWidth.0');
-    @apply text-white dark:text-white;
+    @apply 
+    p-2
+    bottom-0
+    border-0
+    rounded-lg
+    border-amber-300
+    absolute h-1/2 text-white dark:text-white;
   }
 
   .cardPOIAddInfoPictures {
-    z-index: 0;
-    display: flex;
-    overflow: scroll;
-    margin-bottom: 100%;
     padding-right: 30%;
     padding-bottom: 30%;
+    @apply 
+    flex z-0 overflow-x-scroll;
   }
 
   .cardInfo {
-    padding: theme('spacing.2');
-    margin-bottom: theme('spacing.2');
-    box-shadow: theme('boxShadow.md');
-    border-color: theme('colors.amber.400');
-    border-radius: theme('borderRadius.lg');
-    border-top-width: theme('borderWidth.0');
-    border-bottom-width: theme('borderWidth.0');
-    border-left-width: theme('borderWidth.2');
-    border-right-width: theme('borderWidth.0');
     @apply 
-    bg-amber-100 dark:bg-primary-cardDark;
+    p-2 mb-0.5 
+    border-amber-400 rounded-lg border-t-0 border-b-0 border-l-2 border-r-0 
+    bg-amber-100 dark:bg-primary-card-dark;
   }
 
   .picture {
-    display: block;
-    border-width: 0;
-    border-radius: theme('borderRadius.md');
-    padding: 0;
-    max-height: 25vh;
-    max-width: 25vw;
+    @apply 
+    p-0
+    border-0
+    rounded-md
+    block
+    max-w-24;
   }
-  
+
   .pictureContainer {
-    padding: 0;
-    margin: theme('spacing.[1]');
     transform-origin: top left;
     -webkit-transform-origin: top left;
-    transition-property: transform;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
+    @apply
+    transform duration-200 ease-in-out
+    p-0
+    m-1;
   }
 
   .pictureContainer:hover {
-    cursor: pointer;
+    @apply
+    cursor-pointer;
   }
 
   .pictureContainer:focus {
@@ -376,330 +512,404 @@ body {
     transform-origin: top left;
     -webkit-transform: translate(0%, 0%) scale(2);
     -webkit-transform-origin: top left;
-    transition-property: transform padding;
+    transition-property: transform, padding;
     transition-duration: 0.2s;
     transition-timing-function: ease-in-out;
   }
 
   .pictureMileage {
-    display: block;
-    border-width: 0;
-    border-radius: theme('borderRadius.md');
-    padding: 0;
-    max-height: 50;
+    max-height: 50px;
+    @apply
+    block
+    p-0
+    border-0
+    rounded-md;
   }
 
   .pictureMileagePopUp {
-    display: block;
-    border-width: 0;
-    border-radius: theme('borderRadius.md');
-    padding: 0;
-    max-width: 100vw;
+    @apply
+    max-w-screen
+    block
+    p-0
+    border-0
+    rounded-md;
   }
 
   .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
     z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    @apply
+    flex
+    fixed
+    justify-center
+    items-center
+    top-0
+    left-0
+    w-full
+    h-full;
   }
 
   .popup-content {
     width: 95vw;
-    padding: theme('spacing.4');
-    border-radius: theme('borderRadius.lg');
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    @apply bg-primary-light dark:bg-primary-dark;
+    @apply 
+    p-4
+    text-center
+    rounded-lg
+    bg-primary-light dark:bg-primary-dark;
   }
 
+  .tripAbsoluteContent {
+    @apply 
+    flex-wrap
+    rounded-lg
+    w-full
+    p-2
+    z-10
+    left-0
+    overflow-y-scroll
+    absolute h-2/5 
+    bg-amber-50 dark:bg-primary-button-dark-less-transparent;
+  }
 
   .sidebarInstructionsContent {
-    flex-wrap: wrap;
-    overflow-y: scroll;
-    padding: 0.25rem;
     width: 15rem;
     height: 12rem;
-    border-radius: theme('borderRadius.lg');
-    @apply  bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+    @apply 
+    flex-wrap
+    mt-2
+    p-1
+    rounded-lg
+    overflow-y-scroll
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .sidebarInstructionsToggle {
-    border-radius: theme('borderRadius.lg');
-    position: absolute;
-    width: 1.618rem;
     height: 3rem;
-    overflow: visible;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @apply
+    flex
+    justify-center
+    items-center
+    w-6
+    overflow-visible
+    absolute
+    rounded-lg;
   }
 
   .sidebarInstructionsToggle.left {
     right: -2rem;
-    @apply bg-amber-50 dark:bg-primary-buttonDarkTransparent;
+    @apply 
+    bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .sidebarInstructionsToggle:hover {
-    cursor: pointer;
-    @apply bg-amber-100 dark:bg-primary-buttonDarkTransparentHover;
+    @apply 
+    cursor-pointer
+    bg-amber-100 dark:bg-primary-button-dark-transparent-hover;
   }
 
   .sidebarInstructions {
-    transition: transform .5s;
+    transition: transform 0.5s;
     z-index: 1;
     width: 15rem;
     height: 100%;
-}
+  }
 
   .left.collapsed {
     transform: translateX(-245px);
   }
 
   .flex-center {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    @apply
+    flex
+    justify-center
+    items-center
+    absolute;
+  }
 
   .bottommenu {
-    position: absolute;
     z-index: 1;
     top: 70%;
     bottom: 6%;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
+    @apply
+    absolute;
   }
 
-  .poiButton {
+  .buttonPOI {
     line-height: 1rem;
-    align-content: center;
-    border-radius: theme('borderRadius.full');
-    margin: theme('spacing.[0.5]');
-    padding: theme('spacing.2');
-    box-shadow: theme('boxShadow.sm');
-    border-color: theme('backgroundColor.amber.50');
-    @apply  
-    bg-primary-buttonLight dark:bg-primary-buttonDark
-    text-black dark:text-white;
-  }
-
-  .poiButton:hover {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.400');
-    @apply  
-    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
-  }
-
-  .poiButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
-  }
-
-  .poiButton:disabled {
-    opacity: 0.25;
-    border-color: theme('backgroundColor.amber.300');
-    background-color: theme('backgroundColor.amber.300');
-  }
-
-  .poiCancelButton {
-    position: absolute;
-    top: 12rem;
-    font-size: 1.5rem;
-    line-height: 1.5rem;
-    align-content: center;
-    border-radius: theme('borderRadius.lg');
-    margin: theme('spacing.1');
-    padding: theme('spacing.2');
-    box-shadow: theme('boxShadow.sm');
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.red.600');
-    @apply  
-    text-black dark:text-white;
-  }
-
-  .poiCancelButton:hover {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.red.700');
-  }
-
-  .poiCancelButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.red.800');
-  }
-
-  .poiDropdownButton {
-    line-height: 1rem;
-    align-content: center;
-    margin: theme('spacing.[0.5]');
-    padding: theme('spacing.[0.5]');
-    border-radius: theme('borderRadius.full');
-    border-color: theme('backgroundColor.amber.50');
-    @apply  
-    bg-primary-buttonLight dark:bg-primary-buttonDark
-    text-black dark:text-white;
-  }
-
-  .poiDropdownButton:hover {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.400');
-    @apply  
-    bg-primary-buttonLightHover dark:bg-primary-buttonDarkHover;
-  }
-
-  .poiDropdownButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
-  }
-
-  .poiDropdownButton:disabled {
-    opacity: 0.25;
-    border-color: theme('backgroundColor.amber.300');
-    background-color: theme('backgroundColor.amber.300');
-  }
-
-  .darkmodeButton {
-      font-size: 1rem;
-      line-height: 1rem;
-      width: 4rem;
-      text-align: center;
-      align-content: center;
-      border-radius: theme('borderRadius.full');
-      @apply 
-      bg-primary-buttonLight dark:bg-primary-buttonDark 
-      text-black dark:text-white;
-  }
-
-  .darkmodeButton:hover {
-    border-color: theme('backgroundColor.amber.50');
     @apply 
+    content-center
+    rounded-full
+    mx-0.5 mt-0 mb-0.5
+    p-2
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonPOI:hover {
+    @apply 
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOI:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOI:disabled {
+    @apply
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOIAdd {
+    line-height: 1rem;
+    @apply 
+    p-2
+    mx-0.5 mt-0 mb-0.5
+    rounded-full
+    content-center
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonPOIAdd:hover {
+    @apply 
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOIAdd:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOIAdd:disabled {
+    @apply
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOICancel {
+    top: 12.5rem;
+    font-size: large;
+    line-height: var(--spacing-4);
+    @apply
+    absolute
+    m-1
+    p-2
+    shadow-xs
+    content-center
+    rounded-lg
+    border-amber-50
+    bg-red-600
+    text-black dark:text-white;
+  }
+
+  .buttonPOICancel:hover {
+    @apply
+    border-amber-50
+    bg-red-700;
+  }
+
+  .buttonPOICancel:active {
+    @apply
+    border-amber-50
+    bg-red-800;
+  }
+
+  .buttonPOIDropdown {
+    line-height: 1rem;
+    @apply 
+    mx-0.5 my-0
+    px-1 py-0
+    rounded-full
+    content-center
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonPOIDropdown:hover {
+    @apply 
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOIDropdown:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOIDropdown:disabled {
+    @apply
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonDarkmode {
+    font-size: large;
+    line-height: 1rem;
+    width: 4rem;
+    @apply 
+    text-center
+    content-center
+    rounded-full
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonDarkmode:hover {
+    @apply 
+    border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
-  .darkmodeButton:active {
-    border-color: theme('backgroundColor.amber.50');
-    background-color: theme('backgroundColor.amber.600');
+  .buttonDarkmode:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
   }
 
   .slider {
-    cursor: grab;
     width: 90%;
     height: 0.25rem;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     margin-left: 7.5vw;
-    text-align: center;
-    border-radius: theme('borderRadius.lg');
+    @apply
+    cursor-grab
+    text-center
+    rounded-lg;
   }
 
   .sliderThumbCount {
     font-size: large;
     align-content: center;
-    width: calc(69vw/9);
+    width: calc(69vw / 9);
     height: 3rem;
     top: -1.5rem;
-    margin-left: calc((-69vw/9)/2);
-    border-radius: theme('borderRadius.xl');
-    color: theme('backgroundColor.amber.600');
-    background-color: theme('backgroundColor.amber.100');
+    margin-left: calc((-69vw / 9) / 2);
+    @apply
+    rounded-xl
+    text-amber-600
+    bg-amber-100;
   }
 
-  .sliderThumbCount:hover, .sliderThumbCount:focus  {
+  .sliderThumbCount:hover,
+  .sliderThumbCount:focus {
     border-width: 0.2rem;
-    border-color: theme('backgroundColor.amber.400');
-    outline: none;
+    @apply
+    outline-0
+    border-amber-400
+    bg-amber-100;
   }
 
   .sliderThumbRadius {
     font-size: large;
     align-content: center;
-    width: calc(105vw/10);
+    width: calc(105vw / 10);
     height: 3rem;
     top: -1.5rem;
-    margin-left: calc((-105vw/10)/2);
-    border-radius: theme('borderRadius.xl');
-    color: theme('backgroundColor.amber.600');
-    background-color: theme('backgroundColor.amber.100');
+    margin-left: calc((-105vw / 10) / 2);
+    @apply
+    rounded-xl
+    text-amber-600
+    bg-amber-100;
   }
 
-  .sliderThumbRadius:hover, .sliderThumbRadius:focus  {
+  .sliderThumbRadius:hover,
+  .sliderThumbRadius:focus {
     border-width: 0.2rem;
-    border-color: theme('backgroundColor.amber.400');
-    outline: none;
+    @apply
+    outline-0
+    border-amber-400
+    bg-amber-100;
   }
 
   .sliderMark {
-    width: .15em;
+    width: 0.15em;
     height: 0.15em;
-    border-radius: 50%;
-    background-color: theme('backgroundColor.amber.100');
+    @apply
+    rounded-full
+    bg-amber-100;
   }
 
   .sliderTrackCount {
-    margin-right: calc(69vw/9);
+    margin-right: calc(69vw / 9);
     height: 0.15em;
-    border-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.amber.950');
+    @apply
+    rounded-full
+    bg-amber-950;
   }
 
   .sliderTrackRadius {
-    margin-right: calc(105vw/10);
+    margin-right: calc(105vw / 10);
     height: 0.15em;
-    border-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.amber.950');
+    @apply
+    rounded-full
+    bg-amber-950;
   }
 
   .sliderTrackCount.sliderTrackCount-0 {
     height: 0.15em;
-    border-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.amber.600');
+    @apply
+    rounded-full
+    bg-amber-600;
   }
 
   .sliderTrackRadius.sliderTrackRadius-0 {
     height: 0.15em;
-    border-radius: theme('borderRadius.lg');
-    background-color: theme('backgroundColor.amber.600');
+    @apply
+    rounded-full
+    bg-amber-600;
   }
 
   .profilepic {
-    align-self: center;
-    border-radius: 8rem;
-    margin: theme('spacing.2');
-    @apply bg-primary-light dark:bg-primary-dark;
+    @apply 
+    self-center
+    rounded-full
+    m-2
+    bg-primary-light dark:bg-primary-dark;
   }
 
   .inputField {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    @apply
+    flex
+    flex-col
+    justify-between;
   }
 
   .toggle {
-    text-align: center;
-    align-content: center;
-    border-radius: theme('borderRadius.full');
     @apply 
-    bg-primary-buttonLight dark:bg-primary-dark 
+    min-w-9 
+    text-center
+    -tracking-wider 
+    content-center
+    rounded-full
+    bg-primary-button-light dark:bg-primary-dark 
     text-black dark:text-white;
   }
 
   .toggle:hover {
-    border-color: theme('backgroundColor.amber.50');
     @apply 
-    bg-amber-400 dark:bg-primary-googlefocus ;
+    border-amber-50
+    bg-amber-400 dark:bg-primary-google-focus;
   }
 
-  /**
-   Light Google Sign in button styles beginning
-   */
+  /* Google Sign-In Button Styles */
   .gsi-material-button {
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -707,9 +917,7 @@ body {
     -webkit-appearance: none;
     background-image: none;
     border: 1px solid #747775;
-    -webkit-border-radius: 20px;
     border-radius: 20px;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     cursor: pointer;
     font-family: 'Roboto', arial, sans-serif;
@@ -721,41 +929,37 @@ body {
     padding: 0 12px;
     position: relative;
     text-align: center;
-    -webkit-transition: background-color .218s, border-color .218s, box-shadow .218s;
-    transition: background-color .218s, border-color .218s, box-shadow .218s;
+    transition: background-color 0.218s, border-color 0.218s, box-shadow 0.218s;
     vertical-align: middle;
     white-space: nowrap;
     width: auto;
     max-width: 400px;
     min-width: min-content;
-    @apply bg-white dark:bg-primary-googleDark
-    text-primary-googleTextWhite dark:text-primary-googleTextDark
-    dark:border-primary-googleBorderDark;
+    @apply 
+    bg-white dark:bg-primary-google-dark 
+    text-primary-google-text-white dark:text-primary-google-text-dark 
+    dark:border-primary-google-border-dark;
   }
-  
+
   .gsi-material-button .gsi-material-button-icon {
     height: 20px;
     margin-right: 12px;
     min-width: 20px;
     width: 20px;
   }
-  
+
   .gsi-material-button .gsi-material-button-content-wrapper {
-    -webkit-align-items: center;
     align-items: center;
     display: flex;
-    -webkit-flex-direction: row;
     flex-direction: row;
-    -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
     height: 100%;
     justify-content: space-between;
     position: relative;
     width: 100%;
   }
-  
+
   .gsi-material-button .gsi-material-button-contents {
-    -webkit-flex-grow: 1;
     flex-grow: 1;
     font-family: 'Roboto', arial, sans-serif;
     font-weight: 500;
@@ -763,10 +967,9 @@ body {
     text-overflow: ellipsis;
     vertical-align: top;
   }
-  
+
   .gsi-material-button .gsi-material-button-state {
-    -webkit-transition: opacity .218s;
-    transition: opacity .218s;
+    transition: opacity 0.218s;
     bottom: 0;
     left: 0;
     opacity: 0;
@@ -774,42 +977,41 @@ body {
     right: 0;
     top: 0;
   }
-  
+
   .gsi-material-button:disabled {
     cursor: default;
-    @apply bg-primary-googleDisabledLight dark:bg-primary-googleDisabledDark
-    border-primary-googleBorderLight dark:border-primary-googleBorderDisabledDark;
+    @apply 
+    bg-primary-google-disabled-light dark:bg-primary-google-disabled-dark 
+    border-primary-google-border-light dark:border-primary-google-border-disabled-dark;
   }
-  
+
   .gsi-material-button:disabled .gsi-material-button-contents {
-    opacity: 38%;
+    opacity: 0.38;
   }
-  
+
   .gsi-material-button:disabled .gsi-material-button-icon {
-    opacity: 38%;
+    opacity: 0.38;
   }
-  
-  .gsi-material-button:not(:disabled):active .gsi-material-button-state, 
+
+  .gsi-material-button:not(:disabled):active .gsi-material-button-state,
   .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
-    opacity: 12%;
-    @apply bg-primary-googlefocus dark:bg-white;
+    opacity: 0.12;
+    @apply 
+    bg-primary-google-focus dark:bg-white;
   }
-  
+
   .gsi-material-button:not(:disabled):hover {
-    -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
-    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
   }
-  
+
   .gsi-material-button:not(:disabled):hover .gsi-material-button-state {
-    background-color: #303030;
-    opacity: 8%;
-    @apply bg-primary-googlefocus dark:bg-white;
+    background-color: var(--color-primary-google-focus);
+    opacity: 0.08;
+    @apply 
+    dark:bg-white;
   }
 
   .gsi-material-button:disabled .gsi-material-button-state {
     background-color: #e3e3e31f;
   }
-  /**
-   Google Sign in button styles End
-   */
 }

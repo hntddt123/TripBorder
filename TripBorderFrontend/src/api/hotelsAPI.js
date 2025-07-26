@@ -24,12 +24,32 @@ export const hotelsAPI = createApi({
         url: '/hotelsbytrip',
         tagName: 'Hotels'
       }
-    )
+    ),
+    postHotelsByTripID: builder.mutation({
+      query: (newHotel) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newHotel },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Hotels'],
+    }),
+    deleteHotels: builder.mutation({
+      query: (hotelID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: hotelID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Hotels'],
+    })
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetHotelsAllQuery,
-  useGetHotelsByTripIDQuery
+  useGetHotelsByTripIDQuery,
+  usePostHotelsByTripIDMutation,
+  useDeleteHotelsMutation
 } = hotelsAPI;

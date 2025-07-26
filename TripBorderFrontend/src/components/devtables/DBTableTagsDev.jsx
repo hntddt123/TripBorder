@@ -48,6 +48,7 @@ function DBTableTagsDev() {
           <tr>
             <th>uuid</th>
             <th>name</th>
+            <th>owner_email</th>
           </tr>
         </thead>
         <tbody>
@@ -55,6 +56,7 @@ function DBTableTagsDev() {
             <tr key={tag.uuid}>
               <td>{tag.uuid}</td>
               <td>{tag.name}</td>
+              <td>{tag.owner_email}</td>
             </tr>
           ))}
         </tbody>

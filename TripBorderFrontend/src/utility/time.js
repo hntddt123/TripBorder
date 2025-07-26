@@ -1,42 +1,61 @@
 import { DateTime } from 'luxon';
 
-export const getDate = (date) => DateTime.fromISO(date).toISODate();
+export const formatDateMM = (date) => DateTime.fromISO(date).toFormat('MM');
+export const formatDateMMM = (date) => DateTime.fromISO(date).toFormat('MMM');
+export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');
+export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
+export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
+export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
+export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy');
+export const formatDateMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm');
+export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy ZZZZ');
+export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
+export const formatDateyyyyMMdd = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
 
-export const getLocalTime = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
+export const checkDateToDay = (date1, date2) => (date1.hasSame(date2, 'day'));
+export const isDatePast = (date) => ((DateTime.fromISO(date) - DateTime.now().startOf('day')) < 0);
+export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
+export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 
-export const getLocalTimeToMin = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
+export const setLocalTime = (date) => DateTime.fromISO(date);
+export const breakfastTime = (date) => DateTime.fromISO(date).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
+export const lunchTime = (date) => DateTime.fromISO(date).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
+export const dinnerTime = (date) => DateTime.fromISO(date).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
 
-export const getLocalTimeToSecond = (date) => new Date(date).toLocaleString(undefined, {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: '2-digit',
-  timeZoneName: 'shortOffset',
-  hour12: false
-});
+export const isTimeValid = (value, tripData, name) => {
+  if (value === '') {
+    return '';
+  }
+
+  const time = DateTime.fromISO(value);
+  if (!time.isValid) {
+    return `Invalid ${name} Time format`;
+  }
+
+  const now = DateTime.local();
+  if (time < now) {
+    return `${name} Time cannot be past`;
+  }
+  // e.g., 2025-07-25T00:00:00-06:00
+  const startDate = DateTime.fromISO(tripData.start_date).startOf('day');
+  if (time < startDate) {
+    return `${name} Time cannot be before Trip Start Date`;
+  }
+  // Exclusive end: 2025-07-26T00:00:00-06:00
+  const endDate = DateTime.fromISO(tripData.end_date).plus({ days: 1 }).startOf('day');
+  if (time >= endDate) {
+    return `${name} Time cannot be after Trip End Date`;
+  }
+
+  return '';
+};
 
 export const isMileageExpired = (mileageExpiredAt) => {
   // Parse PostgreSQL timestamp as UTC (adjust time zone if needed)
   const expiryDate = DateTime.fromISO(mileageExpiredAt, { zone: 'utc' });
 
   // Get current date at midnight in UTC
-  const today = DateTime.now().setZone('utc').startOf('day');
+  const today = DateTime.local().setZone('utc').startOf('day');
 
   return (expiryDate <= today);
 };

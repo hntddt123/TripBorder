@@ -30,7 +30,7 @@ function ToggleDice({ poi }) {
   return (
     <Toggle
       translate='no'
-      className='ml-0.5 align-middle justify-center'
+      className='ml-1 mr-1 align-middle justify-center'
       icons={{
         checked: <div className='text-xs leading-3'>{diceIcon}</div>,
         unchecked: <div className='text-xs leading-3'>{diceIcon}</div>,

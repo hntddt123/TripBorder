@@ -1,17 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
 import {
   setTripUUID,
   setOwnerEmail,
   setCreatedDate,
-  resetTrip
+  resetTrip,
+  setStartDate,
+  setEndDate
 } from '../../redux/reducers/tripReducer';
-import { getLocalTime } from '../../utility/time';
+import {
+  setIsLoadTrip,
+  setIsEditingTrip
+} from '../../redux/reducers/userSettingsReducer';
+import { formatDateMMMddyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
-import TripUploadForm from './TripUploadForm';
 import CustomError from '../CustomError';
 import Meals from './Meals';
 import Hotels from './Hotels';
@@ -20,27 +25,38 @@ import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
 import TripsPast from './TripsPast';
+import TripUploadForm from './TripUploadForm';
+import Tags from './Tags';
 
 function TripCurrent() {
-  const [isLoadTrip, setIsLoadTrip] = useState(false);
+  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isEditingTrip = useSelector((state) => state.userSettingsReducer.isEditingTrip);
+  const tripData = useSelector((state) => state.tripReducer);
+
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
-  const tripData = useSelector((state) => state.tripReducer);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (data) {
+      dispatch(setStartDate(data.trip.start_date));
+      dispatch(setEndDate(data.trip.end_date));
+      dispatch(setTripUUID(data.trip.uuid));
       dispatch(setTripUUID(data.trip.uuid));
       dispatch(setOwnerEmail(data.trip.owner_email));
       dispatch(setCreatedDate(data.trip.created_at));
     }
   }, [data]);
 
+  const handleEditButton = () => {
+    dispatch(setIsEditingTrip(!isEditingTrip));
+  };
+
   const handleBackButton = () => {
-    setIsLoadTrip(false);
+    dispatch(setIsLoadTrip(false));
     dispatch(resetTrip());
   };
 
@@ -49,25 +65,45 @@ function TripCurrent() {
   };
 
   const handleLoadTripButtonClick = () => {
-    setIsLoadTrip(true);
+    dispatch(setIsLoadTrip(true));
   };
 
   const renderTripDetail = () => (
     <div>
-      <div>{`Start: ${getLocalTime(tripData.start_date)}`}</div>
-      <div>{`End: ${getLocalTime(tripData.end_date)}`}</div>
-    </div>
-  );
-
-  const renderTripsItem = () => (
-    <div className='flex justify-center'>
-      <CustomToggle
-        className='container overflow-x-auto font-mono -tracking-wider text-center'
-        aria-label={`Trip Button ${tripData.uuid}`}
-        id={tripData.uuid}
-        title={tripData.title}
-        component={renderTripDetail()}
-      />
+      <div className='text-pretty px-4 gap-x-1'>
+        <div className='underline underline-offset-2'>Travel Date</div>
+        {(tripData.start_date === tripData.end_date)
+          ? (
+            <div className='px-2 font-mono'>
+              {formatDateMMMddyyyy(tripData.end_date)}
+            </div>
+          )
+          : (
+            <div className='px-2 font-mono'>
+              {formatDateMMMddyyyy(tripData.start_date)} - {formatDateMMMddyyyy(tripData.end_date)}
+            </div>
+          )}
+      </div>
+      <div>
+        <CustomToggle
+          translate='no'
+          className='toggle min-h-12 min-w-72 max-w-72 text-lg mb-1'
+          aria-label='All Trip items'
+          title='All items'
+          component={(
+            <div>
+              <Meals tripID={tripData.uuid} />
+              <Hotels tripID={tripData.uuid} />
+              <POIs tripID={tripData.uuid} />
+              <Transports tripID={tripData.uuid} />
+              <TripTags tripID={tripData.uuid} />
+              <Tags tripID={tripData.uuid} />
+              <Ratings tripID={tripData.uuid} />
+            </div>
+          )}
+          isOpened
+        />
+      </div>
     </div>
   );
 
@@ -89,44 +125,56 @@ function TripCurrent() {
         </div>
       );
     }
-    return (
-      <div>
-        <CustomButton className='backButton' label='←' onClick={handleBackButton} />
-        <div className='text-center'>
-          <CustomToggle
-            className='text-2xl'
-            title='Plan Trip'
-            component={<TripUploadForm />}
-            isOpened
-          />
-        </div>
-      </div>
-    );
+    return null;
   };
 
   return (
-    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
-      <div className='cardInfo'>
-        {renderTripOptions()}
-        {(isLoading) ? <div>Creating...</div> : null}
-        {(error) ? <CustomError error={error} /> : null}
-      </div>
-      {tripData.uuid ? (
-        <div className='text-base text-center'>
-          Current Trips
-          <div key={tripData.uuid}>
-            <div className='cardMileage'>
-              {renderTripsItem()}
-              <Meals tripID={tripData.uuid} />
-              <Hotels tripID={tripData.uuid} />
-              <POIs tripID={tripData.uuid} />
-              <Transports tripID={tripData.uuid} />
-              <Ratings tripID={tripData.uuid} />
-              <TripTags tripID={tripData.uuid} />
+    <div>
+      {(tripData.uuid)
+        ? (
+          <div className='text-base'>
+            <div className='cardInfo'>
+              <div className='flex justify-between mb-1'>
+                {(!isEditingTrip)
+                  ? (
+                    <CustomButton
+                      className='buttonBack'
+                      label='←Trip Selection'
+                      onClick={handleBackButton}
+                    />
+                  )
+                  : <div />}
+                <CustomButton
+                  className='buttonBack'
+                  label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
+                  onClick={handleEditButton}
+                />
+              </div>
+              {(!isEditingTrip)
+                ? (
+                  <div className='text-center'>
+                    <CustomToggle
+                      translate='no'
+                      className='toggle min-h-12 min-w-80 max-w-80 text-lg'
+                      aria-label={`Trip Button ${tripData.uuid}`}
+                      id={tripData.uuid}
+                      title={tripData.title}
+                      component={renderTripDetail()}
+                      isOpened
+                    />
+                  </div>
+                )
+                : (
+                  <div className='text-center'>
+                    <TripUploadForm />
+                  </div>
+                )}
             </div>
           </div>
-        </div>
-      ) : ''}
+        )
+        : renderTripOptions()}
+      {(isLoading) ? <div>Creating...</div> : null}
+      {(error) ? <CustomError error={error} /> : null}
     </div>
   );
 }

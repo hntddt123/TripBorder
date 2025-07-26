@@ -1,5 +1,5 @@
 //  Arguments exmaple
-//  url: '/tripsbyemail',
+//  url: '/tableNamebyemail',
 //  method: 'POST',
 //  body: { email, page, limit },
 //  headers: { 'Content-Type': 'application/json' }

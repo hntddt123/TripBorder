@@ -24,12 +24,32 @@ export const transportsAPI = createApi({
         url: '/transportsbytrip',
         tagName: 'Transports'
       }
-    )
+    ),
+    postTransportByTripID: builder.mutation({
+      query: (newTransport) => ({
+        url: '/upload',
+        method: 'POST',
+        body: { data: newTransport },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Transports'],
+    }),
+    deleteTransport: builder.mutation({
+      query: (transportID) => ({
+        url: '/removebyid',
+        method: 'DELETE',
+        body: { data: transportID },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Transports'],
+    })
   })
 });
 
 // Export hooks for usage in components
 export const {
   useGetTransportsAllQuery,
-  useGetTransportByTripIDQuery
+  useGetTransportByTripIDQuery,
+  usePostTransportByTripIDMutation,
+  useDeleteTransportMutation
 } = transportsAPI;

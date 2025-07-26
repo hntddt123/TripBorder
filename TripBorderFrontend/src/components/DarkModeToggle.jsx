@@ -9,11 +9,15 @@ function DarkModeToggle() {
 
   const toggleDarkMode = () => {
     dispatch(setDarkMode(!darkMode));
-    document.documentElement.classList.toggle('dark');
+    if (darkMode) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
   };
 
   return (
-    <button className='darkmodeButton bg-slate-100 dark:bg-slate-800 p-2' onClick={toggleDarkMode}>
+    <button className='buttonDarkmode bg-slate-100 dark:bg-slate-800 p-2' onClick={toggleDarkMode}>
       {darkMode ? '🌙' : '🌞'}
     </button>
   );
