@@ -61,7 +61,6 @@ function ButtonPinSearch({ getNearbyPOIQueryTrigger }) {
   );
 }
 
-
 ButtonPinSearch.propTypes = {
   getNearbyPOIQueryTrigger: PropTypes.func
 };
