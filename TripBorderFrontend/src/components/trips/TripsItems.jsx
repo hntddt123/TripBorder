@@ -19,7 +19,7 @@ function TripsItems() {
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
   useEffect(() => {
-    setTimeout(() => window.scrollTo({ top: 50, behavior: 'smooth' }), 100);
+    setTimeout(() => window.scrollTo({ top: 30, behavior: 'smooth' }), 100);
   }, []);
 
   const getAPIStatus = () => {
@@ -39,8 +39,8 @@ function TripsItems() {
 
   return (
     <div>
-      <div className='flex-col overflow-x-auto pt-1 text-2xl'>
-        <div>
+      <div className='flex-col overflow-x-auto pt-1.5'>
+        <div className='max-h-13'>
           <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
           <ButtonPinSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
           <ButtonPOISelection reset={reset} isFetching={isFetching} />

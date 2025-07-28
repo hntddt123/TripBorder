@@ -53,7 +53,7 @@ function ButtonPinSearch({ getNearbyPOIQueryTrigger }) {
   return (
     <CustomButton
       translate='no'
-      className='buttonPOIAdd'
+      className='buttonTopbar'
       label={pinIcon}
       onClick={handleLongPressedMarkerButton}
       disabled={!hasLongPressedLonLat()}
