@@ -8,7 +8,7 @@ import TripsHistory from './components/trips/TripsHistory';
 import Settings from './components/Settings';
 import DatabaseTableDev from './components/devtables/DatabaseTableDev';
 import MileagesList from './components/mileages/MileagesList';
-import { VERSION_NUMBER, MODE } from './constants/constants';
+import { VERSION_NUMBER, isDevMode } from './constants/constants';
 import DevMode from './components/DevMode';
 import MileagesAdmin from './components/mileages/MileagesAdmin';
 import Disclaimers from './components/Disclaimers';
@@ -24,11 +24,22 @@ function App() {
           <Route
             path='/'
             element={(
-              <div className='flex flex-col content container justify-center text-center mx-auto max-w-lg'>
-                <Auth />
-                {(MODE === 'development')
-                  ? <DevMode />
-                  : <div className='text-2xl m-2'>Version: {VERSION_NUMBER}</div>}
+              <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+                {(isDevMode)
+                  ? (
+                    <div>
+                      <Auth />
+                      <DevMode />
+                    </div>
+                  )
+                  : (
+                    <>
+                      <Auth />
+                      <div className='text-2xl m-2'>
+                        Version: {VERSION_NUMBER}
+                      </div>
+                    </>
+                  )}
               </div>
             )}
           />

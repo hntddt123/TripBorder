@@ -1,9 +1,15 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
+import { isDevMode } from '../constants/constants';
 import CustomError from './CustomError';
 
 function ProtectedRoute() {
   const { data, isLoading, error } = useCheckAuthStatusQuery();
+
+  if (isDevMode) {
+    // Skip auth in dev mode
+    return <Outlet />;
+  }
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -13,9 +19,9 @@ function ProtectedRoute() {
     return <CustomError error={error} />;
   }
 
-  const isLoggedIn = data?.isLoggedIn === true;
+  const isAuthenticated = data?.isAuthenticated;
 
-  if (!isLoggedIn) {
+  if (!isAuthenticated) {
     return <Navigate to='/' replace />;
   }
   return <Outlet />;

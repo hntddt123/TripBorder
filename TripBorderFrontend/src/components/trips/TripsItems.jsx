@@ -1,5 +1,9 @@
+import { useEffect } from 'react';
 import { skipToken } from '@reduxjs/toolkit/query/react';
-import { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } from '../../api/foursquareSliceAPI';
+import {
+  useLazyGetNearbyPOIQuery,
+  useLazyGetPOIPhotosQuery
+} from '../../api/foursquareSliceAPI';
 import CustomMap from './CustomMap';
 import CustomToggle from '../CustomToggle';
 import ButtonPOISelection from './ButtonPOISelection';
@@ -13,6 +17,10 @@ import TripPlanningTools from './TripPlanningTools';
 function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
+
+  useEffect(() => {
+    setTimeout(() => window.scrollTo({ top: 50, behavior: 'smooth' }), 100);
+  }, []);
 
   const getAPIStatus = () => {
     if (isLoading) {

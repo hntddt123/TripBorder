@@ -8,6 +8,8 @@ const getEnv = () => ({
   PORT: import.meta.env.VITE_PORT || '5173',
 });
 
+export const isDevMode = (import.meta.env.MODE === 'development');
+
 export const {
   MODE,
   MAPBOX_API_KEY,

@@ -32,7 +32,7 @@ function Auth() {
 
   // User logged in, stopping polling
   useEffect(() => {
-    if (data?.isLoggedIn === true) {
+    if (data?.isAuthenticated) {
       setShouldPoll(false);
     }
   }, [data]);
@@ -59,7 +59,7 @@ function Auth() {
     return <CustomError error={error} />;
   }
 
-  const isLoggedIn = data?.isLoggedIn === true;
+  const isAuthenticated = data?.isAuthenticated;
   const userName = data?.name || null;
   const role = data?.role || null;
 
@@ -69,6 +69,7 @@ function Auth() {
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
           <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
+          <CustomButton label='Mileages' to='/mileages' />
           <CustomButton label='Mileage Verification' to='/mileagesverification' />
           <CustomButton label='Database Table' to='/database' />
         </div>
@@ -83,6 +84,18 @@ function Auth() {
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
           <CustomButton label='Plan Trip' to='/plantrip' />
           <CustomButton label='View Trips' to='/trips' />
+          <CustomButton label='Mileages' to='/mileages' />
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const renderUserFeatures = () => {
+    if (role === 'user') {
+      return (
+        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+          <CustomButton label='Mileages' to='/mileages' />
         </div>
       );
     }
@@ -91,14 +104,14 @@ function Auth() {
 
   return (
     <div>
-      {isLoggedIn ? (
+      {(isAuthenticated) ? (
         <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
           <div className='text-2xl'>Welcome, {userName}!</div>
-          <CustomButton label='Mileages' to='/mileages' />
-          <CustomButton label='Settings' to='/settings' />
-          <CustomButton label='Disclaimers' to='/disclaimers' />
           {renderAdminFeatures()}
           {renderPremiumUserFeatures()}
+          {renderUserFeatures()}
+          <CustomButton label='Settings' to='/settings' />
+          <CustomButton label='Disclaimers' to='/disclaimers' />
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

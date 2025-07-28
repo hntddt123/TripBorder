@@ -3,7 +3,7 @@ import CustomButton from './CustomButton';
 
 function TripBoard({ component }) {
   return (
-    <div className='content pt-1'>
+    <div className=' pt-1'>
       <CustomButton className='buttonBack' label='←' to='/' />
       <div className='flex flex-col'>
         {component}

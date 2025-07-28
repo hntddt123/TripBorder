@@ -56,10 +56,11 @@
 html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
   @apply 
   font-family-sans 
-  h-screen m-0 
-  overflow-hidden;
+  m-0
+  overflow-y-scroll;
 }
 
 @layer components {
@@ -166,7 +167,7 @@ html, body {
   }
 
   .content {
-    height: calc(100vh - 0.25rem);
+    /* height: calc(100vh - var(--spacing-safe-bottom)); */
     @apply
     overflow-y-auto;
   }
@@ -729,9 +730,8 @@ html, body {
   }
 
   .buttonPOIDropdown {
-    line-height: 1rem;
     @apply 
-    mx-0.5 my-0
+    mx-1 my-1
     px-1 py-0
     rounded-full
     content-center

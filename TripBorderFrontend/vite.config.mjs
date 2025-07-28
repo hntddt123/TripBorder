@@ -8,11 +8,6 @@ import path from 'path';
 export default defineConfig({
   base: '/',
   plugins: [react(), tailwindcss()],
-  preview: {
-    port: 5174,
-    strictPort: true,
-    host: true,
-  },
   server: {
     https: {
       key: fs.readFileSync(path.resolve(__dirname, './ssl/tripborderfrontend-key.pem')),
@@ -20,7 +15,12 @@ export default defineConfig({
     },
     port: 5173,
     strictPort: true,
-    host: true
+    host: true,
+  },
+  preview: {
+    port: 5174,
+    strictPort: true,
+    host: true,
   },
   build: {
     minify: 'esbuild'
