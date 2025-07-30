@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { API_ROUTES } from '../constants/api';
+import { API_ROUTES } from '../constants/apiConstants';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const transportsAPI = createApi({
