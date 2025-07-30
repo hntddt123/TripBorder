@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/api';
 
 export const authAPI = createApi({
   reducerPath: 'authAPI',
   tagTypes: ['Auth'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/auth`,
+    baseUrl: API_ROUTES.auth,
     credentials: 'include', // Include cookies in requests
   }),
   endpoints: (builder) => ({

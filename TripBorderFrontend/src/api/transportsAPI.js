@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/api';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const transportsAPI = createApi({
   reducerPath: 'transportsAPI',
   tagTypes: ['Transports'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/transports`,
+    baseUrl: API_ROUTES.transports,
     credentials: 'include',
   }),
   endpoints: (builder) => ({

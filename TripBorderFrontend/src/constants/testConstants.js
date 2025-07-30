@@ -3,7 +3,7 @@ function formatDateNowUTC() {
   return now.toISOString().slice(0, 19).replace('T', ' '); // "2025-04-25 12:34:56"
 }
 
-export const TestBaseUrl = 'https://localhost:5173';
+export const TestBaseUrl = 'https://localhost';
 
 export const TestAdminUser = {
   data: {

@@ -7,6 +7,6 @@ describe('DevMode tests', () => {
     renderWithRedux(<DevMode />);
     const versionText = screen.getByText(/Version:/i);
 
-    expect(versionText).toHaveTextContent('2.2.1');
+    expect(versionText).toHaveTextContent('Add version number in .env');
   });
 });

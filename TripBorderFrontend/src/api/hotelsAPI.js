@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/api';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const hotelsAPI = createApi({
   reducerPath: 'hotelsAPI',
   tagTypes: ['Hotels'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/hotels`,
+    baseUrl: API_ROUTES.hotels,
     credentials: 'include',
   }),
   endpoints: (builder) => ({

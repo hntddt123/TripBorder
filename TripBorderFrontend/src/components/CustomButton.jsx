@@ -1,18 +1,16 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function CustomButton({ className = 'button dark:button', label, onClick, type = 'button', disabled = false, to, ...props }) {
-  // If 'to' is provided, render a Link, otherwise render a button
-  if (to) {
-    return (
-      <Link className={`${className}`} to={to} {...props}>
-        {label}
-      </Link>
-    );
-  }
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (to) navigate(to);
+    if (onClick) onClick();
+  };
 
   return (
-    <button className={`${className}`} type={type} onClick={onClick} disabled={disabled} {...props}>
+    <button className={`${className}`} type={type} onClick={handleClick} disabled={disabled} {...props}>
       {label}
     </button>
   );

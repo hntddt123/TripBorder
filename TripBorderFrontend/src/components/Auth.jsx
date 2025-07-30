@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
-import { BACKEND_DOMAIN, PORT } from '../constants/constants';
+import { BASE_URL } from '../constants/constants';
 import CustomError from './CustomError';
 
 function Auth() {
@@ -39,7 +39,7 @@ function Auth() {
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
-    window.location.href = `https://${BACKEND_DOMAIN}:${PORT}/api/auth/google`;
+    window.location.href = `${BASE_URL}/api/auth/google`;
   };
 
   const handleLogout = async () => {

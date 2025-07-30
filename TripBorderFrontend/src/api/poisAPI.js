@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/api';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const poisAPI = createApi({
   reducerPath: 'poisAPI',
   tagTypes: ['POIs'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/pois`,
+    baseUrl: API_ROUTES.pois,
     credentials: 'include',
   }),
   endpoints: (builder) => ({
