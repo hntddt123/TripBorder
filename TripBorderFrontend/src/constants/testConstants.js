@@ -7,7 +7,7 @@ export const TestBaseUrl = 'https://localhost/';
 
 export const TestAdminUser = {
   data: {
-    isloggedIn: true,
+    isAuthenticated: true,
     uuid: '550e8400-e29b-41d4-a716-446655440777',
     email: 'testadmin@tripborder.com',
     provider: 'tripborder',

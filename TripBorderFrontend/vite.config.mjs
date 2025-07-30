@@ -14,30 +14,16 @@ export default defineConfig({
   server: {
     https: {
       key: fs.readFileSync(path.resolve(__dirname, KEY)),
-      cert: fs.readFileSync(path.resolve(__dirname, CERT)),
+      cert: fs.readFileSync(path.resolve(__dirname, CERT))
     },
-    port: 5173,
+    port: 5174,
     strictPort: true,
-    host: true,
-    proxy: {
-      '/api': {
-        target: 'https://localhost',
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+    host: true
   },
   preview: {
     port: 5174,
     strictPort: true,
-    host: true,
-    proxy: {
-      '/api': {
-        target: 'https://localhost',
-        changeOrigin: true,
-        secure: true,
-      },
-    },
+    host: true
   },
   build: {
     minify: 'esbuild'

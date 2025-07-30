@@ -1,13 +1,13 @@
 import { VERSION_NUMBER, MODE } from '../constants/constants';
 import CustomButton from './CustomButton';
-import { useMockAuth } from '../hooks/useMockAuth';
+import { useCheckAuthStatusQuery } from '../api/authAPI';
 
 function DevMode() {
-  const { data } = useMockAuth();
+  const { data } = useCheckAuthStatusQuery({ skip: true });
 
   return (
     <div>
-      {(data?.isAuthenticated)
+      {(!data?.isAuthenticated)
         ? (
           <div className='flex flex-col container justify-center text-center mx-auto max-w-2xl'>
             <div className='text-2xl m-2'>
