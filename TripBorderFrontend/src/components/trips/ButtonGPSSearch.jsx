@@ -37,7 +37,7 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
         pitch: 30,
-        zoom: 15
+        zoom: 15.5
       }));
 
       if (isThrowingDice) {

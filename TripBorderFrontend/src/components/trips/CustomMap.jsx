@@ -58,7 +58,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
   // Nice for padding mechanics
   const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
 
-  const handleLongPressedMarkerSearch = (lng, lat) => {
+  const handleMarkerSearch = (lng, lat) => {
     getNearbyPOIQueryTrigger({
       ll: `${lat},${lng}`,
       radius: selectedPOIRadius,
@@ -68,7 +68,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
     }, true);
     mapRef.current.flyTo({
       center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
-      zoom: 15, // Target zoom level.
+      zoom: 15.5, // Target zoom level.
       pitch: 30, // Target pitch angle in degrees.
       duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
       essential: true // Ensures animation runs even if user interacts (optional, for better UX).
@@ -138,7 +138,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
         latitude: lat,
       }));
       dispatch(setMarker(newMarker));
-      handleLongPressedMarkerSearch(lng, lat);
+      handleMarkerSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
 
@@ -227,6 +227,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
       <GeocoderControl
         mapboxAccessToken={MAPBOX_API_KEY}
         position='top-left'
+        handleMarkerSearch={handleMarkerSearch}
       />
       <FullscreenControl position='top-right' />
       <GeolocateControl
