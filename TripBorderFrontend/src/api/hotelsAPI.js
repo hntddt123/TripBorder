@@ -34,6 +34,15 @@ export const hotelsAPI = createApi({
       }),
       invalidatesTags: ['Hotels'],
     }),
+    updateHotelByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Hotels'],
+    }),
     deleteHotels: builder.mutation({
       query: (hotelID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetHotelsAllQuery,
   useGetHotelsByTripIDQuery,
   usePostHotelsByTripIDMutation,
+  useUpdateHotelByUUIDMutation,
   useDeleteHotelsMutation
 } = hotelsAPI;

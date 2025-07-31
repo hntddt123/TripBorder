@@ -78,7 +78,8 @@ function Transports({ tripID }) {
     <div>
       <div className='text-lg text-center'>
         <div>
-          {transports?.length > 0 ? <span>Transports</span> : null}
+          {(transports?.length > 0) && !isEditing ? <span>Transports</span> : null}
+          {(isEditing) ? <span>Edit Transports</span> : null}
           {transports?.length > 0 && !isLoadTrip
             ? (
               <CustomButton

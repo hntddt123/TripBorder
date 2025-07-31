@@ -5,6 +5,7 @@ export const formatDateMMM = (date) => DateTime.fromISO(date).toFormat('MMM');
 export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');
 export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
 export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
+export const formatDateMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d, yyyy');
 export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
 export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy');
 export const formatDateMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm');
@@ -22,12 +23,12 @@ export const breakfastTime = (date) => DateTime.fromISO(date).set({ hour: 8, min
 export const lunchTime = (date) => DateTime.fromISO(date).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
 export const dinnerTime = (date) => DateTime.fromISO(date).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
 
-export const isTimeValid = (value, tripData, name) => {
-  if (value === '') {
+export const isTimeValid = (startValue, endValue, tripData, name) => {
+  if (startValue === '') {
     return '';
   }
 
-  const time = DateTime.fromISO(value);
+  const time = DateTime.fromISO(startValue);
   if (!time.isValid) {
     return `Invalid ${name} Time format`;
   }
@@ -47,6 +48,18 @@ export const isTimeValid = (value, tripData, name) => {
     return `${name} Time cannot be after Trip End Date`;
   }
 
+  const lowerName = name.toLowerCase();
+  if (lowerName.includes('check-in') && endValue) {
+    const checkOut = DateTime.fromISO(endValue);
+    if (checkOut.isValid && time >= checkOut) {
+      return `${name} cannot be on or after Check-out`;
+    }
+  } else if (lowerName.includes('check-out') && endValue) {
+    const checkIn = DateTime.fromISO(endValue);
+    if (checkIn.isValid && time <= checkIn) {
+      return `${name} cannot be on or before Check-in`;
+    }
+  }
   return '';
 };
 

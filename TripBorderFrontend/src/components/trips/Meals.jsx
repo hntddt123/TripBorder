@@ -8,7 +8,7 @@ import {
 } from '../../api/mealsAPI';
 import {
   formatDateMMMMddyyyyHHmm,
-  formatDateMMMddyyyy,
+  formatDateMMMdyyyy,
   setLocalTime,
   isTimeValid
 } from '../../utility/time';
@@ -33,13 +33,13 @@ function Meals({ tripID }) {
   const dateGroupedMeals = (() => {
     const result = {};
     meals?.forEach((meal) => {
-      const date = formatDateMMMddyyyy(meal.meal_time);
+      const date = formatDateMMMdyyyy(meal.meal_time);
       result[date] = (result[date] || []).concat([meal]);
     });
     return result;
   })();
 
-  const validateMealTime = (value) => isTimeValid(value, tripData, 'Meal');
+  const validateMealTime = (value) => isTimeValid(value, undefined, tripData, 'Meal');
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
@@ -101,8 +101,9 @@ function Meals({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        {meals?.length > 0 ? <span>Meals</span> : null}
-        {meals?.length > 0 && !isLoadTrip
+        {(meals?.length > 0) && !isEditing ? <span>Meals</span> : null}
+        {(isEditing) ? <span>Edit Meals</span> : null}
+        {(meals?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
               translate='no'

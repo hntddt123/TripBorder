@@ -766,7 +766,7 @@ html, body {
   .buttonPOIDropdown {
     @apply 
     text-xl
-    p-2
+    p-1
     mx-1
     rounded-full
     content-center

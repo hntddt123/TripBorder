@@ -7,7 +7,7 @@ import {
   useDeletePOIMutation
 } from '../../api/poisAPI';
 import {
-  formatDateMMMddyyyy,
+  formatDateMMMdyyyy,
   formatDateMMMMddyyyyHHmm,
   isTimeValid,
   setLocalTime
@@ -34,13 +34,13 @@ function POIs({ tripID }) {
   const dateGroupedPOIs = (() => {
     const result = {};
     pois?.forEach((poi) => {
-      const date = formatDateMMMddyyyy(poi.visit_time);
+      const date = formatDateMMMdyyyy(poi.visit_time);
       result[date] = (result[date] || []).concat([poi]);
     });
     return result;
   })();
 
-  const validateVisitTime = (value) => isTimeValid(value, tripData, 'Tour');
+  const validateVisitTime = (value) => isTimeValid(value, undefined, tripData, 'Tour');
 
   const handleInputChange = (poiID) => (e) => {
     const { value } = e.target;
@@ -99,7 +99,8 @@ function POIs({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        {pois?.length > 0 ? <span>Tour Spots</span> : null}
+        {(pois?.length > 0) && !isEditing ? <span>Tour Spots</span> : null}
+        {(isEditing) ? <span>Edit Tour Spots</span> : null}
         {pois?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
