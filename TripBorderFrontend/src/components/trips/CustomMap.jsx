@@ -11,7 +11,9 @@ import {
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
-  setIsNavigating
+  setIsNavigating,
+  setSelectedPOI,
+  setIsShowingAddtionalPopUp
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -24,8 +26,8 @@ import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component
-export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQueryTrigger }) {
-  const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
+export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult }) {
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
@@ -33,10 +35,18 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
+  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
+  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
+  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
-  const [mapLoaded, setMapLoaded] = useState(false);
   const dispatch = useDispatch();
+
+  const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
+
   const mapCSSStyle = { width: '100%', height: '88vh', borderRadius: 10 };
+  const mapRef = useRef();
   const pressTimer = useRef(null);
   const geoLocateRef = useRef(null);
 
@@ -46,6 +56,37 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
   const pixelShift = (percentage / 100) * screenHeight;
   // Nice for padding mechanics
   const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
+
+  const hasLongPressedLonLat = () => (
+    longPressedLonLat.longitude !== null
+    && longPressedLonLat.latitude !== null
+  );
+
+  const handleLongPressedMarkerSearch = (lng, lat) => {
+    if (hasLongPressedLonLat()) {
+      getNearbyPOIQueryTrigger({
+        ll: `${lat},${lng}`,
+        radius: selectedPOIRadius,
+        limit: selectedPOICount,
+        category: selectedPOIIDNumber,
+        icon: selectedPOIIcon
+      }, true);
+      mapRef.current.flyTo({
+        center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
+        zoom: 15, // Target zoom level.
+        pitch: 30, // Target pitch angle in degrees.
+        duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
+        essential: true // Ensures animation runs even if user interacts (optional, for better UX).
+      });
+      if (isThrowingDice) {
+        dispatch(setIsShowingOnlySelectedPOI(true));
+      } else {
+        dispatch(setIsShowingOnlySelectedPOI(false));
+        dispatch(setSelectedPOI(''));
+      }
+      dispatch(setIsShowingAddtionalPopUp(false));
+    }
+  };
 
   const handleGeoRef = (ref) => {
     geoLocateRef.current = ref;
@@ -103,6 +144,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
         latitude: lat,
       }));
       dispatch(setMarker(newMarker));
+      handleLongPressedMarkerSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
 
@@ -166,6 +208,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
   return (
     <Map
+      ref={mapRef}
       reuseMaps
       {...viewState}
       onMove={onMove}
@@ -214,6 +257,7 @@ export default function CustomMap({ data, getPOIPhotosQueryResult, getPOIPhotosQ
 
 CustomMap.propTypes = {
   data: FourSquareResponsePropTypes,
-  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
-  getPOIPhotosQueryTrigger: PropTypes.func
+  getNearbyPOIQueryTrigger: PropTypes.func,
+  getPOIPhotosQueryTrigger: PropTypes.func,
+  getPOIPhotosQueryResult: FourSquareResponsePropTypes
 };
