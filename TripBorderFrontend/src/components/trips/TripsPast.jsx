@@ -15,7 +15,10 @@ import {
 import {
   setIsLoadTrip
 } from '../../redux/reducers/userSettingsReducer';
-import { formatDatecccMMMdyyyy, formatDateMMMMddyyyyZZZZ, formatDateMMMMddyyyyHHmmssZZZZ } from '../../utility/time';
+import {
+  formatDatecccMMMdyyyy,
+  formatDateMMMMddyyyyHHmmssZZZZ
+} from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import Meals from './Meals';

@@ -44,7 +44,6 @@ function Meals({ tripID }) {
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
-    console.log(e.target.value)
 
     const mealTimeError = validateMealTime(value);
 
