@@ -5,10 +5,10 @@ export const formatDateMMM = (date) => DateTime.fromISO(date).toFormat('MMM');
 export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');
 export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
 export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
-export const formatDateMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d, yyyy');
+export const formatDatecccMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d, yyyy');
 export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
 export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy');
-export const formatDateMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm');
+export const formatDatecccMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('ccc, MMMM dd, yyyy HH:mm');
 export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy ZZZZ');
 export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
 export const formatDateyyyyMMdd = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
@@ -60,6 +60,19 @@ export const isTimeValid = (startValue, endValue, tripData, name) => {
       return `${name} cannot be on or before Check-in`;
     }
   }
+
+  if (lowerName.includes('departure_time') && endValue) {
+    const arrivalTime = DateTime.fromISO(endValue);
+    if (arrivalTime.isValid && time >= arrivalTime) {
+      return `${name} cannot be on or after arrival_time`;
+    }
+  } else if (lowerName.includes('arrival_time') && endValue) {
+    const departureTime = DateTime.fromISO(endValue);
+    if (departureTime.isValid && time <= departureTime) {
+      return `${name} cannot be on or before departure_time`;
+    }
+  }
+
   return '';
 };
 

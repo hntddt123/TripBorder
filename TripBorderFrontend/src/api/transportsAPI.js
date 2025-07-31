@@ -34,6 +34,15 @@ export const transportsAPI = createApi({
       }),
       invalidatesTags: ['Transports'],
     }),
+    updateTransportByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Transports'],
+    }),
     deleteTransport: builder.mutation({
       query: (transportID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetTransportsAllQuery,
   useGetTransportByTripIDQuery,
   usePostTransportByTripIDMutation,
+  useUpdateTransportByUUIDMutation,
   useDeleteTransportMutation
 } = transportsAPI;

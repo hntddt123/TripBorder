@@ -13,7 +13,7 @@ import {
   setIsLoadTrip,
   setIsEditingTrip
 } from '../../redux/reducers/userSettingsReducer';
-import { formatDateMMMdyyyy } from '../../utility/time';
+import { formatDatecccMMMdyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
@@ -72,15 +72,15 @@ function TripCurrent() {
     <div>
       <div className='text-pretty px-4 gap-x-1'>
         <div className='underline underline-offset-2'>Travel Date</div>
-        {(formatDateMMMdyyyy(tripData.start_date) === formatDateMMMdyyyy(tripData.end_date))
+        {(formatDatecccMMMdyyyy(tripData.start_date) === formatDatecccMMMdyyyy(tripData.end_date))
           ? (
             <div className='px-2 font-mono'>
-              {formatDateMMMdyyyy(tripData.end_date)}
+              {formatDatecccMMMdyyyy(tripData.end_date)}
             </div>
           )
           : (
             <div className='px-2 font-mono'>
-              {formatDateMMMdyyyy(tripData.start_date)} - {formatDateMMMdyyyy(tripData.end_date)}
+              {formatDatecccMMMdyyyy(tripData.start_date)} - {formatDatecccMMMdyyyy(tripData.end_date)}
             </div>
           )}
       </div>

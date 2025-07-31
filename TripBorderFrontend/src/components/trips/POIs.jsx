@@ -7,8 +7,8 @@ import {
   useDeletePOIMutation
 } from '../../api/poisAPI';
 import {
-  formatDateMMMdyyyy,
-  formatDateMMMMddyyyyHHmm,
+  formatDatecccMMMdyyyy,
+  formatDatecccMMMMddyyyyHHmm,
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
@@ -34,7 +34,7 @@ function POIs({ tripID }) {
   const dateGroupedPOIs = (() => {
     const result = {};
     pois?.forEach((poi) => {
-      const date = formatDateMMMdyyyy(poi.visit_time);
+      const date = formatDatecccMMMdyyyy(poi.visit_time);
       result[date] = (result[date] || []).concat([poi]);
     });
     return result;
@@ -75,7 +75,7 @@ function POIs({ tripID }) {
   const renderDetail = (poi) => (
     <div className='text-pretty'>
       <div className='underline underline-offset-2'>Visit Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(poi.visit_time)}</div>
+      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
       {(isEditing) ? (
         <div>
           <input
@@ -117,7 +117,7 @@ function POIs({ tripID }) {
             <div>
               {date}
             </div>
-            {poisForDate?.map(((poi) => (
+            {poisForDate?.map((poi) => (
               <div key={poi.uuid}>
                 <div className='text-pretty px-2'>
                   <CustomToggle
@@ -142,7 +142,7 @@ function POIs({ tripID }) {
                     : null}
                 </div>
               </div>
-            )))}
+            ))}
           </div>
         ))
         : null}

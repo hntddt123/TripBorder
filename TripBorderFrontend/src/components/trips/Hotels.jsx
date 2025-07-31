@@ -7,7 +7,7 @@ import {
   useUpdateHotelByUUIDMutation
 } from '../../api/hotelsAPI';
 import {
-  formatDateMMMdyyyy,
+  formatDatecccMMMdyyyy,
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
@@ -37,7 +37,7 @@ function Hotels({ tripID }) {
 
     let currentDate = checkInDate;
     while (currentDate < checkOutDate) {
-      const formattedDate = formatDateMMMdyyyy(currentDate);
+      const formattedDate = formatDatecccMMMdyyyy(currentDate);
       newResult[formattedDate] = (newResult[formattedDate] || []).concat([hotel]);
       currentDate = currentDate.plus({ days: 1 });
     }
@@ -74,14 +74,6 @@ function Hotels({ tripID }) {
         ...prevTimes,
         [hotelID]: value,
       }));
-      // if (value !== '') {
-      //   updateHotel({
-      //     uuid: hotelID,
-      //     updates: {
-      //       check_in: setLocalTime(value)
-      //     }
-      //   });
-      // }
     }
   };
 
@@ -100,14 +92,6 @@ function Hotels({ tripID }) {
         ...prevTimes,
         [hotelID]: value,
       }));
-      // if (value !== '') {
-      //   updateHotel({
-      //     uuid: hotelID,
-      //     updates: {
-      //       check_out: setLocalTime(value)
-      //     }
-      //   });
-      // }
     }
   };
 
@@ -128,7 +112,7 @@ function Hotels({ tripID }) {
           )
           : null}
         <div className='underline underline-offset-2'>Check in</div>
-        <div className='px-2 font-mono'>{formatDateMMMdyyyy(hotel.check_in)}</div>
+        <div className='px-2 font-mono'>{formatDatecccMMMdyyyy(hotel.check_in)}</div>
         {(isEditing) ? (
           <div>
             <input
@@ -145,7 +129,7 @@ function Hotels({ tripID }) {
         )
           : null}
         <div className='underline underline-offset-2'>Check out</div>
-        <div className='px-2 font-mono'>{formatDateMMMdyyyy(hotel.check_out)}</div>
+        <div className='px-2 font-mono'>{formatDatecccMMMdyyyy(hotel.check_out)}</div>
         {(isEditing) ? (
           <div>
             <input
@@ -190,7 +174,7 @@ function Hotels({ tripID }) {
               <div>
                 {date}
               </div>
-              {hotelsForDate?.map(((hotel) => (
+              {hotelsForDate?.map((hotel) => (
                 <div key={`${hotel.uuid}${date}`}>
                   <div className='text-pretty px-2'>
                     <CustomToggle
@@ -215,12 +199,12 @@ function Hotels({ tripID }) {
                       : null}
                   </div>
                 </div>
-              )))}
+              ))}
             </div>
           ))
         : hotels?.map(((hotel) => (
           <div key={`${hotel.uuid}`}>
-            {`${formatDateMMMdyyyy(hotel.check_in)} - ${formatDateMMMdyyyy(hotel.check_out)}`}
+            {`${formatDatecccMMMdyyyy(hotel.check_in)} - ${formatDatecccMMMdyyyy(hotel.check_out)}`}
             <div className='text-pretty px-2'>
               <CustomToggle
                 translate='no'

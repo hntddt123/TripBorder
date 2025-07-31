@@ -7,8 +7,8 @@ import {
   useDeleteMealMutation
 } from '../../api/mealsAPI';
 import {
-  formatDateMMMMddyyyyHHmm,
-  formatDateMMMdyyyy,
+  formatDatecccMMMMddyyyyHHmm,
+  formatDatecccMMMdyyyy,
   setLocalTime,
   isTimeValid
 } from '../../utility/time';
@@ -33,7 +33,7 @@ function Meals({ tripID }) {
   const dateGroupedMeals = (() => {
     const result = {};
     meals?.forEach((meal) => {
-      const date = formatDateMMMdyyyy(meal.meal_time);
+      const date = formatDatecccMMMdyyyy(meal.meal_time);
       result[date] = (result[date] || []).concat([meal]);
     });
     return result;
@@ -77,7 +77,7 @@ function Meals({ tripID }) {
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Meal Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(meal.meal_time)}</div>
+      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>
       {(isEditing) ? (
         <div>
           <input
