@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/apiConstants';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const mealsAPI = createApi({
   reducerPath: 'mealsAPI',
   tagTypes: ['Meals'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/meals`,
+    baseUrl: API_ROUTES.meals,
     credentials: 'include',
   }),
   endpoints: (builder) => ({

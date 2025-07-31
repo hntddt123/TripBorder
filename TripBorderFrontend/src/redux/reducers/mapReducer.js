@@ -11,6 +11,7 @@ const initialMapState = {
   },
   gpsLonLat: { longitude: null, latitude: null },
   longPressedLonLat: { longitude: null, latitude: null },
+  isUsingGPSLonLat: true,
   markers: [],
   selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants
   selectedPOI: '',
@@ -37,6 +38,7 @@ const mapSlice = createSlice({
     setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
     setGPSLonLat: (state, action) => ({ ...state, gpsLonLat: action.payload }),
     setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
+    setIsUsingGPSLonLat: (state, action) => ({ ...state, isUsingGPSLonLat: action.payload }),
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
     setSelectedPOIIDNumber: (state, action) => ({ ...state, selectedPOIIDNumber: action.payload }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
@@ -61,6 +63,7 @@ export const {
   setMarker,
   setGPSLonLat,
   setLongPressedLonLat,
+  setIsUsingGPSLonLat,
   setSelectedPOIIDNumber,
   setSelectedPOI,
   setSelectedPOIIcon,

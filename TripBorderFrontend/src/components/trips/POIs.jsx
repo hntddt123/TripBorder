@@ -7,10 +7,11 @@ import {
   useDeletePOIMutation
 } from '../../api/poisAPI';
 import {
-  formatDateMMMddyyyy,
-  formatDateMMMMddyyyyHHmm,
+  formatDatecccMMMdyyyy,
+  formatDatecccMMMMddyyyyHHmm,
+  formatLocalDateTimeString,
   isTimeValid,
-  setLocalTime
+  setLocalTime,
 } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -34,13 +35,13 @@ function POIs({ tripID }) {
   const dateGroupedPOIs = (() => {
     const result = {};
     pois?.forEach((poi) => {
-      const date = formatDateMMMddyyyy(poi.visit_time);
+      const date = formatDatecccMMMdyyyy(poi.visit_time);
       result[date] = (result[date] || []).concat([poi]);
     });
     return result;
   })();
 
-  const validateVisitTime = (value) => isTimeValid(value, tripData, 'Tour');
+  const validateVisitTime = (value) => isTimeValid(value, undefined, tripData, 'Tour');
 
   const handleInputChange = (poiID) => (e) => {
     const { value } = e.target;
@@ -75,7 +76,7 @@ function POIs({ tripID }) {
   const renderDetail = (poi) => (
     <div className='text-pretty'>
       <div className='underline underline-offset-2'>Visit Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(poi.visit_time)}</div>
+      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
       {(isEditing) ? (
         <div>
           <input
@@ -83,7 +84,7 @@ function POIs({ tripID }) {
             id={`visit_time_${poi.uuid}`}
             type='datetime-local'
             name='visit_time_'
-            value={visitTimes[poi.uuid] || ''}
+            value={visitTimes[poi.uuid] || formatLocalDateTimeString(poi.visit_time)}
             onChange={handleInputChange(poi.uuid)}
             required
           />
@@ -99,7 +100,8 @@ function POIs({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        {pois?.length > 0 ? <span>Tour Spots</span> : null}
+        {(pois?.length > 0) && !isEditing ? <span>Tour Spots</span> : null}
+        {(isEditing) ? <span>Edit Tour Spots</span> : null}
         {pois?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
@@ -116,7 +118,7 @@ function POIs({ tripID }) {
             <div>
               {date}
             </div>
-            {poisForDate?.map(((poi) => (
+            {poisForDate?.map((poi) => (
               <div key={poi.uuid}>
                 <div className='text-pretty px-2'>
                   <CustomToggle
@@ -141,7 +143,7 @@ function POIs({ tripID }) {
                     : null}
                 </div>
               </div>
-            )))}
+            ))}
           </div>
         ))
         : null}

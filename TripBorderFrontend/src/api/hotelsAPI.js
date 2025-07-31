@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/apiConstants';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const hotelsAPI = createApi({
   reducerPath: 'hotelsAPI',
   tagTypes: ['Hotels'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/hotels`,
+    baseUrl: API_ROUTES.hotels,
     credentials: 'include',
   }),
   endpoints: (builder) => ({
@@ -34,6 +34,15 @@ export const hotelsAPI = createApi({
       }),
       invalidatesTags: ['Hotels'],
     }),
+    updateHotelByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Hotels'],
+    }),
     deleteHotels: builder.mutation({
       query: (hotelID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetHotelsAllQuery,
   useGetHotelsByTripIDQuery,
   usePostHotelsByTripIDMutation,
+  useUpdateHotelByUUIDMutation,
   useDeleteHotelsMutation
 } = hotelsAPI;

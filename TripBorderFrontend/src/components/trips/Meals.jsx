@@ -7,8 +7,9 @@ import {
   useDeleteMealMutation
 } from '../../api/mealsAPI';
 import {
-  formatDateMMMMddyyyyHHmm,
-  formatDateMMMddyyyy,
+  formatDatecccMMMMddyyyyHHmm,
+  formatDatecccMMMdyyyy,
+  formatLocalDateTimeString,
   setLocalTime,
   isTimeValid
 } from '../../utility/time';
@@ -33,13 +34,13 @@ function Meals({ tripID }) {
   const dateGroupedMeals = (() => {
     const result = {};
     meals?.forEach((meal) => {
-      const date = formatDateMMMddyyyy(meal.meal_time);
+      const date = formatDatecccMMMdyyyy(meal.meal_time);
       result[date] = (result[date] || []).concat([meal]);
     });
     return result;
   })();
 
-  const validateMealTime = (value) => isTimeValid(value, tripData, 'Meal');
+  const validateMealTime = (value) => isTimeValid(value, undefined, tripData, 'Meal');
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
@@ -77,7 +78,7 @@ function Meals({ tripID }) {
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Meal Time</div>
-      <div className='px-2 font-mono'>{formatDateMMMMddyyyyHHmm(meal.meal_time)}</div>
+      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>
       {(isEditing) ? (
         <div>
           <input
@@ -85,7 +86,7 @@ function Meals({ tripID }) {
             id={`meal_time_${meal.uuid}`}
             type='datetime-local'
             name='meal_time'
-            value={mealTimes[meal.uuid] || ''}
+            value={mealTimes[meal.uuid] || formatLocalDateTimeString(meal.meal_time)}
             onChange={handleInputChange(meal.uuid)}
             required
           />
@@ -101,8 +102,9 @@ function Meals({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        {meals?.length > 0 ? <span>Meals</span> : null}
-        {meals?.length > 0 && !isLoadTrip
+        {(meals?.length > 0) && !isEditing ? <span>Meals</span> : null}
+        {(isEditing) ? <span>Edit Meals</span> : null}
+        {(meals?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
               translate='no'

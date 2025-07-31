@@ -1,18 +1,18 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/apiConstants';
 
 export const authAPI = createApi({
   reducerPath: 'authAPI',
   tagTypes: ['Auth'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/auth`,
+    baseUrl: API_ROUTES.auth,
     credentials: 'include', // Include cookies in requests
   }),
   endpoints: (builder) => ({
     checkAuthStatus: builder.query({
       query: () => '/',
       providesTags: ['Auth'],
-      keepUnusedDataFor: 0
+      keepUnusedDataFor: 0,
     }),
     logout: builder.mutation({
       query: () => ({
@@ -24,4 +24,8 @@ export const authAPI = createApi({
   }),
 });
 
-export const { useCheckAuthStatusQuery, useLogoutMutation } = authAPI;
+export const {
+  useLazyCheckAuthStatusQuery,
+  useCheckAuthStatusQuery,
+  useLogoutMutation
+} = authAPI;

@@ -56,10 +56,12 @@
 html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: calc(100dvh);
+
   @apply 
   font-family-sans 
-  h-screen m-0 
-  overflow-hidden;
+  m-0
+  overflow-y-scroll;
 }
 
 @layer components {
@@ -166,7 +168,7 @@ html, body {
   }
 
   .content {
-    height: calc(100vh - 0.25rem);
+    height: calc(100vh - var(--spacing-safe-bottom));
     @apply
     overflow-y-auto;
   }
@@ -638,13 +640,47 @@ html, body {
     absolute;
   }
 
-  .buttonPOI {
-    line-height: 1rem;
+
+  .buttonTopbar {
     @apply 
+    text-lg
+    align-middle
     content-center
     rounded-full
-    mx-0.5 mt-0 mb-0.5
-    p-2
+    mx-0.5
+    p-1.5
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonTopbar:hover {
+    @apply 
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonTopbar:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonTopbar:disabled {
+    @apply
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOI {
+    @apply 
+    text-lg
+    align-middle
+    content-center
+    rounded-full
+    mx-1 mt-0 mb-1
+    px-2 py-1.5
     border-amber-50
     bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
@@ -670,10 +706,9 @@ html, body {
   }
 
   .buttonPOIAdd {
-    line-height: 1rem;
     @apply 
-    p-2
-    mx-0.5 mt-0 mb-0.5
+    p-1.5
+    mx-0.5 mt-0 mb-1
     rounded-full
     content-center
     border-amber-50
@@ -729,12 +764,13 @@ html, body {
   }
 
   .buttonPOIDropdown {
-    line-height: 1rem;
     @apply 
-    mx-0.5 my-0
-    px-1 py-0
+    text-xl
+    p-1
+    mx-1
     rounded-full
     content-center
+    align-middle
     border-amber-50
     bg-primary-button-light dark:bg-primary-button-dark 
     text-black dark:text-white;
@@ -894,10 +930,11 @@ html, body {
 
   .toggle {
     @apply 
-    min-w-9 
-    text-center
-    -tracking-wider 
+    min-w-11
     content-center
+    align-middle
+    text-center
+    -tracking-wider
     rounded-full
     bg-primary-button-light dark:bg-primary-dark 
     text-black dark:text-white;

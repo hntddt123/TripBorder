@@ -1,22 +1,50 @@
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   setSelectedPOIIDNumber,
-  setSelectedPOIIcon
+  setSelectedPOIIcon,
+  setIsShowingAddtionalPopUp
 } from '../../redux/reducers/mapReducer';
 import {
   poiCategories
 } from '../../constants/constants';
 
-function ButtonPOISelection({ reset, isFetching }) {
+function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
   const dispatch = useDispatch();
+
+  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
+  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
+  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
+  const isUsingGPSLonLat = useSelector((state) => state.mapReducer.isUsingGPSLonLat);
 
   const handleDropdownOnChange = (event) => {
     const selectedID = event.target.value;
     const selectedCategory = poiCategories.find((category) => category.id === selectedID);
+
     dispatch(setSelectedPOIIDNumber(selectedID));
     dispatch(setSelectedPOIIcon(selectedCategory.icon));
-    reset();
+    dispatch(setIsShowingAddtionalPopUp(false));
+
+    if (longPressedLonLat.longitude !== null
+      && longPressedLonLat.latitude !== null && !isUsingGPSLonLat) {
+      getNearbyPOIQueryTrigger({
+        ll: `${longPressedLonLat.latitude},${longPressedLonLat.longitude}`,
+        radius: selectedPOIRadius,
+        limit: selectedPOICount,
+        category: selectedID,
+        icon: selectedCategory.icon
+      }, true);
+    } else if (gpsLonLat.longitude !== null
+      && gpsLonLat.latitude !== null) {
+      getNearbyPOIQueryTrigger({
+        ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+        radius: selectedPOIRadius,
+        limit: selectedPOICount,
+        category: selectedID,
+        icon: selectedCategory.icon
+      }, true);
+    }
   };
 
   return (
@@ -40,7 +68,7 @@ function ButtonPOISelection({ reset, isFetching }) {
 }
 
 ButtonPOISelection.propTypes = {
-  reset: PropTypes.func,
+  getNearbyPOIQueryTrigger: PropTypes.func,
   isFetching: PropTypes.bool,
 };
 

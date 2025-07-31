@@ -43,4 +43,7 @@ export const foursquareAPI = createApi({
   }),
 });
 
-export const { useLazyGetNearbyPOIQuery, useLazyGetPOIPhotosQuery } = foursquareAPI;
+export const {
+  useLazyGetNearbyPOIQuery,
+  useLazyGetPOIPhotosQuery
+} = foursquareAPI;

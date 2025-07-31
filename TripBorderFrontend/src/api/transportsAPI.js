@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/apiConstants';
 import { createByTripQuery } from '../utility/RTKQueryFactory';
 
 export const transportsAPI = createApi({
   reducerPath: 'transportsAPI',
   tagTypes: ['Transports'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/transports`,
+    baseUrl: API_ROUTES.transports,
     credentials: 'include',
   }),
   endpoints: (builder) => ({
@@ -34,6 +34,15 @@ export const transportsAPI = createApi({
       }),
       invalidatesTags: ['Transports'],
     }),
+    updateTransportByUUID: builder.mutation({
+      query: ({ uuid, updates }) => ({
+        url: `/update/${uuid}`,
+        method: 'PATCH',
+        body: { data: updates },
+        headers: { 'Content-Type': 'application/json' }
+      }),
+      invalidatesTags: ['Transports'],
+    }),
     deleteTransport: builder.mutation({
       query: (transportID) => ({
         url: '/removebyid',
@@ -51,5 +60,6 @@ export const {
   useGetTransportsAllQuery,
   useGetTransportByTripIDQuery,
   usePostTransportByTripIDMutation,
+  useUpdateTransportByUUIDMutation,
   useDeleteTransportMutation
 } = transportsAPI;

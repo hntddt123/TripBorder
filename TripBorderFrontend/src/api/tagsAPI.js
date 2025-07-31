@@ -1,12 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../constants/constants';
+import { API_ROUTES } from '../constants/apiConstants';
 import { createByEmailPaginationQuery } from '../utility/RTKQueryFactory';
 
 export const tagsAPI = createApi({
   reducerPath: 'tagsAPI',
   tagTypes: ['Tags'],
   baseQuery: fetchBaseQuery({
-    baseUrl: `${baseUrl}/api/tags`,
+    baseUrl: API_ROUTES.tags,
     credentials: 'include',
   }),
   endpoints: (builder) => ({

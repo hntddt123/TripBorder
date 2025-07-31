@@ -8,7 +8,7 @@ import {
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import {
-  formatDateyyyyMMdd,
+  formatLocalDateString,
   isDatePast,
   isStartDateAfterEndDate,
   isEndDateBeforeStartDate
@@ -86,7 +86,7 @@ function TripUploadForm() {
           id='trip_start_date'
           type='date'
           name='trip_start_date'
-          value={formatDateyyyyMMdd(tripData.start_date)}
+          value={formatLocalDateString(tripData.start_date)}
           onChange={handleInputChange}
           required
         />
@@ -98,7 +98,7 @@ function TripUploadForm() {
           id='trip_end_date'
           type='date'
           name='trip_end_date'
-          value={formatDateyyyyMMdd(tripData.end_date)}
+          value={formatLocalDateString(tripData.end_date)}
           onChange={handleInputChange}
           required
         />

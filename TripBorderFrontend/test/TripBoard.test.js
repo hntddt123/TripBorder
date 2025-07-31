@@ -8,10 +8,10 @@ const renderWithRouter = (ui, { route = '/' } = {}) => {
   return render(ui, { wrapper: BrowserRouter });
 };
 
-describe('DevMode tests', () => {
+describe('TripBoard tests', () => {
   test('renders TripBoard', () => {
     renderWithRouter(<TripBoard />);
-    const tag = screen.getByText((content, element) => element.tagName.toLowerCase() === 'a');
+    const tag = screen.getByText('←');
     expect(tag).toBeInTheDocument();
   });
 });

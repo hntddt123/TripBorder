@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
 import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
+import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
 function ButtonHotelsUpload({ filteredResult }) {
@@ -28,7 +28,7 @@ function ButtonHotelsUpload({ filteredResult }) {
         className='buttonPOIAdd'
         label='+Hotels'
         onClick={handleClick}
-        disabled={tripData.uuid === ''}
+        disabled={tripData.uuid === '' || (tripData.start_date === tripData.end_date)}
       />
       {(isLoading) ? <div>Creating...</div> : null}
       {(error) ? <CustomError error={error} /> : null}

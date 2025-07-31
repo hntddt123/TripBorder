@@ -4,9 +4,7 @@ import CustomButton from '../CustomButton';
 import { usePostMealByTripIDMutation } from '../../api/mealsAPI';
 import CustomError from '../CustomError';
 import {
-  breakfastTime,
-  lunchTime,
-  dinnerTime
+  setLocalTime,
 } from '../../utility/time';
 
 function ButtonMealsUpload({ filteredResult }) {
@@ -29,20 +27,8 @@ function ButtonMealsUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Breakfast'
-        onClick={handleClick(breakfastTime(tripData.start_date))}
-        disabled={tripData.uuid === ''}
-      />
-      <CustomButton
-        className='buttonPOIAdd'
-        label='+Lunch'
-        onClick={handleClick(lunchTime(tripData.start_date))}
-        disabled={tripData.uuid === ''}
-      />
-      <CustomButton
-        className='buttonPOIAdd'
-        label='+Dinner'
-        onClick={handleClick(dinnerTime(tripData.start_date))}
+        label='+Meal'
+        onClick={handleClick(setLocalTime(tripData.start_date))}
         disabled={tripData.uuid === ''}
       />
       {(isLoading) ? <div>Creating...</div> : null}

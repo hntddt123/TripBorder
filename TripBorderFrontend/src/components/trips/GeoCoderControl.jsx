@@ -1,20 +1,19 @@
 import { useState, } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useControl, Marker } from 'react-map-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import {
-  setViewState,
   setLongPressedLonLat,
+  setIsUsingGPSLonLat
 } from '../../redux/reducers/mapReducer';
 
 const noop = () => { };
 
-export default function GeocoderControl({ mapboxAccessToken, position,
+export default function GeocoderControl({ handleMarkerSearch, mapboxAccessToken, position,
   onLoading = noop, onResult = noop, onResults = noop, onError = noop, marker = true }) {
-  const [geocoderMarker, setGeocoderMarker] = useState(true);
+  const [geocoderMarker, setGeocoderMarker] = useState('');
 
-  const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
 
   const getMarker = (longitude, latitude) => (
@@ -42,7 +41,9 @@ export default function GeocoderControl({ mapboxAccessToken, position,
         if (location && marker) {
           setGeocoderMarker(getMarker(location[0], location[1]));
           dispatch(setLongPressedLonLat({ longitude: location[0], latitude: location[1] }));
-          dispatch(setViewState({ longitude: location[0], latitude: location[1], pitch: viewState.pitch, zoom: 16 }));
+          dispatch(setIsUsingGPSLonLat(false));
+
+          handleMarkerSearch(location[0], location[1]);
         } else {
           setGeocoderMarker(null);
         }
