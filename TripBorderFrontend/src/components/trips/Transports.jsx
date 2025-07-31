@@ -9,6 +9,7 @@ import {
 import {
   formatDatecccMMMdyyyy,
   formatDatecccMMMMddyyyyHHmm,
+  formatLocalDateTimeString,
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
@@ -116,7 +117,7 @@ function Transports({ tripID }) {
               id={`departure_time_${transport.uuid}`}
               type='datetime-local'
               name='departure_time'
-              value={departureTimes[transport.uuid] || ''}
+              value={departureTimes[transport.uuid] || formatLocalDateTimeString(transport.departure_time)}
               onChange={handleDepartureTimeChange(transport.uuid)}
               required
             />
@@ -135,7 +136,7 @@ function Transports({ tripID }) {
               id={`arrival_time${transport.uuid}`}
               type='datetime-local'
               name='arrival_time'
-              value={arrivalTimes[transport.uuid] || ''}
+              value={arrivalTimes[transport.uuid] || formatLocalDateTimeString(transport.arrival_time)}
               onChange={handleArrivalTimeChange(transport.uuid)}
               required
             />

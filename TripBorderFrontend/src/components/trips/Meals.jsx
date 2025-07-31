@@ -9,6 +9,7 @@ import {
 import {
   formatDatecccMMMMddyyyyHHmm,
   formatDatecccMMMdyyyy,
+  formatLocalDateTimeString,
   setLocalTime,
   isTimeValid
 } from '../../utility/time';
@@ -43,6 +44,7 @@ function Meals({ tripID }) {
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
+    console.log(e.target.value)
 
     const mealTimeError = validateMealTime(value);
 
@@ -85,7 +87,7 @@ function Meals({ tripID }) {
             id={`meal_time_${meal.uuid}`}
             type='datetime-local'
             name='meal_time'
-            value={mealTimes[meal.uuid] || ''}
+            value={mealTimes[meal.uuid] || formatLocalDateTimeString(meal.meal_time)}
             onChange={handleInputChange(meal.uuid)}
             required
           />

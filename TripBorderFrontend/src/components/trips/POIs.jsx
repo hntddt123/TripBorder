@@ -9,8 +9,9 @@ import {
 import {
   formatDatecccMMMdyyyy,
   formatDatecccMMMMddyyyyHHmm,
+  formatLocalDateTimeString,
   isTimeValid,
-  setLocalTime
+  setLocalTime,
 } from '../../utility/time';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -83,7 +84,7 @@ function POIs({ tripID }) {
             id={`visit_time_${poi.uuid}`}
             type='datetime-local'
             name='visit_time_'
-            value={visitTimes[poi.uuid] || ''}
+            value={visitTimes[poi.uuid] || formatLocalDateTimeString(poi.visit_time)}
             onChange={handleInputChange(poi.uuid)}
             required
           />

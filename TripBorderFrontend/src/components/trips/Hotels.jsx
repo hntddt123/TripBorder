@@ -8,6 +8,7 @@ import {
 } from '../../api/hotelsAPI';
 import {
   formatDatecccMMMdyyyy,
+  formatLocalDateString,
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
@@ -120,7 +121,7 @@ function Hotels({ tripID }) {
               id={`check_in_${hotel.uuid}`}
               type='date'
               name='check_in_'
-              value={checkInDates[hotel.uuid] || ''}
+              value={checkInDates[hotel.uuid] || formatLocalDateString(hotel.check_in)}
               onChange={handleCheckInDateChange(hotel.uuid)}
               required
             />
@@ -137,7 +138,7 @@ function Hotels({ tripID }) {
               id={`check_out_${hotel.uuid}`}
               type='date'
               name='check_out_'
-              value={checkOutDates[hotel.uuid] || ''}
+              value={checkOutDates[hotel.uuid] || formatLocalDateString(hotel.check_out)}
               onChange={handleCheckOutDateChange(hotel.uuid)}
               required
             />

@@ -28,7 +28,8 @@ function ButtonPOIUpload({ filteredResult }) {
         trips_uuid: tripData.uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        departure_time: tripData.start_date
+        departure_time: tripData.start_date,
+        arrival_time: tripData.start_date
       };
       PostTransportByTripID(transport);
     }

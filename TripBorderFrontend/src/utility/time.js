@@ -11,7 +11,9 @@ export const formatDateMMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('M
 export const formatDatecccMMMMddyyyyHHmm = (date) => DateTime.fromISO(date).toFormat('ccc, MMMM dd, yyyy HH:mm');
 export const formatDateMMMMddyyyyZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy ZZZZ');
 export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).toFormat('MMMM dd, yyyy HH:mm:ss ZZZZ');
-export const formatDateyyyyMMdd = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
+
+export const formatLocalDateString = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
+export const formatLocalDateTimeString = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd\'T\'HH:mm');
 
 export const checkDateToDay = (date1, date2) => (date1.hasSame(date2, 'day'));
 export const isDatePast = (date) => ((DateTime.fromISO(date) - DateTime.now().startOf('day')) < 0);
