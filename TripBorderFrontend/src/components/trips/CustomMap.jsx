@@ -1,8 +1,8 @@
-import 'mapbox-gl/dist/mapbox-gl.css';
-import PropTypes from 'prop-types';
 import { useCallback, useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import {
   setViewState,
@@ -31,16 +31,17 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
 
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
   const viewState = useSelector((state) => state.mapReducer.viewState);
+
   const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
   const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
   const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
   const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
-  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
+  const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
+
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
-  const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
@@ -57,42 +58,35 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
   // Nice for padding mechanics
   const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
 
-  const hasLongPressedLonLat = () => (
-    longPressedLonLat.longitude !== null
-    && longPressedLonLat.latitude !== null
-  );
-
   const handleLongPressedMarkerSearch = (lng, lat) => {
-    if (hasLongPressedLonLat()) {
-      getNearbyPOIQueryTrigger({
-        ll: `${lat},${lng}`,
-        radius: selectedPOIRadius,
-        limit: selectedPOICount,
-        category: selectedPOIIDNumber,
-        icon: selectedPOIIcon
-      }, true);
-      mapRef.current.flyTo({
-        center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
-        zoom: 15, // Target zoom level.
-        pitch: 30, // Target pitch angle in degrees.
-        duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
-        essential: true // Ensures animation runs even if user interacts (optional, for better UX).
-      });
-      if (isThrowingDice) {
-        dispatch(setIsShowingOnlySelectedPOI(true));
-      } else {
-        dispatch(setIsShowingOnlySelectedPOI(false));
-        dispatch(setSelectedPOI(''));
-      }
-      dispatch(setIsShowingAddtionalPopUp(false));
+    getNearbyPOIQueryTrigger({
+      ll: `${lat},${lng}`,
+      radius: selectedPOIRadius,
+      limit: selectedPOICount,
+      category: selectedPOIIDNumber,
+      icon: selectedPOIIcon
+    }, true);
+    mapRef.current.flyTo({
+      center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
+      zoom: 15, // Target zoom level.
+      pitch: 30, // Target pitch angle in degrees.
+      duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
+      essential: true // Ensures animation runs even if user interacts (optional, for better UX).
+    });
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    } else {
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
     }
+    dispatch(setIsShowingAddtionalPopUp(false));
   };
 
   const handleGeoRef = (ref) => {
     geoLocateRef.current = ref;
   };
 
-  const handleStyleLoad = (map) => {
+  const handleOnLoad = (map) => {
     map.target.touchZoomRotate.enable();
     map.target.touchZoomRotate.disableRotation();
     map.target.dragRotate.enable();
@@ -103,13 +97,13 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
     } else {
       map.target.setConfigProperty('basemap', 'lightPreset', 'day');
     }
-    geoLocateRef.current?.trigger();
     setMapLoaded(true);
+    geoLocateRef.current?.trigger();
   };
 
   const onMove = useCallback((event) => {
     dispatch(setViewState(event.viewState));
-  }, []);
+  }, [dispatch]);
 
   const handleCurrentLocation = (event) => {
     dispatch(setGPSLonLat({
@@ -213,7 +207,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
       {...viewState}
       onMove={onMove}
       onClick={handleClick}
-      onLoad={(map) => handleStyleLoad(map)}
+      onLoad={(map) => handleOnLoad(map)}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMoveStart={handleMouseUp}
