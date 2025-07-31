@@ -21,9 +21,6 @@ export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromIS
 export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 
 export const setLocalTime = (date) => DateTime.fromISO(date);
-export const breakfastTime = (date) => DateTime.fromISO(date).set({ hour: 8, minute: 0, second: 0, millisecond: 0 });
-export const lunchTime = (date) => DateTime.fromISO(date).set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
-export const dinnerTime = (date) => DateTime.fromISO(date).set({ hour: 18, minute: 0, second: 0, millisecond: 0 });
 
 export const isTimeValid = (startValue, endValue, tripData, name) => {
   if (startValue === '') {
