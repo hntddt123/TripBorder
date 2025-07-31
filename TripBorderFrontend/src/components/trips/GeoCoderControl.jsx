@@ -5,6 +5,7 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
 import {
   setLongPressedLonLat,
+  setIsUsingGPSLonLat
 } from '../../redux/reducers/mapReducer';
 
 const noop = () => { };
@@ -40,6 +41,8 @@ export default function GeocoderControl({ handleMarkerSearch, mapboxAccessToken,
         if (location && marker) {
           setGeocoderMarker(getMarker(location[0], location[1]));
           dispatch(setLongPressedLonLat({ longitude: location[0], latitude: location[1] }));
+          dispatch(setIsUsingGPSLonLat(false));
+
           handleMarkerSearch(location[0], location[1]);
         } else {
           setGeocoderMarker(null);

@@ -13,7 +13,8 @@ import {
   setIsShowingSideBar,
   setIsNavigating,
   setSelectedPOI,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setIsUsingGPSLonLat
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -26,7 +27,7 @@ import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component
-export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult }) {
+export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult }) {
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
@@ -138,6 +139,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
         latitude: lat,
       }));
       dispatch(setMarker(newMarker));
+      dispatch(setIsUsingGPSLonLat(false));
       handleMarkerSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
@@ -240,7 +242,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
         trackUserLocation
       />
       <NavigationControl />
-      <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} />
+      <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} isFetching={isFetching} />
       <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
@@ -252,6 +254,7 @@ export default function CustomMap({ data, getNearbyPOIQueryTrigger, getPOIPhotos
 
 CustomMap.propTypes = {
   data: FourSquareResponsePropTypes,
+  isFetching: PropTypes.bool,
   getNearbyPOIQueryTrigger: PropTypes.func,
   getPOIPhotosQueryTrigger: PropTypes.func,
   getPOIPhotosQueryResult: FourSquareResponsePropTypes

@@ -4,7 +4,8 @@ import {
   setViewState,
   setIsShowingOnlySelectedPOI,
   setSelectedPOI,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setIsUsingGPSLonLat
 } from '../../redux/reducers/mapReducer';
 import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
@@ -26,6 +27,7 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
 
   const handleButtonGPSSearch = () => {
     if (hasGPSLonLat()) {
+      dispatch(setIsUsingGPSLonLat(true));
       getNearbyPOIQueryTrigger({
         ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
         radius: selectedPOIRadius,

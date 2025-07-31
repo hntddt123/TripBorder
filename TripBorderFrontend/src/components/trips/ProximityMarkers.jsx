@@ -5,14 +5,13 @@ import {
   setSelectedPOI,
   setViewState,
   setIsShowingAddtionalPopUp,
-  setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat,
   setRandomPOINumber
 } from '../../redux/reducers/mapReducer';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 
-export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
+export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger, isFetching }) {
   const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
   const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
@@ -43,12 +42,14 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
       zoom: viewState.zoom,
     }));
     dispatch(setIsShowingAddtionalPopUp(true));
-    dispatch(setIsShowingOnlySelectedPOI(true));
   };
 
   const renderPOIMarkers = () => data.results.map((marker, i) => (
     <div key={marker.fsq_id}>
-      <Marker longitude={marker.geocodes.main.longitude} latitude={marker.geocodes.main.latitude}>
+      <Marker
+        longitude={marker.geocodes.main.longitude}
+        latitude={marker.geocodes.main.latitude}
+      >
         <div className='text-2xl' translate='no'>{selectedPOIIcon}</div>
       </Marker>
       <Marker
@@ -80,7 +81,10 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
         : `${randomPOINumber + 1} ${filteredResult.distance}m`;
       return (
         <div key={filteredResult.fsq_id}>
-          <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
+          <Marker
+            longitude={filteredResult.geocodes.main.longitude}
+            latitude={filteredResult.geocodes.main.latitude}
+          >
             <div className='text-2xl' translate='no'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
@@ -108,7 +112,10 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
 
       return (
         <div key={filteredResult.fsq_id}>
-          <Marker longitude={filteredResult.geocodes.main.longitude} latitude={filteredResult.geocodes.main.latitude}>
+          <Marker
+            longitude={filteredResult.geocodes.main.longitude}
+            latitude={filteredResult.geocodes.main.latitude}
+          >
             <div className='text-3xl' translate='no'>{selectedPOIIcon}</div>
           </Marker>
           <Marker
@@ -125,13 +132,13 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger }) {
     return null;
   };
 
-  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice)) {
+  if ((data && data.results.length > 0 && !isShowingOnlySelectedPOI && !isThrowingDice) && !isFetching) {
     return renderPOIMarkers();
   }
-  if (data && data.results.length > 0 && isThrowingDice) {
+  if (data && data.results.length > 0 && isThrowingDice && !isFetching) {
     return renderRandomSelectedPOIMarker();
   }
-  if (data && data.results.length > 0 && isShowingOnlySelectedPOI && !isThrowingDice) {
+  if (data && data.results.length > 0 && isShowingOnlySelectedPOI && !isThrowingDice && !isFetching) {
     return renderSelectedPOIMarker();
   }
 }

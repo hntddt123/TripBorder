@@ -14,7 +14,7 @@ import CustomError from '../CustomError';
 import TripPlanningTools from './TripPlanningTools';
 
 function TripsItems() {
-  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error, reset }] = useLazyGetNearbyPOIQuery();
+  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
   useEffect(() => {
@@ -41,7 +41,10 @@ function TripsItems() {
       <div className='flex-col overflow-x-auto pt-1.5'>
         <div className='max-h-13'>
           <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-          <ButtonPOISelection reset={reset} isFetching={isFetching} />
+          <ButtonPOISelection
+            getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
+            isFetching={isFetching}
+          />
           <ToggleDice poi={poi} />
           <CustomToggle
             translate='no'
@@ -59,6 +62,7 @@ function TripsItems() {
       <div>
         <CustomMap
           data={(poi) || null}
+          isFetching={isFetching}
           getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
           getPOIPhotosQueryResult={(getPOIPhotosQueryResult) || null}
