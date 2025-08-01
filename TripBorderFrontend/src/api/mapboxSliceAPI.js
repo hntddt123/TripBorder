@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { MAPBOX_API_KEY, mapBoxBaseUrl } from '../constants/constants';
+import { mapBoxBaseUrl, getMapBoxDirectionUrl } from '../constants/constants';
 
 /*
   Get Directions
@@ -31,7 +31,7 @@ export const mapboxAPI = createApi({
           throw new Error('Start and end coordinates cannot be identical');
         }
 
-        return `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`;
+        return getMapBoxDirectionUrl(lonStart, latStart, lonEnd, latEnd);
       },
       transformErrorResponse: (response) => {
         if (response.status === 422) {

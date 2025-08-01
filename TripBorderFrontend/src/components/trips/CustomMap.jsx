@@ -27,7 +27,9 @@ import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 
 // react-map-gl component
-export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult }) {
+export default function CustomMap({
+  data, isFetching, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult
+}) {
   const [mapLoaded, setMapLoaded] = useState(false);
 
   const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
@@ -40,9 +42,9 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
   const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
 
   const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
+  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
-  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
@@ -65,8 +67,9 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
       radius: selectedPOIRadius,
       limit: selectedPOICount,
       category: selectedPOIIDNumber,
-      icon: selectedPOIIcon
+      icon: selectedPOIIcon,
     }, true);
+
     mapRef.current.flyTo({
       center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
       zoom: 15.5, // Target zoom level.
@@ -74,6 +77,7 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
       duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
       essential: true // Ensures animation runs even if user interacts (optional, for better UX).
     });
+
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
     } else {
@@ -81,6 +85,13 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
       dispatch(setSelectedPOI(''));
     }
     dispatch(setIsShowingAddtionalPopUp(false));
+  };
+
+  const onGeocoderResult = (event) => {
+    const [lng, lat] = event.result.center;
+    dispatch(setLongPressedLonLat({ longitude: lng, latitude: lat }));
+    dispatch(setIsUsingGPSLonLat(false));
+    handleMarkerSearch(lng, lat);
   };
 
   const handleGeoRef = (ref) => {
@@ -225,11 +236,12 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
       dragRotate={false}
       touchZoomRotate={false}
       padding={mapViewPadding}
+      minZoom={1.7433354864918957}
     >
       <GeocoderControl
         mapboxAccessToken={MAPBOX_API_KEY}
         position='top-left'
-        handleMarkerSearch={handleMarkerSearch}
+        onResult={onGeocoderResult}
       />
       <FullscreenControl position='top-right' />
       <GeolocateControl
@@ -242,8 +254,16 @@ export default function CustomMap({ data, isFetching, getNearbyPOIQueryTrigger, 
         trackUserLocation
       />
       <NavigationControl />
-      <ProximityMarkers data={data} getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger} isFetching={isFetching} />
-      <AdditionalMarkerInfo data={data} getPOIPhotosQueryResult={getPOIPhotosQueryResult} getDirectionsQueryTrigger={getDirectionsQueryTrigger} />
+      <ProximityMarkers
+        data={data}
+        getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
+        isFetching={isFetching}
+      />
+      <AdditionalMarkerInfo
+        data={data}
+        getPOIPhotosQueryResult={getPOIPhotosQueryResult}
+        getDirectionsQueryTrigger={getDirectionsQueryTrigger}
+      />
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       {renderBottomMenu()}

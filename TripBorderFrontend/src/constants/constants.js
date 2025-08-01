@@ -19,9 +19,13 @@ export const isDevMode = (MODE === 'development');
 
 export const fourSquareBaseUrl = 'https://api.foursquare.com/v3/';
 export const mapBoxBaseUrl = 'https://api.mapbox.com/';
+export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
+  `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`
+);
 
 // FoursquarePOI icon list
 export const restaurantIcon = '🍱';
+export const parkIcon = '🏞️';
 export const museumIcon = '🏛️';
 export const hotelIcon = '🛌';
 export const carIcon = '🚘';
@@ -36,9 +40,10 @@ export const numIcon = '🔢';
 // Define the Foursquare categories and their corresponding icons
 export const iconMap = {
   '4d4b7105d754a06374d81259': { icon: restaurantIcon, label: 'Restaurant' },
+  '4d4b7105d754a06377d81259': { icon: parkIcon, label: 'Landmarks and Outdoors' },
   '4bf58dd8d48988d181941735': { icon: museumIcon, label: 'Museum' },
   '4bf58dd8d48988d1fa931735': { icon: hotelIcon, label: 'Hotel' },
-  '4d4b7105d754a06379d81259': { icon: carIcon, label: 'Car Rental' },
+  '4d4b7105d754a06379d81259': { icon: carIcon, label: 'Travel and Transportation' },
   '4bf58dd8d48988d1fd941735': { icon: shoppingIcon, label: 'Shopping' },
 };
 

@@ -10,18 +10,17 @@ import {
 } from '../../constants/constants';
 
 function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
-  const dispatch = useDispatch();
-
   const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
   const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
   const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
   const isUsingGPSLonLat = useSelector((state) => state.mapReducer.isUsingGPSLonLat);
 
+  const dispatch = useDispatch();
+
   const handleDropdownOnChange = (event) => {
     const selectedID = event.target.value;
     const selectedCategory = poiCategories.find((category) => category.id === selectedID);
-
     dispatch(setSelectedPOIIDNumber(selectedID));
     dispatch(setSelectedPOIIcon(selectedCategory.icon));
     dispatch(setIsShowingAddtionalPopUp(false));

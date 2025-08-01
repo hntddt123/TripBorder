@@ -13,9 +13,9 @@ const initialMapState = {
   longPressedLonLat: { longitude: null, latitude: null },
   isUsingGPSLonLat: true,
   markers: [],
-  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants
+  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants 4d4b7105d754a06374d81259
   selectedPOI: '',
-  selectedPOIIcon: '🍱',
+  selectedPOIIcon: '🍱', // default to 🍱
   selectedPOILonLat: { longitude: null, latitude: null },
   selectedPOIRadius: 500, // 100 ~ 1000m
   selectedPOICount: 20, // 5 ~ 50

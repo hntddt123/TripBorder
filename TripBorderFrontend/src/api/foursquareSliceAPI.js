@@ -1,7 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { FOURSQUARE_API_KEY, fourSquareBaseUrl } from '../constants/constants';
-import { setSelectedPOIIcon } from '../redux/reducers/mapReducer';
 
 /*
   Place Search
@@ -28,14 +27,6 @@ export const foursquareAPI = createApi({
   endpoints: (builder) => ({
     getNearbyPOI: builder.query({
       query: ({ ll, radius, limit, category }) => `places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE`,
-      async onQueryStarted(data, { dispatch, queryFulfilled }) {
-        try {
-          await queryFulfilled;
-          dispatch(setSelectedPOIIcon(data.icon));
-        } catch (err) {
-          dispatch(setSelectedPOIIcon(err.message));
-        }
-      }
     }),
     getPOIPhotos: builder.query({
       query: ({ fsqId }) => `places/${fsqId}/photos?limit=10&sort=POPULAR`,
