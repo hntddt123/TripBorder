@@ -140,8 +140,8 @@ function TripsPast() {
           </div>
         </div>
         <span>
-          {`Page ${currentPage} of ${totalPages}`}
-          (Total: {total} Trips)
+          {(currentPage && totalPages) ? `Page ${currentPage} of ${totalPages}` : null }
+          {(total) ? `(Total: ${total} Trips)` : null }
         </span>
       </div>
       {isFetching && <div>Fetching new page...</div>}

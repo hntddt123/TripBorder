@@ -570,7 +570,7 @@ html, body {
     z-10
     left-0
     overflow-y-scroll
-    absolute h-2/5 
+    absolute h-2/5
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
@@ -647,7 +647,7 @@ html, body {
     align-middle
     content-center
     rounded-full
-    mx-0.5
+    mx-1
     p-1.5
     border-amber-50
     bg-primary-button-light dark:bg-primary-button-dark 
