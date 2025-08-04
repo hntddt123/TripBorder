@@ -17,7 +17,8 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
     selectedPOICount,
     selectedPOIRadius,
     selectedPOIIcon,
-    isThrowingDice
+    isThrowingDice,
+    sessionIDFSQ
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedPOIIDNumber,
-        icon: selectedPOIIcon
+        icon: selectedPOIIcon,
+        sessionToken: sessionIDFSQ
       }, true);
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,

@@ -15,7 +15,8 @@ function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
     selectedPOIRadius,
     longPressedLonLat,
     gpsLonLat,
-    isUsingGPSLonLat
+    isUsingGPSLonLat,
+    sessionIDFSQ
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -34,7 +35,8 @@ function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedID,
-        icon: selectedCategory.icon
+        icon: selectedCategory.icon,
+        sessionToken: sessionIDFSQ
       }, true);
     } else if (gpsLonLat.longitude !== null
       && gpsLonLat.latitude !== null) {
@@ -43,7 +45,8 @@ function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedID,
-        icon: selectedCategory.icon
+        icon: selectedCategory.icon,
+        sessionToken: sessionIDFSQ
       }, true);
     }
   };

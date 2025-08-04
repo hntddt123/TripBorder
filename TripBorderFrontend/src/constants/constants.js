@@ -17,8 +17,8 @@ export const {
 
 export const isDevMode = (MODE === 'development');
 
-export const fourSquareBaseUrl = 'https://api.foursquare.com/v3/';
-export const mapBoxBaseUrl = 'https://api.mapbox.com/';
+export const fourSquareBaseUrl = 'https://api.foursquare.com/v3';
+export const mapBoxBaseUrl = 'https://api.mapbox.com';
 export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
   `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`
 );

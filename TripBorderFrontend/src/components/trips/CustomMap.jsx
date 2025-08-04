@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { v4 as uuidv4 } from 'uuid';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import {
   setViewState,
@@ -14,7 +15,8 @@ import {
   setIsNavigating,
   setSelectedPOI,
   setIsShowingAddtionalPopUp,
-  setIsUsingGPSLonLat
+  setIsUsingGPSLonLat,
+  setSessionIDFSQ
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -42,7 +44,8 @@ export default function CustomMap({
     selectedPOIIDNumber,
     selectedPOIIcon,
     selectedPOICount,
-    selectedPOIRadius
+    selectedPOIRadius,
+    sessionIDFSQ
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -78,6 +81,7 @@ export default function CustomMap({
       limit: selectedPOICount,
       category: selectedPOIIDNumber,
       icon: selectedPOIIcon,
+      sessionToken: sessionIDFSQ
     }, true);
 
     handleFlyTo(lng, lat, 15.5, 1500);
@@ -114,6 +118,7 @@ export default function CustomMap({
       map.target.setConfigProperty('basemap', 'lightPreset', 'day');
     }
     setMapLoaded(true);
+    dispatch(setSessionIDFSQ(uuidv4()));
     geoLocateRef.current?.trigger();
   };
 
