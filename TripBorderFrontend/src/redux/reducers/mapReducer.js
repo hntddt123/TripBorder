@@ -21,6 +21,7 @@ const initialMapState = {
   selectedPOICount: 20, // 5 ~ 50
   randomPOINumber: -1,
   isFullPOIname: false,
+  isShowingDistance: false,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
@@ -48,6 +49,7 @@ const mapSlice = createSlice({
     setSelectedPOICount: (state, action) => ({ ...state, selectedPOICount: action.payload }),
     setRandomPOINumber: (state, action) => ({ ...state, randomPOINumber: action.payload }),
     setIsFullPOIname: (state, action) => ({ ...state, isFullPOIname: action.payload }),
+    setIsShowingDistance: (state, action) => ({ ...state, isShowingDistance: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
@@ -72,6 +74,7 @@ export const {
   setSelectedPOICount,
   setRandomPOINumber,
   setIsFullPOIname,
+  setIsShowingDistance,
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp,
   setIsNavigating,

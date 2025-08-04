@@ -796,14 +796,13 @@ html, body {
   }
 
   .buttonDarkmode {
-    font-size: large;
-    line-height: 1rem;
     width: 4rem;
-    @apply 
+    @apply
+    my-2
     text-center
     content-center
     rounded-full
-    bg-primary-button-light dark:bg-primary-button-dark 
+    bg-slate-100 dark:bg-slate-800 
     text-black dark:text-white;
   }
 

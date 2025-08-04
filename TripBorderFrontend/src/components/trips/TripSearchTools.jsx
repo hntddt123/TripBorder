@@ -5,11 +5,15 @@ import {
   setSelectedPOIRadius
 } from '../../redux/reducers/mapReducer';
 import TogglePlaceName from './TogglePlaceName';
+import ToggleDistance from './ToggleDistance';
 
 function TripSearchTools() {
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const {
+    gpsLonLat,
+    selectedPOICount,
+    selectedPOIRadius
+  } = useSelector((state) => state.mapReducer);
+
   const dispatch = useDispatch();
 
   const handleItemCountChange = (count) => {
@@ -44,8 +48,12 @@ function TripSearchTools() {
   return (
     <div className='text-lg tripAbsoluteContent content'>
       <div>
-        <span>Show Only Number on Map</span>
+        <span>Show numbering on marker</span>
         <TogglePlaceName />
+      </div>
+      <div>
+        <span>Show distance on marker</span>
+        <ToggleDistance />
       </div>
       Item Count
       <ReactSlider

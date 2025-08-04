@@ -4,7 +4,8 @@ import { numIcon } from '../../constants/constants';
 import { setIsFullPOIname } from '../../redux/reducers/mapReducer';
 
 function TogglePlaceName() {
-  const isFullPOIname = useSelector((state) => state.mapReducer.isFullPOIname);
+  const { isFullPOIname } = useSelector((state) => state.mapReducer);
+
   const dispatch = useDispatch();
 
   const handleFullNameToggle = () => {
@@ -14,7 +15,7 @@ function TogglePlaceName() {
   return (
     <Toggle
       translate='no'
-      className='ml-1 mr-1 align-middle'
+      className='m-1.5 align-middle'
       icons={{
         checked: <div className='text-xs leading-3'>{numIcon}</div>,
         unchecked: <div className='text-xs leading-3'>{numIcon}</div>,

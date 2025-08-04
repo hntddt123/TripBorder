@@ -31,20 +31,20 @@ export default function CustomMap({
   data, isFetching, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult
 }) {
   const [mapLoaded, setMapLoaded] = useState(false);
+  const {
+    mapStyle,
+    viewState,
+    isShowingAddtionalPopUp,
+    isShowingSideBar,
+    isNavigating,
+    isThrowingDice,
+    isDarkMode,
+    selectedPOIIDNumber,
+    selectedPOIIcon,
+    selectedPOICount,
+    selectedPOIRadius
+  } = useSelector((state) => state.mapReducer);
 
-  const mapStyle = useSelector((state) => state.mapReducer.mapStyle);
-  const viewState = useSelector((state) => state.mapReducer.viewState);
-
-  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
-  const isShowingSideBar = useSelector((state) => state.mapReducer.isShowingSideBar);
-  const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
-  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
-  const isDarkMode = useSelector((state) => state.mapReducer.isDarkMode);
-
-  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
-  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
@@ -61,6 +61,16 @@ export default function CustomMap({
   // Nice for padding mechanics
   const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
 
+  const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
+    mapRef.current.flyTo({
+      center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
+      zoom: zoom, // Target zoom level.
+      pitch: 30, // Target pitch angle in degrees.
+      duration: duration, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
+      essential: true // Ensures animation runs even if user interacts (optional, for better UX).
+    });
+  };
+
   const handleMarkerSearch = (lng, lat) => {
     getNearbyPOIQueryTrigger({
       ll: `${lat},${lng}`,
@@ -70,13 +80,7 @@ export default function CustomMap({
       icon: selectedPOIIcon,
     }, true);
 
-    mapRef.current.flyTo({
-      center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
-      zoom: 15.5, // Target zoom level.
-      pitch: 30, // Target pitch angle in degrees.
-      duration: 1500, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
-      essential: true // Ensures animation runs even if user interacts (optional, for better UX).
-    });
+    handleFlyTo(lng, lat, 15.5, 1500);
 
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
@@ -192,7 +196,10 @@ export default function CustomMap({
       && !getDirectionsQueryResults.isUninitialized
       && isNavigating) {
       return (
-        <div className={`${isShowingSideBar ? 'sidebarInstructions flex-center left' : 'sidebarInstructions flex-center left collapsed'}`}>
+        <div className={`${isShowingSideBar
+          ? 'sidebarInstructions flex-center left'
+          : 'sidebarInstructions flex-center left collapsed'}`}
+        >
           <div className='flex-center text-lg top-14'>
             <div className='sidebarInstructionsContent'>
               {getDirectionsQueryResults.data.routes[0].legs[0].steps.map((step, i) => (
@@ -205,7 +212,11 @@ export default function CustomMap({
             <button className='sidebarInstructionsToggle left' onClick={handleSideBarToggle}>
               {(isShowingSideBar) ? String.fromCharCode(0x2190) : String.fromCharCode(0x2192)}
             </button>
-            <CustomButton className='buttonPOICancel' label='Stop Direction' onClick={handleCancelDirectionButton} />
+            <CustomButton
+              className='buttonPOICancel'
+              label='Stop Direction'
+              onClick={handleCancelDirectionButton}
+            />
           </div>
         </div>
       );
@@ -258,6 +269,7 @@ export default function CustomMap({
         data={data}
         getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
         isFetching={isFetching}
+        handleFlyTo={handleFlyTo}
       />
       <AdditionalMarkerInfo
         data={data}

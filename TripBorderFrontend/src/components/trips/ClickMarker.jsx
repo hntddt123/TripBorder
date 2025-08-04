@@ -2,8 +2,10 @@ import { useSelector } from 'react-redux';
 import { Marker, Source, Layer } from 'react-map-gl';
 
 export default function ClickMarker() {
-  const mapMarkers = useSelector((state) => state.mapReducer.markers);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+  const {
+    markers,
+    selectedPOIRadius,
+  } = useSelector((state) => state.mapReducer);
 
   const createGeoJSONCircle = (center, radiusInMeters, points = 64) => {
     const coords = {
@@ -41,7 +43,7 @@ export default function ClickMarker() {
 
   const drawRadius = (lng, lat) => createGeoJSONCircle([lng, lat], selectedPOIRadius);
 
-  return ((mapMarkers.length > 0) ? mapMarkers.map((marker) => (
+  return ((markers.length > 0) ? markers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div translate='no' className='text-4xl'>📍</div>

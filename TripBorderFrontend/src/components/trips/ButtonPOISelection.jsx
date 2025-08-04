@@ -10,11 +10,13 @@ import {
 } from '../../constants/constants';
 
 function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
-  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const isUsingGPSLonLat = useSelector((state) => state.mapReducer.isUsingGPSLonLat);
+  const {
+    selectedPOICount,
+    selectedPOIRadius,
+    longPressedLonLat,
+    gpsLonLat,
+    isUsingGPSLonLat
+  } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
 

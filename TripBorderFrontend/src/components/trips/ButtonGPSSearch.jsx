@@ -11,12 +11,14 @@ import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 
 function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
-  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
-  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+  const {
+    gpsLonLat,
+    selectedPOIIDNumber,
+    selectedPOICount,
+    selectedPOIRadius,
+    selectedPOIIcon,
+    isThrowingDice
+  } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
 

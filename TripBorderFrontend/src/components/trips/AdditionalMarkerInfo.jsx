@@ -15,12 +15,14 @@ import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
-  const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
-  const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
-  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
-  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+  const {
+    selectedPOI,
+    selectedPOILonLat,
+    gpsLonLat,
+    longPressedLonLat,
+    isShowingAddtionalPopUp,
+    isThrowingDice
+  } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
 
   const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
