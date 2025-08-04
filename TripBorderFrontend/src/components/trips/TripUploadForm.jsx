@@ -58,7 +58,7 @@ function TripUploadForm() {
     updateTripByUUID({
       uuid: uuid,
       updates: {
-        title: uuid,
+        title: title,
         start_date: startDate,
         end_date: endDate,
       }
