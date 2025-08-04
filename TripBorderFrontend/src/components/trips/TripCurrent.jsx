@@ -29,9 +29,16 @@ import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 
 function TripCurrent() {
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
-  const isEditingTrip = useSelector((state) => state.userSettingsReducer.isEditingTrip);
-  const tripData = useSelector((state) => state.tripReducer);
+  const {
+    isLoadTrip,
+    isEditingTrip,
+  } = useSelector((state) => state.userSettingsReducer);
+  const {
+    uuid,
+    title,
+    startDate,
+    endDate
+  } = useSelector((state) => state.tripReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
@@ -72,15 +79,15 @@ function TripCurrent() {
     <div>
       <div className='text-pretty px-4 gap-x-1'>
         <div className='underline underline-offset-2'>Travel Date</div>
-        {(formatDatecccMMMdyyyy(tripData.start_date) === formatDatecccMMMdyyyy(tripData.end_date))
+        {(formatDatecccMMMdyyyy(startDate) === formatDatecccMMMdyyyy(endDate))
           ? (
             <div className='px-2 font-mono'>
-              {formatDatecccMMMdyyyy(tripData.end_date)}
+              {formatDatecccMMMdyyyy(endDate)}
             </div>
           )
           : (
             <div className='px-2 font-mono'>
-              {formatDatecccMMMdyyyy(tripData.start_date)} - {formatDatecccMMMdyyyy(tripData.end_date)}
+              {formatDatecccMMMdyyyy(startDate)} - {formatDatecccMMMdyyyy(endDate)}
             </div>
           )}
       </div>
@@ -92,13 +99,13 @@ function TripCurrent() {
           title='All items'
           component={(
             <div>
-              <Meals tripID={tripData.uuid} />
-              <Hotels tripID={tripData.uuid} />
-              <POIs tripID={tripData.uuid} />
-              <Transports tripID={tripData.uuid} />
-              <TripTags tripID={tripData.uuid} />
-              <Tags tripID={tripData.uuid} />
-              <Ratings tripID={tripData.uuid} />
+              <Meals tripID={uuid} />
+              <Hotels tripID={uuid} />
+              <POIs tripID={uuid} />
+              <Transports tripID={uuid} />
+              <TripTags tripID={uuid} />
+              <Tags tripID={uuid} />
+              <Ratings tripID={uuid} />
             </div>
           )}
           isOpened
@@ -108,7 +115,7 @@ function TripCurrent() {
   );
 
   const renderTripOptions = () => {
-    if (tripData.uuid === '') {
+    if (uuid === '') {
       if (isLoadTrip) {
         return <TripsPast />;
       }
@@ -130,7 +137,7 @@ function TripCurrent() {
 
   return (
     <div>
-      {(tripData.uuid)
+      {(uuid)
         ? (
           <div className='text-base'>
             <div className='cardInfo'>
@@ -156,9 +163,9 @@ function TripCurrent() {
                     <CustomToggle
                       translate='no'
                       className='toggle min-h-12 min-w-80 max-w-80 text-lg'
-                      aria-label={`Trip Button ${tripData.uuid}`}
-                      id={tripData.uuid}
-                      title={tripData.title}
+                      aria-label={`Trip Button ${uuid}`}
+                      id={uuid}
+                      title={title}
                       component={renderTripDetail()}
                       isOpened
                     />

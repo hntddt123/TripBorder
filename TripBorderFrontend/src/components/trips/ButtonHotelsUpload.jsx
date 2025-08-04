@@ -5,17 +5,22 @@ import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
 function ButtonHotelsUpload({ filteredResult }) {
-  const tripData = useSelector((state) => state.tripReducer);
+  const {
+    uuid,
+    startDate,
+    endDate
+  } = useSelector((state) => state.tripReducer);
+
   const [PostHotelsByTripID, { isLoading, error }] = usePostHotelsByTripIDMutation();
 
   const handleClick = () => {
-    if (tripData.uuid) {
+    if (uuid) {
       const hotels = {
-        trips_uuid: tripData.uuid,
+        trips_uuid: uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        check_in: tripData.start_date,
-        check_out: tripData.end_date,
+        check_in: startDate,
+        check_out: endDate,
         // booking_reference: booking_reference
       };
       PostHotelsByTripID(hotels);
@@ -28,7 +33,7 @@ function ButtonHotelsUpload({ filteredResult }) {
         className='buttonPOIAdd'
         label='+Hotels'
         onClick={handleClick}
-        disabled={tripData.uuid === '' || (tripData.start_date === tripData.end_date)}
+        disabled={uuid === '' || (startDate === endDate)}
       />
       {(isLoading) ? <div>Creating...</div> : null}
       {(error) ? <CustomError error={error} /> : null}

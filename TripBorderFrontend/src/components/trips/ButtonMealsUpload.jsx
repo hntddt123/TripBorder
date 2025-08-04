@@ -8,13 +8,17 @@ import {
 } from '../../utility/time';
 
 function ButtonMealsUpload({ filteredResult }) {
+  const {
+    uuid,
+    startDate,
+  } = useSelector((state) => state.tripReducer);
+
   const [PostMealByTripID, { isLoading, error }] = usePostMealByTripIDMutation();
-  const tripData = useSelector((state) => state.tripReducer);
 
   const handleClick = (mealTime) => () => {
-    if (tripData.uuid) {
+    if (uuid) {
       const meals = {
-        trips_uuid: tripData.uuid,
+        trips_uuid: uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
         meal_time: mealTime
@@ -28,8 +32,8 @@ function ButtonMealsUpload({ filteredResult }) {
       <CustomButton
         className='buttonPOIAdd'
         label='+Meal'
-        onClick={handleClick(setLocalTime(tripData.start_date))}
-        disabled={tripData.uuid === ''}
+        onClick={handleClick(setLocalTime(startDate))}
+        disabled={uuid === ''}
       />
       {(isLoading) ? <div>Creating...</div> : null}
       {(error) ? <CustomError error={error} /> : null}

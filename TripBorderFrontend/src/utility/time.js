@@ -37,12 +37,12 @@ export const isTimeValid = (startValue, endValue, tripData, name) => {
     return `${name} Time cannot be past`;
   }
   // e.g., 2025-07-25T00:00:00-06:00
-  const startDate = DateTime.fromISO(tripData.start_date).startOf('day');
+  const startDate = DateTime.fromISO(tripData.startDate).startOf('day');
   if (time < startDate) {
     return `${name} Time cannot be before Trip Start Date`;
   }
   // Exclusive end: 2025-07-26T00:00:00-06:00
-  const endDate = DateTime.fromISO(tripData.end_date).plus({ days: 1 }).startOf('day');
+  const endDate = DateTime.fromISO(tripData.endDate).plus({ days: 1 }).startOf('day');
   if (time >= endDate) {
     return `${name} Time cannot be after Trip End Date`;
   }

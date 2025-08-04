@@ -5,16 +5,19 @@ import { usePostPOIByTripIDMutation } from '../../api/poisAPI';
 import CustomError from '../CustomError';
 
 function ButtonPOIUpload({ filteredResult }) {
-  const tripData = useSelector((state) => state.tripReducer);
+  const {
+    uuid,
+    startDate,
+  } = useSelector((state) => state.tripReducer);
   const [PostPOIByTripID, { isLoading, error }] = usePostPOIByTripIDMutation();
 
   const handleClick = () => {
-    if (tripData.uuid) {
+    if (uuid) {
       const poi = {
-        trips_uuid: tripData.uuid,
+        trips_uuid: uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        visit_time: tripData.start_date
+        visit_time: startDate
       };
       PostPOIByTripID(poi);
     }
@@ -26,7 +29,7 @@ function ButtonPOIUpload({ filteredResult }) {
         className='buttonPOIAdd'
         label='+Tour Spot'
         onClick={handleClick}
-        disabled={tripData.uuid === ''}
+        disabled={uuid === ''}
       />
       {(isLoading) ? <div>Creating...</div> : null}
       {(error) ? <CustomError error={error} /> : null}
