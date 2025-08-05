@@ -44,19 +44,6 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
 }
 
 NearbyPOIList.propTypes = {
-  poi: PropTypes.shape({
-    context: {
-      geo_bounds: {
-        circle: {
-          center: {
-            latitude: PropTypes.number,
-            longitude: PropTypes.number
-          },
-          radius: PropTypes.number
-        },
-      }
-    },
-    results: FourSquareResponsePropTypes
-  }),
+  poi: FourSquareResponsePropTypes,
   handleFlyTo: PropTypes.func,
 };
