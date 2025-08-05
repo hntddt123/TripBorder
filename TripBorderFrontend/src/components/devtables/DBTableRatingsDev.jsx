@@ -3,7 +3,7 @@ import { useGetRatingsAllQuery } from '../../api/ratingsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableRatingsDev() {
+export default function DBTableRatingsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetRatingsAllQuery({ page, limit });
@@ -76,5 +76,3 @@ function DBTableRatingsDev() {
     </div>
   );
 }
-
-export default DBTableRatingsDev;

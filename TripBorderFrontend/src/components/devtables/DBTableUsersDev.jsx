@@ -3,7 +3,7 @@ import { useGetUsersQuery, useUpdateUserMutation } from '../../api/usersAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableUsersDev() {
+export default function DBTableUsersDev() {
   const [selectedUUID, setSelectedUUID] = useState();
   const [page, setPage] = useState(1);
   const limit = 3;
@@ -102,5 +102,3 @@ function DBTableUsersDev() {
     </div>
   );
 }
-
-export default DBTableUsersDev;

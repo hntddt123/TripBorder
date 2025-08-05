@@ -17,7 +17,7 @@ import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function Meals({ tripID }) {
+export default function Meals({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [mealTimes, setMealTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -161,5 +161,3 @@ function Meals({ tripID }) {
 Meals.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Meals;

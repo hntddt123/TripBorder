@@ -3,7 +3,7 @@ import { useGetTagsAllQuery } from '../../api/tagsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableTagsDev() {
+export default function DBTableTagsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTagsAllQuery({ page, limit });
@@ -64,5 +64,3 @@ function DBTableTagsDev() {
     </div>
   );
 }
-
-export default DBTableTagsDev;

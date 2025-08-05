@@ -1,6 +1,6 @@
 import TripsPast from './TripsPast';
 
-function TripsHistory() {
+export default function TripsHistory() {
   return (
     <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
@@ -12,5 +12,3 @@ function TripsHistory() {
     </div>
   );
 }
-
-export default TripsHistory;

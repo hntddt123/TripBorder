@@ -7,7 +7,7 @@ import { formatHex } from '../../utility/formatHex';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 
-function MileageUploadForm() {
+export default function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
   const [inputError, setInputError] = useState('');
   const fileInputRef = useRef(null);
@@ -221,5 +221,3 @@ function MileageUploadForm() {
     </div>
   );
 }
-
-export default MileageUploadForm;

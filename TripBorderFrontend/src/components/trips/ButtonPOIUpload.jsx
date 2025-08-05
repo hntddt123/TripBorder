@@ -4,7 +4,7 @@ import CustomButton from '../CustomButton';
 import { usePostPOIByTripIDMutation } from '../../api/poisAPI';
 import CustomError from '../CustomError';
 
-function ButtonPOIUpload({ filteredResult }) {
+export default function ButtonPOIUpload({ filteredResult }) {
   const {
     uuid,
     startDate,
@@ -45,5 +45,3 @@ ButtonPOIUpload.propTypes = {
     })
   })
 };
-
-export default ButtonPOIUpload;

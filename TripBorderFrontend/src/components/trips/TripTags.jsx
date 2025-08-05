@@ -8,7 +8,7 @@ import {
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function TripTags({ tripID }) {
+export default function TripTags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
@@ -69,5 +69,3 @@ function TripTags({ tripID }) {
 TripTags.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default TripTags;

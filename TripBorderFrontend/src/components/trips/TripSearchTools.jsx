@@ -8,7 +8,7 @@ import TogglePlaceName from './TogglePlaceName';
 import ToggleDistance from './ToggleDistance';
 import ToggleMapBoxSearch from './ToggleMapBoxSearch';
 
-function TripSearchTools() {
+export default function TripSearchTools() {
   const {
     gpsLonLat,
     selectedPOICount,
@@ -96,5 +96,3 @@ function TripSearchTools() {
     </div>
   );
 }
-
-export default TripSearchTools;

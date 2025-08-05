@@ -2,7 +2,7 @@ import Toggle from 'react-toggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsShowingDistance } from '../../redux/reducers/mapReducer';
 
-function ToggleDistance() {
+export default function ToggleDistance() {
   const { isShowingDistance } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -21,5 +21,3 @@ function ToggleDistance() {
     />
   );
 }
-
-export default ToggleDistance;

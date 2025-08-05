@@ -5,7 +5,7 @@ import CustomImageComponent from '../CustomImageComponent';
 import { arrayToBase64 } from '../../utility/processBytea';
 import CustomError from '../CustomError';
 
-function DBTableMileagesDev() {
+export default function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetMileagesAllQuery({ page, limit });
@@ -97,5 +97,3 @@ function DBTableMileagesDev() {
     </div>
   );
 }
-
-export default DBTableMileagesDev;

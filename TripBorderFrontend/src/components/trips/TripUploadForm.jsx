@@ -14,7 +14,7 @@ import {
   isEndDateBeforeStartDate
 } from '../../utility/time';
 
-function TripUploadForm() {
+export default function TripUploadForm() {
   const [inputError, setInputError] = useState('');
   const {
     uuid,
@@ -114,5 +114,3 @@ function TripUploadForm() {
     </form>
   );
 }
-
-export default TripUploadForm;

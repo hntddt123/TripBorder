@@ -17,7 +17,7 @@ import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function POIs({ tripID }) {
+export default function POIs({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [visitTimes, setVisitTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -157,5 +157,3 @@ function POIs({ tripID }) {
 POIs.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default POIs;

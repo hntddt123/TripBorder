@@ -15,7 +15,7 @@ import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 
-function Tags({ tripID }) {
+export default function Tags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [tagName, setTagName] = useState('');
   const [page, setPage] = useState(1);
@@ -171,5 +171,3 @@ function Tags({ tripID }) {
 Tags.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Tags;

@@ -4,7 +4,7 @@ import {
 } from '../redux/reducers/mapReducer';
 import CustomButton from './CustomButton';
 
-function DarkModeToggle() {
+export default function DarkModeToggle() {
   const { isDarkMode } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -26,5 +26,3 @@ function DarkModeToggle() {
     />
   );
 }
-
-export default DarkModeToggle;

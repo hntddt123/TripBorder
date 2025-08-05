@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function CustomToggle({
+export default function CustomToggle({
   className = 'toggle dark:toggle text-base mx-0.5 py-2',
   title,
   component,
@@ -41,5 +41,3 @@ CustomToggle.propTypes = {
   isOpened: PropTypes.bool,
   label: PropTypes.string
 };
-
-export default CustomToggle;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { processBytea } from '../utility/processBytea';
 import { ImageComponentByteaPropTypes, ImageComponentUUIDPropTypes } from '../constants/imagePropTypes';
 
-function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
+export default function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
   const [imageSrc, setImageSrc] = useState({ src: null, loading: false, error: null });
 
   const loadImage = useCallback(async () => {
@@ -41,5 +41,3 @@ CustomImageComponent.propTypes = {
   uuid: ImageComponentUUIDPropTypes,
   className: PropTypes.string,
 };
-
-export default CustomImageComponent;

@@ -7,7 +7,7 @@ import {
   setLocalTime,
 } from '../../utility/time';
 
-function ButtonMealsUpload({ filteredResult }) {
+export default function ButtonMealsUpload({ filteredResult }) {
   const {
     uuid,
     startDate,
@@ -49,5 +49,3 @@ ButtonMealsUpload.propTypes = {
     })
   })
 };
-
-export default ButtonMealsUpload;

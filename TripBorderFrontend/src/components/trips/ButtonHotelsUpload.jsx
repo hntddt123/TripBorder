@@ -4,7 +4,7 @@ import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function ButtonHotelsUpload({ filteredResult }) {
+export default function ButtonHotelsUpload({ filteredResult }) {
   const {
     uuid,
     startDate,
@@ -49,5 +49,3 @@ ButtonHotelsUpload.propTypes = {
     })
   })
 };
-
-export default ButtonHotelsUpload;

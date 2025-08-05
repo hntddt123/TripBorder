@@ -2,7 +2,7 @@ import Toggle from 'react-toggle';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsUsingMapBoxGeocoder } from '../../redux/reducers/mapReducer';
 
-function ToggleMapBoxSearch() {
+export default function ToggleMapBoxSearch() {
   const { isUsingMapBoxGeocoder } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
 
@@ -20,5 +20,3 @@ function ToggleMapBoxSearch() {
     />
   );
 }
-
-export default ToggleMapBoxSearch;

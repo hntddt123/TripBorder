@@ -3,7 +3,7 @@ import { useGetPOIsAllQuery } from '../../api/poisAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTablePOIsDev() {
+export default function DBTablePOIsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetPOIsAllQuery({ page, limit });
@@ -66,5 +66,3 @@ function DBTablePOIsDev() {
     </div>
   );
 }
-
-export default DBTablePOIsDev;

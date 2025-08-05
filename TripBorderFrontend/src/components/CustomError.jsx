@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function CustomError({ error }) {
+export default function CustomError({ error }) {
   return (
     <div className='text-red-600'>
       Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
@@ -20,5 +20,3 @@ CustomError.propTypes = {
     })
   })
 };
-
-export default CustomError;

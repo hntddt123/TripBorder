@@ -2,7 +2,7 @@ import DarkModeToggle from './DarkModeToggle';
 import MileagesByEmail from './mileages/MileagesByEmail';
 import UserProfile from './UserProfile';
 
-function Settings() {
+export default function Settings() {
   return (
     <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
@@ -16,5 +16,3 @@ function Settings() {
     </div>
   );
 }
-
-export default Settings;

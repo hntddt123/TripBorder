@@ -5,7 +5,7 @@ import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
 
-function Mileages() {
+export default function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -136,5 +136,3 @@ function Mileages() {
     </div>
   );
 }
-
-export default Mileages;

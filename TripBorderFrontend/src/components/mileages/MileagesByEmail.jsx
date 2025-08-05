@@ -7,7 +7,7 @@ import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
 
-function MileagesByEmail() {
+export default function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
@@ -126,5 +126,3 @@ function MileagesByEmail() {
     </div>
   );
 }
-
-export default MileagesByEmail;

@@ -7,7 +7,7 @@ import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
 
-function MileagesAdmin() {
+export default function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -166,5 +166,3 @@ function MileagesAdmin() {
     </div>
   );
 }
-
-export default MileagesAdmin;

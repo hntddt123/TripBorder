@@ -16,7 +16,7 @@ import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function Hotels({ tripID }) {
+export default function Hotels({ tripID }) {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
   const [checkInDates, setCheckInTimes] = useState({});
@@ -240,5 +240,3 @@ function Hotels({ tripID }) {
 Hotels.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Hotels;

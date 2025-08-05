@@ -13,7 +13,7 @@ import DevMode from './components/DevMode';
 import MileagesAdmin from './components/mileages/MileagesAdmin';
 import Disclaimers from './components/Disclaimers';
 
-function App() {
+export default function App() {
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
@@ -105,5 +105,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

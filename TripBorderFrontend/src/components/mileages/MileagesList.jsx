@@ -1,7 +1,7 @@
 import MileageUploadForm from './MileageUploadForm';
 import Mileages from './Mileages';
 
-function MileagesList() {
+export default function MileagesList() {
   return (
     <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
@@ -13,5 +13,3 @@ function MileagesList() {
     </div>
   );
 }
-
-export default MileagesList;

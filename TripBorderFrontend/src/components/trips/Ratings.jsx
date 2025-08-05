@@ -12,7 +12,7 @@ import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function Ratings({ tripID }) {
+export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -186,5 +186,3 @@ function Ratings({ tripID }) {
 Ratings.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Ratings;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { numIcon } from '../../constants/constants';
 import { setIsFullPOIname } from '../../redux/reducers/mapReducer';
 
-function TogglePlaceName() {
+export default function TogglePlaceName() {
   const { isFullPOIname } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -25,5 +25,3 @@ function TogglePlaceName() {
     />
   );
 }
-
-export default TogglePlaceName;

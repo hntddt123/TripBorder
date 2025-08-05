@@ -9,7 +9,7 @@ import {
   poiCategories
 } from '../../constants/constants';
 
-function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
+export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
   const {
     selectedPOICount,
     selectedPOIRadius,
@@ -75,5 +75,3 @@ ButtonPOISelection.propTypes = {
   getNearbyPOIQueryTrigger: PropTypes.func,
   isFetching: PropTypes.bool,
 };
-
-export default ButtonPOISelection;

@@ -3,7 +3,7 @@ import { useGetTransportsAllQuery } from '../../api/transportsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableTransportsDev() {
+export default function DBTableTransportsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTransportsAllQuery({ page, limit });
@@ -80,5 +80,3 @@ function DBTableTransportsDev() {
     </div>
   );
 }
-
-export default DBTableTransportsDev;

@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { incrementCount, decrementCount } from '../redux/reducers/counterReducer';
 import CustomButton from './CustomButton';
 
-function Counter() {
+export default function Counter() {
   const count = useSelector((state) => state.counterReducer.count);
   const dispatch = useDispatch();
 
@@ -16,5 +16,3 @@ function Counter() {
     </div>
   );
 }
-
-export default Counter;

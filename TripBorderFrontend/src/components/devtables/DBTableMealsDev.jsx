@@ -3,7 +3,7 @@ import { useGetMealsAllQuery } from '../../api/mealsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableMealsDev() {
+export default function DBTableMealsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetMealsAllQuery({ page, limit });
@@ -68,5 +68,3 @@ function DBTableMealsDev() {
     </div>
   );
 }
-
-export default DBTableMealsDev;

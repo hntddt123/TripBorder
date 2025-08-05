@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 
-function InputLandmarkSearch({ getLandmarkFromKeywordQueryTrigger }) {
+export default function InputLandmarkSearch({ getLandmarkFromKeywordQueryTrigger }) {
   const [keyword, setKeyword] = useState('');
   const inputRef = useRef(null);
 
@@ -41,5 +41,3 @@ function InputLandmarkSearch({ getLandmarkFromKeywordQueryTrigger }) {
 InputLandmarkSearch.propTypes = {
   getLandmarkFromKeywordQueryTrigger: PropTypes.func
 };
-
-export default InputLandmarkSearch;

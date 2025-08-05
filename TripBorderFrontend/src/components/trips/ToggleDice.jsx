@@ -8,7 +8,7 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 
-function ToggleDice({ poi }) {
+export default function ToggleDice({ poi }) {
   const {
     isThrowingDice,
     isShowingOnlySelectedPOI,
@@ -46,5 +46,3 @@ function ToggleDice({ poi }) {
 ToggleDice.propTypes = {
   poi: FourSquareResponsePropTypes
 };
-
-export default ToggleDice;

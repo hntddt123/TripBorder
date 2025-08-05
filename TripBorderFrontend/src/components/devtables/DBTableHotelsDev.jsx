@@ -3,7 +3,7 @@ import { useGetHotelsAllQuery } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableHotelsDev() {
+export default function DBTableHotelsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetHotelsAllQuery({ page, limit });
@@ -72,5 +72,3 @@ function DBTableHotelsDev() {
     </div>
   );
 }
-
-export default DBTableHotelsDev;

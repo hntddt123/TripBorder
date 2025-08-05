@@ -13,7 +13,7 @@ import ButtonGPSSearch from './ButtonGPSSearch';
 import CustomError from '../CustomError';
 import TripPlanningTools from './TripPlanningTools';
 
-function TripsItems() {
+export default function TripsItems() {
   const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
@@ -71,5 +71,3 @@ function TripsItems() {
     </div>
   );
 }
-
-export default TripsItems;

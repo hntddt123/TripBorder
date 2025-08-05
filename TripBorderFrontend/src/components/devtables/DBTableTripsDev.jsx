@@ -3,7 +3,7 @@ import { useGetTripsAllQuery } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableTripsDev() {
+export default function DBTableTripsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTripsAllQuery({ page, limit });
@@ -72,5 +72,3 @@ function DBTableTripsDev() {
     </div>
   );
 }
-
-export default DBTableTripsDev;

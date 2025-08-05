@@ -3,7 +3,7 @@ import { useCheckAuthStatusQuery } from '../api/authAPI';
 import { isDevMode } from '../constants/constants';
 import CustomError from './CustomError';
 
-function ProtectedRoute() {
+export default function ProtectedRoute() {
   const { data, isLoading, error } = useCheckAuthStatusQuery();
 
   if (isDevMode) {
@@ -26,5 +26,3 @@ function ProtectedRoute() {
   }
   return <Outlet />;
 }
-
-export default ProtectedRoute;

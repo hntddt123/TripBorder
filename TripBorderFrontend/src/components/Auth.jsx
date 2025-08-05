@@ -6,7 +6,7 @@ import GoogleSignInButton from './GoogleSignInButton';
 import { BASE_URL } from '../constants/constants';
 import CustomError from './CustomError';
 
-function Auth() {
+export default function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
   const { data, isLoading, error } = useCheckAuthStatusQuery(
     undefined,
@@ -127,5 +127,3 @@ function Auth() {
     </div>
   );
 }
-
-export default Auth;

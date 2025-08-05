@@ -3,7 +3,7 @@ import { useGetTripTagsAllQuery } from '../../api/tripTagsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 
-function DBTableTripTagsDev() {
+export default function DBTableTripTagsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTripTagsAllQuery({ page, limit });
@@ -64,5 +64,3 @@ function DBTableTripTagsDev() {
     </div>
   );
 }
-
-export default DBTableTripTagsDev;

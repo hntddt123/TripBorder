@@ -17,7 +17,7 @@ import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 
-function Transports({ tripID }) {
+export default function Transports({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [departureTimes, setDepartureTimes] = useState({});
   const [arrivalTimes, setArrivalTimes] = useState({});
@@ -244,5 +244,3 @@ function Transports({ tripID }) {
 Transports.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Transports;

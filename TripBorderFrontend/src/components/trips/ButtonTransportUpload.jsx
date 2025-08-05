@@ -18,7 +18,7 @@ import CustomError from '../CustomError';
  origin: transport.origin,
  destination: transport.destination
 */
-function ButtonPOIUpload({ filteredResult }) {
+export default function ButtonPOIUpload({ filteredResult }) {
   const {
     uuid,
     startDate,
@@ -60,5 +60,3 @@ ButtonPOIUpload.propTypes = {
     })
   })
 };
-
-export default ButtonPOIUpload;

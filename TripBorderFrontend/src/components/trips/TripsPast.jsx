@@ -29,7 +29,7 @@ import Ratings from './Ratings';
 import TripTags from './TripTags';
 import CustomError from '../CustomError';
 
-function TripsPast() {
+export default function TripsPast() {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
@@ -167,5 +167,3 @@ function TripsPast() {
     </div>
   );
 }
-
-export default TripsPast;

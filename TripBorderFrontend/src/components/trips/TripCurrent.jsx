@@ -28,7 +28,7 @@ import TripsPast from './TripsPast';
 import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 
-function TripCurrent() {
+export default function TripCurrent() {
   const {
     isLoadTrip,
     isEditingTrip,
@@ -185,5 +185,3 @@ function TripCurrent() {
     </div>
   );
 }
-
-export default TripCurrent;
