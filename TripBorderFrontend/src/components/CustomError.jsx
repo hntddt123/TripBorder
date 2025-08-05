@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import { errorPropTypes } from '../constants/errorPropTypes';
 
 export default function CustomError({ error }) {
   return (
@@ -9,14 +9,5 @@ export default function CustomError({ error }) {
 }
 
 CustomError.propTypes = {
-  error: PropTypes.shape({
-    status: PropTypes.PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    error: PropTypes.string,
-    data: PropTypes.shape({
-      error: PropTypes.string
-    })
-  })
+  error: errorPropTypes
 };

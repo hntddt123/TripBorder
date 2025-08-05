@@ -39,7 +39,7 @@ export default function TripsItems() {
   return (
     <div>
       <div className='flex-col overflow-x-auto pt-1.5'>
-        <div className='max-h-13'>
+        <div>
           <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
           <ButtonPOISelection
             getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}

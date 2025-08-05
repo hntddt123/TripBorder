@@ -22,6 +22,7 @@ export const mapBoxBaseUrl = 'https://api.mapbox.com';
 export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
   `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`
 );
+export const openstreetmapBaseUrl = 'http://localhost:8080'; // localhost:8080 for self host
 
 // FoursquarePOI icon list
 export const restaurantIcon = '🍱';
@@ -32,8 +33,7 @@ export const carIcon = '🚘';
 export const shoppingIcon = '🛍️';
 // FoursquarePOI icon list End
 
-export const GPSIcon = '🛰️🔎';
-export const pinIcon = '📍🔎';
+export const GPSIcon = '🛰️🔍';
 export const diceIcon = '🎲';
 export const numIcon = '🔢';
 

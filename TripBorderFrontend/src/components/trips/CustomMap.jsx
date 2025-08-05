@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
+import Map, { FullscreenControl, GeolocateControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { v4 as uuidv4 } from 'uuid';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
@@ -70,7 +70,7 @@ export default function CustomMap({
   const percentage = 7.28;
   const pixelShift = (percentage / 100) * screenHeight;
   // Nice for padding mechanics
-  const mapViewPadding = isShowingAddtionalPopUp ? { bottom: 6.9 * pixelShift } : { bottom: 0 };
+  const mapViewPadding = { bottom: 4.2 * pixelShift };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
     mapRef.current.flyTo({
@@ -112,7 +112,6 @@ export default function CustomMap({
         lat: lat
       };
 
-      console.log(getLandmarkFromKeywordResult.data);
       dispatch(setLongPressedLonLat({ longitude: lon, latitude: lat }));
       dispatch(setIsUsingGPSLonLat(false));
       dispatch(setMarker(newMarker));
@@ -296,6 +295,7 @@ export default function CustomMap({
         : (
           <InputLandmarkSearch
             getLandmarkFromKeywordQueryTrigger={getLandmarkFromKeywordQueryTrigger}
+            getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
           />
         )}
       <FullscreenControl position='top-right' />
@@ -308,7 +308,6 @@ export default function CustomMap({
         showUserLocation
         trackUserLocation
       />
-      <NavigationControl />
       <ProximityMarkers
         data={data}
         getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}

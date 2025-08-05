@@ -36,6 +36,7 @@
   --color-primary-button-dark-active: #b45309;
   --color-primary-button-dark-less-transparent: rgba(0, 0, 0, 0.9);
   --color-primary-button-dark-transparent: rgba(0, 0, 0, 0.7);
+  --color-primary-button-dark-much-transparent: rgba(0, 0, 0, 0.5);
   --color-primary-button-dark-transparent-hover: rgba(0, 0, 0, 0.8);
   --color-primary-button-dark-transparent-active: rgba(0, 0, 0, 0.9);
   --color-primary-google-dark: #131314;
@@ -95,7 +96,6 @@ html, body {
   }
 
   .customInput {
-    width: 69dvw;
     @apply 
     m-1 p-2
     rounded-xl
@@ -106,6 +106,25 @@ html, body {
   .customInput:focus {
     @apply 
     dark:bg-primary-dark dark:text-white;
+  }
+
+  .customInputSearch {
+    min-width: 69dvw;
+    @apply 
+    p-2
+    rounded-xl
+    bg-primary-light dark:bg-primary-button-dark-much-transparent
+    dark:text-white;
+  }
+
+  .customInputSearch[type="text"]:focus {
+    @apply 
+    dark:bg-primary-button-dark-less-transparent dark:text-white;
+  }
+
+  .customInputSearch[type="text"]:active {
+    @apply 
+    dark:bg-primary-button-dark-much-transparent dark:text-white;
   }
 
   input[type="text"]:focus {
@@ -635,6 +654,7 @@ html, body {
     top: 0dvh;
     width: 100dvw;
     @apply
+    m-2
     text-lg
     absolute;
   }

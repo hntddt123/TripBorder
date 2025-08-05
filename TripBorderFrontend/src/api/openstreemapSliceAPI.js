@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { openstreetmapBaseUrl } from '../constants/constants';
 
 /*
   Nominatim API for global keyword-to-coords search.
@@ -9,7 +10,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 export const openstreetmapAPI = createApi({
   reducerPath: 'openstreetmapApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://nominatim.openstreetmap.org/',
+    baseUrl: openstreetmapBaseUrl,
   }),
   endpoints: (builder) => ({
     getLandmarkFromKeyword: builder.query({
