@@ -1,4 +1,4 @@
-import { useCallback, useState, useRef } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import Map, { FullscreenControl, GeolocateControl, NavigationControl } from 'react-map-gl';
@@ -20,6 +20,7 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
+import { useLazyGetLandmarkFromKeywordQuery } from '../../api/openstreemapSliceAPI';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
@@ -27,10 +28,15 @@ import DirectionLayer from './DirectionLayer';
 import NearbyPOIList from './NearbyPOIList';
 import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
+import InputLandmarkSearch from './InputLandmarkSearch';
 
 // react-map-gl component
 export default function CustomMap({
-  data, isFetching, getNearbyPOIQueryTrigger, getPOIPhotosQueryTrigger, getPOIPhotosQueryResult
+  data,
+  isFetching,
+  getNearbyPOIQueryTrigger,
+  getPOIPhotosQueryTrigger,
+  getPOIPhotosQueryResult
 }) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const {
@@ -41,16 +47,18 @@ export default function CustomMap({
     isNavigating,
     isThrowingDice,
     isDarkMode,
+    isUsingMapBoxGeocoder,
     selectedPOIIDNumber,
     selectedPOIIcon,
     selectedPOICount,
     selectedPOIRadius,
-    sessionIDFSQ
+    sessionIDFSQ,
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
+  const [getLandmarkFromKeywordQueryTrigger, getLandmarkFromKeywordResult] = useLazyGetLandmarkFromKeywordQuery();
 
   const mapCSSStyle = { width: '100%', height: '88vh', borderRadius: 10 };
   const mapRef = useRef();
@@ -94,6 +102,25 @@ export default function CustomMap({
     }
     dispatch(setIsShowingAddtionalPopUp(false));
   };
+
+  useEffect(() => {
+    if (getLandmarkFromKeywordResult?.data && mapRef?.current) {
+      const { lon, lat } = getLandmarkFromKeywordResult.data;
+      const newMarker = {
+        id: new Date().getTime(),
+        lng: lon,
+        lat: lat
+      };
+
+      console.log(getLandmarkFromKeywordResult.data);
+      dispatch(setLongPressedLonLat({ longitude: lon, latitude: lat }));
+      dispatch(setIsUsingGPSLonLat(false));
+      dispatch(setMarker(newMarker));
+
+      handleFlyTo(lon, lat, 15.5, 1500);
+      handleMarkerSearch(lon, lat);
+    }
+  }, [getLandmarkFromKeywordResult]);
 
   const onGeocoderResult = (event) => {
     const [lng, lat] = event.result.center;
@@ -154,6 +181,7 @@ export default function CustomMap({
         lng: lng,
         lat: lat
       };
+
       dispatch(setLongPressedLonLat({
         longitude: lng,
         latitude: lat,
@@ -189,7 +217,10 @@ export default function CustomMap({
     if (data && data.results.length > 0 && !isThrowingDice) {
       return (
         <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
-          <NearbyPOIList poi={data} />
+          <NearbyPOIList
+            poi={data}
+            handleFlyTo={handleFlyTo}
+          />
         </div>
       );
     }
@@ -254,11 +285,19 @@ export default function CustomMap({
       padding={mapViewPadding}
       minZoom={1.7433354864918957}
     >
-      <GeocoderControl
-        mapboxAccessToken={MAPBOX_API_KEY}
-        position='top-left'
-        onResult={onGeocoderResult}
-      />
+      {isUsingMapBoxGeocoder
+        ? (
+          <GeocoderControl
+            mapboxAccessToken={MAPBOX_API_KEY}
+            position='top-left'
+            onResult={onGeocoderResult}
+          />
+        )
+        : (
+          <InputLandmarkSearch
+            getLandmarkFromKeywordQueryTrigger={getLandmarkFromKeywordQueryTrigger}
+          />
+        )}
       <FullscreenControl position='top-right' />
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}
@@ -294,5 +333,10 @@ CustomMap.propTypes = {
   isFetching: PropTypes.bool,
   getNearbyPOIQueryTrigger: PropTypes.func,
   getPOIPhotosQueryTrigger: PropTypes.func,
-  getPOIPhotosQueryResult: FourSquareResponsePropTypes
+  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
+  getLandmarkFromKeywordResult: PropTypes.shape({
+    lat: PropTypes.number,
+    lon: PropTypes.number,
+    name: PropTypes.string,
+  })
 };

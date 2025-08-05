@@ -48,9 +48,6 @@ export default function ClickMarker() {
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div translate='no' className='text-4xl'>📍</div>
       </Marker>
-      <Marker longitude={marker.lng} latitude={marker.lat} offset={[0, 30]}>
-        <div translate='no' className='text-2xl  text-red-600'>{marker.restaurantName}</div>
-      </Marker>
 
       <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
         <Layer

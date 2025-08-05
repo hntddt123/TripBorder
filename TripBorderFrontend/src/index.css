@@ -95,6 +95,7 @@ html, body {
   }
 
   .customInput {
+    width: 69dvw;
     @apply 
     m-1 p-2
     rounded-xl
@@ -629,11 +630,20 @@ html, body {
     absolute;
   }
 
+  .landmarkSearchInput {
+    z-index: 1;
+    top: 0dvh;
+    width: 100dvw;
+    @apply
+    text-lg
+    absolute;
+  }
+
   .bottommenu {
     z-index: 1;
-    top: 70%;
-    bottom: 6%;
-    width: 100%;
+    top: 60dvh;
+    bottom: 6dvh;
+    width: 100dvw;
     overflow-y: scroll;
     overflow-x: hidden;
     @apply
@@ -925,6 +935,11 @@ html, body {
     flex
     flex-col
     justify-between;
+  }
+
+  .reactToggle {
+    @apply
+    m-1.5 align-middle justify-center
   }
 
   .toggle {

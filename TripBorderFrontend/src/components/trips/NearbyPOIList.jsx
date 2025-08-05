@@ -1,21 +1,25 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setSelectedPOI,
-  setViewState,
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI
 } from '../../redux/reducers/mapReducer';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 
-function NearbyPOIList({ poi }) {
+export default function NearbyPOIList({ poi, handleFlyTo }) {
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
-
   const handlePOIListItemClick = (marker) => () => {
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setSelectedPOI(marker.fsq_id));
-    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: viewState.zoom }));
+    handleFlyTo(
+      marker.geocodes.main.longitude,
+      marker.geocodes.main.latitude,
+      viewState.zoom,
+      1500
+    );
   };
 
   return (
@@ -39,4 +43,20 @@ function NearbyPOIList({ poi }) {
   );
 }
 
-export default NearbyPOIList;
+NearbyPOIList.propTypes = {
+  poi: PropTypes.shape({
+    context: {
+      geo_bounds: {
+        circle: {
+          center: {
+            latitude: PropTypes.number,
+            longitude: PropTypes.number
+          },
+          radius: PropTypes.number
+        },
+      }
+    },
+    results: FourSquareResponsePropTypes
+  }),
+  handleFlyTo: PropTypes.func,
+};

@@ -15,7 +15,7 @@ function TogglePlaceName() {
   return (
     <Toggle
       translate='no'
-      className='m-1.5 align-middle'
+      className='reactToggle'
       icons={{
         checked: <div className='text-xs leading-3'>{numIcon}</div>,
         unchecked: <div className='text-xs leading-3'>{numIcon}</div>,

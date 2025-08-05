@@ -6,12 +6,13 @@ import {
 } from '../../redux/reducers/mapReducer';
 import TogglePlaceName from './TogglePlaceName';
 import ToggleDistance from './ToggleDistance';
+import ToggleMapBoxSearch from './ToggleMapBoxSearch';
 
 function TripSearchTools() {
   const {
     gpsLonLat,
     selectedPOICount,
-    selectedPOIRadius
+    selectedPOIRadius,
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -54,6 +55,10 @@ function TripSearchTools() {
       <div>
         <span>Show distance on marker</span>
         <ToggleDistance />
+      </div>
+      <div>
+        <span>Use Mapbox place search</span>
+        <ToggleMapBoxSearch />
       </div>
       Item Count
       <ReactSlider

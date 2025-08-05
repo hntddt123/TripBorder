@@ -14,7 +14,7 @@ function ToggleDistance() {
   return (
     <Toggle
       translate='no'
-      className='m-1.5 align-middle'
+      className='reactToggle'
       icons={false}
       defaultChecked={isShowingDistance}
       onChange={handleFullNameToggle}
