@@ -10,7 +10,13 @@ export default function CustomButton({ className = 'button dark:button', label, 
   };
 
   return (
-    <button className={`${className}`} type={type} onClick={handleClick} disabled={disabled} {...props}>
+    <button
+      className={`${className}`}
+      type={type}
+      onClick={handleClick}
+      disabled={disabled}
+      {...props}
+    >
       {label}
     </button>
   );

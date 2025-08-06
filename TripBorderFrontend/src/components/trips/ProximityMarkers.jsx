@@ -11,7 +11,9 @@ import {
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 
-export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger, isFetching, handleFlyTo }) {
+export default function ProximityMarkers({
+  data, getPOIPhotosQueryTrigger, isFetching, handleFlyTo
+}) {
   const dispatch = useDispatch();
   const {
     selectedPOIIcon,
@@ -58,7 +60,6 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger, isFet
 
   const renderSingleMarker = (poi, index) => {
     const label = getPOILabel(poi, index);
-    const iconSize = 'text-2xl';
     const offsetY = 30;
 
     return (
@@ -68,8 +69,9 @@ export default function ProximityMarkers({ data, getPOIPhotosQueryTrigger, isFet
           latitude={poi.geocodes.main.latitude}
           offset={[0, -offsetY]}
         >
-          <div className={iconSize} translate='no'>{selectedPOIIcon}</div>
+          <div className='text-xl' translate='no'>{selectedPOIIcon}</div>
         </Marker>
+
         <Marker
           onClick={handlePOIMarkerClick(poi)}
           longitude={poi.geocodes.main.longitude}

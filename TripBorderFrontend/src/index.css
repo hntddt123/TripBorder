@@ -32,6 +32,8 @@
   --color-primary-button-dark: #ff871e;
   --color-primary-button-light-hover: rgb(250, 190, 35);
   --color-primary-button-dark-hover: #dd7700;
+  --color-primary-button-dark-less-transparent-hover: #dd770090;
+  --color-primary-button-dark-transparent-hover: #dd770070;
   --color-primary-button-light-active: #fcd34d;
   --color-primary-button-dark-active: #b45309;
   --color-primary-button-dark-less-transparent: rgba(0, 0, 0, 0.9);
@@ -466,19 +468,26 @@ html, body {
 
   .cardPOIMarker {
     @apply 
-    min-w-8 px-2 py-0.5 
-    rounded-full border-x-0 shadow-xs text-lg 
-    bg-amber-50 dark:bg-primary-button-dark-transparent;
+    z-10
+    min-w-10 min-h-10 px-2 py-0.5
+    rounded-full border-x-0 shadow-xs text-lg
+    ease-in-out duration-800
+    bg-amber-50 dark:bg-primary-button-dark-much-transparent;
   }
 
   .cardPOIMarker:hover {
     @apply 
-    bg-amber-100 dark:bg-primary-button-dark-transparent-hover;
+    z-20
+    cursor-pointer
+    scale-125
+    ease-in-out duration-200
+    bg-amber-100 dark:bg-primary-button-dark-hover;
   }
 
   .cardPOIMarker:active {
     @apply 
-    bg-amber-200 dark:bg-primary-button-dark-transparent-active;
+    scale-125
+    bg-amber-200 dark:bg-primary-button-dark;
   }
 
   .cardPOIAddInfo {
@@ -955,6 +964,11 @@ html, body {
     flex
     flex-col
     justify-between;
+  }
+
+  .iconMarker {
+    @apply
+    text-xl opacity-85
   }
 
   .reactToggle {

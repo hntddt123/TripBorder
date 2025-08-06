@@ -41,9 +41,9 @@ export default function InputLandmarkSearch({
         />
       </form>
       {(getLandmarkFromKeywordResult.isLoading)
-        ? <div>Loading Hotels...</div>
+        ? <div>Loading...</div>
         : null}
-      {getLandmarkFromKeywordResult.isFetching && <div>Fetching new page...</div>}
+      {getLandmarkFromKeywordResult.isFetching && <div>Fetching...</div>}
       {(getLandmarkFromKeywordResult.error)
         ? <CustomError error={getLandmarkFromKeywordResult.error} />
         : null}
