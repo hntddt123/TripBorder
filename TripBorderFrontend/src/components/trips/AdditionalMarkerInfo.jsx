@@ -151,7 +151,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
                   </div>
                 )
                 : (
-                  <div>
+                  <div className='min-w-10/12 text-left text-nowrap overflow-scroll'>
                     {filteredResult.name}
                   </div>
                 )}
