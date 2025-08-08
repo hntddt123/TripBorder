@@ -14,8 +14,8 @@ export const openstreetmapAPI = createApi({
   }),
   endpoints: (builder) => ({
     getLandmarkFromKeyword: builder.query({
-      // Builds path; why: Encodes keyword (prevents URI errors/injection), limit=1 for top result only.
-      query: (keyword) => `search?q=${encodeURIComponent(keyword)}&format=json&limit=1`,
+      // Encodes keyword (prevents URI errors/injection), limit=1 for top result only.
+      query: (keyword) => `/search?q=${encodeURIComponent(keyword)}&format=json&limit=1`,
       transformResponse: (response) => {
         if (!response.length) return null;
         const result = response[0]; // First item; why: Highest global relevance rank.

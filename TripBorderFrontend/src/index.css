@@ -340,6 +340,7 @@ html, body {
 
   .buttonCancel {
     @apply 
+    min-w-8 min-h-8
     px-2
     opacity-90
     rounded-full
@@ -468,17 +469,22 @@ html, body {
 
   .cardPOIMarker {
     @apply 
+    relative
     z-10
     min-w-10 min-h-10 px-2 py-0.5
-    rounded-full border-x-0 shadow-xs text-lg
+    rounded-full border-x-0 shadow-xs 
+    text-base
     ease-in-out duration-800
+    transition-transform
     bg-amber-50 dark:bg-primary-button-dark-much-transparent;
   }
 
   .cardPOIMarker:hover {
     @apply 
-    z-20
+    relative
+    z-50
     cursor-pointer
+    text-base
     scale-125
     ease-in-out duration-200
     bg-amber-100 dark:bg-primary-button-dark-hover;
@@ -486,6 +492,8 @@ html, body {
 
   .cardPOIMarker:active {
     @apply 
+    relative
+    z-50
     scale-125
     bg-amber-200 dark:bg-primary-button-dark;
   }

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
@@ -7,7 +6,8 @@ import {
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI,
   setIsNavigating,
-  setIsShowingSideBar
+  setIsShowingSideBar,
+  setSelectedPOI
 } from '../../redux/reducers/mapReducer';
 import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
@@ -32,6 +32,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
     dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setSelectedPOI(''));
   };
 
   const handleDirectionButton = () => {
@@ -105,15 +106,6 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     if (filteredResult) {
       return (
         <div className='flex'>
-          <Popup
-            key={filteredResult.geocodes.main.longitude + filteredResult.geocodes.main.latitude}
-            longitude={filteredResult.geocodes.main.longitude}
-            latitude={filteredResult.geocodes.main.latitude}
-            anchor='bottom'
-            closeOnClick={false}
-            closeButton={false}
-            style={{ display: 'none' }}
-          />
           <div
             className='text-base cardPOIAddInfo'
             style={{

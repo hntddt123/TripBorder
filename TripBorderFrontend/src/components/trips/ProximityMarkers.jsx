@@ -43,12 +43,16 @@ export default function ProximityMarkers({
     dispatch(setIsShowingAddtionalPopUp(true));
   };
 
+  const handleMouseEnter = (poi) => () => dispatch(setSelectedPOI(poi.fsq_id));
+
   const getPOILabel = (poi, index) => {
     const { name } = poi;
     const dist = poi.distance;
+    const isHovered = (selectedPOI === poi.fsq_id);
+
     let label = `${index + 1}`;
 
-    if (isFullPOIname) {
+    if (isFullPOIname || isHovered) {
       label = `${label} ${name}`;
     }
     if (isShowingDistance) {
@@ -60,27 +64,25 @@ export default function ProximityMarkers({
 
   const renderSingleMarker = (poi, index) => {
     const label = getPOILabel(poi, index);
-    const offsetY = 30;
 
     return (
       <div key={poi.fsq_id}>
         <Marker
           longitude={poi.geocodes.main.longitude}
           latitude={poi.geocodes.main.latitude}
-          offset={[0, -offsetY]}
         >
-          <div className='text-xl' translate='no'>{selectedPOIIcon}</div>
-        </Marker>
-
-        <Marker
-          onClick={handlePOIMarkerClick(poi)}
-          longitude={poi.geocodes.main.longitude}
-          latitude={poi.geocodes.main.latitude}
-        >
+          <div
+            className='text-2xl text-center'
+            translate='no'
+          >
+            {selectedPOIIcon}
+          </div>
           <CustomButton
+            onClick={handlePOIMarkerClick(poi)}
             translate='no'
             className='cardPOIMarker'
             label={label}
+            onMouseEnter={handleMouseEnter(poi)}
           />
         </Marker>
       </div>
