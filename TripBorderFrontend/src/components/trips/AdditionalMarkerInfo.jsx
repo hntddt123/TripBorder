@@ -141,12 +141,12 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               <ButtonTransportUpload filteredResult={filteredResult} />
             </div>
             <div translate='no' className='flex text-lg min-h-8'>
-              <div className='min-w-1/12'>
+              <div className='text-left'>
                 {`${index}.`}
               </div>
               {(filteredResult.location.address)
                 ? (
-                  <div className='min-w-9/12 text-left text-nowrap overflow-scroll'>
+                  <div className='min-w-10/12 text-left text-nowrap overflow-scroll'>
                     {`${filteredResult.name} (${filteredResult.location.address})`}
                   </div>
                 )
@@ -155,7 +155,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
                     {filteredResult.name}
                   </div>
                 )}
-              <div className='min-w-2/12'>
+              <div className='min-w-2/12 text-center'>
                 {`${filteredResult.distance}m`}
               </div>
             </div>
