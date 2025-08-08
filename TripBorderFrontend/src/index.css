@@ -388,6 +388,8 @@ html, body {
   .cardPOI {
     width: 99%;
     @apply
+    items-center
+    text-nowrap overflow-x-scroll
     ml-auto mr-auto mt-0.5
     p-2
     border-0
@@ -471,7 +473,8 @@ html, body {
     @apply 
     relative
     z-10
-    min-w-10 min-h-10 px-2 py-0.5
+    min-w-10 min-h-10 max-w-56
+    px-2 py-0.5
     rounded-full border-x-0 shadow-xs 
     text-base
     ease-in-out duration-800
@@ -677,9 +680,9 @@ html, body {
 
   .bottommenu {
     z-index: 1;
-    top: 60dvh;
+    top: 70%;
     bottom: 6dvh;
-    width: 100dvw;
+    width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
     @apply

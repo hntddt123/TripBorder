@@ -24,21 +24,34 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
 
   return (
     <div>
-      {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
-        <button
-          translate='no'
-          key={marker.fsq_id}
-          className='flex cardPOI justify-between items-center'
-          onClick={handlePOIListItemClick(marker)}
-        >
-          {(marker.location.address)
-            ? <div>{`${i + 1} ${marker.name} (${marker.location.address})`}</div>
-            : <div>{`${i + 1} ${marker.name}`}</div>}
-          <div className='justify-end'>
-            <div>{`${marker.distance} m`}</div>
-          </div>
-        </button>
-      )) : null}
+      {(poi && poi.results.length > 0)
+        ? poi.results.map((marker, i) => (
+          <button
+            translate='no'
+            key={marker.fsq_id}
+            className='flex cardPOI'
+            onClick={handlePOIListItemClick(marker)}
+          >
+            <div className='min-w-1/12'>
+              {`${i + 1}`}
+            </div>
+            {(marker.location.address)
+              ? (
+                <div className='min-w-9/12 overflow-scroll text-left'>
+                  {`${marker.name} (${marker.location.address})`}
+                </div>
+              )
+              : (
+                <div>
+                  {`${marker.name}`}
+                </div>
+              )}
+            <div className='min-w-2/12'>
+              {`${marker.distance}m`}
+            </div>
+          </button>
+        ))
+        : null}
     </div>
   );
 }
