@@ -396,14 +396,15 @@ html, body {
     rounded-lg
     shadow-md
     text-lg
+    ease-in-out duration-800
     border-amber-600
     bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOI:hover {
     @apply 
-    bg-amber-100
-    dark:bg-primary-button-dark;
+    ease-in-out duration-200
+    bg-amber-100 dark:bg-primary-button-dark;
   }
 
   .cardPOI:active {
@@ -478,7 +479,6 @@ html, body {
     rounded-full border-x-0 shadow-xs 
     text-base
     ease-in-out duration-800
-    transition-transform
     bg-amber-50 dark:bg-primary-button-dark-much-transparent;
   }
 
