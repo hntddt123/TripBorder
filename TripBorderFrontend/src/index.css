@@ -669,7 +669,6 @@ html, body {
   .landmarkSearchInput {
     z-index: 1;
     top: 0dvh;
-    width: 100dvw;
     @apply
     m-2
     text-lg

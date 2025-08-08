@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Marker } from 'react-map-gl';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ import CustomButton from '../CustomButton';
 export default function ProximityMarkers({
   data, getPOIPhotosQueryTrigger, isFetching, handleFlyTo
 }) {
+  const [hoveredPOIID, setHoveredPOIID] = useState(null);
   const dispatch = useDispatch();
   const {
     selectedPOIIcon,
@@ -43,12 +44,12 @@ export default function ProximityMarkers({
     dispatch(setIsShowingAddtionalPopUp(true));
   };
 
-  const handleMouseEnter = (poi) => () => dispatch(setSelectedPOI(poi.fsq_id));
+  const handleMouseEnter = (poi) => () => setHoveredPOIID(poi.fsq_id);
 
   const getPOILabel = (poi, index) => {
     const { name } = poi;
     const dist = poi.distance;
-    const isHovered = (selectedPOI === poi.fsq_id);
+    const isHovered = (hoveredPOIID === poi.fsq_id);
 
     let label = `${index + 1}`;
 

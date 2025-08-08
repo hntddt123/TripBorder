@@ -103,6 +103,8 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
   if (data && data.results.length > 0 && isShowingAddtionalPopUp) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
+    const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI) + 1;
+
     if (filteredResult) {
       return (
         <div className='flex'>
@@ -140,8 +142,8 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             </div>
             <div translate='no' className='text-lg'>
               {(filteredResult.location.address)
-                ? <div>{`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}</div>
-                : <div>{`${filteredResult.name} ${filteredResult.distance} m`}</div>}
+                ? <div>{`${index} ${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}</div>
+                : <div>{`${index} ${filteredResult.name} ${filteredResult.distance} m`}</div>}
             </div>
             <div className='cardPOIAddInfoPictures'>
               {getPhotos()}
