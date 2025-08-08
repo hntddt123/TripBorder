@@ -142,20 +142,20 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             </div>
             <div translate='no' className='flex text-lg min-h-8'>
               <div className='text-left'>
-                {`${index}.`}
+                {`${index}.`}&nbsp;
               </div>
               {(filteredResult.location.address)
                 ? (
-                  <div className='min-w-10/12 text-left text-nowrap overflow-scroll'>
+                  <div className='min-w-1/12 text-left text-nowrap overflow-x-scroll'>
                     {`${filteredResult.name} (${filteredResult.location.address})`}
                   </div>
                 )
                 : (
-                  <div className='min-w-10/12 text-left text-nowrap overflow-scroll'>
+                  <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
                     {filteredResult.name}
                   </div>
                 )}
-              <div className='min-w-2/12 text-center'>
+              <div className='min-w-2/12 text-right'>
                 {`${filteredResult.distance}m`}
               </div>
             </div>
