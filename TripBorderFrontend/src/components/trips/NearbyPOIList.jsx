@@ -42,7 +42,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
                 </div>
               )
               : (
-                <div>
+                <div className='min-w-9/12 overflow-scroll text-left'>
                   {`${marker.name}`}
                 </div>
               )}
