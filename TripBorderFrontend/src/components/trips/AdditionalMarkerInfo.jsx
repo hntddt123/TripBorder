@@ -140,10 +140,24 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               <ButtonPOIUpload filteredResult={filteredResult} />
               <ButtonTransportUpload filteredResult={filteredResult} />
             </div>
-            <div translate='no' className='text-lg'>
+            <div translate='no' className='flex text-lg min-h-8'>
+              <div className='min-w-1/12'>
+                {`${index}.`}
+              </div>
               {(filteredResult.location.address)
-                ? <div>{`${index} ${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}</div>
-                : <div>{`${index} ${filteredResult.name} ${filteredResult.distance} m`}</div>}
+                ? (
+                  <div className='min-w-9/12 text-left text-nowrap overflow-scroll'>
+                    {`${filteredResult.name} (${filteredResult.location.address})`}
+                  </div>
+                )
+                : (
+                  <div>
+                    {filteredResult.name}
+                  </div>
+                )}
+              <div className='min-w-2/12'>
+                {`${filteredResult.distance}m`}
+              </div>
             </div>
             <div className='cardPOIAddInfoPictures'>
               {getPhotos()}
