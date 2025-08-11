@@ -32,7 +32,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
             className='flex cardPOI'
             onClick={handlePOIListItemClick(marker)}
           >
-            <div className='min-w-1/12 text-left'>
+            <div className='min-w-1/12 text-center'>
               {`${i + 1}`}
             </div>
             {(marker.location.address)
