@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useControl, Marker } from 'react-map-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { markerIcon } from '../../constants/constants';
 
 const noop = () => { };
 
@@ -12,7 +13,7 @@ export default function GeocoderControl({ mapboxAccessToken, position,
   const getMarker = (longitude, latitude) => (
     <div>
       <Marker longitude={longitude} latitude={latitude}>
-        <div className='text-4xl'>📍</div>
+        <div className='text-4xl'>{markerIcon}</div>
       </Marker>
     </div>
   );

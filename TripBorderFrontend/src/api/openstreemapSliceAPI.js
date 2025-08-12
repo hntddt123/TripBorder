@@ -4,9 +4,7 @@ import { openstreetmapBaseUrl } from '../constants/constants';
 /*
   Nominatim API for global keyword-to-coords search.
   Endpoint: /search?q=keyword&format=json&limit=1
-  No auth; global unbiased results.
 */
-
 export const openstreetmapAPI = createApi({
   reducerPath: 'openstreetmapApi',
   baseQuery: fetchBaseQuery({

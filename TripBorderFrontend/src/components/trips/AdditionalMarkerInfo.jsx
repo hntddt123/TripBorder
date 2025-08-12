@@ -13,6 +13,7 @@ import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
+import { markerIcon } from '../../constants/constants';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const {
@@ -130,7 +131,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             />
             <CustomButton
               className='buttonPOI'
-              label='Walk from 📍'
+              label={`Walk from ${markerIcon}`}
               onClick={handlePinDirectionButton}
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
             />

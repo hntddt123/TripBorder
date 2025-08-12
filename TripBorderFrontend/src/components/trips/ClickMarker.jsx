@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Marker, Source, Layer } from 'react-map-gl';
+import { markerIcon } from '../../constants/constants';
 
 export default function ClickMarker() {
   const {
@@ -46,7 +47,7 @@ export default function ClickMarker() {
   return ((markers.length > 0) ? markers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
-        <div translate='no' className='text-4xl'>📍</div>
+        <div translate='no' className='text-4xl'>{markerIcon}</div>
       </Marker>
 
       <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>

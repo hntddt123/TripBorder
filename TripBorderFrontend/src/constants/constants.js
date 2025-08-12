@@ -17,12 +17,12 @@ export const {
 
 export const isDevMode = (MODE === 'development');
 
+export const openstreetmapBaseUrl = `${BASE_URL}/nominatim`; // localhost:8080 for seperated docker
 export const fourSquareBaseUrl = 'https://api.foursquare.com/v3';
 export const mapBoxBaseUrl = 'https://api.mapbox.com';
 export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
   `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`
 );
-export const openstreetmapBaseUrl = 'https://localhost/nominatim'; // localhost:8080 for self host
 
 // FoursquarePOI icon list
 export const restaurantIcon = '🍱';
@@ -36,6 +36,9 @@ export const shoppingIcon = '🛍️';
 export const GPSIcon = '🛰️🔍';
 export const diceIcon = '🎲';
 export const numIcon = '🔢';
+
+// For ClickMarker and GeoCoderControl search icon
+export const markerIcon = '📍';
 
 // Define the Foursquare categories and their corresponding icons
 export const iconMap = {
