@@ -29,6 +29,9 @@ import NearbyPOIList from './NearbyPOIList';
 import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 import InputLandmarkSearch from './InputLandmarkSearch';
+import ButtonGPSSearch from './ButtonGPSSearch';
+import ButtonPOISelection from './ButtonPOISelection';
+import ToggleDice from './ToggleDice';
 
 // react-map-gl component
 export default function CustomMap({
@@ -298,6 +301,14 @@ export default function CustomMap({
             getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
           />
         )}
+      <div className='abosoluteBottomToolBar'>
+        <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+        <ButtonPOISelection
+          getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
+          isFetching={isFetching}
+        />
+        <ToggleDice poi={data} />
+      </div>
       <FullscreenControl position='top-right' />
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}

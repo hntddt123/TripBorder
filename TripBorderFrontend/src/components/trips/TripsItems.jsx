@@ -6,10 +6,7 @@ import {
 } from '../../api/foursquareSliceAPI';
 import CustomMap from './CustomMap';
 import CustomToggle from '../CustomToggle';
-import ButtonPOISelection from './ButtonPOISelection';
-import ToggleDice from './ToggleDice';
 import TripSearchTools from './TripSearchTools';
-import ButtonGPSSearch from './ButtonGPSSearch';
 import CustomError from '../CustomError';
 import TripPlanningTools from './TripPlanningTools';
 import CustomFetching from '../CustomFetching';
@@ -24,27 +21,19 @@ export default function TripsItems() {
 
   return (
     <div>
-      <div className='flex-col overflow-x-auto pt-1.5'>
-        <div>
-          <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
-          <ButtonPOISelection
-            getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
-            isFetching={isFetching}
-          />
-          <ToggleDice poi={poi} />
-          <CustomToggle
-            translate='no'
-            title='⚙️'
-            component={<TripSearchTools />}
-          />
-          <CustomToggle
-            translate='no'
-            title='🏖️'
-            component={<TripPlanningTools />}
-          />
-          <CustomFetching isFetching={isFetching} />
-          <CustomError error={error} />
-        </div>
+      <div className='flex-col overflow-x-auto pt-1 text-center'>
+        <CustomToggle
+          translate='no'
+          title='🏖️'
+          component={<TripPlanningTools />}
+        />
+        <CustomToggle
+          translate='no'
+          title='⚙️'
+          component={<TripSearchTools />}
+        />
+        <CustomFetching isFetching={isFetching} />
+        <CustomError error={error} />
       </div>
       <div>
         <CustomMap
