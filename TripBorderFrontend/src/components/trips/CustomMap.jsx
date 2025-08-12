@@ -302,11 +302,11 @@ export default function CustomMap({
           />
         )}
       <div className='abosoluteBottomToolBar'>
-        <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
         <ButtonPOISelection
           getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
         />
+        <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
         <ToggleDice poi={data} />
       </div>
       <FullscreenControl position='top-right' />

@@ -88,10 +88,6 @@ html, body {
   max-width: 30dvw;
 }
 
-.mapboxgl-ctrl-geocoder--input {
-  max-width: 30dvw;
-}
-
 @layer components {
   body {
     @apply 
@@ -137,7 +133,7 @@ html, body {
   }
 
   .customInputSearch {
-    max-width: 42dvw;
+    max-width: 69dvw;
     @apply 
     text-xl
     p-2
@@ -738,8 +734,8 @@ html, body {
 
   .bottommenu {
     z-index: 1;
-    top: 65%;
-    bottom: 8dvh;
+    top: 60%;
+    bottom: 50px;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -748,7 +744,7 @@ html, body {
   }
 
   .abosoluteBottomToolBar {
-    left: 100px;
+    width: 100%;
     @apply
     text-center
     absolute
@@ -761,7 +757,6 @@ html, body {
     align-middle
     content-center
     rounded-full
-    mx-1
     p-1
     ease-in-out duration-400
     border-amber-50
