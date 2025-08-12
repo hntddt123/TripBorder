@@ -1,11 +1,12 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
 import { usePostMealByTripIDMutation } from '../../api/mealsAPI';
-import CustomError from '../CustomError';
 import {
   setLocalTime,
 } from '../../utility/time';
+import CustomButton from '../CustomButton';
+import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
 export default function ButtonMealsUpload({ filteredResult }) {
   const {
@@ -35,8 +36,8 @@ export default function ButtonMealsUpload({ filteredResult }) {
         onClick={handleClick(setLocalTime(startDate))}
         disabled={uuid === ''}
       />
-      {(isLoading) ? <div>Creating...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} text='Creating...' />
+      <CustomError error={error} />
     </>
   );
 }

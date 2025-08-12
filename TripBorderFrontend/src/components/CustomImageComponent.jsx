@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { processBytea } from '../utility/processBytea';
 import { ImageComponentByteaPropTypes, ImageComponentUUIDPropTypes } from '../constants/imagePropTypes';
+import CustomLoading from './CustomLoading';
 
 export default function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
   const [imageSrc, setImageSrc] = useState({ src: null, loading: false, error: null });
@@ -22,7 +23,7 @@ export default function CustomImageComponent({ uuid, bytea, className = 'max-h-6
   }, [bytea]);
 
   if (imageSrc.length === 0) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
   }
 
   return (

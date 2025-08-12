@@ -15,6 +15,8 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
 export default function Hotels({ tripID }) {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
@@ -230,9 +232,15 @@ export default function Hotels({ tripID }) {
             </div>
           </div>
         )))}
-      {(isLoading) ? <div>Loading Hotels...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Hotels' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }

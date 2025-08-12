@@ -14,6 +14,8 @@ import {
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
 export default function Tags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -160,10 +162,16 @@ export default function Tags({ tripID }) {
           component={renderDetail()}
         />
       </div>
-      {(isLoading) ? <div>Loading Trip Tags...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
-      {(postTripTagResult.error) ? <CustomError error={postTripTagResult.error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Tags' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+        <CustomError error={postTripTagResult.error} />
+      </div>
     </div>
   );
 }

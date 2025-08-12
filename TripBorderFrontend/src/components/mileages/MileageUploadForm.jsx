@@ -6,6 +6,7 @@ import { usePostMileagesMutation } from '../../api/mileagesAPI';
 import { formatHex } from '../../utility/formatHex';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
 export default function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
@@ -204,9 +205,9 @@ export default function MileageUploadForm() {
         />
       </div>
       <CustomButton type='submit' label='Upload' />
-      {(isLoading) ? <div>Uploading...</div> : null}
+      <CustomLoading isLoading={isLoading} text='Uploading...' />
+      <CustomError error={error} />
       {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
       {(message) ? <div>{`${message.message}`}</div> : null}
     </form>
   );

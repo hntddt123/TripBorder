@@ -16,6 +16,8 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function Meals({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -151,9 +153,15 @@ export default function Meals({ tripID }) {
           </div>
         ))
         : null}
-      {(isLoading) ? <div>Loading Meals...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Meals' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching New Page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }

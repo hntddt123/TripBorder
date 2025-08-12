@@ -12,29 +12,15 @@ import TripSearchTools from './TripSearchTools';
 import ButtonGPSSearch from './ButtonGPSSearch';
 import CustomError from '../CustomError';
 import TripPlanningTools from './TripPlanningTools';
+import CustomFetching from '../CustomFetching';
 
 export default function TripsItems() {
-  const [getNearbyPOIQueryTrigger, { data: poi, isLoading, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
+  const [getNearbyPOIQueryTrigger, { data: poi, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
   const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? poi : skipToken);
 
   useEffect(() => {
     setTimeout(() => window.scrollTo({ top: 30, behavior: 'smooth' }), 100);
   }, []);
-
-  const getAPIStatus = () => {
-    if (isLoading) {
-      return <span>Loading</span>;
-    }
-    if (isFetching) {
-      return <span>Fetching</span>;
-    }
-
-    if (error) {
-      return <CustomError error={error} />;
-    }
-
-    return null;
-  };
 
   return (
     <div>
@@ -56,7 +42,8 @@ export default function TripsItems() {
             title='🏖️'
             component={<TripPlanningTools />}
           />
-          {getAPIStatus()}
+          <CustomFetching isFetching={isFetching} />
+          <CustomError error={error} />
         </div>
       </div>
       <div>

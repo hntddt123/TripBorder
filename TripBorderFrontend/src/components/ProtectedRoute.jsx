@@ -2,9 +2,11 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
 import { isDevMode } from '../constants/constants';
 import CustomError from './CustomError';
+import CustomLoading from './CustomLoading';
+import CustomFetching from './CustomFetching';
 
 export default function ProtectedRoute() {
-  const { data, isLoading, error } = useCheckAuthStatusQuery();
+  const { data, isLoading, isFetching, error } = useCheckAuthStatusQuery();
 
   if (isDevMode) {
     // Skip auth in dev mode
@@ -12,7 +14,11 @@ export default function ProtectedRoute() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
+  }
+
+  if (isFetching) {
+    return <CustomFetching isFetching />;
   }
 
   if (error) {

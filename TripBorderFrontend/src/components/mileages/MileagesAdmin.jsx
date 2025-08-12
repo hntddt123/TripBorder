@@ -6,6 +6,8 @@ import { authAPI } from '../../api/authAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
 export default function MileagesAdmin() {
   const [selectedUUID, setSelectedUUID] = useState();
@@ -31,7 +33,7 @@ export default function MileagesAdmin() {
   const hidePopup = () => setIsPopupOpen(false);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
   }
 
   if (error) {
@@ -147,7 +149,9 @@ export default function MileagesAdmin() {
             <div>
               Page {currentPage} of {totalPages}
             </div>
-            {isFetching && <div>Fetching new page...</div>}
+            <div>
+              <CustomFetching isFetching={isFetching} />
+            </div>
             <CustomButton
               label='Previous'
               onClick={() => handlePageChange(page - 1)}

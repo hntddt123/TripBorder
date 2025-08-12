@@ -11,6 +11,8 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
@@ -176,9 +178,15 @@ export default function Ratings({ tripID }) {
           </div>
         )}
 
-      {(isLoading) ? <div>Loading Ratings...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Ratings' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }

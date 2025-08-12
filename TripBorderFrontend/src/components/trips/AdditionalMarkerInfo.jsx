@@ -14,6 +14,7 @@ import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
 import { markerIcon } from '../../constants/constants';
+import CustomFetching from '../CustomFetching';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
   const {
@@ -91,7 +92,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
   const getPhotos = () => {
     if (getPOIPhotosQueryResult.isFetching) {
-      return <span>Loading</span>;
+      return <CustomFetching isFetching={getPOIPhotosQueryResult.isFetching} text='Getting Photos' />;
     }
     if (getPOIPhotosQueryResult.isError) {
       return <span>Photo Not Found</span>;

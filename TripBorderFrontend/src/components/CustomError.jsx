@@ -1,11 +1,14 @@
 import { errorPropTypes } from '../constants/errorPropTypes';
 
 export default function CustomError({ error }) {
-  return (
-    <div className='customError'>
-      Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
-    </div>
-  );
+  if (error) {
+    return (
+      <span className='customError'>
+        Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
+      </span>
+    );
+  }
+  return null;
 }
 
 CustomError.propTypes = {

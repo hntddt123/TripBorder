@@ -28,6 +28,8 @@ import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
 import CustomError from '../CustomError';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
 export default function TripsPast() {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
@@ -140,11 +142,11 @@ export default function TripsPast() {
           </div>
         </div>
         <span>
-          {(currentPage && totalPages) ? `Page ${currentPage} of ${totalPages}` : null }
-          {(total) ? `(Total: ${total} Trips)` : null }
+          {(currentPage && totalPages) ? `Page ${currentPage} of ${totalPages}` : null}
+          {(total) ? `(Total: ${total} Trips)` : null}
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <CustomFetching isFetching={isFetching} text='Fetching new page' />
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
@@ -162,8 +164,8 @@ export default function TripsPast() {
           </div>
         </div>
       )))}
-      {(isLoading) ? <div>Loading...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} />
+      <CustomError error={error} />
     </div>
   );
 }

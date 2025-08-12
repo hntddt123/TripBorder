@@ -130,9 +130,10 @@ html, body {
   .customInputSearch {
     min-width: 69dvw;
     @apply 
-    ease-in-out duration-200
+    text-xl
     p-2
     rounded-xl
+    ease-in-out duration-200
     bg-primary-light dark:bg-primary-button-dark-much-transparent
     dark:text-white;
   }
@@ -145,6 +146,11 @@ html, body {
   .customInputSearch[type="text"]:active {
     @apply 
     dark:bg-primary-button-dark-much-transparent dark:text-white;
+  }
+
+  input[type="text"]:-webkit-autofill::first-line {
+    @apply
+    text-xl;
   }
 
   input[type="text"]:focus {
@@ -233,7 +239,6 @@ html, body {
 
   .button {
     @apply 
-    ease-in-out duration-200
     min-w-32
     m-2 p-2
     shadow-xs
@@ -247,18 +252,21 @@ html, body {
 
   .button:hover {
     @apply 
+    ease-in-out duration-200
     border-amber-50
     bg-amber-400 dark:bg-amber-600;
   }
 
   .button:active {
     @apply
+    ease-in-out duration-200
     border-amber-50
     bg-amber-600;
   }
 
   .button:disabled {
     @apply
+    ease-in-out duration-200
     opacity-25 
     border-amber-300 bg-amber-300;
   }
@@ -549,6 +557,16 @@ html, body {
     p-2 mb-0.5 
     border-amber-400 rounded-lg border-t-0 border-b-0 border-l-2 border-r-0 
     bg-amber-100 dark:bg-primary-card-dark;
+  }
+
+  .customLoading {
+    @apply
+    animate-pulse
+  }
+
+  .customFetching {
+    @apply
+    animate-pulse
   }
   
   .customError {

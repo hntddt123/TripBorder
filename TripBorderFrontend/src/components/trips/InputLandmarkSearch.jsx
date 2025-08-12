@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { useState, useRef } from 'react';
 import { errorPropTypes } from '../../constants/errorPropTypes';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function InputLandmarkSearch({
   getLandmarkFromKeywordQueryTrigger,
@@ -40,13 +42,9 @@ export default function InputLandmarkSearch({
           enterKeyHint='search'
         />
       </form>
-      {(getLandmarkFromKeywordResult.isLoading)
-        ? <div>Loading...</div>
-        : null}
-      {getLandmarkFromKeywordResult.isFetching && <div>Fetching...</div>}
-      {(getLandmarkFromKeywordResult.error)
-        ? <CustomError error={getLandmarkFromKeywordResult.error} />
-        : null}
+      <CustomLoading isLoading={getLandmarkFromKeywordResult.isLoading} />
+      <CustomFetching isFetching={getLandmarkFromKeywordResult.isFetching} />
+      <CustomError error={getLandmarkFromKeywordResult.error} />
     </div>
   );
 }

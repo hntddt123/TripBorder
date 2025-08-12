@@ -16,6 +16,8 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function Transports({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -234,9 +236,15 @@ export default function Transports({ tripID }) {
             ))}
           </div>
         )) : null}
-      {(isLoading) ? <div>Loading Transports...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Transports' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }

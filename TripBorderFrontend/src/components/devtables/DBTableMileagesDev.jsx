@@ -4,6 +4,8 @@ import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import { arrayToBase64 } from '../../utility/processBytea';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function DBTableMileagesDev() {
   const [page, setPage] = useState(1);
@@ -16,7 +18,7 @@ export default function DBTableMileagesDev() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading={isLoading} /></div>;
   }
 
   if (error) {
@@ -44,7 +46,9 @@ export default function DBTableMileagesDev() {
           (Total: {total} items)
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
       <table>
         <thead>
           <tr>

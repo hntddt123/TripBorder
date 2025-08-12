@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
 import { usePostPOIByTripIDMutation } from '../../api/poisAPI';
+import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
 export default function ButtonPOIUpload({ filteredResult }) {
   const {
@@ -31,8 +32,8 @@ export default function ButtonPOIUpload({ filteredResult }) {
         onClick={handleClick}
         disabled={uuid === ''}
       />
-      {(isLoading) ? <div>Creating...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} text='Creating...' />
+      <CustomError error={error} />
     </>
   );
 }

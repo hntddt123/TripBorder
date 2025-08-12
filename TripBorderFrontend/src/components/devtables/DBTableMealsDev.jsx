@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useGetMealsAllQuery } from '../../api/mealsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
 export default function DBTableMealsDev() {
   const [page, setPage] = useState(1);
@@ -14,7 +16,7 @@ export default function DBTableMealsDev() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading={isLoading} /></div>;
   }
 
   if (error) {
@@ -42,7 +44,9 @@ export default function DBTableMealsDev() {
           (Total: {total} items)
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
       <table>
         <thead>
           <tr>

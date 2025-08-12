@@ -13,6 +13,7 @@ import {
   isStartDateAfterEndDate,
   isEndDateBeforeStartDate
 } from '../../utility/time';
+import CustomLoading from '../CustomLoading';
 
 export default function TripUploadForm() {
   const [inputError, setInputError] = useState('');
@@ -23,7 +24,7 @@ export default function TripUploadForm() {
     endDate
   } = useSelector((state) => state.tripReducer);
 
-  const [updateTripByUUID, { isLoading: updateLoading }] = useUpdateTripByUUIDMutation();
+  const [updateTripByUUID, { isLoading }] = useUpdateTripByUUIDMutation();
 
   const dispatch = useDispatch();
 
@@ -108,7 +109,7 @@ export default function TripUploadForm() {
           required
         />
         {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-        {(updateLoading) ? 'Updating' : null}
+        <CustomLoading isLoading={isLoading} text='Updating' />
         <CustomButton type='submit' label='Save' />
       </div>
     </form>

@@ -5,6 +5,7 @@ import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import { BASE_URL } from '../constants/constants';
 import CustomError from './CustomError';
+import CustomLoading from './CustomLoading';
 
 export default function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
@@ -52,7 +53,7 @@ export default function Auth() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading /></div>;
   }
 
   if (error) {

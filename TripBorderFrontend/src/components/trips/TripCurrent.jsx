@@ -18,6 +18,7 @@ import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 import Meals from './Meals';
 import Hotels from './Hotels';
 import POIs from './POIs';
@@ -180,8 +181,8 @@ export default function TripCurrent() {
           </div>
         )
         : renderTripOptions()}
-      {(isLoading) ? <div>Creating...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} text='Creating...' />
+      <CustomError error={error} />
     </div>
   );
 }

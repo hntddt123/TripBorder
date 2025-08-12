@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
 export default function ButtonHotelsUpload({ filteredResult }) {
   const {
@@ -35,8 +36,8 @@ export default function ButtonHotelsUpload({ filteredResult }) {
         onClick={handleClick}
         disabled={uuid === '' || (startDate === endDate)}
       />
-      {(isLoading) ? <div>Creating...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} text='Creating...' />
+      <CustomError error={error} />
     </>
   );
 }
