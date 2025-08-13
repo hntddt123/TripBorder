@@ -32,7 +32,9 @@ import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
 export default function TripsPast() {
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const {
+    isLoadTrip
+  } = useSelector((state) => state.userSettingsReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const dispatch = useDispatch();
@@ -122,11 +124,15 @@ export default function TripsPast() {
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-base text-center'>
         <div className='flex justify-between'>
-          <CustomButton
-            className='buttonBack'
-            label='←Trip Selection'
-            onClick={handleBackButton}
-          />
+          {(isLoadTrip)
+            ? (
+              <CustomButton
+                className='buttonBack'
+                label='←Trip Selection'
+                onClick={handleBackButton}
+              />
+            )
+            : <div />}
         </div>
         <div>
           <div>

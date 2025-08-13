@@ -574,19 +574,19 @@ html, body {
 
   .customLoading {
     @apply
-    text-xs
+    text-xs mx-1
     animate-pulse
   }
 
   .customFetching {
     @apply
-    text-xs
+    text-xs mx-1
     animate-pulse
   }
   
   .customError {
     @apply
-    text-xs
+    text-xs mx-1
     animate-fadeIn
     text-red-600 
   }
