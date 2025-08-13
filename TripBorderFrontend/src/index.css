@@ -133,7 +133,7 @@ html, body {
   }
 
   .customInputLandmarkSearch {
-    max-width: 45dvw;
+    max-width: 50dvw;
     @apply 
     text-lg
     text-center
@@ -152,6 +152,17 @@ html, body {
   .customInputLandmarkSearch[type="text"]:active {
     @apply 
     dark:bg-primary-button-dark-much-transparent dark:text-white;
+  }
+
+  .landmarkSearchContainer {
+    width: 100%;
+    z-index: 1;
+    top: 0dvh;
+    @apply
+    absolute
+    text-center
+    my-2
+    text-lg;
   }
 
   input[type="text"]:-webkit-autofill::first-line {
@@ -708,17 +719,6 @@ html, body {
     flex
     justify-center
     items-center;
-  }
-
-  .landmarkSearchContainer {
-    width: 100%;
-    z-index: 1;
-    top: 0dvh;
-    @apply
-    absolute
-    text-center
-    m-2
-    text-lg;
   }
 
   .bottomMenu {
