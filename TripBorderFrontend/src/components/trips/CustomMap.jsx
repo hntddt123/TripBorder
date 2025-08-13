@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { skipToken } from '@reduxjs/toolkit/query/react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-import Map, { FullscreenControl, GeolocateControl } from 'react-map-gl';
+import Map, { GeolocateControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   setViewState,
@@ -224,7 +224,7 @@ export default function CustomMap() {
   const renderBottomMenu = () => {
     if (data && data.results.length > 0 && !isThrowingDice) {
       return (
-        <div className={`bottommenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
+        <div className={`bottomMenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
             poi={data}
             handleFlyTo={handleFlyTo}
@@ -308,13 +308,15 @@ export default function CustomMap() {
             getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
           />
         )}
-      <div className='absoluteTopToolBar'>
+      <div className='absoluteTopToolBarLeft'>
         <CustomToggle
           translate='no'
           titleOn='🏖️ ▼'
           titleOff='🏖️'
           component={<TripPlanningTools />}
         />
+      </div>
+      <div className='absoluteTopToolBarRight'>
         <CustomToggle
           translate='no'
           titleOn='⚙️ ▼'
@@ -322,7 +324,11 @@ export default function CustomMap() {
           component={<TripSearchTools />}
         />
       </div>
-      <div className='absoluteBottomToolBar'>
+      <div className='absoluteBottomToolBar mb-2'>
+        <div className='min-h-5'>
+          <CustomFetching isFetching={isFetching} />
+          <CustomError error={error} />
+        </div>
         <ButtonPOISelection
           getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
@@ -332,12 +338,7 @@ export default function CustomMap() {
           isFetching={isFetching}
         />
         <ToggleDice poi={data} />
-        <div className='min-h-5'>
-          <CustomFetching isFetching={isFetching} />
-          <CustomError error={error} />
-        </div>
       </div>
-      <FullscreenControl position='top-right' />
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'

@@ -721,10 +721,10 @@ html, body {
     text-lg;
   }
 
-  .bottommenu {
+  .bottomMenu {
     z-index: 1;
     top: 65%;
-    bottom: 60px;
+    bottom: 64px;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -732,7 +732,7 @@ html, body {
     absolute;
   }
 
-  .tripAbsoluteContent {
+  .tripAbsoluteContentLeft {
     min-width: 100dvw;
     max-height: 40dvh;
     @apply 
@@ -747,13 +747,37 @@ html, body {
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
-  .absoluteTopToolBar {
+  .tripAbsoluteContentRight {
+    min-width: 100dvw;
+    max-height: 40dvh;
+    @apply 
+    absolute
+    flex-wrap
+    rounded-lg
+    -right-2
+    overflow-y-scroll
+    z-10
+    p-2
+    mt-1
+    bg-amber-50 dark:bg-primary-button-dark-less-transparent;
+  }
+
+  .absoluteTopToolBarLeft {
     z-index: 10;
     @apply
     absolute
     m-2
     top-0
     left-0
+  }
+
+  .absoluteTopToolBarRight {
+    z-index: 10;
+    @apply
+    absolute
+    m-2
+    top-0
+    right-0
   }
 
   .absoluteBottomToolBar {
