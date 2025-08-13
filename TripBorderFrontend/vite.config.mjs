@@ -26,6 +26,8 @@ export default defineConfig({
     host: true
   },
   build: {
-    minify: 'esbuild'
+    outDir: 'dist',
+    target: 'esnext',
+    minify: 'esbuild',
   }
 });
