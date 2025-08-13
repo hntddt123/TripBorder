@@ -47,7 +47,7 @@ export default function TripSearchTools() {
   );
 
   return (
-    <div className='text-lg tripAbsoluteContent content'>
+    <div className='text-lg tripAbsoluteContent'>
       <div className='flex justify-around'>
         <span className='min-w-2/3 text-left'>Show numbering on marker</span>
         <TogglePlaceName />

@@ -130,7 +130,8 @@ export default function Meals({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Meal Button ${meal.uuid}`}
                     id={meal.uuid}
-                    title={meal.name}
+                    titleOn={`${meal.name} ▼`}
+                    titleOff={`${meal.name} ▶`}
                     component={renderDetail(meal)}
                   />
                 </div>

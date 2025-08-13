@@ -185,7 +185,8 @@ export default function Hotels({ tripID }) {
                       className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                       aria-label={`Hotel Button ${hotel.uuid}`}
                       id={hotel.uuid}
-                      title={hotel.name}
+                      titleOn={`${hotel.name} ▼`}
+                      titleOff={`${hotel.name} ▶`}
                       component={renderDetail(hotel)}
                     />
                   </div>
@@ -214,7 +215,8 @@ export default function Hotels({ tripID }) {
                 className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                 aria-label={`Hotel Button ${hotel.uuid}`}
                 id={hotel.uuid}
-                title={hotel.name}
+                titleOn={`${hotel.name} ▼`}
+                titleOff={`${hotel.name} ▶`}
                 component={renderDetail(hotel)}
               />
             </div>

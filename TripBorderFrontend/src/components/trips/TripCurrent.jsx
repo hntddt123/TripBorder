@@ -97,7 +97,8 @@ export default function TripCurrent() {
           translate='no'
           className='toggle min-h-12 min-w-72 max-w-72 text-lg mb-1'
           aria-label='All Trip items'
-          title='All items'
+          titleOn='All items ▼'
+          titleOff='All items ▶'
           component={(
             <div>
               <Meals tripID={uuid} />
@@ -166,7 +167,8 @@ export default function TripCurrent() {
                       className='toggle min-h-12 min-w-80 max-w-80 text-lg'
                       aria-label={`Trip Button ${uuid}`}
                       id={uuid}
-                      title={title}
+                      titleOn={`${title} ▼`}
+                      titleOff={`${title} ▶`}
                       component={renderTripDetail()}
                       isOpened
                     />

@@ -128,7 +128,8 @@ export default function POIs({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Poi Button ${poi.uuid}`}
                     id={poi.uuid}
-                    title={poi.name}
+                    titleOn={`${poi.name} ▼`}
+                    titleOff={`${poi.name} ▶`}
                     component={renderDetail(poi)}
                   />
                 </div>

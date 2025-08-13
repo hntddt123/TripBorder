@@ -1,10 +1,10 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { skipToken } from '@reduxjs/toolkit/query/react';
 import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
 import Map, { FullscreenControl, GeolocateControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { v4 as uuidv4 } from 'uuid';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import {
   setViewState,
   setMarker,
@@ -18,6 +18,11 @@ import {
   setIsUsingGPSLonLat,
   setSessionIDFSQ
 } from '../../redux/reducers/mapReducer';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
+import {
+  useLazyGetNearbyPOIQuery,
+  useLazyGetPOIPhotosQuery
+} from '../../api/foursquareSliceAPI';
 import { MAPBOX_API_KEY } from '../../constants/constants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import { useLazyGetLandmarkFromKeywordQuery } from '../../api/openstreemapSliceAPI';
@@ -32,15 +37,14 @@ import InputLandmarkSearch from './InputLandmarkSearch';
 import ButtonGPSSearch from './ButtonGPSSearch';
 import ButtonPOISelection from './ButtonPOISelection';
 import ToggleDice from './ToggleDice';
+import CustomToggle from '../CustomToggle';
+import TripPlanningTools from './TripPlanningTools';
+import TripSearchTools from './TripSearchTools';
+import CustomFetching from '../CustomFetching';
+import CustomError from '../CustomError';
 
 // react-map-gl component
-export default function CustomMap({
-  data,
-  isFetching,
-  getNearbyPOIQueryTrigger,
-  getPOIPhotosQueryTrigger,
-  getPOIPhotosQueryResult
-}) {
+export default function CustomMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const {
     mapStyle,
@@ -60,10 +64,12 @@ export default function CustomMap({
 
   const dispatch = useDispatch();
 
+  const [getNearbyPOIQueryTrigger, { data, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
+  const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? data : skipToken);
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
   const [getLandmarkFromKeywordQueryTrigger, getLandmarkFromKeywordResult] = useLazyGetLandmarkFromKeywordQuery();
 
-  const mapCSSStyle = { width: '100%', height: '88vh', borderRadius: 10 };
+  const mapCSSStyle = { width: '100%', height: '92dvh', borderRadius: 10 };
   const mapRef = useRef();
   const pressTimer = useRef(null);
   const geoLocateRef = useRef(null);
@@ -286,6 +292,7 @@ export default function CustomMap({
       touchZoomRotate={false}
       padding={mapViewPadding}
       minZoom={1.7433354864918957}
+      attributionControl={false}
     >
       {isUsingMapBoxGeocoder
         ? (
@@ -301,7 +308,21 @@ export default function CustomMap({
             getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
           />
         )}
-      <div className='abosoluteBottomToolBar'>
+      <div className='absoluteTopToolBar'>
+        <CustomToggle
+          translate='no'
+          titleOn='🏖️ ▼'
+          titleOff='🏖️'
+          component={<TripPlanningTools />}
+        />
+        <CustomToggle
+          translate='no'
+          titleOn='⚙️ ▼'
+          titleOff='⚙️'
+          component={<TripSearchTools />}
+        />
+      </div>
+      <div className='absoluteBottomToolBar'>
         <ButtonPOISelection
           getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
@@ -311,11 +332,15 @@ export default function CustomMap({
           isFetching={isFetching}
         />
         <ToggleDice poi={data} />
+        <div className='min-h-5'>
+          <CustomFetching isFetching={isFetching} />
+          <CustomError error={error} />
+        </div>
       </div>
       <FullscreenControl position='top-right' />
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}
-        position='top-right'
+        position='bottom-right'
         positionOptions={{ enableHighAccuracy: true }}
         onGeolocate={handleCurrentLocation}
         showUserHeading

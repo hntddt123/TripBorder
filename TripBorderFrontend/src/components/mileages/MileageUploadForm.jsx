@@ -216,7 +216,8 @@ export default function MileageUploadForm() {
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
       <CustomToggle
         className='toggle text-xl px-2'
-        title='Create New Mileage'
+        titleOn='Create New Mileage ▼'
+        titleOff='Create New Mileage ▶'
         component={renderFormInputs()}
       />
     </div>

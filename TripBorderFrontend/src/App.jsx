@@ -3,7 +3,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
-import TripsItems from './components/trips/TripsItems';
+import TripsMap from './components/trips/TripsMap';
 import TripsHistory from './components/trips/TripsHistory';
 import Settings from './components/Settings';
 import DatabaseTableDev from './components/devtables/DatabaseTableDev';
@@ -17,14 +17,14 @@ export default function App() {
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
-        <header className='title'>
-          Trip Border
-        </header>
         <Routes>
           <Route
             path='/'
             element={(
-              <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+              <div className='flex flex-col justify-center text-center mx-auto'>
+                <header className='title'>
+                  Trip Border
+                </header>
                 {(isDevMode)
                   ? (
                     <div>
@@ -46,7 +46,7 @@ export default function App() {
           <Route path='/plantrip' element={<ProtectedRoute />}>
             <Route
               index
-              element={<TripBoard component={<TripsItems />} />}
+              element={<TripBoard component={<TripsMap />} />}
             />
           </Route>
           <Route path='/trips' element={<ProtectedRoute />}>

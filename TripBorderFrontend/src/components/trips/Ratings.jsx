@@ -147,7 +147,8 @@ export default function Ratings({ tripID }) {
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
-              title={`${rating.entity_type}`}
+              titleOn={`${rating.entity_type} ▼`}
+              titleOff={`${rating.entity_type} ▶`}
               component={renderDetail(rating)}
             />
           </div>
@@ -172,7 +173,8 @@ export default function Ratings({ tripID }) {
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
-              title={`Rate ${tripData.title}`}
+              titleOn={`Rate ${tripData.title} ▼`}
+              titleOff={`Rate ${tripData.title} ▶`}
               component={renderNewRating()}
             />
           </div>

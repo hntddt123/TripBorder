@@ -102,7 +102,8 @@ export default function TripsPast() {
         className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
-        title={trip.title}
+        titleOn={`${trip.title} ▼`}
+        titleOff={`${trip.title} ▶`}
         component={renderDetail(trip)}
       />
       {!isLoadTrip

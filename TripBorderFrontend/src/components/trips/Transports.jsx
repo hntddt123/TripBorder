@@ -216,7 +216,8 @@ export default function Transports({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Transport Button ${transport.uuid}`}
                     id={transport.uuid}
-                    title={transport.name}
+                    titleOn={`${transport.name} ▼`}
+                    titleOff={`${transport.name} ▶`}
                     component={renderDetail(transport)}
                   />
                 </div>

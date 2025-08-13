@@ -132,23 +132,24 @@ html, body {
     dark:bg-primary-dark dark:text-white;
   }
 
-  .customInputSearch {
-    max-width: 69dvw;
+  .customInputLandmarkSearch {
+    max-width: 45dvw;
     @apply 
-    text-xl
-    p-2
-    rounded-xl
+    text-lg
+    text-center
+    py-1 px-2
+    rounded-full
     ease-in-out duration-200
     bg-primary-light dark:bg-primary-button-dark-much-transparent
     dark:text-white;
   }
 
-  .customInputSearch[type="text"]:focus {
+  .customInputLandmarkSearch[type="text"]:focus, .customInputLandmarkSearch[type="text"]:hover {
     @apply 
     dark:bg-primary-button-dark-less-transparent dark:text-white;
   }
 
-  .customInputSearch[type="text"]:active {
+  .customInputLandmarkSearch[type="text"]:active {
     @apply 
     dark:bg-primary-button-dark-much-transparent dark:text-white;
   }
@@ -217,12 +218,6 @@ html, body {
   select:focus {
     @apply 
     dark:bg-primary-dark;
-  }
-
-  .content {
-    height: calc(100vh - var(--spacing-safe-bottom));
-    @apply
-    overflow-y-auto;
   }
 
   .sign-in-google-button-icon {
@@ -542,12 +537,14 @@ html, body {
   .cardPOIAddInfo {
     z-index: 2;
     @apply 
+    absolute
     p-2
     bottom-0
     border-0
     rounded-lg
     border-amber-300
-    absolute h-1/2 text-white dark:text-white;
+    h-1/2 
+    text-white dark:text-white;
   }
 
   .cardPOIAddInfoPictures {
@@ -566,16 +563,19 @@ html, body {
 
   .customLoading {
     @apply
+    text-xs
     animate-pulse
   }
 
   .customFetching {
     @apply
+    text-xs
     animate-pulse
   }
   
   .customError {
     @apply
+    text-xs
     animate-fadeIn
     text-red-600 
   }
@@ -655,20 +655,6 @@ html, body {
     bg-primary-light dark:bg-primary-dark;
   }
 
-  .tripAbsoluteContent {
-    @apply 
-    flex-wrap
-    rounded-lg
-    w-full
-    max-h-2/5
-    p-2
-    z-10
-    left-0
-    overflow-y-scroll
-    absolute
-    bg-amber-50 dark:bg-primary-button-dark-less-transparent;
-  }
-
   .sidebarInstructionsContent {
     width: 15rem;
     height: 12rem;
@@ -684,12 +670,12 @@ html, body {
   .sidebarInstructionsToggle {
     height: 3rem;
     @apply
+    absolute
     flex
     justify-center
     items-center
     w-6
     overflow-visible
-    absolute
     rounded-lg;
   }
 
@@ -718,25 +704,27 @@ html, body {
 
   .flex-center {
     @apply
+    absolute
     flex
     justify-center
-    items-center
-    absolute;
+    items-center;
   }
 
-  .landmarkSearchInput {
+  .landmarkSearchContainer {
+    width: 100%;
     z-index: 1;
     top: 0dvh;
     @apply
     absolute
+    text-center
     m-2
     text-lg;
   }
 
   .bottommenu {
     z-index: 1;
-    top: 60%;
-    bottom: 50px;
+    top: 65%;
+    bottom: 60px;
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -744,12 +732,46 @@ html, body {
     absolute;
   }
 
-  .abosoluteBottomToolBar {
+  .tripAbsoluteContent {
+    min-width: 100dvw;
+    max-height: 40dvh;
+    @apply 
+    absolute
+    flex-wrap
+    rounded-lg
+    -left-2
+    overflow-y-scroll
+    z-10
+    p-2
+    mt-1
+    bg-amber-50 dark:bg-primary-button-dark-less-transparent;
+  }
+
+  .absoluteTopToolBar {
+    z-index: 10;
+    @apply
+    absolute
+    m-2
+    top-0
+    left-0
+  }
+
+  .absoluteBottomToolBar {
     width: 100%;
     @apply
-    text-center
     absolute
     bottom-0
+    text-center
+  }
+
+  .absoluteBottomToolBarStatus {
+    width: 100%;
+    padding-right: 30px;
+    @apply
+    absolute
+    bottom-0
+    m-2
+    text-right
   }
 
   .buttonGPS {
@@ -914,6 +936,7 @@ html, body {
     @apply 
     text-xl
     p-1
+    my-0
     mx-1
     rounded-full
     content-center

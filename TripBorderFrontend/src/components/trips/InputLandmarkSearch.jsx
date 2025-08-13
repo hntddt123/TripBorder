@@ -23,13 +23,13 @@ export default function InputLandmarkSearch({
   };
 
   return (
-    <div className='landmarkSearchInput'>
+    <div className='landmarkSearchContainer'>
       <form
         onSubmit={handleSubmit}
       >
         <input
           ref={inputRef}
-          className='customInputSearch'
+          className='customInputLandmarkSearch'
           id='landmark_keyword_search'
           type='text'
           name='landmark_keyword_search'

@@ -158,7 +158,8 @@ export default function Tags({ tripID }) {
         <CustomToggle
           className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
           aria-label='Tags Button'
-          title='Tags'
+          titleOn='Tags ▼'
+          titleOff='Tags ▶'
           component={renderDetail()}
         />
       </div>
