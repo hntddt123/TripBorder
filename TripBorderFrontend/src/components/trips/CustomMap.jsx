@@ -306,7 +306,10 @@ export default function CustomMap({
           getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
         />
-        <ButtonGPSSearch getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger} />
+        <ButtonGPSSearch
+          getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
+          isFetching={isFetching}
+        />
         <ToggleDice poi={data} />
       </div>
       <FullscreenControl position='top-right' />

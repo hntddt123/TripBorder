@@ -31,7 +31,7 @@ export default function TripSearchTools() {
   );
 
   const getLocation = () => ((hasGPSLonLat()) ? (
-    <div className='cardInfo'>
+    <div className='cardInfo text-left'>
       <div className='text-lg'>
         {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
       </div>
@@ -48,16 +48,16 @@ export default function TripSearchTools() {
 
   return (
     <div className='text-lg tripAbsoluteContent content'>
-      <div>
-        <span>Show numbering on marker</span>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Show numbering on marker</span>
         <TogglePlaceName />
       </div>
-      <div>
-        <span>Show distance on marker</span>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Show distance on marker</span>
         <ToggleDistance />
       </div>
-      <div>
-        <span>Use Mapbox place search</span>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Use Mapbox place search</span>
         <ToggleMapBoxSearch />
       </div>
       Item Count

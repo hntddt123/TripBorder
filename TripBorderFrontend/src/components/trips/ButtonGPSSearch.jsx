@@ -10,7 +10,7 @@ import {
 import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 
-export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
+export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }) {
   const {
     gpsLonLat,
     selectedPOIIDNumber,
@@ -62,11 +62,12 @@ export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
       className='buttonGPS'
       label={GPSIcon}
       onClick={handleButtonGPSSearch}
-      disabled={!hasGPSLonLat()}
+      disabled={!hasGPSLonLat() || isFetching}
     />
   );
 }
 
 ButtonGPSSearch.propTypes = {
-  getNearbyPOIQueryTrigger: PropTypes.func
+  getNearbyPOIQueryTrigger: PropTypes.func,
+  isFetching: PropTypes.bool
 };

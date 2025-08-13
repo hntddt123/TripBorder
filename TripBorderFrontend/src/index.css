@@ -660,11 +660,12 @@ html, body {
     flex-wrap
     rounded-lg
     w-full
+    max-h-2/5
     p-2
     z-10
     left-0
     overflow-y-scroll
-    absolute h-2/5
+    absolute
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
