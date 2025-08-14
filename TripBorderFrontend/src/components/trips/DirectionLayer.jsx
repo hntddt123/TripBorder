@@ -3,8 +3,10 @@ import { Source, Layer, Marker } from 'react-map-gl';
 import { useSelector } from 'react-redux';
 
 export default function DirectionLayer({ getDirectionsQueryResults }) {
-  const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
-  const isNavigating = useSelector((state) => state.mapReducer.isNavigating);
+  const {
+    selectedPOILonLat,
+    isNavigating,
+  } = useSelector((state) => state.mapReducer);
 
   const geojson = {
     type: 'Feature',

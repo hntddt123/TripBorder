@@ -2,7 +2,7 @@ import { VERSION_NUMBER, MODE } from '../constants/constants';
 import CustomButton from './CustomButton';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
 
-function DevMode() {
+export default function DevMode() {
   const { data } = useCheckAuthStatusQuery({ skip: true });
 
   return (
@@ -30,5 +30,3 @@ function DevMode() {
     </div>
   );
 }
-
-export default DevMode;

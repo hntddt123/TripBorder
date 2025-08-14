@@ -11,7 +11,7 @@ import DBTableTagsDev from './DBTableTagsDev';
 import DBTableTripTagsDev from './DBTableTripTagsDev';
 import DBTableRatingsDev from './DBTableRatingsDev';
 
-function DatabaseTableDev() {
+export default function DatabaseTableDev() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const role = user?.data?.role;
 
@@ -40,5 +40,3 @@ function DatabaseTableDev() {
   }
   return null;
 }
-
-export default DatabaseTableDev;

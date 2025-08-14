@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-function CustomButton({ className = 'button dark:button', label, onClick, type = 'button', disabled = false, to, ...props }) {
+export default function CustomButton({ className = 'button dark:button', label, onClick, type = 'button', disabled = false, to, ...props }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -10,7 +10,13 @@ function CustomButton({ className = 'button dark:button', label, onClick, type =
   };
 
   return (
-    <button className={`${className}`} type={type} onClick={handleClick} disabled={disabled} {...props}>
+    <button
+      className={`${className}`}
+      type={type}
+      onClick={handleClick}
+      disabled={disabled}
+      {...props}
+    >
       {label}
     </button>
   );
@@ -24,5 +30,3 @@ CustomButton.propTypes = {
   to: PropTypes.string,
   disabled: PropTypes.bool
 };
-
-export default CustomButton;

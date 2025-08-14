@@ -16,8 +16,10 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function Meals({ tripID }) {
+export default function Meals({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [mealTimes, setMealTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -128,7 +130,8 @@ function Meals({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Meal Button ${meal.uuid}`}
                     id={meal.uuid}
-                    title={meal.name}
+                    titleOn={`${meal.name} ▼`}
+                    titleOff={`${meal.name} ▶`}
                     component={renderDetail(meal)}
                   />
                 </div>
@@ -151,9 +154,15 @@ function Meals({ tripID }) {
           </div>
         ))
         : null}
-      {(isLoading) ? <div>Loading Meals...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Meals' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching New Page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
@@ -161,5 +170,3 @@ function Meals({ tripID }) {
 Meals.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Meals;

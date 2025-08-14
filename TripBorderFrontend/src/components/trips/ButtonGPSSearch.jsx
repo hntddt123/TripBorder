@@ -10,13 +10,16 @@ import {
 import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 
-function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const selectedPOIIDNumber = useSelector((state) => state.mapReducer.selectedPOIIDNumber);
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
-  const selectedPOIIcon = useSelector((state) => state.mapReducer.selectedPOIIcon);
-  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }) {
+  const {
+    gpsLonLat,
+    selectedPOIIDNumber,
+    selectedPOICount,
+    selectedPOIRadius,
+    selectedPOIIcon,
+    isThrowingDice,
+    sessionIDFSQ
+  } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
 
@@ -33,7 +36,8 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedPOIIDNumber,
-        icon: selectedPOIIcon
+        icon: selectedPOIIcon,
+        sessionToken: sessionIDFSQ
       }, true);
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
@@ -55,16 +59,15 @@ function ButtonGPSSearch({ getNearbyPOIQueryTrigger }) {
   return (
     <CustomButton
       translate='no'
-      className='buttonTopbar'
+      className='buttonGPS'
       label={GPSIcon}
       onClick={handleButtonGPSSearch}
-      disabled={!hasGPSLonLat()}
+      disabled={!hasGPSLonLat() || isFetching}
     />
   );
 }
 
 ButtonGPSSearch.propTypes = {
-  getNearbyPOIQueryTrigger: PropTypes.func
+  getNearbyPOIQueryTrigger: PropTypes.func,
+  isFetching: PropTypes.bool
 };
-
-export default ButtonGPSSearch;

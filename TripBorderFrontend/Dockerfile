@@ -6,28 +6,29 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=23.11.0
+ARG NODE_VERSION=24.5.0
 
-FROM node:${NODE_VERSION}-alpine
+FROM node:${NODE_VERSION}-alpine AS builder
 
 # Use production node environment by default.
-ENV NODE_ENV=production
 
-WORKDIR /src
+WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
+# Make sure latest npm is intstalled
+RUN npm install -g npm
 # Install dependencies
 RUN npm install
 
 # Copy the rest of the application code
 COPY . .
+RUN npm run build
 
-# Copy SSL files and set permissions
-COPY ./ssl /app/ssl
-RUN chmod -R 600 /app/ssl/*
+FROM nginx:stable-alpine
 
-# Run the application.
-CMD ["npm", "run", "preview"]
+COPY --from=builder /app/dist /usr/share/nginx/html
 
+# Run the nginx.
+CMD ["nginx", "-g", "daemon off;"]

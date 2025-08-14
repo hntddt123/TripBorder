@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function GoogleSignInButton({ onClick }) {
+export default function GoogleSignInButton({ onClick }) {
   return (
     <button className='gsi-material-button' onClick={onClick}>
       <div className='gsi-material-button-state' />
@@ -24,5 +24,3 @@ function GoogleSignInButton({ onClick }) {
 GoogleSignInButton.propTypes = {
   onClick: PropTypes.func
 };
-
-export default GoogleSignInButton;

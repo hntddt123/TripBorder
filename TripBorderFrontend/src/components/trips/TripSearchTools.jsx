@@ -5,11 +5,16 @@ import {
   setSelectedPOIRadius
 } from '../../redux/reducers/mapReducer';
 import TogglePlaceName from './TogglePlaceName';
+import ToggleDistance from './ToggleDistance';
+import ToggleMapBoxSearch from './ToggleMapBoxSearch';
 
-function TripSearchTools() {
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
+export default function TripSearchTools() {
+  const {
+    gpsLonLat,
+    selectedPOICount,
+    selectedPOIRadius,
+  } = useSelector((state) => state.mapReducer);
+
   const dispatch = useDispatch();
 
   const handleItemCountChange = (count) => {
@@ -26,7 +31,7 @@ function TripSearchTools() {
   );
 
   const getLocation = () => ((hasGPSLonLat()) ? (
-    <div className='cardInfo'>
+    <div className='cardInfo text-left'>
       <div className='text-lg'>
         {`Longtitude: ${(gpsLonLat.longitude.toFixed(8))}`}
       </div>
@@ -42,10 +47,18 @@ function TripSearchTools() {
   );
 
   return (
-    <div className='text-lg tripAbsoluteContent content'>
-      <div>
-        <span>Show Only Number on Map</span>
+    <div className='text-lg tripAbsoluteContentRight'>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Show numbering on marker</span>
         <TogglePlaceName />
+      </div>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Show distance on marker</span>
+        <ToggleDistance />
+      </div>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Use Mapbox place search</span>
+        <ToggleMapBoxSearch />
       </div>
       Item Count
       <ReactSlider
@@ -83,5 +96,3 @@ function TripSearchTools() {
     </div>
   );
 }
-
-export default TripSearchTools;

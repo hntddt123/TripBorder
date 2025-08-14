@@ -5,8 +5,9 @@ import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import { BASE_URL } from '../constants/constants';
 import CustomError from './CustomError';
+import CustomLoading from './CustomLoading';
 
-function Auth() {
+export default function Auth() {
   const [shouldPoll, setShouldPoll] = useState(false);
   const { data, isLoading, error } = useCheckAuthStatusQuery(
     undefined,
@@ -52,7 +53,7 @@ function Auth() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading /></div>;
   }
 
   if (error) {
@@ -127,5 +128,3 @@ function Auth() {
     </div>
   );
 }
-
-export default Auth;

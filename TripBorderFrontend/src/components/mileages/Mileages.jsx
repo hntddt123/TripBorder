@@ -4,8 +4,10 @@ import { useGetMileagesSellingQuery } from '../../api/mileagesAPI';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
-function Mileages() {
+export default function Mileages() {
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [page, setPage] = useState(1);
@@ -33,7 +35,7 @@ function Mileages() {
   const hidePopup = () => setIsPopupOpen(false);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
   }
 
   if (error) {
@@ -116,7 +118,9 @@ function Mileages() {
         <div>
           Listed {filteredMileages.length} Mileages
         </div>
-        {isFetching && <div>Fetching new page...</div>}
+        <div>
+          <CustomFetching isFetching={isFetching} />
+        </div>
         <CustomButton
           aria-label='Previous Page Button'
           label='Previous'
@@ -136,5 +140,3 @@ function Mileages() {
     </div>
   );
 }
-
-export default Mileages;

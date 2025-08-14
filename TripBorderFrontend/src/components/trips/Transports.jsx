@@ -16,8 +16,10 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function Transports({ tripID }) {
+export default function Transports({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [departureTimes, setDepartureTimes] = useState({});
   const [arrivalTimes, setArrivalTimes] = useState({});
@@ -214,7 +216,8 @@ function Transports({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Transport Button ${transport.uuid}`}
                     id={transport.uuid}
-                    title={transport.name}
+                    titleOn={`${transport.name} ▼`}
+                    titleOff={`${transport.name} ▶`}
                     component={renderDetail(transport)}
                   />
                 </div>
@@ -234,9 +237,15 @@ function Transports({ tripID }) {
             ))}
           </div>
         )) : null}
-      {(isLoading) ? <div>Loading Transports...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Transports' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
@@ -244,5 +253,3 @@ function Transports({ tripID }) {
 Transports.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Transports;

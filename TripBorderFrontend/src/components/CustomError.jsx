@@ -1,24 +1,16 @@
-import PropTypes from 'prop-types';
+import { errorPropTypes } from '../constants/errorPropTypes';
 
-function CustomError({ error }) {
-  return (
-    <div className='text-red-600'>
-      Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
-    </div>
-  );
+export default function CustomError({ error }) {
+  if (error) {
+    return (
+      <span className='customError'>
+        Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
+      </span>
+    );
+  }
+  return null;
 }
 
 CustomError.propTypes = {
-  error: PropTypes.shape({
-    status: PropTypes.PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number,
-    ]),
-    error: PropTypes.string,
-    data: PropTypes.shape({
-      error: PropTypes.string
-    })
-  })
+  error: errorPropTypes
 };
-
-export default CustomError;

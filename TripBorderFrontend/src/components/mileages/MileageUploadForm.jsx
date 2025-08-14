@@ -6,8 +6,9 @@ import { usePostMileagesMutation } from '../../api/mileagesAPI';
 import { formatHex } from '../../utility/formatHex';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
-function MileageUploadForm() {
+export default function MileageUploadForm() {
   const [postMileages, { data: message, isLoading, error }] = usePostMileagesMutation();
   const [inputError, setInputError] = useState('');
   const fileInputRef = useRef(null);
@@ -204,9 +205,9 @@ function MileageUploadForm() {
         />
       </div>
       <CustomButton type='submit' label='Upload' />
-      {(isLoading) ? <div>Uploading...</div> : null}
+      <CustomLoading isLoading={isLoading} text='Uploading...' />
+      <CustomError error={error} />
       {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
       {(message) ? <div>{`${message.message}`}</div> : null}
     </form>
   );
@@ -215,11 +216,10 @@ function MileageUploadForm() {
     <div className='flex-col cardInfo p-4 overflow-x-auto'>
       <CustomToggle
         className='toggle text-xl px-2'
-        title='Create New Mileage'
+        titleOn='Create New Mileage ▼'
+        titleOff='Create New Mileage ▶'
         component={renderFormInputs()}
       />
     </div>
   );
 }
-
-export default MileageUploadForm;

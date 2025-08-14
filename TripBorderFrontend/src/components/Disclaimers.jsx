@@ -1,4 +1,4 @@
-function Disclaimers() {
+export default function Disclaimers() {
   return (
     <div className='cardMX1'>
       <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
@@ -169,5 +169,3 @@ function Disclaimers() {
     </div>
   );
 }
-
-export default Disclaimers;

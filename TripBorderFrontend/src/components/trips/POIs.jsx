@@ -16,8 +16,10 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function POIs({ tripID }) {
+export default function POIs({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [visitTimes, setVisitTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -126,7 +128,8 @@ function POIs({ tripID }) {
                     className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                     aria-label={`Poi Button ${poi.uuid}`}
                     id={poi.uuid}
-                    title={poi.name}
+                    titleOn={`${poi.name} ▼`}
+                    titleOff={`${poi.name} ▶`}
                     component={renderDetail(poi)}
                   />
                 </div>
@@ -147,9 +150,15 @@ function POIs({ tripID }) {
           </div>
         ))
         : null}
-      {(isLoading) ? <div>Loading POIs...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading POIs' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
@@ -157,5 +166,3 @@ function POIs({ tripID }) {
 POIs.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default POIs;

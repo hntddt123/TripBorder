@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useGetTripsAllQuery } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function DBTableTripsDev() {
+export default function DBTableTripsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTripsAllQuery({ page, limit });
@@ -14,7 +16,7 @@ function DBTableTripsDev() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading={isLoading} /></div>;
   }
 
   if (error) {
@@ -42,7 +44,9 @@ function DBTableTripsDev() {
           (Total: {total} items)
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
       <table>
         <thead>
           <tr>
@@ -72,5 +76,3 @@ function DBTableTripsDev() {
     </div>
   );
 }
-
-export default DBTableTripsDev;

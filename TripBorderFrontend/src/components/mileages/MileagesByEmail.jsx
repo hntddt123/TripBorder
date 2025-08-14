@@ -6,8 +6,10 @@ import { formatDateMMMMddyyyyZZZZ } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function MileagesByEmail() {
+export default function MileagesByEmail() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
 
@@ -41,7 +43,7 @@ function MileagesByEmail() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
   }
 
   if (error) {
@@ -77,7 +79,9 @@ function MileagesByEmail() {
       <div className='cardInfo text-3xl p-4'>Uploaded Mileages</div>
       <div className='text-xl text-center'>
         <div>Total: {total}</div>
-        {isFetching && <div>Fetching new page...</div>}
+        <div>
+          <CustomFetching isFetching={isFetching} />
+        </div>
         <CustomButton
           aria-label='Previous Page Button'
           label='Previous'
@@ -126,5 +130,3 @@ function MileagesByEmail() {
     </div>
   );
 }
-
-export default MileagesByEmail;

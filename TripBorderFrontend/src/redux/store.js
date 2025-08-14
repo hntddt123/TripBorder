@@ -1,10 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { foursquareAPI } from '../api/foursquareSliceAPI';
+import { mapboxAPI } from '../api/mapboxSliceAPI';
+import { openstreetmapAPI } from '../api/openstreemapSliceAPI';
 import { counterReducer } from './reducers/counterReducer';
 import { mapReducer } from './reducers/mapReducer';
 import { tripReducer } from './reducers/tripReducer';
 import { userSettingsReducer } from './reducers/userSettingsReducer';
-import { foursquareAPI } from '../api/foursquareSliceAPI';
-import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { authAPI } from '../api/authAPI';
 import { mileagesAPI } from '../api/mileagesAPI';
 import { usersAPI } from '../api/usersAPI';
@@ -25,6 +26,7 @@ const store = configureStore({
     userSettingsReducer,
     [foursquareAPI.reducerPath]: foursquareAPI.reducer,
     [mapboxAPI.reducerPath]: mapboxAPI.reducer,
+    [openstreetmapAPI.reducerPath]: openstreetmapAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,
     [mileagesAPI.reducerPath]: mileagesAPI.reducer,
     [usersAPI.reducerPath]: usersAPI.reducer,
@@ -41,6 +43,7 @@ const store = configureStore({
     .concat(
       foursquareAPI.middleware,
       mapboxAPI.middleware,
+      openstreetmapAPI.middleware,
       authAPI.middleware,
       mileagesAPI.middleware,
       usersAPI.middleware,

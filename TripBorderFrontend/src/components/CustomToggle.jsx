@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function CustomToggle({
-  className = 'toggle dark:toggle text-base mx-0.5 py-2',
-  title,
+export default function CustomToggle({
+  className = 'toggle dark:toggle text-base mx-0.5 py-1.5',
+  titleOn,
+  titleOff,
   component,
   type = 'button',
   disabled = false,
@@ -25,7 +26,9 @@ function CustomToggle({
         disabled={disabled}
         {...props}
       >
-        {isOpen ? <span>{title} ▼</span> : <span>{title} ▶</span>}
+        {isOpen
+          ? <span>{titleOn}</span>
+          : <span>{titleOff}</span>}
       </button>
       {isOpen ? component : null}
     </span>
@@ -34,12 +37,11 @@ function CustomToggle({
 
 CustomToggle.propTypes = {
   className: PropTypes.string,
-  title: PropTypes.string,
+  titleOn: PropTypes.string,
+  titleOff: PropTypes.string,
   component: PropTypes.node,
   type: PropTypes.string,
   disabled: PropTypes.bool,
   isOpened: PropTypes.bool,
   label: PropTypes.string
 };
-
-export default CustomToggle;

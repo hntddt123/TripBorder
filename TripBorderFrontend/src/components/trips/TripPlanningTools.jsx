@@ -1,11 +1,9 @@
 import TripCurrent from './TripCurrent';
 
-function TripPlanningTools() {
+export default function TripPlanningTools() {
   return (
-    <div className='tripAbsoluteContent content'>
+    <div className='tripAbsoluteContentLeft'>
       <TripCurrent />
     </div>
   );
 }
-
-export default TripPlanningTools;

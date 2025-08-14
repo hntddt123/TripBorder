@@ -15,8 +15,10 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
-function Hotels({ tripID }) {
+export default function Hotels({ tripID }) {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
   const [checkInDates, setCheckInTimes] = useState({});
@@ -183,7 +185,8 @@ function Hotels({ tripID }) {
                       className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                       aria-label={`Hotel Button ${hotel.uuid}`}
                       id={hotel.uuid}
-                      title={hotel.name}
+                      titleOn={`${hotel.name} ▼`}
+                      titleOff={`${hotel.name} ▶`}
                       component={renderDetail(hotel)}
                     />
                   </div>
@@ -212,7 +215,8 @@ function Hotels({ tripID }) {
                 className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
                 aria-label={`Hotel Button ${hotel.uuid}`}
                 id={hotel.uuid}
-                title={hotel.name}
+                titleOn={`${hotel.name} ▼`}
+                titleOff={`${hotel.name} ▶`}
                 component={renderDetail(hotel)}
               />
             </div>
@@ -230,9 +234,15 @@ function Hotels({ tripID }) {
             </div>
           </div>
         )))}
-      {(isLoading) ? <div>Loading Hotels...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Hotels' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
@@ -240,5 +250,3 @@ function Hotels({ tripID }) {
 Hotels.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Hotels;

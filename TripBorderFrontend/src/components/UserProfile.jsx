@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { authAPI } from '../api/authAPI';
 
-function UserProfile() {
+export default function UserProfile() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const username = user.data?.name;
@@ -28,5 +28,3 @@ function UserProfile() {
     </div>
   );
 }
-
-export default UserProfile;

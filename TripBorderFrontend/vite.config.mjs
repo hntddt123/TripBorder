@@ -18,7 +18,7 @@ export default defineConfig({
     },
     port: 5174,
     strictPort: true,
-    host: true
+    host: true,
   },
   preview: {
     port: 5174,
@@ -26,6 +26,8 @@ export default defineConfig({
     host: true
   },
   build: {
-    minify: 'esbuild'
+    outDir: 'dist',
+    target: 'esnext',
+    minify: 'esbuild',
   }
 });

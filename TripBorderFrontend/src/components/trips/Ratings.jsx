@@ -11,8 +11,10 @@ import {
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function Ratings({ tripID }) {
+export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
@@ -145,7 +147,8 @@ function Ratings({ tripID }) {
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
-              title={`${rating.entity_type}`}
+              titleOn={`${rating.entity_type} ▼`}
+              titleOff={`${rating.entity_type} ▶`}
               component={renderDetail(rating)}
             />
           </div>
@@ -170,15 +173,22 @@ function Ratings({ tripID }) {
               className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
-              title={`Rate ${tripData.title}`}
+              titleOn={`Rate ${tripData.title} ▼`}
+              titleOff={`Rate ${tripData.title} ▶`}
               component={renderNewRating()}
             />
           </div>
         )}
 
-      {(isLoading) ? <div>Loading Ratings...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Ratings' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
@@ -186,5 +196,3 @@ function Ratings({ tripID }) {
 Ratings.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Ratings;

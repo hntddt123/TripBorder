@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useGetTagsAllQuery } from '../../api/tagsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function DBTableTagsDev() {
+export default function DBTableTagsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetTagsAllQuery({ page, limit });
@@ -14,7 +16,7 @@ function DBTableTagsDev() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading={isLoading} /></div>;
   }
 
   if (error) {
@@ -42,7 +44,9 @@ function DBTableTagsDev() {
           (Total: {total} items)
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
       <table>
         <thead>
           <tr>
@@ -64,5 +68,3 @@ function DBTableTagsDev() {
     </div>
   );
 }
-
-export default DBTableTagsDev;

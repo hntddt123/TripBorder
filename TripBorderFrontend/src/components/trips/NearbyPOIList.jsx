@@ -1,35 +1,62 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setSelectedPOI,
-  setViewState,
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI
 } from '../../redux/reducers/mapReducer';
+import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 
-function NearbyPOIList({ poi }) {
+export default function NearbyPOIList({ poi, handleFlyTo }) {
   const viewState = useSelector((state) => state.mapReducer.viewState);
   const dispatch = useDispatch();
-
   const handlePOIListItemClick = (marker) => () => {
     dispatch(setIsShowingAddtionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setSelectedPOI(marker.fsq_id));
-    dispatch(setViewState({ latitude: marker.geocodes.main.latitude, longitude: marker.geocodes.main.longitude, zoom: viewState.zoom }));
+    handleFlyTo(
+      marker.geocodes.main.longitude,
+      marker.geocodes.main.latitude,
+      viewState.zoom,
+      1500
+    );
   };
 
   return (
     <div>
-      {(poi && poi.results.length > 0) ? poi.results.map((marker, i) => (
-        <button translate='no' className='flex cardPOI justify-between items-center' key={marker.fsq_id} onClick={handlePOIListItemClick(marker)}>
-          <div>{`${i + 1} ${marker.name} (${marker.location.address})`}</div>
-          <div className='justify-end'>
-            <div>{`${marker.distance} m`}</div>
-          </div>
-        </button>
-      )) : null}
+      {(poi && poi.results.length > 0)
+        ? poi.results.map((marker, i) => (
+          <button
+            translate='no'
+            key={marker.fsq_id}
+            className='flex cardPOI'
+            onClick={handlePOIListItemClick(marker)}
+          >
+            <div className='min-w-1/12 text-center'>
+              {`${i + 1}`}
+            </div>
+            {(marker.location.address)
+              ? (
+                <div className='min-w-9/12 overflow-scroll text-left'>
+                  {`${marker.name} (${marker.location.address})`}
+                </div>
+              )
+              : (
+                <div className='min-w-9/12 overflow-scroll text-left'>
+                  {`${marker.name}`}
+                </div>
+              )}
+            <div className='min-w-2/12 text-right'>
+              {`${marker.distance}m`}
+            </div>
+          </button>
+        ))
+        : null}
     </div>
   );
 }
 
-export default NearbyPOIList;
+NearbyPOIList.propTypes = {
+  poi: FourSquareResponsePropTypes,
+  handleFlyTo: PropTypes.func,
+};

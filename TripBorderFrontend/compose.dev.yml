@@ -7,22 +7,31 @@
 # You can add other services your application may depend on here, such as a
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
+
+networks:
+  backend-network:  # References external network from backend compose.
+      name: tripborder-backend-network  # Actual Docker network name (example value: 'tripborder-backend-network'; matches backend yaml for resolution).
+      external: true
+  frontend-network: 
+      name: tripborder-frontend-network
+
 services:
   server:
+    image: tripborder-frontend:dev
+    container_name: tripborder-frontend-dev
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .  # Dir with Dockerfile; Builds dev image (example: vite-project/).
+      target: builder  # Uses dev server, not Nginx.
+    command: npm run dev  # Overrides CMD; Starts Vite HMR server (hot-reload).
     volumes:
       - .:/app
       - /app/node_modules
       - ./ssl:/app/ssl:ro
-    environment:
-      NODE_ENV: development
-      SSL_CERTIFICATE_PATH: /app/ssl/cert.pem
-      SSL_PRIVATE_KEY_PATH: /app/ssl/key.pem
+    networks:
+      - backend-network  # Access backend; why: Resolves service names.
+      - frontend-network  # Public exposure.
     expose:
-    - "5173"
+      - "5174"
     ports:
-      - 5173:5173
+      - "5174:5174"  # Maps host:container; why: Access dev server (example: localhost:5174).
     user: "${UID}:${GID}"
-

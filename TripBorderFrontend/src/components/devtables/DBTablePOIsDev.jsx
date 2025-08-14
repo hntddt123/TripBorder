@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { useGetPOIsAllQuery } from '../../api/poisAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
+import CustomFetching from '../CustomFetching';
 
-function DBTablePOIsDev() {
+export default function DBTablePOIsDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
   const { data, isLoading, isFetching, error } = useGetPOIsAllQuery({ page, limit });
@@ -14,7 +16,7 @@ function DBTablePOIsDev() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><CustomLoading isLoading={isLoading} /></div>;
   }
 
   if (error) {
@@ -42,7 +44,9 @@ function DBTablePOIsDev() {
           (Total: {total} items)
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
       <table>
         <thead>
           <tr>
@@ -66,5 +70,3 @@ function DBTablePOIsDev() {
     </div>
   );
 }
-
-export default DBTablePOIsDev;

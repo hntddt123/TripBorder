@@ -1,20 +1,25 @@
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import CustomButton from '../CustomButton';
 import { usePostMealByTripIDMutation } from '../../api/mealsAPI';
-import CustomError from '../CustomError';
 import {
   setLocalTime,
 } from '../../utility/time';
+import CustomButton from '../CustomButton';
+import CustomError from '../CustomError';
+import CustomLoading from '../CustomLoading';
 
-function ButtonMealsUpload({ filteredResult }) {
+export default function ButtonMealsUpload({ filteredResult }) {
+  const {
+    uuid,
+    startDate,
+  } = useSelector((state) => state.tripReducer);
+
   const [PostMealByTripID, { isLoading, error }] = usePostMealByTripIDMutation();
-  const tripData = useSelector((state) => state.tripReducer);
 
   const handleClick = (mealTime) => () => {
-    if (tripData.uuid) {
+    if (uuid) {
       const meals = {
-        trips_uuid: tripData.uuid,
+        trips_uuid: uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
         meal_time: mealTime
@@ -28,11 +33,11 @@ function ButtonMealsUpload({ filteredResult }) {
       <CustomButton
         className='buttonPOIAdd'
         label='+Meal'
-        onClick={handleClick(setLocalTime(tripData.start_date))}
-        disabled={tripData.uuid === ''}
+        onClick={handleClick(setLocalTime(startDate))}
+        disabled={uuid === ''}
       />
-      {(isLoading) ? <div>Creating...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} text='Creating...' />
+      <CustomError error={error} />
     </>
   );
 }
@@ -45,5 +50,3 @@ ButtonMealsUpload.propTypes = {
     })
   })
 };
-
-export default ButtonMealsUpload;

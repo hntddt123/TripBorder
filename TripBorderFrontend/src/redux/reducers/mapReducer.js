@@ -13,20 +13,23 @@ const initialMapState = {
   longPressedLonLat: { longitude: null, latitude: null },
   isUsingGPSLonLat: true,
   markers: [],
-  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants
+  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants 4d4b7105d754a06374d81259
   selectedPOI: '',
-  selectedPOIIcon: '🍱',
+  selectedPOIIcon: '🍱', // default to 🍱
   selectedPOILonLat: { longitude: null, latitude: null },
   selectedPOIRadius: 500, // 100 ~ 1000m
   selectedPOICount: 20, // 5 ~ 50
   randomPOINumber: -1,
   isFullPOIname: false,
+  isShowingDistance: false,
   isShowingOnlySelectedPOI: false,
   isShowingAddtionalPopUp: false,
   isShowingSideBar: false,
   isNavigating: false,
   isThrowingDice: false,
-  isDarkMode: true
+  isDarkMode: true,
+  isUsingMapBoxGeocoder: false,
+  sessionIDFSQ: ''
 };
 
 const mapSlice = createSlice({
@@ -48,12 +51,15 @@ const mapSlice = createSlice({
     setSelectedPOICount: (state, action) => ({ ...state, selectedPOICount: action.payload }),
     setRandomPOINumber: (state, action) => ({ ...state, randomPOINumber: action.payload }),
     setIsFullPOIname: (state, action) => ({ ...state, isFullPOIname: action.payload }),
+    setIsShowingDistance: (state, action) => ({ ...state, isShowingDistance: action.payload }),
     setIsShowingOnlySelectedPOI: (state, action) => ({ ...state, isShowingOnlySelectedPOI: action.payload }),
     setIsShowingAddtionalPopUp: (state, action) => ({ ...state, isShowingAddtionalPopUp: action.payload }),
     setIsNavigating: (state, action) => ({ ...state, isNavigating: action.payload }),
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
     setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
-    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload })
+    setDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
+    setIsUsingMapBoxGeocoder: (state, action) => ({ ...state, isUsingMapBoxGeocoder: action.payload }),
+    setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload })
   }
 });
 
@@ -72,12 +78,15 @@ export const {
   setSelectedPOICount,
   setRandomPOINumber,
   setIsFullPOIname,
+  setIsShowingDistance,
   setIsShowingOnlySelectedPOI,
   setIsShowingAddtionalPopUp,
   setIsNavigating,
   setIsShowingSideBar,
   setIsThrowingDice,
-  setDarkMode
+  setDarkMode,
+  setIsUsingMapBoxGeocoder,
+  setSessionIDFSQ
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

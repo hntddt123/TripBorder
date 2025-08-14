@@ -13,12 +13,18 @@ import {
   isStartDateAfterEndDate,
   isEndDateBeforeStartDate
 } from '../../utility/time';
+import CustomLoading from '../CustomLoading';
 
-function TripUploadForm() {
+export default function TripUploadForm() {
   const [inputError, setInputError] = useState('');
+  const {
+    uuid,
+    title,
+    startDate,
+    endDate
+  } = useSelector((state) => state.tripReducer);
 
-  const tripData = useSelector((state) => state.tripReducer);
-  const [updateTripByUUID, { isLoading: updateLoading }] = useUpdateTripByUUIDMutation();
+  const [updateTripByUUID, { isLoading }] = useUpdateTripByUUIDMutation();
 
   const dispatch = useDispatch();
 
@@ -31,7 +37,7 @@ function TripUploadForm() {
     if (name === 'trip_start_date') {
       if (isDatePast(e.target.value)) {
         setInputError('Start Date cannot be past');
-      } else if (isStartDateAfterEndDate(e.target.value, tripData.end_date)) {
+      } else if (isStartDateAfterEndDate(e.target.value, endDate)) {
         setInputError('Start Date cannot be after End Date');
       } else {
         setInputError('');
@@ -39,7 +45,7 @@ function TripUploadForm() {
       }
     }
     if (name === 'trip_end_date') {
-      if (isEndDateBeforeStartDate(e.target.value, tripData.start_date)) {
+      if (isEndDateBeforeStartDate(e.target.value, startDate)) {
         setInputError('End Date cannot be before Start Date');
       } else {
         setInputError('');
@@ -51,11 +57,11 @@ function TripUploadForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     updateTripByUUID({
-      uuid: tripData.uuid,
+      uuid: uuid,
       updates: {
-        title: tripData.title,
-        start_date: tripData.start_date,
-        end_date: tripData.end_date,
+        title: title,
+        start_date: startDate,
+        end_date: endDate,
       }
     });
   };
@@ -71,7 +77,7 @@ function TripUploadForm() {
           id='trip_title'
           type='text'
           name='trip_title'
-          value={tripData.title}
+          value={title}
           onChange={handleInputChange}
           required
           placeholder='Trip Name'
@@ -86,7 +92,7 @@ function TripUploadForm() {
           id='trip_start_date'
           type='date'
           name='trip_start_date'
-          value={formatLocalDateString(tripData.start_date)}
+          value={formatLocalDateString(startDate)}
           onChange={handleInputChange}
           required
         />
@@ -98,16 +104,14 @@ function TripUploadForm() {
           id='trip_end_date'
           type='date'
           name='trip_end_date'
-          value={formatLocalDateString(tripData.end_date)}
+          value={formatLocalDateString(endDate)}
           onChange={handleInputChange}
           required
         />
         {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
-        {(updateLoading) ? 'Updating' : null}
+        <CustomLoading isLoading={isLoading} text='Updating' />
         <CustomButton type='submit' label='Save' />
       </div>
     </form>
   );
 }
-
-export default TripUploadForm;

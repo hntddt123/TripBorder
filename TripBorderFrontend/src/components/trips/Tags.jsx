@@ -14,8 +14,10 @@ import {
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
-function Tags({ tripID }) {
+export default function Tags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
   const [tagName, setTagName] = useState('');
   const [page, setPage] = useState(1);
@@ -156,14 +158,21 @@ function Tags({ tripID }) {
         <CustomToggle
           className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
           aria-label='Tags Button'
-          title='Tags'
+          titleOn='Tags ▼'
+          titleOff='Tags ▶'
           component={renderDetail()}
         />
       </div>
-      {(isLoading) ? <div>Loading Trip Tags...</div> : null}
-      {isFetching && <div>Fetching new page...</div>}
-      {(error) ? <CustomError error={error} /> : null}
-      {(postTripTagResult.error) ? <CustomError error={postTripTagResult.error} /> : null}
+      <div>
+        <CustomLoading isLoading={isLoading} text='Loading Tags' />
+      </div>
+      <div>
+        <CustomFetching isFetching={isFetching} text='Fetching new page' />
+      </div>
+      <div>
+        <CustomError error={error} />
+        <CustomError error={postTripTagResult.error} />
+      </div>
     </div>
   );
 }
@@ -171,5 +180,3 @@ function Tags({ tripID }) {
 Tags.propTypes = {
   tripID: PropTypes.string,
 };
-
-export default Tags;

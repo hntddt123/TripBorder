@@ -3,28 +3,32 @@ import PropTypes from 'prop-types';
 import {
   setSelectedPOIIDNumber,
   setSelectedPOIIcon,
-  setIsShowingAddtionalPopUp
+  setIsShowingAddtionalPopUp,
+  setIsShowingOnlySelectedPOI
 } from '../../redux/reducers/mapReducer';
 import {
   poiCategories
 } from '../../constants/constants';
 
-function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
-  const dispatch = useDispatch();
+export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
+  const {
+    selectedPOICount,
+    selectedPOIRadius,
+    longPressedLonLat,
+    gpsLonLat,
+    isUsingGPSLonLat,
+    sessionIDFSQ
+  } = useSelector((state) => state.mapReducer);
 
-  const selectedPOICount = useSelector((state) => state.mapReducer.selectedPOICount);
-  const selectedPOIRadius = useSelector((state) => state.mapReducer.selectedPOIRadius);
-  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const isUsingGPSLonLat = useSelector((state) => state.mapReducer.isUsingGPSLonLat);
+  const dispatch = useDispatch();
 
   const handleDropdownOnChange = (event) => {
     const selectedID = event.target.value;
     const selectedCategory = poiCategories.find((category) => category.id === selectedID);
-
     dispatch(setSelectedPOIIDNumber(selectedID));
     dispatch(setSelectedPOIIcon(selectedCategory.icon));
     dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingOnlySelectedPOI(false));
 
     if (longPressedLonLat.longitude !== null
       && longPressedLonLat.latitude !== null && !isUsingGPSLonLat) {
@@ -33,7 +37,8 @@ function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedID,
-        icon: selectedCategory.icon
+        icon: selectedCategory.icon,
+        sessionToken: sessionIDFSQ
       }, true);
     } else if (gpsLonLat.longitude !== null
       && gpsLonLat.latitude !== null) {
@@ -42,7 +47,8 @@ function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
         radius: selectedPOIRadius,
         limit: selectedPOICount,
         category: selectedID,
-        icon: selectedCategory.icon
+        icon: selectedCategory.icon,
+        sessionToken: sessionIDFSQ
       }, true);
     }
   };
@@ -71,5 +77,3 @@ ButtonPOISelection.propTypes = {
   getNearbyPOIQueryTrigger: PropTypes.func,
   isFetching: PropTypes.bool,
 };
-
-export default ButtonPOISelection;

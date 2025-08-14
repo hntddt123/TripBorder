@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { processBytea } from '../utility/processBytea';
 import { ImageComponentByteaPropTypes, ImageComponentUUIDPropTypes } from '../constants/imagePropTypes';
+import CustomLoading from './CustomLoading';
 
-function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
+export default function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
   const [imageSrc, setImageSrc] = useState({ src: null, loading: false, error: null });
 
   const loadImage = useCallback(async () => {
@@ -22,7 +23,7 @@ function CustomImageComponent({ uuid, bytea, className = 'max-h-60' }) {
   }, [bytea]);
 
   if (imageSrc.length === 0) {
-    return <div>Loading...</div>;
+    return <CustomLoading isLoading />;
   }
 
   return (
@@ -41,5 +42,3 @@ CustomImageComponent.propTypes = {
   uuid: ImageComponentUUIDPropTypes,
   className: PropTypes.string,
 };
-
-export default CustomImageComponent;

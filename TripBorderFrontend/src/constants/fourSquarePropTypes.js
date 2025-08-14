@@ -46,5 +46,16 @@ const ResultPropType = PropTypes.shape({
 });
 
 export const FourSquareResponsePropTypes = PropTypes.shape({
-  results: PropTypes.arrayOf(ResultPropType),
+  context: PropTypes.shape({
+    geo_bounds: PropTypes.shape({
+      circle: PropTypes.shape({
+        center: PropTypes.shape({
+          latitude: PropTypes.number,
+          longitude: PropTypes.number
+        }),
+        radius: PropTypes.number
+      }),
+    })
+  }),
+  results: PropTypes.arrayOf(ResultPropType)
 });

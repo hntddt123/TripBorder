@@ -28,9 +28,13 @@ import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
 import CustomError from '../CustomError';
+import CustomFetching from '../CustomFetching';
+import CustomLoading from '../CustomLoading';
 
-function TripsPast() {
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+export default function TripsPast() {
+  const {
+    isLoadTrip
+  } = useSelector((state) => state.userSettingsReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const dispatch = useDispatch();
@@ -100,7 +104,8 @@ function TripsPast() {
         className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
-        title={trip.title}
+        titleOn={`${trip.title} ▼`}
+        titleOff={`${trip.title} ▶`}
         component={renderDetail(trip)}
       />
       {!isLoadTrip
@@ -119,11 +124,15 @@ function TripsPast() {
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-base text-center'>
         <div className='flex justify-between'>
-          <CustomButton
-            className='buttonBack'
-            label='←Trip Selection'
-            onClick={handleBackButton}
-          />
+          {(isLoadTrip)
+            ? (
+              <CustomButton
+                className='buttonBack'
+                label='←Trip Selection'
+                onClick={handleBackButton}
+              />
+            )
+            : <div />}
         </div>
         <div>
           <div>
@@ -140,11 +149,11 @@ function TripsPast() {
           </div>
         </div>
         <span>
-          {`Page ${currentPage} of ${totalPages}`}
-          (Total: {total} Trips)
+          {(currentPage && totalPages) ? `Page ${currentPage} of ${totalPages}` : null}
+          {(total) ? `(Total: ${total} Trips)` : null}
         </span>
       </div>
-      {isFetching && <div>Fetching new page...</div>}
+      <CustomFetching isFetching={isFetching} text='Fetching new page' />
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
@@ -162,10 +171,8 @@ function TripsPast() {
           </div>
         </div>
       )))}
-      {(isLoading) ? <div>Loading...</div> : null}
-      {(error) ? <CustomError error={error} /> : null}
+      <CustomLoading isLoading={isLoading} />
+      <CustomError error={error} />
     </div>
   );
 }
-
-export default TripsPast;

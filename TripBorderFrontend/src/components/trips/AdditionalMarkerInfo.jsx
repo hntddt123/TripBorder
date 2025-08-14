@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import { Popup } from 'react-map-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
@@ -7,20 +6,25 @@ import {
   setIsShowingAddtionalPopUp,
   setIsShowingOnlySelectedPOI,
   setIsNavigating,
-  setIsShowingSideBar
+  setIsShowingSideBar,
+  setSelectedPOI
 } from '../../redux/reducers/mapReducer';
 import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
+import { markerIcon } from '../../constants/constants';
+import CustomFetching from '../CustomFetching';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
-  const selectedPOI = useSelector((state) => state.mapReducer.selectedPOI);
-  const selectedPOILonLat = useSelector((state) => state.mapReducer.selectedPOILonLat);
-  const gpsLonLat = useSelector((state) => state.mapReducer.gpsLonLat);
-  const longPressedLonLat = useSelector((state) => state.mapReducer.longPressedLonLat);
-  const isShowingAddtionalPopUp = useSelector((state) => state.mapReducer.isShowingAddtionalPopUp);
-  const isThrowingDice = useSelector((state) => state.mapReducer.isThrowingDice);
+  const {
+    selectedPOI,
+    selectedPOILonLat,
+    gpsLonLat,
+    longPressedLonLat,
+    isShowingAddtionalPopUp,
+    isThrowingDice
+  } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
 
   const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
@@ -30,6 +34,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
     dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setSelectedPOI(''));
   };
 
   const handleDirectionButton = () => {
@@ -87,7 +92,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
   const getPhotos = () => {
     if (getPOIPhotosQueryResult.isFetching) {
-      return <span>Loading</span>;
+      return <CustomFetching isFetching={getPOIPhotosQueryResult.isFetching} text='Getting Photos' />;
     }
     if (getPOIPhotosQueryResult.isError) {
       return <span>Photo Not Found</span>;
@@ -100,18 +105,11 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
   if (data && data.results.length > 0 && isShowingAddtionalPopUp) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
+    const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI) + 1;
+
     if (filteredResult) {
       return (
         <div className='flex'>
-          <Popup
-            key={filteredResult.geocodes.main.longitude + filteredResult.geocodes.main.latitude}
-            longitude={filteredResult.geocodes.main.longitude}
-            latitude={filteredResult.geocodes.main.latitude}
-            anchor='bottom'
-            closeOnClick={false}
-            closeButton={false}
-            style={{ display: 'none' }}
-          />
           <div
             className='text-base cardPOIAddInfo'
             style={{
@@ -134,7 +132,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
             />
             <CustomButton
               className='buttonPOI'
-              label='Walk from 📍'
+              label={`Walk from ${markerIcon}`}
               onClick={handlePinDirectionButton}
               disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
             />
@@ -144,8 +142,21 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
               <ButtonPOIUpload filteredResult={filteredResult} />
               <ButtonTransportUpload filteredResult={filteredResult} />
             </div>
-            <div translate='no' className='text-lg'>
-              {`${filteredResult.name} (${filteredResult.location.address}) ${filteredResult.distance} m`}
+            <div translate='no' className='flex text-lg min-h-8'>
+              {(filteredResult.location.address)
+                ? (
+                  <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                    {`${index}. ${filteredResult.name} (${filteredResult.location.address})`}
+                  </div>
+                )
+                : (
+                  <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                    {`${index}. ${filteredResult.name}`}
+                  </div>
+                )}
+              <div className='min-w-2/12 text-right'>
+                {`${filteredResult.distance}m`}
+              </div>
             </div>
             <div className='cardPOIAddInfoPictures'>
               {getPhotos()}
