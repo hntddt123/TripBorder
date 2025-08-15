@@ -35,3 +35,8 @@ services:
     ports:
       - "5174:5174"  # Maps host:container; why: Access dev server (example: localhost:5174).
     user: "${UID}:${GID}"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
