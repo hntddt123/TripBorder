@@ -2,7 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 export default function CustomToggle({
-  className = 'toggle dark:toggle text-base mx-0.5 py-1.5',
+  className = 'toggle dark:toggle text-base',
   titleOn,
   titleOff,
   component,

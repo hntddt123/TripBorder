@@ -1138,7 +1138,8 @@ html, body {
 
   .toggle {
     @apply 
-    min-w-11
+    mx-2 py-2
+    min-w-10
     content-center
     align-middle
     text-center

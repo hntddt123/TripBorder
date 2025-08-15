@@ -12,7 +12,7 @@ export const openstreetmapAPI = createApi({
   }),
   endpoints: (builder) => ({
     getLandmarkFromKeyword: builder.query({
-      // Encodes keyword (prevents URI errors/injection), limit=1 for top result only.
+      // Encodes keyword (prevents URI errors/injection), limit=1 for top result (extratags=1, addressdetails=1 for details).
       query: (keyword) => `/search?q=${encodeURIComponent(keyword)}&format=json&limit=1`,
       transformResponse: (response) => {
         if (!response.length) return null;
