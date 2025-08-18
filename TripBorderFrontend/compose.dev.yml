@@ -17,15 +17,15 @@ networks:
 
 services:
   server:
+    command: npm run dev  # Overrides CMD; Starts Vite HMR server (hot-reload).
     image: tripborder-frontend:dev
     container_name: tripborder-frontend-dev
     build:
       context: .  # Dir with Dockerfile; Builds dev image (example: vite-project/).
       target: builder  # Uses dev server, not Nginx.
-    command: npm run dev  # Overrides CMD; Starts Vite HMR server (hot-reload).
     volumes:
-      - .:/app
-      - /app/node_modules
+      - frontendapp:/app
+      - frontend-node:/app/node_modules
       - ./ssl:/app/ssl:ro
     networks:
       - backend-network  # Access backend; why: Resolves service names.
@@ -34,9 +34,12 @@ services:
       - "5174"
     ports:
       - "5174:5174"  # Maps host:container; why: Access dev server (example: localhost:5174).
-    user: "${UID}:${GID}"
     logging:
       driver: json-file
       options:
         max-size: "10m"
         max-file: "3"
+
+volumes:
+  frontendapp:
+  frontend-node:

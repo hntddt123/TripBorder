@@ -33,7 +33,6 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-    user: "${UID}:${GID}"
     healthcheck:
       test: ["CMD", "curl", "-f", "https://localhost:5174"]  # Probes readiness; fails if no response (why: Ensures Nginx up before traffic).
       interval: 30s  # Check frequency (example: '30s' balances load).

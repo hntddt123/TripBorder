@@ -8,19 +8,19 @@
 
 ARG NODE_VERSION=24.5.0
 
-FROM node:${NODE_VERSION}-alpine AS builder
-
 # Use production node environment by default.
+FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Make sure latest npm is intstalled
+# Make sure latest npm is 
 RUN npm install -g npm
+
 # Install dependencies
-RUN npm install
+RUN npm i
 
 # Copy the rest of the application code
 COPY . .
