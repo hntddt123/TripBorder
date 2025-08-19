@@ -30,7 +30,7 @@
   --color-primary-card-dark: rgba(0, 0, 0, 0.7);
   --color-primary-button-light: #fcd34d;
   --color-primary-button-light-hover: rgb(250, 190, 35);
-  --color-primary-button-dark: #ff871e;
+  --color-primary-button-dark: rgba(0, 0, 0, 1);
   --color-primary-button-dark-active: #b45309;
   --color-primary-button-dark-less-transparent: rgba(0, 0, 0, 0.9);
   --color-primary-button-dark-transparent: rgba(0, 0, 0, 0.7);
@@ -127,9 +127,9 @@ html, body {
     dark:text-white;
   }
 
-  .customInput:focus {
+  .customInput[type='file']:hover {
     @apply 
-    dark:bg-primary-dark dark:text-white;
+    cursor-pointer
   }
 
   .customInputLandmarkSearch {
@@ -144,7 +144,8 @@ html, body {
     dark:text-white;
   }
 
-  .customInputLandmarkSearch[type="text"]:focus, .customInputLandmarkSearch[type="text"]:hover {
+  .customInputLandmarkSearch[type="text"]:focus, 
+  .customInputLandmarkSearch[type="text"]:hover {
     @apply 
     dark:bg-primary-button-dark-less-transparent dark:text-white;
   }
@@ -191,6 +192,7 @@ html, body {
 
   input[type="file"]::-webkit-file-upload-button:hover {
     @apply 
+     cursor-pointer
     bg-primary-button-dark-hover;
   }
 
@@ -224,6 +226,12 @@ html, body {
     m-2 p-2
     border-0 rounded-xl
     bg-primary-light dark:bg-primary-dark;
+  }
+
+  select:hover {
+    @apply 
+    cursor-pointer
+    dark:bg-primary-dark;
   }
 
   select:focus {
@@ -262,7 +270,8 @@ html, body {
   }
 
   .button:hover {
-    @apply 
+    @apply
+    cursor-pointer
     ease-in-out duration-200
     border-amber-50
     bg-amber-400 dark:bg-amber-600;
@@ -277,6 +286,7 @@ html, body {
 
   .button:disabled {
     @apply
+    cursor-not-allowed
     ease-in-out duration-200
     opacity-25 
     border-amber-300 bg-amber-300;
@@ -294,6 +304,7 @@ html, body {
 
   .buttonTrip:hover {
     @apply 
+    cursor-pointer
     border-amber-50 
     bg-amber-400 dark:bg-amber-600;
   }
@@ -305,6 +316,7 @@ html, body {
 
   .buttonTrip:disabled {
     @apply 
+    cursor-not-allowed
     opacity-25 border-amber-300 bg-amber-300;
   }
 
@@ -321,6 +333,7 @@ html, body {
 
   .buttonDelete:hover {
     @apply 
+    cursor-pointer
     bg-red-800 dark:bg-red-800
   }
 
@@ -331,6 +344,7 @@ html, body {
 
   .buttonDelete:disabled {
     @apply 
+    cursor-not-allowed
     opacity-25 border-amber-300 bg-amber-300;
   }
 
@@ -348,6 +362,7 @@ html, body {
 
   .buttonBack:hover {
     @apply 
+    cursor-pointer
     ease-in-out duration-200
     border-amber-50
     bg-amber-400 dark:bg-amber-600;
@@ -372,6 +387,7 @@ html, body {
 
   .buttonEdit:hover {
     @apply 
+    cursor-pointer
     border-amber-50 
     bg-amber-400 dark:bg-amber-600;
   }
@@ -393,12 +409,268 @@ html, body {
 
   .buttonCancel:hover {
     @apply
+    cursor-pointer
     bg-red-800;
   }
 
   .buttonCancel:active {
     @apply
     bg-red-900;
+  }
+
+
+  .buttonGPS {
+    @apply 
+    text-lg
+    align-middle
+    content-center
+    rounded-full
+    p-1
+    ease-in-out duration-400
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark-transparent
+    text-black dark:text-white;
+  }
+
+  .buttonGPS:hover {
+    @apply 
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonGPS:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonGPS:disabled {
+    @apply
+    cursor-not-allowed
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+
+  .buttonTopbar {
+    @apply 
+    text-lg
+    align-middle
+    content-center
+    rounded-full
+    mx-1
+    p-1.5
+    ease-in-out duration-400
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonTopbar:hover {
+    @apply 
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonTopbar:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonTopbar:disabled {
+    @apply
+    cursor-not-allowed
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOI {
+    @apply 
+    text-lg
+    align-middle
+    content-center
+    rounded-full
+    mx-1 mt-0 mb-1
+    px-2 py-1.5
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonPOI:hover {
+    @apply 
+    cursor-pointer
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOI:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOI:disabled {
+    @apply
+    cursor-not-allowed
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOIAdd {
+    @apply 
+    p-1.5
+    mx-0.5 mt-0 mb-1
+    rounded-full
+    content-center
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonPOIAdd:hover {
+    @apply 
+    cursor-pointer
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOIAdd:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOIAdd:disabled {
+    @apply
+    cursor-not-allowed
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonPOICancel {
+    top: 12.5rem;
+    font-size: large;
+    line-height: var(--spacing-4);
+    @apply
+    absolute
+    m-1
+    p-2
+    shadow-xs
+    content-center
+    rounded-lg
+    border-amber-50
+    bg-red-600
+    text-black dark:text-white;
+  }
+
+  .buttonPOICancel:hover {
+    @apply
+    cursor-pointer
+    border-amber-50
+    bg-red-700;
+  }
+
+  .buttonPOICancel:active {
+    @apply
+    border-amber-50
+    bg-red-800;
+  }
+
+  .buttonPOIDropdown {
+    @apply 
+    text-xl
+    p-1
+    my-0
+    mx-1
+    rounded-full
+    content-center
+    align-middle
+    ease-in-out duration-400
+    border-amber-50
+    bg-primary-button-light dark:bg-primary-button-dark-transparent
+    text-black dark:text-white;
+  }
+
+  .buttonPOIDropdown:hover {
+    @apply 
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
+  }
+
+  .buttonPOIDropdown:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonPOIDropdown:disabled {
+    @apply
+    cursor-not-allowed
+    opacity-25
+    border-amber-300
+    bg-amber-300;
+  }
+
+  .buttonDarkmode {
+    width: 4rem;
+    @apply
+    ease-in-out duration-200
+    my-2
+    text-center
+    content-center
+    rounded-full
+    bg-slate-100 dark:bg-slate-800 
+    text-black dark:text-white;
+  }
+
+  .buttonDarkmode:hover {
+    @apply 
+    cursor-pointer
+    border-amber-50
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .buttonDarkmode:active {
+    @apply
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonUpgrade {
+    @apply 
+    border-2
+    border-gray-500
+    text-2xl
+    mx-2 py-2
+    min-w-10
+    content-center
+    align-middle
+    text-center
+    -tracking-wider
+    rounded-full
+    ease-in-out duration-400
+    bg-primary-button-light dark:bg-primary-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonUpgrade:hover {
+    @apply 
+    cursor-pointer
+    ease-in-out duration-600
+    border-gray-900
+    bg-amber-400 dark:bg-primary-button-dark-hover;
   }
 
   .title {
@@ -798,223 +1070,6 @@ html, body {
     text-right
   }
 
-  .buttonGPS {
-    @apply 
-    text-lg
-    align-middle
-    content-center
-    rounded-full
-    p-1
-    ease-in-out duration-400
-    border-amber-50
-    bg-primary-button-light dark:bg-primary-button-dark-transparent
-    text-black dark:text-white;
-  }
-
-  .buttonGPS:hover {
-    @apply 
-    ease-in-out duration-200
-    border-amber-50
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  .buttonGPS:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
-  .buttonGPS:disabled {
-    @apply
-    opacity-25
-    border-amber-300
-    bg-amber-300;
-  }
-
-
-  .buttonTopbar {
-    @apply 
-    text-lg
-    align-middle
-    content-center
-    rounded-full
-    mx-1
-    p-1.5
-    ease-in-out duration-400
-    border-amber-50
-    bg-primary-button-light dark:bg-primary-button-dark 
-    text-black dark:text-white;
-  }
-
-  .buttonTopbar:hover {
-    @apply 
-    ease-in-out duration-200
-    border-amber-50
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  .buttonTopbar:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
-  .buttonTopbar:disabled {
-    @apply
-    opacity-25
-    border-amber-300
-    bg-amber-300;
-  }
-
-  .buttonPOI {
-    @apply 
-    text-lg
-    align-middle
-    content-center
-    rounded-full
-    mx-1 mt-0 mb-1
-    px-2 py-1.5
-    border-amber-50
-    bg-primary-button-light dark:bg-primary-button-dark 
-    text-black dark:text-white;
-  }
-
-  .buttonPOI:hover {
-    @apply 
-    border-amber-50
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  .buttonPOI:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
-  .buttonPOI:disabled {
-    @apply
-    opacity-25
-    border-amber-300
-    bg-amber-300;
-  }
-
-  .buttonPOIAdd {
-    @apply 
-    p-1.5
-    mx-0.5 mt-0 mb-1
-    rounded-full
-    content-center
-    border-amber-50
-    bg-primary-button-light dark:bg-primary-button-dark 
-    text-black dark:text-white;
-  }
-
-  .buttonPOIAdd:hover {
-    @apply 
-    border-amber-50
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  .buttonPOIAdd:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
-  .buttonPOIAdd:disabled {
-    @apply
-    opacity-25
-    border-amber-300
-    bg-amber-300;
-  }
-
-  .buttonPOICancel {
-    top: 12.5rem;
-    font-size: large;
-    line-height: var(--spacing-4);
-    @apply
-    absolute
-    m-1
-    p-2
-    shadow-xs
-    content-center
-    rounded-lg
-    border-amber-50
-    bg-red-600
-    text-black dark:text-white;
-  }
-
-  .buttonPOICancel:hover {
-    @apply
-    border-amber-50
-    bg-red-700;
-  }
-
-  .buttonPOICancel:active {
-    @apply
-    border-amber-50
-    bg-red-800;
-  }
-
-  .buttonPOIDropdown {
-    @apply 
-    text-xl
-    p-1
-    my-0
-    mx-1
-    rounded-full
-    content-center
-    align-middle
-    ease-in-out duration-400
-    border-amber-50
-    bg-primary-button-light dark:bg-primary-button-dark-transparent
-    text-black dark:text-white;
-  }
-
-  .buttonPOIDropdown:hover {
-    @apply 
-    ease-in-out duration-200
-    border-amber-50
-    bg-primary-button-light-hover dark:bg-primary-button-dark-hover;
-  }
-
-  .buttonPOIDropdown:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
-  .buttonPOIDropdown:disabled {
-    @apply
-    opacity-25
-    border-amber-300
-    bg-amber-300;
-  }
-
-  .buttonDarkmode {
-    width: 4rem;
-    @apply
-    ease-in-out duration-200
-    my-2
-    text-center
-    content-center
-    rounded-full
-    bg-slate-100 dark:bg-slate-800 
-    text-black dark:text-white;
-  }
-
-  .buttonDarkmode:hover {
-    @apply 
-    border-amber-50
-    bg-amber-400 dark:bg-amber-600;
-  }
-
-  .buttonDarkmode:active {
-    @apply
-    border-amber-50
-    bg-amber-600;
-  }
-
   .slider {
     width: 90%;
     height: 0.25rem;
@@ -1152,6 +1207,7 @@ html, body {
 
   .toggle:hover {
     @apply 
+    cursor-pointer
     ease-in-out duration-200
     border-amber-50
     bg-amber-400 dark:bg-primary-google-focus;
