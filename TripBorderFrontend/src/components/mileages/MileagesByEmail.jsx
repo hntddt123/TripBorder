@@ -1,7 +1,6 @@
-import { useState, useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { useGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../../api/mileagesAPI';
-import { authAPI } from '../../api/authAPI';
+import { useState, useCallback, useEffect } from 'react';
+import { useLazyGetMileagesByEmailQuery, useDeleteMileagesMutation } from '../../api/mileagesAPI';
+import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import { formatDateMMMMddyyyyZZZZ } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomImageComponent from '../CustomImageComponent';
@@ -10,18 +9,28 @@ import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 
 export default function MileagesByEmail() {
-  const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
-  const email = user.data?.email;
+  const { data: user } = useCheckAuthStatusQuery();
+  const email = user?.email;
 
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 3;
 
-  const { data, isLoading, isFetching, error } = useGetMileagesByEmailQuery({ email, page, limit });
+  const [getMileagesByEmail, { data, isLoading, isFetching, error }] = useLazyGetMileagesByEmailQuery();
   const [deleteMileage] = useDeleteMileagesMutation();
 
   const { mileages, total, totalPages, page: currentPage } = data || {};
+
+  useEffect(() => {
+    if (email) {
+      getMileagesByEmail({ email, page, limit });
+    }
+  }, [page]);
+
+  const handleLoadMileages = () => {
+    getMileagesByEmail({ email, page, limit });
+  };
 
   const handlePreviousPage = useCallback(() => {
     setPage(page - 1);
@@ -41,14 +50,6 @@ export default function MileagesByEmail() {
   const removeMileage = (uuid) => {
     deleteMileage(uuid);
   };
-
-  if (isLoading) {
-    return <CustomLoading isLoading />;
-  }
-
-  if (error) {
-    return <CustomError error={error} />;
-  }
 
   const renderPopUp = () => {
     let mileage;
@@ -77,25 +78,36 @@ export default function MileagesByEmail() {
   return (
     <div>
       <div className='cardInfo text-3xl p-4'>Uploaded Mileages</div>
-      <div className='text-xl text-center'>
-        <div>Total: {total}</div>
-        <div>
-          <CustomFetching isFetching={isFetching} />
-        </div>
-        <CustomButton
-          aria-label='Previous Page Button'
-          label='Previous'
-          onClick={handlePreviousPage}
-          disabled={page === 1 || isFetching}
-        />
-        <CustomButton
-          aria-label='Next Page Button'
-          label='Next'
-          onClick={handleNextPage}
-          disabled={page === totalPages || isFetching || totalPages === 0}
-        />
-        <div>Page {currentPage} of {totalPages}</div>
-      </div>
+      {mileages?.length > 0
+        ? (
+          <div className='text-xl text-center'>
+            <div>Total: {total}</div>
+            <div>
+              <CustomFetching isFetching={isFetching} />
+            </div>
+            <CustomButton
+              aria-label='Previous Page Button'
+              label='Previous'
+              onClick={handlePreviousPage}
+              disabled={page === 1 || isFetching}
+            />
+            <CustomButton
+              aria-label='Next Page Button'
+              label='Next'
+              onClick={handleNextPage}
+              disabled={page === totalPages || isFetching || totalPages === 0}
+            />
+            <div>Page {currentPage} of {totalPages}</div>
+          </div>
+        )
+        : (
+          <CustomButton
+            label='Load'
+            onClick={handleLoadMileages}
+          />
+        )}
+      <CustomLoading isLoading={isLoading} />
+      <CustomError error={error} />
       {mileages?.map((mileage) => (
         <div key={mileage.uuid} className='cardBorderLR overflow-x-auto max-w-full items-center'>
           <div className='flex-col overflow-x-auto max-w-full items-center'>
