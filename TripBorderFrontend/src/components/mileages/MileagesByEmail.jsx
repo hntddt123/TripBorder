@@ -14,6 +14,7 @@ export default function MileagesByEmail() {
 
   const [selectedUUID, setSelectedUUID] = useState();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isAutoFetch, setIsAutoFetch] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 3;
 
@@ -23,13 +24,14 @@ export default function MileagesByEmail() {
   const { mileages, total, totalPages, page: currentPage } = data || {};
 
   useEffect(() => {
-    if (email) {
+    if (email && isAutoFetch) {
       getMileagesByEmail({ email, page, limit });
     }
-  }, [page]);
+  }, [page, isAutoFetch]);
 
   const handleLoadMileages = () => {
     getMileagesByEmail({ email, page, limit });
+    setIsAutoFetch(true);
   };
 
   const handlePreviousPage = useCallback(() => {
