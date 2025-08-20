@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
 import { useUpdateUserMutation } from '../api/usersAPI';
@@ -7,8 +8,17 @@ import CustomLoading from './CustomLoading';
 import { isTrialActive } from '../utility/time';
 
 export default function Upgrade() {
+  const [isTrial, setIsTrial] = useState(false);
   const { data: user, refetch } = useCheckAuthStatusQuery();
   const [updateUser, { isLoading, error }] = useUpdateUserMutation();
+
+  useEffect(() => {
+    if (user && isTrialActive(user.trial_started_at)) {
+      setIsTrial(true);
+    } else if (user && user.is_trialed && !isTrialActive(user.trial_started_at)) {
+      setIsTrial(false);
+    }
+  }, [user]);
 
   const handleFreeTrial = () => {
     const updates = {
@@ -19,12 +29,13 @@ export default function Upgrade() {
     updateUser({
       uuid: user.uuid,
       updates: updates
-    });
+    }).unwrap();
+    setIsTrial(true);
     refetch();
   };
 
   const renderFreeTrial = () => {
-    if (!isTrialActive(user?.trial_started_at) && !user?.is_trialed) {
+    if (!isTrialActive(user?.trial_started_at) && !user?.is_trialed && !isTrial) {
       return (
         <div className='cardInfo p-4 text-3xl'>
           <div>
@@ -38,7 +49,7 @@ export default function Upgrade() {
         </div>
       );
     }
-    if (isTrialActive(user?.trial_started_at)) {
+    if (isTrialActive(user?.trial_started_at) || isTrial) {
       return (
         <div className='cardInfo p-4 text-3xl'>
           In Trip Border Trial For 7 Days
@@ -69,7 +80,7 @@ export default function Upgrade() {
           <div>
             View Past Trip
           </div>
-          {/* $3.99/year */}
+          {/* $9.99/year */}
         </div>
       </div>
     </div>
