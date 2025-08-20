@@ -30,7 +30,7 @@
     "build": "vite build",
     "preview": "vite build && vite preview",
     "dockerbuild": "docker compose -f compose.dev.yml --env-file .env.development build",
-    "docker": "docker compose -f compose.dev.yml --env-file .env.development up --detach",
+    "docker": "docker compose -f compose.dev.yml --env-file .env.development up",
     "dockerprod": "docker compose -f compose.prod.yml --env-file .env.production up --build --detach",
     "dockerlog": "docker compose -f compose.dev.yml logs -f",
     "dockerprodlog": "docker compose -f compose.prod.yml logs -f",

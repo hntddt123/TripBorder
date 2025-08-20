@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
+import PremiumProtectedRoute from './components/PremiumProtectedRoute';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
@@ -12,6 +13,7 @@ import { VERSION_NUMBER, isDevMode } from './constants/constants';
 import DevMode from './components/DevMode';
 import MileagesAdmin from './components/mileages/MileagesAdmin';
 import Disclaimers from './components/Disclaimers';
+import Upgrade from './components/Upgrade';
 
 export default function App() {
   return (
@@ -43,13 +45,13 @@ export default function App() {
               </div>
             )}
           />
-          <Route path='/plantrip' element={<ProtectedRoute />}>
+          <Route path='/plantrip' element={<PremiumProtectedRoute />}>
             <Route
               index
               element={<TripBoard component={<TripsMap />} />}
             />
           </Route>
-          <Route path='/trips' element={<ProtectedRoute />}>
+          <Route path='/trips' element={<PremiumProtectedRoute />}>
             <Route
               index
               path='/trips'
@@ -82,6 +84,13 @@ export default function App() {
               index
               path='/disclaimers'
               element={<TripBoard component={<Disclaimers />} />}
+            />
+          </Route>
+          <Route path='/upgrade' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/upgrade'
+              element={<TripBoard component={<Upgrade />} />}
             />
           </Route>
           <Route path='/database' element={<ProtectedRoute />}>

@@ -1,22 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialUserSettingsSliceState = {
-  isPageDarkMode: true,
-  isLoadTrip: false
+  isDarkMode: true,
+  isLoadTrip: false,
+  IsEditingTrip: false
 };
 
 const userSettingsSlice = createSlice({
-  name: 'trip',
+  name: 'userSettings',
   initialState: initialUserSettingsSliceState,
   reducers: {
-    setIsPageDarkMode: (state, action) => ({ ...state, isPageDarkMode: action.payload }),
+    setIsDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
     setIsLoadTrip: (state, action) => ({ ...state, isLoadTrip: action.payload }),
-    setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload })
+    setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload }),
   }
 });
 
 export const {
-  setIsPageDarkMode,
+  setIsDarkMode,
   setIsLoadTrip,
   setIsEditingTrip
 } = userSettingsSlice.actions;

@@ -1,42 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
+import { BASE_URL } from '../constants/constants';
+import { isTrialActive } from '../utility/time';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
-import { BASE_URL } from '../constants/constants';
 import CustomError from './CustomError';
 import CustomLoading from './CustomLoading';
 
 export default function Auth() {
-  const [shouldPoll, setShouldPoll] = useState(false);
-  const { data, isLoading, error } = useCheckAuthStatusQuery(
-    undefined,
-    { pollingInterval: shouldPoll ? 1000 : 0 }
-  );
+  const { data: user, isLoading, error, refetch } = useCheckAuthStatusQuery();
+  const isAuthenticated = user?.isAuthenticated;
+  const userName = user?.name || null;
+  const role = user?.role || null;
+
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Enabling polling for auth status
+  // Handle redirect success param
   useEffect(() => {
-    if (location.search.includes('auth=success')) {
-      setShouldPoll(true);
-      const timeout = setTimeout(() => {
-        setShouldPoll(false);
-        navigate(location.pathname, { replace: true });
-      }, 5000);
-
-      return () => clearTimeout(timeout);
+    const params = new URLSearchParams(location.search);
+    if (params.get('auth') === 'success') {
+      navigate(location.pathname, { replace: true }); // Clean URL
     }
-    return (a) => a;
-  }, [location.search]);
-
-  // User logged in, stopping polling
-  useEffect(() => {
-    if (data?.isAuthenticated) {
-      setShouldPoll(false);
-    }
-  }, [data]);
+    refetch();
+  }, [location.search, navigate, refetch, user]);
 
   const handleLogin = () => {
     // Redirect to Google OAuth login
@@ -59,10 +49,6 @@ export default function Auth() {
   if (error) {
     return <CustomError error={error} />;
   }
-
-  const isAuthenticated = data?.isAuthenticated;
-  const userName = data?.name || null;
-  const role = data?.role || null;
 
   const renderAdminFeatures = () => {
     if (role === 'admin') {
@@ -96,6 +82,8 @@ export default function Auth() {
     if (role === 'user') {
       return (
         <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
+          {(isTrialActive(user?.trial_started_at)) ? <CustomButton label='Plan Trip' to='/plantrip' /> : null}
+          {(isTrialActive(user?.trial_started_at)) ? <CustomButton label='View Trips' to='/trips' /> : null}
           <CustomButton label='Mileages' to='/mileages' />
         </div>
       );
@@ -113,6 +101,7 @@ export default function Auth() {
           {renderUserFeatures()}
           <CustomButton label='Settings' to='/settings' />
           <CustomButton label='Disclaimers' to='/disclaimers' />
+          {(role === 'user') ? <CustomButton label='Upgrade' to='/upgrade' /> : null}
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

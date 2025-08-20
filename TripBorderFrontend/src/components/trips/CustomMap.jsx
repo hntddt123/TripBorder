@@ -53,7 +53,6 @@ export default function CustomMap() {
     isShowingSideBar,
     isNavigating,
     isThrowingDice,
-    isDarkMode,
     isUsingMapBoxGeocoder,
     selectedPOIIDNumber,
     selectedPOIIcon,
@@ -61,6 +60,9 @@ export default function CustomMap() {
     selectedPOIRadius,
     sessionIDFSQ,
   } = useSelector((state) => state.mapReducer);
+  const {
+    isDarkMode,
+  } = useSelector((state) => state.userSettingsReducer);
 
   const dispatch = useDispatch();
 

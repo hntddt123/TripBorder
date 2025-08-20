@@ -37,7 +37,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
             </div>
             {(marker.location.address)
               ? (
-                <div className='min-w-9/12 overflow-scroll text-left'>
+                <div className='min-w-9/12 overflow-scroll text-left cursor-pointer'>
                   {`${marker.name} (${marker.location.address})`}
                 </div>
               )

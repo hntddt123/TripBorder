@@ -67,7 +67,7 @@ export const mileagesAPI = createApi({
 export const {
   useGetMileagesAllQuery,
   useGetMileagesSellingQuery,
-  useGetMileagesByEmailQuery,
+  useLazyGetMileagesByEmailQuery,
   usePostMileagesMutation,
   useDeleteMileagesMutation,
   useUpdateMileagesMutation

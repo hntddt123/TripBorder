@@ -11,8 +11,7 @@ export const authAPI = createApi({
   endpoints: (builder) => ({
     checkAuthStatus: builder.query({
       query: () => '/',
-      providesTags: ['Auth'],
-      keepUnusedDataFor: 0,
+      providesTags: ['Auth']
     }),
     logout: builder.mutation({
       query: () => ({
@@ -25,7 +24,6 @@ export const authAPI = createApi({
 });
 
 export const {
-  useLazyCheckAuthStatusQuery,
   useCheckAuthStatusQuery,
   useLogoutMutation
 } = authAPI;

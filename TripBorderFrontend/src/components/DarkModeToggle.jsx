@@ -1,16 +1,16 @@
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setDarkMode
-} from '../redux/reducers/mapReducer';
+  setIsDarkMode
+} from '../redux/reducers/userSettingsReducer';
 import CustomButton from './CustomButton';
 
 export default function DarkModeToggle() {
-  const { isDarkMode } = useSelector((state) => state.mapReducer);
+  const { isDarkMode } = useSelector((state) => state.userSettingsReducer);
 
   const dispatch = useDispatch();
 
   const toggleDarkMode = () => {
-    dispatch(setDarkMode(!isDarkMode));
+    dispatch(setIsDarkMode(!isDarkMode));
     if (isDarkMode) {
       document.documentElement.setAttribute('data-theme', 'light');
     } else {

@@ -186,7 +186,7 @@ html, body {
     px-2
     border-0
     rounded-xl
-  bg-primary-button-dark
+  bg-primary-light dark:bg-primary-button-dark
   dark:text-white;
   }
 
@@ -650,11 +650,11 @@ html, body {
 
   .buttonUpgrade {
     @apply 
-    border-2
+    border-1
     border-gray-500
     text-2xl
     mx-2 py-2
-    min-w-10
+    min-w-1/2
     content-center
     align-middle
     text-center

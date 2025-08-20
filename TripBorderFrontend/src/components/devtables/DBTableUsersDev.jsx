@@ -26,7 +26,7 @@ export default function DBTableUsersDev() {
     return <CustomError error={error} />;
   }
 
-  const handleUserUpdate = (uuid, updates) => {
+  const handleUserUpdate = (uuid, updates) => () => {
     updateUser({ uuid: uuid, updates: updates });
     setSelectedUUID(uuid);
   };
@@ -66,6 +66,8 @@ export default function DBTableUsersDev() {
             <th>name</th>
             <th>created_at</th>
             <th>updated_at</th>
+            <th>trial_started_at</th>
+            <th>is_trialed</th>
           </tr>
         </thead>
         <tbody>
@@ -78,17 +80,18 @@ export default function DBTableUsersDev() {
                 <CustomButton
                   disabled={user.role === 'admin'}
                   label='Promote to Admin'
-                  onClick={() => handleUserUpdate(user.uuid, { role: 'admin' })}
+                  onClick={handleUserUpdate(user.uuid, { role: 'admin' })}
                 />
                 <CustomButton
                   disabled={user.role === 'premium_user' || user.role === 'admin'}
                   label='Promote to Premium User'
-                  onClick={() => handleUserUpdate(user.uuid, { role: 'premium_user' })}
+                  onClick={handleUserUpdate(user.uuid, { role: 'premium_user' })}
                 />
                 <CustomButton
-                  disabled={user.role !== 'admin' || user.email === 'nientaiho@gmail.com'}
+                  disabled={user.role === 'user'
+                    || user.email === 'nientaiho@gmail.com'}
                   label='Demote to User'
-                  onClick={() => handleUserUpdate(user.uuid, { role: 'user' })}
+                  onClick={handleUserUpdate(user.uuid, { role: 'user' })}
                 />
                 {(update.data && selectedUUID === user.uuid)
                   ? (update.data.message)
@@ -99,6 +102,8 @@ export default function DBTableUsersDev() {
               <td>{user.name}</td>
               <td>{user.created_at}</td>
               <td>{user.updated_at}</td>
+              <td>{user.trial_started_at}</td>
+              <td>{(user.is_trialed) ? 'true' : 'false'}</td>
             </tr>
           ))}
         </tbody>

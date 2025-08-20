@@ -17,6 +17,14 @@ export const usersAPI = createApi({
       }),
       providesTags: ['Users']
     }),
+    getUserByUUID: builder.mutation({
+      query: ({ uuid }) => ({
+        url: '/userbyuuid',
+        method: 'POST',
+        body: { data: uuid }
+      }),
+      providesTags: ['Users']
+    }),
     updateUser: builder.mutation({
       query: ({ uuid, updates }) => ({
         url: `/update/${uuid}`,
@@ -31,5 +39,6 @@ export const usersAPI = createApi({
 
 export const {
   useGetUsersQuery,
+  useGetUserByUUIDMutation,
   useUpdateUserMutation
 } = usersAPI;
