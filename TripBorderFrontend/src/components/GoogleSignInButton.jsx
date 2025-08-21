@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 
 export default function GoogleSignInButton({ onClick }) {
   return (
-    <button className='gsi-material-button' onClick={onClick}>
+    <button data-testid='GoogleSignInButton' className='gsi-material-button' onClick={onClick}>
       <div className='gsi-material-button-state' />
       <div className='gsi-material-button-content-wrapper'>
         <div className='gsi-material-button-icon'>

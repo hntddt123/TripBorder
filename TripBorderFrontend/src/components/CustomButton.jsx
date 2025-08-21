@@ -1,7 +1,15 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-export default function CustomButton({ className = 'button dark:button', label, onClick, type = 'button', disabled = false, to, ...props }) {
+export default function CustomButton({
+  className = 'button dark:button',
+  label,
+  onClick,
+  type = 'button',
+  disabled = false,
+  to,
+  ...props
+}) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -11,6 +19,7 @@ export default function CustomButton({ className = 'button dark:button', label, 
 
   return (
     <button
+      data-testid={`button-${label}`}
       className={`${className}`}
       type={type}
       onClick={handleClick}

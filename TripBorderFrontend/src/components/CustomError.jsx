@@ -3,7 +3,7 @@ import { errorPropTypes } from '../constants/errorPropTypes';
 export default function CustomError({ error }) {
   if (error) {
     return (
-      <span className='customError'>
+      <span data-testid='customError' className='customError'>
         Status: {error.status} - {error?.data?.error ?? error?.error ?? 'Unknown error'}
       </span>
     );

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 export default function CustomLoading({ isLoading, text = 'Loading' }) {
   if (isLoading) {
     return (
-      <span className='customLoading'>
+      <span data-testid='customLoading' className='customLoading'>
         {text}
       </span>
     );
