@@ -9,18 +9,45 @@ export default function DevMode() {
     <div>
       {(!data?.isAuthenticated)
         ? (
-          <div className='flex flex-col container justify-center text-center mx-auto max-w-2xl'>
+          <div>
             <div className='text-2xl m-2'>
               Dev Mode
             </div>
-            <CustomButton label='Plan Trip' to='/plantrip' />
-            <CustomButton label='View Trips' to='/trips' />
-            <CustomButton label='Mileages' to='/mileages' />
-            <CustomButton label='Mileage Verification' to='/mileagesverification' />
-            <CustomButton label='Settings' to='/settings' />
-            <CustomButton label='Disclaimers' to='/disclaimers' />
-            <CustomButton label='Database Table' to='/database' />
-
+            <div className='mainmenu'>
+              <CustomButton
+                className='buttonMainmenu bg-[url(./public/menuImages/Plantrips.png)]'
+                label='Plan Trip'
+                to='/plantrip'
+              />
+              <CustomButton
+                className='buttonMainmenu'
+                label='View Trips'
+                to='/trips'
+              />
+              <CustomButton
+                className='buttonMainmenu'
+                label='Mileages'
+                to='/mileages'
+              />
+              <CustomButton
+                className='buttonMainmenu'
+                label='Mileage Verification'
+                to='/mileagesverification'
+              />
+              <CustomButton
+                className='buttonMainmenu'
+                label='Database Table'
+                to='/database'
+              />
+            </div>
+            <CustomButton
+              label='Settings'
+              to='/settings'
+            />
+            <CustomButton
+              label='Disclaimers'
+              to='/disclaimers'
+            />
           </div>
         )
         : null}

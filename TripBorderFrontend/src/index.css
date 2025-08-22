@@ -113,6 +113,12 @@ html, body {
     bg-primary-light dark:bg-primary-dark;
   }
 
+  .mainmenu {
+    @apply
+    grid grid-cols-2
+    container justify-center text-center mx-auto
+  }
+
   .customdiv {
     @apply 
     text-primary-dark dark:text-white;
@@ -285,6 +291,44 @@ html, body {
   }
 
   .button:disabled {
+    @apply
+    cursor-not-allowed
+    ease-in-out duration-200
+    opacity-25 
+    border-amber-300 bg-amber-300;
+  }
+
+  .buttonMainmenu {
+    @apply 
+    bg-center bg-cover
+    min-w-32
+    min-h-32
+    m-0.5
+    shadow-xs
+    text-2xl
+    text-center
+    content-center
+    rounded-lg -tracking-wider 
+    bg-(--color-primary-button-light) dark:bg-primary-button-dark
+    text-black dark:text-white;
+  }
+
+  .buttonMainmenu:hover {
+    @apply
+    bg-blend-screen
+    cursor-pointer
+    ease-in-out duration-200
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .buttonMainmenu:active {
+    @apply
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonMainmenu:disabled {
     @apply
     cursor-not-allowed
     ease-in-out duration-200
@@ -676,8 +720,9 @@ html, body {
   .title {
     font-family: 'Courier New', Courier, monospace;
     @apply 
-    flex justify-center 
-    font-light text-xl text-center
+    bg-blend-darken
+    bg-center bg-cover content-center
+    text-xl text-center
     bg-primary-title-light dark:bg-primary-title-dark
     text-black dark:text-white;
   }

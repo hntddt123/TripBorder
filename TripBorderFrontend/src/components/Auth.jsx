@@ -53,12 +53,32 @@ export default function Auth() {
   const renderAdminFeatures = () => {
     if (role === 'admin') {
       return (
-        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='Plan Trip' to='/plantrip' />
-          <CustomButton label='View Trips' to='/trips' />
-          <CustomButton label='Mileages' to='/mileages' />
-          <CustomButton label='Mileage Verification' to='/mileagesverification' />
-          <CustomButton label='Database Table' to='/database' />
+        <div className='mainmenu'>
+          <CustomButton
+            className='buttonMainmenu bg-[url(./public/menuImages/Plantrips.png)]'
+            label='Plan Trip'
+            to='/plantrip'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='View Trips'
+            to='/trips'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Mileages'
+            to='/mileages'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Mileage Verification'
+            to='/mileagesverification'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Database Table'
+            to='/database'
+          />
         </div>
       );
     }
@@ -68,10 +88,22 @@ export default function Auth() {
   const renderPremiumUserFeatures = () => {
     if (role === 'premium_user') {
       return (
-        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          <CustomButton label='Plan Trip' to='/plantrip' />
-          <CustomButton label='View Trips' to='/trips' />
-          <CustomButton label='Mileages' to='/mileages' />
+        <div className='mainmenu'>
+          <CustomButton
+            className='buttonMainmenu'
+            label='Plan Trip'
+            to='/plantrip'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='View Trips'
+            to='/trips'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Mileages'
+            to='/mileages'
+          />
         </div>
       );
     }
@@ -81,10 +113,18 @@ export default function Auth() {
   const renderUserFeatures = () => {
     if (role === 'user') {
       return (
-        <div className='flex flex-col container justify-center text-center mx-auto max-w-lg'>
-          {(isTrialActive(user?.trial_started_at)) ? <CustomButton label='Plan Trip' to='/plantrip' /> : null}
-          {(isTrialActive(user?.trial_started_at)) ? <CustomButton label='View Trips' to='/trips' /> : null}
-          <CustomButton label='Mileages' to='/mileages' />
+        <div className='mainmenu'>
+          {(isTrialActive(user?.trial_started_at))
+            ? <CustomButton className='buttonMainmenu' label='Plan Trip' to='/plantrip' />
+            : null}
+          {(isTrialActive(user?.trial_started_at))
+            ? <CustomButton className='buttonMainmenu' label='View Trips' to='/trips' />
+            : null}
+          <CustomButton
+            className='buttonMainmenu'
+            label='Mileages'
+            to='/mileages'
+          />
         </div>
       );
     }
@@ -94,14 +134,16 @@ export default function Auth() {
   return (
     <div>
       {(isAuthenticated) ? (
-        <div className='flex flex-col container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
+        <div className='container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
           <div className='text-2xl'>Welcome, {userName}!</div>
           {renderAdminFeatures()}
           {renderPremiumUserFeatures()}
           {renderUserFeatures()}
-          <CustomButton label='Settings' to='/settings' />
-          <CustomButton label='Disclaimers' to='/disclaimers' />
-          {(role === 'user') ? <CustomButton label='Upgrade' to='/upgrade' /> : null}
+          <div className='grid grid-cols-2'>
+            <CustomButton label='Settings' to='/settings' />
+            <CustomButton label='Disclaimers' to='/disclaimers' />
+            {(role === 'user') ? <CustomButton label='Upgrade' to='/upgrade' /> : null}
+          </div>
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
             onClick={handleLogout}

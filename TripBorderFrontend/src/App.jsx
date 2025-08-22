@@ -24,8 +24,10 @@ export default function App() {
             path='/'
             element={(
               <div className='flex flex-col justify-center text-center mx-auto'>
-                <header className='title'>
-                  Trip Border
+                <header className='title bg-[url(./public/menuImages/TripBorderTitleBackground.jpg)]'>
+                  <div>
+                    Trip Border
+                  </div>
                 </header>
                 {(isDevMode)
                   ? (
