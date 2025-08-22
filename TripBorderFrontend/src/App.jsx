@@ -24,7 +24,7 @@ export default function App() {
             path='/'
             element={(
               <div className='flex flex-col justify-center text-center mx-auto'>
-                <header className='title bg-[url(./public/menuImages/TripBorderTitleBackground.jpg)]'>
+                <header className='title bg-[url(/menuImages/TripBorderTitleBackground.JPG)]'>
                   <div>
                     Trip Border
                   </div>

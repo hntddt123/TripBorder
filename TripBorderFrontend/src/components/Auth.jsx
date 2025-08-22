@@ -55,7 +55,7 @@ export default function Auth() {
       return (
         <div className='mainmenu'>
           <CustomButton
-            className='buttonMainmenu bg-[url(./public/menuImages/Plantrips.png)]'
+            className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
             label='Plan Trip'
             to='/plantrip'
           />
@@ -76,6 +76,11 @@ export default function Auth() {
           />
           <CustomButton
             className='buttonMainmenu'
+            label='Settings'
+            to='/settings'
+          />
+          <CustomButton
+            className='buttonMainmenu'
             label='Database Table'
             to='/database'
           />
@@ -90,7 +95,7 @@ export default function Auth() {
       return (
         <div className='mainmenu'>
           <CustomButton
-            className='buttonMainmenu'
+            className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
             label='Plan Trip'
             to='/plantrip'
           />
@@ -104,6 +109,11 @@ export default function Auth() {
             label='Mileages'
             to='/mileages'
           />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Settings'
+            to='/settings'
+          />
         </div>
       );
     }
@@ -115,15 +125,32 @@ export default function Auth() {
       return (
         <div className='mainmenu'>
           {(isTrialActive(user?.trial_started_at))
-            ? <CustomButton className='buttonMainmenu' label='Plan Trip' to='/plantrip' />
+            ? (
+              <CustomButton
+                className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
+                label='Plan Trip'
+                to='/plantrip'
+              />
+            )
             : null}
           {(isTrialActive(user?.trial_started_at))
-            ? <CustomButton className='buttonMainmenu' label='View Trips' to='/trips' />
+            ? (
+              <CustomButton
+                className='buttonMainmenu'
+                label='View Trips'
+                to='/trips'
+              />
+            )
             : null}
           <CustomButton
             className='buttonMainmenu'
             label='Mileages'
             to='/mileages'
+          />
+          <CustomButton
+            className='buttonMainmenu'
+            label='Settings'
+            to='/settings'
           />
         </div>
       );
@@ -139,10 +166,11 @@ export default function Auth() {
           {renderAdminFeatures()}
           {renderPremiumUserFeatures()}
           {renderUserFeatures()}
-          <div className='grid grid-cols-2'>
-            <CustomButton label='Settings' to='/settings' />
+          <div className='grid grid-cols-1'>
+            {(role === 'user')
+              ? <CustomButton label='Upgrade' to='/upgrade' />
+              : null}
             <CustomButton label='Disclaimers' to='/disclaimers' />
-            {(role === 'user') ? <CustomButton label='Upgrade' to='/upgrade' /> : null}
           </div>
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}

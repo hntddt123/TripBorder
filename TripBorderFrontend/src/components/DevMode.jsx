@@ -15,7 +15,7 @@ export default function DevMode() {
             </div>
             <div className='mainmenu'>
               <CustomButton
-                className='buttonMainmenu bg-[url(./public/menuImages/Plantrips.png)]'
+                className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
                 label='Plan Trip'
                 to='/plantrip'
               />
@@ -39,11 +39,12 @@ export default function DevMode() {
                 label='Database Table'
                 to='/database'
               />
+              <CustomButton
+                className='buttonMainmenu'
+                label='Settings'
+                to='/settings'
+              />
             </div>
-            <CustomButton
-              label='Settings'
-              to='/settings'
-            />
             <CustomButton
               label='Disclaimers'
               to='/disclaimers'
