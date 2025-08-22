@@ -1,9 +1,11 @@
 # Trip Border Project
-This is the project to help myself learning the app development processes
+This is the project to help myself learning the app development processes while providing travel planning functionality to our users
+
+![image](/Images/V2.3.0Map2.png)
+![image](/Images/V2.3.0Map3.png)
+![image](/Images/V2.3.0Map5.png)
 
 # Frontend setup
-![image](/Images/TripBorderDev1.png)
-![image](/Images/TripBorderDev2.png)
 
 ### Requirements
 
@@ -36,11 +38,17 @@ Runs the app in the development mode with Vite
 ```npm run preview```  
 Runs the app in the preview production mode with Vite
 
+```npm run dockerbuild```  
+Build dev docker image with .env.development
+
 ```npm run docker```  
 Runs with docker, see Dockerfile and compose.dev.yml in the folder
 
 ```npm run dockerprod```  
 Runs with docker, see Dockerfile and compose.prod.yml in the folder
+
+```npm run dockerlog``  
+Log Docker containers
 
 ```npm run test``` 
 ```npm run test:coverage```  
@@ -51,10 +59,8 @@ Runs Jest testing suite with options 1 time, coverage report,  watch mode
 Runs eslint
 
 ```npm run build```  
-Builds the app for production to the `dist` folder.  
-Bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.  
+Builds the app for production to the `dist` folder with vite.  
+Bundles React in production mode and optimizes the build for the best performance. The build is minified and the filenames include the hashes.  
 
 ## React Stuff
 TripBorder Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
