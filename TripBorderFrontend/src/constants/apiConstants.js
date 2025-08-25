@@ -13,3 +13,12 @@ export const API_ROUTES = {
   tripTags: `${BASE_URL}/api/trip_tags`,
   users: `${BASE_URL}/api/users`,
 };
+
+export const FOURSQUARE_API_QUERIES = {
+  getNearbyPOIQuery: ({ ll, radius, limit, category, sessionToken }) => (
+    `/places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE&session_token=${sessionToken}`
+  ),
+  getPOIPhotosQuery: ({ fsqId }) => (
+    `/places/${fsqId}/photos?limit=10&sort=POPULAR`
+  )
+};

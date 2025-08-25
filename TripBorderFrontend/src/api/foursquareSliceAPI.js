@@ -1,7 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { FOURSQUARE_API_KEY, fourSquareBaseUrl } from '../constants/constants';
-
+import { FOURSQUARE_API_QUERIES } from '../constants/apiConstants';
 /*
   Place Search
   https://api.foursquare.com/v3/places/search?ll=25.1593548,121.4296176&categories=4d4b7105d754a06374d81259&radius=500
@@ -30,12 +30,12 @@ export const foursquareAPI = createApi({
   }),
   endpoints: (builder) => ({
     getNearbyPOI: builder.query({
-      query: ({ ll, radius, limit, category, sessionToken }) => (
-        `/places/search?ll=${ll}&radius=${radius}&limit=${limit}&categories=${category}&sort=DISTANCE&session_token=${sessionToken}`
-      )
+      query: FOURSQUARE_API_QUERIES.getNearbyPOIQuery,
+      providesTags: ['foursquarePOIs']
     }),
     getPOIPhotos: builder.query({
-      query: ({ fsqId }) => `/places/${fsqId}/photos?limit=10&sort=POPULAR`,
+      query: FOURSQUARE_API_QUERIES.getPOIPhotosQuery,
+      providesTags: ['foursquarePOIPhotos']
     })
   }),
 });
