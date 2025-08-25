@@ -24,8 +24,6 @@ services:
       context: .  # Dir with Dockerfile; Builds dev image (example: vite-project/).
       target: builder  # Uses dev server, not Nginx.
     volumes:
-      - frontendapp:/app
-      - frontend-node:/app/node_modules
       - ./ssl:/app/ssl:ro
     networks:
       - backend-network  # Access backend; why: Resolves service names.
@@ -39,7 +37,3 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-
-volumes:
-  frontendapp:
-  frontend-node:
