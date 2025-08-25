@@ -224,12 +224,13 @@ export default function CustomMap() {
   };
 
   const renderBottomMenu = () => {
-    if (data && data.results.length > 0 && !isThrowingDice) {
+    if (data && data.results.length > 0 && !isThrowingDice && !isNavigating) {
       return (
         <div className={`bottomMenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
             poi={data}
             handleFlyTo={handleFlyTo}
+            getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
           />
         </div>
       );

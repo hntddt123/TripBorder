@@ -22,6 +22,7 @@ export default function ProximityMarkers({
     isFullPOIname,
     isShowingDistance,
     isShowingOnlySelectedPOI,
+    isNavigating,
     isThrowingDice,
     viewState,
     randomPOINumber
@@ -34,14 +35,16 @@ export default function ProximityMarkers({
   }, [data, dispatch]);
 
   const handlePOIMarkerClick = (marker) => () => {
-    getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
-    dispatch(setSelectedPOI(marker.fsq_id));
-    dispatch(setSelectedPOILonLat({
-      longitude: marker.geocodes.main.longitude,
-      latitude: marker.geocodes.main.latitude
-    }));
-    handleFlyTo(marker.geocodes.main.longitude, marker.geocodes.main.latitude, viewState.zoom, 420);
-    dispatch(setIsShowingAddtionalPopUp(true));
+    if (!isNavigating) {
+      getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
+      dispatch(setSelectedPOI(marker.fsq_id));
+      dispatch(setSelectedPOILonLat({
+        longitude: marker.geocodes.main.longitude,
+        latitude: marker.geocodes.main.latitude
+      }));
+      handleFlyTo(marker.geocodes.main.longitude, marker.geocodes.main.latitude, viewState.zoom, 1420);
+      dispatch(setIsShowingAddtionalPopUp(true));
+    }
   };
 
   const handleMouseEnter = (poi) => () => setHoveredPOIID(poi.fsq_id);
@@ -54,7 +57,7 @@ export default function ProximityMarkers({
 
     let label = `${index + 1}`;
 
-    if (isFullPOIname || isHovered) {
+    if (isFullPOIname || isHovered || poi.fsq_id === selectedPOI) {
       label = `${label} ${name}`;
     }
     if (isShowingDistance) {
@@ -82,7 +85,7 @@ export default function ProximityMarkers({
           <CustomButton
             onClick={handlePOIMarkerClick(poi)}
             translate='no'
-            className='cardPOIMarker'
+            className={(selectedPOI === poi.fsq_id) ? 'cardPOIMarkerTriggerHover' : 'cardPOIMarker'}
             label={label}
             onMouseEnter={handleMouseEnter(poi)}
             onMouseLeave={handleMouseLeave(poi)}

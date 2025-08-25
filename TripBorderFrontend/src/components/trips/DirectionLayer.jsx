@@ -43,7 +43,7 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
         {(getDirectionsQueryResults.isSuccess && !getDirectionsQueryResults.isUninitialized)
           ? (
             <Marker longitude={selectedPOILonLat.longitude} latitude={selectedPOILonLat.latitude} offset={[0, -50]}>
-              <div className='cardPOIMarker'>
+              <div className='cardPOITimeMarker'>
                 {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min Walk`}
               </div>
             </Marker>

@@ -7,30 +7,55 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 
-export default function NearbyPOIList({ poi, handleFlyTo }) {
-  const viewState = useSelector((state) => state.mapReducer.viewState);
+export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigger }) {
+  const {
+    viewState,
+    isShowingAddtionalPopUp,
+    isNavigating
+  } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
+  const isPOIExist = (poi && poi.results.length) > 0;
+
   const handlePOIListItemClick = (marker) => () => {
-    dispatch(setIsShowingAddtionalPopUp(false));
+    getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
+
+    dispatch(setIsShowingAddtionalPopUp(true));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setSelectedPOI(marker.fsq_id));
+
     handleFlyTo(
       marker.geocodes.main.longitude,
       marker.geocodes.main.latitude,
       viewState.zoom,
-      1500
+      1420
     );
+  };
+
+  const handleMouseEnter = (marker) => () => {
+    if (!isShowingAddtionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(marker.fsq_id));
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isShowingAddtionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(null));
+    }
   };
 
   return (
     <div>
-      {(poi && poi.results.length > 0)
+      {(isPOIExist)
         ? poi.results.map((marker, i) => (
           <button
             translate='no'
             key={marker.fsq_id}
             className='flex cardPOI'
             onClick={handlePOIListItemClick(marker)}
+            onMouseEnter={handleMouseEnter(marker)}
+            onMouseLeave={handleMouseLeave}
           >
             <div className='min-w-1/12 text-center'>
               {`${i + 1}`}
@@ -58,5 +83,6 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
 
 NearbyPOIList.propTypes = {
   poi: FourSquareResponsePropTypes,
+  getPOIPhotosQueryTrigger: PropTypes.func,
   handleFlyTo: PropTypes.func,
 };

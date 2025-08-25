@@ -830,6 +830,20 @@ html, body {
     bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
+  .cardPOIMarkerTriggerHover {
+    @apply 
+    relative
+    z-50
+    min-w-10 min-h-10 max-w-56
+    px-2 py-0.5
+    cursor-pointer
+    rounded-full border-x-0 shadow-xs 
+    text-base
+    ease-in-out duration-200
+    bg-amber-100 dark:bg-primary-button-dark-hover;
+  }
+
+
   .cardPOIMarker {
     @apply 
     relative
@@ -849,7 +863,6 @@ html, body {
     min-w-24
     cursor-pointer
     text-base
-    scale-125
     ease-in-out duration-200
     bg-amber-100 dark:bg-primary-button-dark-hover;
   }
@@ -860,6 +873,17 @@ html, body {
     z-50
     scale-125
     bg-amber-200 dark:bg-primary-button-dark;
+  }
+
+  .cardPOITimeMarker {
+    @apply 
+    relative
+    z-10
+    px-2 py-0.5
+    rounded-full border-x-0 shadow-xs 
+    text-base
+    ease-in-out duration-800
+    bg-amber-50 dark:bg-primary-button-dark-much-transparent;
   }
 
   .cardPOIAddInfo {
@@ -1023,7 +1047,6 @@ html, body {
     transition: transform 0.5s;
     z-index: 1;
     width: 15rem;
-    height: 100%;
   }
 
   .left.collapsed {

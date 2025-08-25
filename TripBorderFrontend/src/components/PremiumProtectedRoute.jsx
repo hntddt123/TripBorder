@@ -28,7 +28,9 @@ export default function PremiumProtectedRoute() {
 
   const isAuthenticated = user?.isAuthenticated;
 
-  const isPremium = (user?.role === 'premium_user') || (isTrialActive(user?.trial_started_at));
+  const isPremium = (user?.role === 'premium_user'
+  || user?.role === 'admin')
+  || (isTrialActive(user?.trial_started_at));
 
   if (!isAuthenticated) {
     return <Navigate to='/' replace />;

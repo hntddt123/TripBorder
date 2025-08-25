@@ -30,6 +30,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
   const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
 
   const handleCloseButton = () => {
+    dispatch(setIsShowingOnlySelectedPOI(false));
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
