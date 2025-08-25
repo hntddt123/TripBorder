@@ -301,7 +301,7 @@ export default function CustomMap() {
         ? (
           <GeocoderControl
             mapboxAccessToken={MAPBOX_API_KEY}
-            position='top-left'
+            position='top'
             onResult={onGeocoderResult}
           />
         )

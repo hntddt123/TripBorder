@@ -84,10 +84,6 @@ html, body {
   overflow-y-scroll;
 }
 
-.mapboxgl-ctrl-geocoder {
-  max-width: 30dvw;
-}
-
 @layer components {
   body {
     @apply 
@@ -1106,7 +1102,7 @@ html, body {
     z-index: 10;
     @apply
     absolute
-    m-2
+    my-2
     top-0
     left-0
   }
@@ -1115,7 +1111,7 @@ html, body {
     z-index: 10;
     @apply
     absolute
-    m-2
+    my-2
     top-0
     right-0
   }
