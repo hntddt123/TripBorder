@@ -71,7 +71,7 @@ export default function CustomMap() {
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
   const [getLandmarkFromKeywordQueryTrigger, getLandmarkFromKeywordResult] = useLazyGetLandmarkFromKeywordQuery();
 
-  const mapCSSStyle = { width: '100%', height: '92dvh', borderRadius: 10 };
+  const mapCSSStyle = { width: '100%', height: '94dvh', borderRadius: 10 };
   const mapRef = useRef();
   const pressTimer = useRef(null);
   const geoLocateRef = useRef(null);
@@ -327,7 +327,7 @@ export default function CustomMap() {
           component={<TripSearchTools />}
         />
       </div>
-      <div className='absoluteBottomToolBar mb-2'>
+      <div className='absoluteBottomToolBar mb-1'>
         <div className='min-h-5'>
           <CustomFetching isFetching={isFetching} />
           <CustomError error={error} />

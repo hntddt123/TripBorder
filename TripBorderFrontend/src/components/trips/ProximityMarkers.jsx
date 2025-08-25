@@ -48,7 +48,8 @@ export default function ProximityMarkers({
   };
 
   const handleMouseEnter = (poi) => () => setHoveredPOIID(poi.fsq_id);
-  const handleMouseLeave = () => () => setHoveredPOIID(null);
+  const handleMouseLeave = () => setHoveredPOIID(null);
+  const handleTouchDown = (poi) => () => setHoveredPOIID(poi.fsq_id);
 
   const getPOILabel = (poi, index) => {
     const { name } = poi;
@@ -88,7 +89,8 @@ export default function ProximityMarkers({
             className={(selectedPOI === poi.fsq_id) ? 'cardPOIMarkerTriggerHover' : 'cardPOIMarker'}
             label={label}
             onMouseEnter={handleMouseEnter(poi)}
-            onMouseLeave={handleMouseLeave(poi)}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchDown(poi)}
           />
         </Marker>
       </div>

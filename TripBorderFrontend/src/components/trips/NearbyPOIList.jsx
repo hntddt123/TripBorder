@@ -45,6 +45,20 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
     }
   };
 
+  const handleTouchDown = (marker) => () => {
+    if (!isShowingAddtionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(marker.fsq_id));
+    }
+  };
+
+  const handleTouchUp = () => {
+    if (!isShowingAddtionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(null));
+    }
+  };
+
   return (
     <div>
       {(isPOIExist)
@@ -56,6 +70,8 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
             onClick={handlePOIListItemClick(marker)}
             onMouseEnter={handleMouseEnter(marker)}
             onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchDown(marker)}
+            onTouchEnd={handleTouchUp}
           >
             <div className='min-w-1/12 text-center'>
               {`${i + 1}`}
