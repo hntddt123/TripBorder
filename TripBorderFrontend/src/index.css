@@ -856,7 +856,6 @@ html, body {
     @apply 
     relative
     z-50
-    min-w-24
     cursor-pointer
     text-base
     ease-in-out duration-200
@@ -867,7 +866,6 @@ html, body {
     @apply 
     relative
     z-50
-    scale-125
     bg-amber-200 dark:bg-primary-button-dark;
   }
 

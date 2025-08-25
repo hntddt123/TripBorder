@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 import {
-  setIsShowingAddtionalPopUp,
+  setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
   setIsNavigating,
   setIsShowingSideBar,
@@ -22,7 +22,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     selectedPOILonLat,
     gpsLonLat,
     longPressedLonLat,
-    isShowingAddtionalPopUp,
+    isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
@@ -34,8 +34,8 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
-    dispatch(setIsShowingAddtionalPopUp(false));
-    dispatch(setSelectedPOI(''));
+    dispatch(setIsShowingAdditionalPopUp(false));
+    dispatch(setSelectedPOI(null));
   };
 
   const handleDirectionButton = () => {
@@ -52,7 +52,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
         console.error(err);
       }
     }
-    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingSideBar(true));
     dispatch(setIsNavigating(true));
@@ -72,7 +72,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
         console.error(err);
       }
     }
-    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingSideBar(true));
     dispatch(setIsNavigating(true));
@@ -104,7 +104,7 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     return null;
   };
 
-  if (data && data.results.length > 0 && isShowingAddtionalPopUp) {
+  if (data && data.results.length > 0 && isShowingAdditionalPopUp) {
     const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
     const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI) + 1;
 

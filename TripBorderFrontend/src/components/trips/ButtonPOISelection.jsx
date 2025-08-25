@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   setSelectedPOIIDNumber,
   setSelectedPOIIcon,
-  setIsShowingAddtionalPopUp,
+  setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI
 } from '../../redux/reducers/mapReducer';
 import {
@@ -27,7 +27,7 @@ export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetchin
     const selectedCategory = poiCategories.find((category) => category.id === selectedID);
     dispatch(setSelectedPOIIDNumber(selectedID));
     dispatch(setSelectedPOIIcon(selectedCategory.icon));
-    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(false));
 
     if (longPressedLonLat.longitude !== null

@@ -49,11 +49,11 @@ export default function TripSearchTools() {
   return (
     <div className='text-lg tripAbsoluteContentRight'>
       <div className='flex justify-around'>
-        <span className='min-w-2/3 text-left'>Show numbering on marker</span>
+        <span className='min-w-2/3 text-left'>Show name on markers</span>
         <TogglePlaceName />
       </div>
       <div className='flex justify-around'>
-        <span className='min-w-2/3 text-left'>Show distance on marker</span>
+        <span className='min-w-2/3 text-left'>Show distance on markers</span>
         <ToggleDistance />
       </div>
       <div className='flex justify-around'>

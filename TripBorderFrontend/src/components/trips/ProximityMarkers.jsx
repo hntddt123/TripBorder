@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Marker } from 'react-map-gl';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedPOI,
-  setIsShowingAddtionalPopUp,
+  setIsShowingAdditionalPopUp,
+  setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat,
   setRandomPOINumber
 } from '../../redux/reducers/mapReducer';
@@ -14,7 +15,6 @@ import CustomButton from '../CustomButton';
 export default function ProximityMarkers({
   data, getPOIPhotosQueryTrigger, isFetching, handleFlyTo
 }) {
-  const [hoveredPOIID, setHoveredPOIID] = useState(null);
   const dispatch = useDispatch();
   const {
     selectedPOIIcon,
@@ -22,11 +22,13 @@ export default function ProximityMarkers({
     isFullPOIname,
     isShowingDistance,
     isShowingOnlySelectedPOI,
+    isShowingAdditionalPopUp,
     isNavigating,
     isThrowingDice,
     viewState,
     randomPOINumber
   } = useSelector((state) => state.mapReducer);
+  const pressTimer = useRef(null);
 
   useEffect(() => {
     if (data?.results?.length > 0) {
@@ -35,30 +37,66 @@ export default function ProximityMarkers({
   }, [data, dispatch]);
 
   const handlePOIMarkerClick = (marker) => () => {
-    if (!isNavigating) {
-      getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
-      dispatch(setSelectedPOI(marker.fsq_id));
-      dispatch(setSelectedPOILonLat({
-        longitude: marker.geocodes.main.longitude,
-        latitude: marker.geocodes.main.latitude
-      }));
-      handleFlyTo(marker.geocodes.main.longitude, marker.geocodes.main.latitude, viewState.zoom, 1420);
-      dispatch(setIsShowingAddtionalPopUp(true));
+    clearTimeout(pressTimer.current);
+
+    getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
+    handleFlyTo(
+      marker.geocodes.main.longitude,
+      marker.geocodes.main.latitude,
+      viewState.zoom,
+      1420
+    );
+
+    dispatch(setSelectedPOI(marker.fsq_id));
+    dispatch(setSelectedPOILonLat({
+      longitude: marker.geocodes.main.longitude,
+      latitude: marker.geocodes.main.latitude
+    }));
+    dispatch(setIsShowingOnlySelectedPOI(true));
+    dispatch(setIsShowingAdditionalPopUp(true));
+  };
+
+  const handleMouseEnter = (poi) => () => {
+    if (!isShowingAdditionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(poi.fsq_id));
     }
   };
 
-  const handleMouseEnter = (poi) => () => setHoveredPOIID(poi.fsq_id);
-  const handleMouseLeave = () => setHoveredPOIID(null);
-  const handleTouchDown = (poi) => () => setHoveredPOIID(poi.fsq_id);
+  const handleMouseLeave = () => {
+    if (!isShowingAdditionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(null));
+    }
+  };
+
+  const handleTouchDown = (poi) => () => {
+    if (!isShowingAdditionalPopUp
+      && !isNavigating) {
+      dispatch(setSelectedPOI(poi.fsq_id));
+    }
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
+    }
+  };
+
+  const handleTouchUp = () => {
+    if (!isShowingAdditionalPopUp
+      && !isNavigating) {
+      pressTimer.current = setTimeout(() => {
+        dispatch(setSelectedPOI(null));
+      }, 420);
+    }
+  };
 
   const getPOILabel = (poi, index) => {
     const { name } = poi;
     const dist = poi.distance;
-    const isHovered = (hoveredPOIID === poi.fsq_id);
+    const isHovered = (selectedPOI === poi.fsq_id);
 
     let label = `${index + 1}`;
 
-    if (isFullPOIname || isHovered || poi.fsq_id === selectedPOI) {
+    if (isFullPOIname || isHovered) {
       label = `${label} ${name}`;
     }
     if (isShowingDistance) {
@@ -86,11 +124,14 @@ export default function ProximityMarkers({
           <CustomButton
             onClick={handlePOIMarkerClick(poi)}
             translate='no'
-            className={(selectedPOI === poi.fsq_id) ? 'cardPOIMarkerTriggerHover' : 'cardPOIMarker'}
+            className={(selectedPOI === poi.fsq_id)
+              ? 'cardPOIMarkerTriggerHover'
+              : 'cardPOIMarker'}
             label={label}
             onMouseEnter={handleMouseEnter(poi)}
             onMouseLeave={handleMouseLeave}
             onTouchStart={handleTouchDown(poi)}
+            onTouchEnd={handleTouchUp}
           />
         </Marker>
       </div>
@@ -104,18 +145,17 @@ export default function ProximityMarkers({
   if (isThrowingDice) {
     const poi = data.results[randomPOINumber];
     if (poi) {
-      markersToRender = [renderSingleMarker(poi, randomPOINumber, true)];
+      markersToRender = [renderSingleMarker(poi, randomPOINumber)];
     }
   } else if (isShowingOnlySelectedPOI) {
     const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI);
     if (index !== -1) {
       const poi = data.results[index];
-      markersToRender = [renderSingleMarker(poi, index, true)];
+      markersToRender = [renderSingleMarker(poi, index)];
     }
   } else {
-    markersToRender = data.results.map((poi, index) => renderSingleMarker(poi, index, false));
+    markersToRender = data.results.map((poi, index) => renderSingleMarker(poi, index));
   }
-
   return markersToRender;
 }
 

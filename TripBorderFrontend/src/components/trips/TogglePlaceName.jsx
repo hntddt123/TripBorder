@@ -1,6 +1,5 @@
 import Toggle from 'react-toggle';
 import { useDispatch, useSelector } from 'react-redux';
-import { numIcon } from '../../constants/constants';
 import { setIsFullPOIname } from '../../redux/reducers/mapReducer';
 
 export default function TogglePlaceName() {
@@ -16,11 +15,8 @@ export default function TogglePlaceName() {
     <Toggle
       translate='no'
       className='reactToggle'
-      icons={{
-        checked: <div className='text-xs leading-3'>{numIcon}</div>,
-        unchecked: <div className='text-xs leading-3'>{numIcon}</div>,
-      }}
-      defaultChecked={!isFullPOIname}
+      icons={false}
+      defaultChecked={isFullPOIname}
       onChange={handleFullNameToggle}
     />
   );

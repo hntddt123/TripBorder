@@ -1,61 +1,74 @@
-import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import {
   setSelectedPOI,
-  setIsShowingAddtionalPopUp,
-  setIsShowingOnlySelectedPOI
+  setIsShowingAdditionalPopUp,
+  setIsShowingOnlySelectedPOI,
+  setSelectedPOILonLat
 } from '../../redux/reducers/mapReducer';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 
 export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigger }) {
   const {
     viewState,
-    isShowingAddtionalPopUp,
+    isShowingAdditionalPopUp,
     isNavigating
   } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
   const isPOIExist = (poi && poi.results.length) > 0;
+  const pressTimer = useRef(null);
 
   const handlePOIListItemClick = (marker) => () => {
+    clearTimeout(pressTimer.current);
+
     getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
-
-    dispatch(setIsShowingAddtionalPopUp(true));
-    dispatch(setIsShowingOnlySelectedPOI(true));
-    dispatch(setSelectedPOI(marker.fsq_id));
-
     handleFlyTo(
       marker.geocodes.main.longitude,
       marker.geocodes.main.latitude,
       viewState.zoom,
       1420
     );
+
+    dispatch(setSelectedPOI(marker.fsq_id));
+    dispatch(setSelectedPOILonLat({
+      longitude: marker.geocodes.main.longitude,
+      latitude: marker.geocodes.main.latitude
+    }));
+    dispatch(setIsShowingOnlySelectedPOI(true));
+    dispatch(setIsShowingAdditionalPopUp(true));
   };
 
   const handleMouseEnter = (marker) => () => {
-    if (!isShowingAddtionalPopUp
+    if (!isShowingAdditionalPopUp
       && !isNavigating) {
       dispatch(setSelectedPOI(marker.fsq_id));
     }
   };
 
   const handleMouseLeave = () => {
-    if (!isShowingAddtionalPopUp
+    if (!isShowingAdditionalPopUp
       && !isNavigating) {
       dispatch(setSelectedPOI(null));
     }
   };
 
   const handleTouchDown = (marker) => () => {
-    if (!isShowingAddtionalPopUp
+    if (!isShowingAdditionalPopUp
       && !isNavigating) {
       dispatch(setSelectedPOI(marker.fsq_id));
+    }
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
     }
   };
 
   const handleTouchUp = () => {
-    if (!isShowingAddtionalPopUp
+    if (!isShowingAdditionalPopUp
       && !isNavigating) {
-      dispatch(setSelectedPOI(null));
+      pressTimer.current = setTimeout(() => {
+        dispatch(setSelectedPOI(null));
+      }, 420);
     }
   };
 
@@ -63,6 +76,7 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
     <div>
       {(isPOIExist)
         ? poi.results.map((marker, i) => (
+          // event sequence touchstart → touchend → mousedown → mouseup → click
           <button
             translate='no'
             key={marker.fsq_id}

@@ -4,7 +4,7 @@ import {
   setViewState,
   setIsShowingOnlySelectedPOI,
   setSelectedPOI,
-  setIsShowingAddtionalPopUp,
+  setIsShowingAdditionalPopUp,
   setIsUsingGPSLonLat
 } from '../../redux/reducers/mapReducer';
 import { GPSIcon } from '../../constants/constants';
@@ -52,7 +52,7 @@ export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }
         dispatch(setIsShowingOnlySelectedPOI(false));
         dispatch(setSelectedPOI(''));
       }
-      dispatch(setIsShowingAddtionalPopUp(false));
+      dispatch(setIsShowingAdditionalPopUp(false));
     }
   };
 

@@ -14,7 +14,7 @@ import {
   setIsShowingSideBar,
   setIsNavigating,
   setSelectedPOI,
-  setIsShowingAddtionalPopUp,
+  setIsShowingAdditionalPopUp,
   setIsUsingGPSLonLat,
   setSessionIDFSQ
 } from '../../redux/reducers/mapReducer';
@@ -49,11 +49,12 @@ export default function CustomMap() {
   const {
     mapStyle,
     viewState,
-    isShowingAddtionalPopUp,
+    isShowingAdditionalPopUp,
     isShowingSideBar,
     isNavigating,
     isThrowingDice,
     isUsingMapBoxGeocoder,
+    selectedPOI,
     selectedPOIIDNumber,
     selectedPOIIcon,
     selectedPOICount,
@@ -111,7 +112,7 @@ export default function CustomMap() {
       dispatch(setIsShowingOnlySelectedPOI(false));
       dispatch(setSelectedPOI(''));
     }
-    dispatch(setIsShowingAddtionalPopUp(false));
+    dispatch(setIsShowingAdditionalPopUp(false));
   };
 
   useEffect(() => {
@@ -171,8 +172,8 @@ export default function CustomMap() {
   };
 
   const handleClick = () => {
-    if (!isNavigating) {
-      dispatch(setIsShowingOnlySelectedPOI(false));
+    if (!isNavigating && isShowingAdditionalPopUp && selectedPOI) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
     }
 
     if (isThrowingDice) {
@@ -226,7 +227,7 @@ export default function CustomMap() {
   const renderBottomMenu = () => {
     if (data && data.results.length > 0 && !isThrowingDice && !isNavigating) {
       return (
-        <div className={`bottomMenu ${isShowingAddtionalPopUp ? 'blur-sm' : ''}`}>
+        <div className={`bottomMenu ${isShowingAdditionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
             poi={data}
             handleFlyTo={handleFlyTo}
