@@ -315,7 +315,7 @@ export default function CustomMap() {
       <div className='absoluteTopToolBarLeft'>
         <CustomToggle
           translate='no'
-          titleOn='🏖️ ▼'
+          titleOn='🏖️▼'
           titleOff='🏖️'
           component={<TripPlanningTools />}
         />
@@ -323,7 +323,7 @@ export default function CustomMap() {
       <div className='absoluteTopToolBarRight'>
         <CustomToggle
           translate='no'
-          titleOn='⚙️ ▼'
+          titleOn='⚙️▼'
           titleOff='⚙️'
           component={<TripSearchTools />}
         />
