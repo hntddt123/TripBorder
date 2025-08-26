@@ -162,7 +162,7 @@ describe('Database Table tests', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Database/i)).toHaveTextContent('Database Table');
-      expect(screen.getByText(/user_accounts/i)).toHaveTextContent('user_accounts');
+      expect(screen.getByText(/Search user_accounts/i)).toHaveTextContent('Search user_accounts');
       expect(screen.getByText(/mileages/i)).toHaveTextContent('mileages');
       expect(screen.getAllByText(/testuser@tripborder.com/i).length).toBe(2);
       expect(screen.getAllByText(/testtrip@tripborder.com/i).length).toBe(2);

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
 import DBTableMileagesDev from './DBTableMileagesDev';
 import DBTableUsersDev from './DBTableUsersDev';
+import DBTableUsersSearchDev from './DBTableUsersSearchDev';
 import DBTableTripsDev from './DBTableTripsDev';
 import DBTableMealsDev from './DBTableMealsDev';
 import DBTablePOIsDev from './DBTablePOIsDev';
@@ -22,6 +23,7 @@ export default function DatabaseTableDev() {
           <div className='m-2'>
             <div className='cardInfo text-base overflow-x-auto table-fixed whitespace-nowrap'>
               <div>Database Table</div>
+              <DBTableUsersSearchDev />
               <DBTableUsersDev />
               <DBTableMileagesDev />
               <DBTableTripsDev />

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useGetUsersQuery, useUpdateUserMutation } from '../../api/usersAPI';
+import { useRef, useState } from 'react';
+import { useLazyGetUserByEmailQuery, useUpdateUserMutation } from '../../api/usersAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
@@ -7,15 +7,21 @@ import CustomFetching from '../CustomFetching';
 
 export default function DBTableUsersDev() {
   const [selectedUUID, setSelectedUUID] = useState();
-  const [page, setPage] = useState(1);
-  const limit = 3;
-  const { data, isLoading, isFetching, error } = useGetUsersQuery({ page, limit });
-  const { users, total, totalPages, page: currentPage } = data || {};
+  const [userEmail, setUserEmail] = useState('');
+  const inputRef = useRef(null);
+
+  const [getUserByEmailQueryTrigger, { data: user, isLoading, isFetching, error }] = useLazyGetUserByEmailQuery();
 
   const [updateUser, update] = useUpdateUserMutation();
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
+  const handleInputChange = (e) => {
+    setUserEmail(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    inputRef.current.blur();
+    getUserByEmailQueryTrigger(userEmail);
   };
 
   if (isLoading) {
@@ -33,25 +39,25 @@ export default function DBTableUsersDev() {
 
   return (
     <div>
-      <div>user_accounts</div>
-      <div className='text-center'>
-        <div>
-          <CustomButton
-            label='Previous'
-            onClick={() => handlePageChange(page - 1)}
-            disabled={page === 1 || isFetching}
-          />
-          <CustomButton
-            label='Next'
-            onClick={() => handlePageChange(page + 1)}
-            disabled={page === totalPages || isFetching || totalPages === 0}
-          />
-        </div>
-        <span>
-          Page {currentPage} of {totalPages}
-          (Total: {total} items)
-        </span>
-      </div>
+      <div>Search user_accounts</div>
+      <form
+        onSubmit={handleSubmit}
+      >
+        <input
+          className='customInputUserSearch'
+          ref={inputRef}
+          id='user_email_search'
+          type='text'
+          name='user_email_search'
+          value={userEmail}
+          onChange={handleInputChange}
+          required
+          placeholder='Search'
+          minLength={1}
+          maxLength={42}
+          enterKeyHint='search'
+        />
+      </form>
       <div>
         <CustomFetching isFetching={isFetching} text='Fetching new page' />
       </div>
@@ -71,7 +77,7 @@ export default function DBTableUsersDev() {
           </tr>
         </thead>
         <tbody>
-          {users?.map((user) => (
+          {(user) ? (
             <tr key={user.uuid}>
               <td>{user.email}</td>
               <td>
@@ -105,7 +111,7 @@ export default function DBTableUsersDev() {
               <td>{user.trial_started_at}</td>
               <td>{(user.is_trialed) ? 'true' : 'false'}</td>
             </tr>
-          ))}
+          ) : null}
         </tbody>
       </table>
     </div>

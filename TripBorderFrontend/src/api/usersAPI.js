@@ -17,11 +17,11 @@ export const usersAPI = createApi({
       }),
       providesTags: ['Users']
     }),
-    getUserByUUID: builder.mutation({
-      query: ({ uuid }) => ({
-        url: '/userbyuuid',
+    getUserByEmail: builder.query({
+      query: (email) => ({
+        url: '/userbyemail',
         method: 'POST',
-        body: { data: uuid }
+        body: { data: email }
       }),
       providesTags: ['Users']
     }),
@@ -39,6 +39,6 @@ export const usersAPI = createApi({
 
 export const {
   useGetUsersQuery,
-  useGetUserByUUIDMutation,
+  useLazyGetUserByEmailQuery,
   useUpdateUserMutation
 } = usersAPI;

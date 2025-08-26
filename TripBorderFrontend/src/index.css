@@ -157,6 +157,18 @@ html, body {
     dark:bg-primary-button-dark-much-transparent dark:text-white;
   }
 
+  .customInputUserSearch {
+    @apply 
+    text-lg
+    text-center
+    py-1 px-2
+    my-2
+    rounded-full
+    ease-in-out duration-200
+    bg-primary-light dark:bg-primary-button-dark
+    dark:text-white;
+  }
+
   .landmarkSearchContainer {
     width: 100%;
     z-index: 1;
