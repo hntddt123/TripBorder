@@ -19,7 +19,7 @@ import CustomButton from '../CustomButton';
 import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 
-export default function Meals({ tripID }) {
+export default function Meals({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [mealTimes, setMealTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -41,6 +41,12 @@ export default function Meals({ tripID }) {
     });
     return result;
   })();
+
+  const flyToLocation = (location) => () => {
+    if (location) {
+      handleFlyTo(location.x, location.y, 15.5);
+    }
+  };
 
   const validateMealTime = (value) => isTimeValid(value, undefined, tripData, 'Meal');
 
@@ -79,6 +85,10 @@ export default function Meals({ tripID }) {
 
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
+      <CustomButton
+        label='Locate 🗺️'
+        onClick={flyToLocation(meal.location)}
+      />
       <div className='underline underline-offset-2'>Meal Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>
       {(isEditing) ? (
@@ -169,4 +179,5 @@ export default function Meals({ tripID }) {
 
 Meals.propTypes = {
   tripID: PropTypes.string,
+  handleFlyTo: PropTypes.func
 };

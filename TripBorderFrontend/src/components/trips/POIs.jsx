@@ -19,7 +19,7 @@ import CustomButton from '../CustomButton';
 import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 
-export default function POIs({ tripID }) {
+export default function POIs({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [visitTimes, setVisitTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
@@ -42,6 +42,12 @@ export default function POIs({ tripID }) {
     });
     return result;
   })();
+
+  const flyToLocation = (location) => () => {
+    if (location) {
+      handleFlyTo(location.x, location.y, 15.5);
+    }
+  };
 
   const validateVisitTime = (value) => isTimeValid(value, undefined, tripData, 'Tour');
 
@@ -77,6 +83,10 @@ export default function POIs({ tripID }) {
 
   const renderDetail = (poi) => (
     <div className='text-pretty'>
+      <CustomButton
+        label='Locate 🗺️'
+        onClick={flyToLocation(poi.location)}
+      />
       <div className='underline underline-offset-2'>Visit Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
       {(isEditing) ? (
@@ -165,4 +175,5 @@ export default function POIs({ tripID }) {
 
 POIs.propTypes = {
   tripID: PropTypes.string,
+  handleFlyTo: PropTypes.func
 };

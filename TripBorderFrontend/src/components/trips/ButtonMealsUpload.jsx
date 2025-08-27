@@ -22,7 +22,8 @@ export default function ButtonMealsUpload({ filteredResult }) {
         trips_uuid: uuid,
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
-        meal_time: mealTime
+        meal_time: mealTime,
+        location: filteredResult.geocodes.main
       };
       PostMealByTripID(meals);
     }
@@ -47,6 +48,12 @@ ButtonMealsUpload.propTypes = {
     name: PropTypes.string,
     location: PropTypes.shape({
       formatted_address: PropTypes.string
+    }),
+    geocodes: PropTypes.shape({
+      main: PropTypes.shape({
+        longitude: PropTypes.number,
+        latitude: PropTypes.number
+      })
     })
   })
 };

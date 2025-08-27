@@ -19,7 +19,7 @@ import CustomButton from '../CustomButton';
 import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 
-export default function Transports({ tripID }) {
+export default function Transports({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [departureTimes, setDepartureTimes] = useState({});
   const [arrivalTimes, setArrivalTimes] = useState({});
@@ -42,6 +42,12 @@ export default function Transports({ tripID }) {
     });
     return result;
   })();
+
+  const flyToLocation = (location) => () => {
+    if (location) {
+      handleFlyTo(location.x, location.y, 15.5);
+    }
+  };
 
   const handleSubmit = (transportID) => (e) => {
     e.preventDefault();
@@ -99,6 +105,10 @@ export default function Transports({ tripID }) {
 
   const renderDetail = (transport) => (
     <div className='text-pretty'>
+      <CustomButton
+        label='Locate 🗺️'
+        onClick={flyToLocation(transport.location)}
+      />
       <form onSubmit={handleSubmit(transport.uuid)} encType='multipart/form-data'>
         {transport.booking_reference
           ? (
@@ -252,4 +262,5 @@ export default function Transports({ tripID }) {
 
 Transports.propTypes = {
   tripID: PropTypes.string,
+  handleFlyTo: PropTypes.func
 };

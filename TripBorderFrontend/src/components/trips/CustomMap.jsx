@@ -317,7 +317,7 @@ export default function CustomMap() {
           translate='no'
           titleOn='🏖️▼'
           titleOff='🏖️'
-          component={<TripPlanningTools />}
+          component={<TripPlanningTools handleFlyTo={handleFlyTo} />}
         />
       </div>
       <div className='absoluteTopToolBarRight'>

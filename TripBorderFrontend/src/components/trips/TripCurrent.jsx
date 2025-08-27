@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
@@ -29,7 +30,7 @@ import TripsPast from './TripsPast';
 import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 
-export default function TripCurrent() {
+export default function TripCurrent({ handleFlyTo }) {
   const {
     isLoadTrip,
     isEditingTrip,
@@ -101,10 +102,10 @@ export default function TripCurrent() {
           titleOff='All items ▶'
           component={(
             <div>
-              <Meals tripID={uuid} />
-              <Hotels tripID={uuid} />
-              <POIs tripID={uuid} />
-              <Transports tripID={uuid} />
+              <Meals tripID={uuid} handleFlyTo={handleFlyTo} />
+              <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
+              <POIs tripID={uuid} handleFlyTo={handleFlyTo} />
+              <Transports tripID={uuid} handleFlyTo={handleFlyTo} />
               <TripTags tripID={uuid} />
               <Tags tripID={uuid} />
               <Ratings tripID={uuid} />
@@ -188,3 +189,7 @@ export default function TripCurrent() {
     </div>
   );
 }
+
+TripCurrent.propTypes = {
+  handleFlyTo: PropTypes.func,
+};

@@ -33,7 +33,8 @@ export default function ButtonPOIUpload({ filteredResult }) {
         name: filteredResult.name,
         address: filteredResult.location.formatted_address,
         departure_time: startDate,
-        arrival_time: startDate
+        arrival_time: startDate,
+        location: filteredResult.geocodes.main
       };
       PostTransportByTripID(transport);
     }
@@ -58,6 +59,12 @@ ButtonPOIUpload.propTypes = {
     name: PropTypes.string,
     location: PropTypes.shape({
       formatted_address: PropTypes.string
+    }),
+    geocodes: PropTypes.shape({
+      main: PropTypes.shape({
+        longitude: PropTypes.number,
+        latitude: PropTypes.number
+      })
     })
   })
 };

@@ -113,12 +113,6 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
         <div className='flex'>
           <div
             className='text-base cardPOIAddInfo'
-            style={{
-              borderRadius: 10,
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              overflow: 'auto',
-              width: 'calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right)'
-            }}
           >
             <CustomButton
               translate='no'

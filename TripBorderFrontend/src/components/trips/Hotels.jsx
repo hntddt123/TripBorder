@@ -18,7 +18,7 @@ import CustomButton from '../CustomButton';
 import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
-export default function Hotels({ tripID }) {
+export default function Hotels({ tripID, handleFlyTo }) {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
   const [checkInDates, setCheckInTimes] = useState({});
@@ -47,6 +47,12 @@ export default function Hotels({ tripID }) {
 
     return newResult;
   }, {}) ?? {};
+
+  const flyToLocation = (location) => () => {
+    if (location) {
+      handleFlyTo(location.x, location.y, 15.5);
+    }
+  };
 
   const handleSubmit = (hotelID) => (e) => {
     e.preventDefault();
@@ -104,6 +110,10 @@ export default function Hotels({ tripID }) {
 
   const renderDetail = (hotel) => (
     <div className='text-pretty'>
+      <CustomButton
+        label='Locate 🗺️'
+        onClick={flyToLocation(hotel.location)}
+      />
       <form onSubmit={handleSubmit(hotel.uuid)} encType='multipart/form-data'>
         {(hotel.booking_reference)
           ? (
@@ -249,4 +259,5 @@ export default function Hotels({ tripID }) {
 
 Hotels.propTypes = {
   tripID: PropTypes.string,
+  handleFlyTo: PropTypes.func
 };

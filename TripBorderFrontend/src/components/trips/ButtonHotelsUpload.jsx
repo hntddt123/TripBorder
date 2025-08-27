@@ -23,6 +23,7 @@ export default function ButtonHotelsUpload({ filteredResult }) {
         check_in: startDate,
         check_out: endDate,
         // booking_reference: booking_reference
+        location: filteredResult.geocodes.main
       };
       PostHotelsByTripID(hotels);
     }
@@ -47,6 +48,12 @@ ButtonHotelsUpload.propTypes = {
     name: PropTypes.string,
     location: PropTypes.shape({
       formatted_address: PropTypes.string
+    }),
+    geocodes: PropTypes.shape({
+      main: PropTypes.shape({
+        longitude: PropTypes.number,
+        latitude: PropTypes.number
+      })
     })
   })
 };

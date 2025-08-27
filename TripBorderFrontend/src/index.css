@@ -895,6 +895,8 @@ html, body {
   .cardPOIAddInfo {
     z-index: 2;
     @apply 
+    w-full
+    overflow-auto
     absolute
     p-2
     bottom-0
@@ -902,6 +904,7 @@ html, body {
     rounded-lg
     border-amber-300
     h-1/2 
+    dark:bg-primary-button-dark-less-transparent
     text-white dark:text-white;
   }
 
