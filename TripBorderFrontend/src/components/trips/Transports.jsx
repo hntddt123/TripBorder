@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   useGetTransportByTripIDQuery,
@@ -13,6 +13,8 @@ import {
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
+import { carIcon } from '../../constants/constants';
+import { setMarker } from '../../redux/reducers/mapReducer';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -33,6 +35,8 @@ export default function Transports({ tripID, handleFlyTo }) {
   const [updateTransport] = useUpdateTransportByUUIDMutation();
   const [deleteTransport] = useDeleteTransportMutation();
 
+  const dispatch = useDispatch();
+
   // Group transports by formatted date
   const dateGroupedTransports = (() => {
     const result = {};
@@ -43,9 +47,16 @@ export default function Transports({ tripID, handleFlyTo }) {
     return result;
   })();
 
-  const flyToLocation = (location) => () => {
-    if (location) {
-      handleFlyTo(location.x, location.y, 15.5);
+  const flyToLocation = (transport) => () => {
+    if (transport.location && handleFlyTo) {
+      const newMarker = {
+        id: new Date().getTime(),
+        icon: carIcon,
+        lng: transport.location.x,
+        lat: transport.location.y
+      };
+      dispatch(setMarker(newMarker));
+      handleFlyTo(transport.location.x, transport.location.y, 16);
     }
   };
 
@@ -106,8 +117,8 @@ export default function Transports({ tripID, handleFlyTo }) {
   const renderDetail = (transport) => (
     <div className='text-pretty'>
       <CustomButton
-        label='Locate 🗺️'
-        onClick={flyToLocation(transport.location)}
+        label={`Locate ${carIcon}`}
+        onClick={flyToLocation(transport)}
       />
       <form onSubmit={handleSubmit(transport.uuid)} encType='multipart/form-data'>
         {transport.booking_reference

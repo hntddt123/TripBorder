@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   useGetHotelsByTripIDQuery,
@@ -12,6 +12,8 @@ import {
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
+import { setMarker } from '../../redux/reducers/mapReducer';
+import { hotelIcon } from '../../constants/constants';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -32,6 +34,8 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const [updateHotel] = useUpdateHotelByUUIDMutation();
   const [deleteHotel] = useDeleteHotelsMutation();
 
+  const dispatch = useDispatch();
+
   // Group hotels by formatted date
   const dateGroupedHotels = hotels?.reduce((result, hotel) => {
     const checkInDate = setLocalTime(hotel.check_in);
@@ -48,9 +52,16 @@ export default function Hotels({ tripID, handleFlyTo }) {
     return newResult;
   }, {}) ?? {};
 
-  const flyToLocation = (location) => () => {
-    if (location) {
-      handleFlyTo(location.x, location.y, 15.5);
+  const flyToLocation = (hotel) => () => {
+    if (hotel.location && handleFlyTo) {
+      const newMarker = {
+        id: new Date().getTime(),
+        icon: hotelIcon,
+        lng: hotel.location.x,
+        lat: hotel.location.y
+      };
+      dispatch(setMarker(newMarker));
+      handleFlyTo(hotel.location.x, hotel.location.y, 17);
     }
   };
 
@@ -111,8 +122,8 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const renderDetail = (hotel) => (
     <div className='text-pretty'>
       <CustomButton
-        label='Locate 🗺️'
-        onClick={flyToLocation(hotel.location)}
+        label={`Locate ${hotelIcon}`}
+        onClick={flyToLocation(hotel)}
       />
       <form onSubmit={handleSubmit(hotel.uuid)} encType='multipart/form-data'>
         {(hotel.booking_reference)

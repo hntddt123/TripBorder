@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   useGetMealsByTripIDQuery,
@@ -13,11 +13,13 @@ import {
   setLocalTime,
   isTimeValid
 } from '../../utility/time';
+import { setMarker } from '../../redux/reducers/mapReducer';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
 import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
+import { restaurantIcon } from '../../constants/constants';
 
 export default function Meals({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -32,6 +34,8 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [deleteMeal] = useDeleteMealMutation();
   const { meals } = data || {};
 
+  const dispatch = useDispatch();
+
   // Group meals by formatted date
   const dateGroupedMeals = (() => {
     const result = {};
@@ -42,9 +46,16 @@ export default function Meals({ tripID, handleFlyTo }) {
     return result;
   })();
 
-  const flyToLocation = (location) => () => {
-    if (location) {
-      handleFlyTo(location.x, location.y, 15.5);
+  const flyToLocation = (meal) => () => {
+    if (meal.location && handleFlyTo) {
+      const newMarker = {
+        id: new Date().getTime(),
+        icon: restaurantIcon,
+        lng: meal.location.x,
+        lat: meal.location.y
+      };
+      dispatch(setMarker(newMarker));
+      handleFlyTo(meal.location.x, meal.location.y, 18);
     }
   };
 
@@ -86,8 +97,8 @@ export default function Meals({ tripID, handleFlyTo }) {
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
       <CustomButton
-        label='Locate 🗺️'
-        onClick={flyToLocation(meal.location)}
+        label={`Locate ${restaurantIcon}`}
+        onClick={flyToLocation(meal)}
       />
       <div className='underline underline-offset-2'>Meal Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>

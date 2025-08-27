@@ -47,19 +47,22 @@ export default function ClickMarker() {
   return ((markers.length > 0) ? markers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
-        <div translate='no' className='text-4xl'>{markerIcon}</div>
+        <div translate='no' className='text-4xl'>{marker.icon || markerIcon}</div>
       </Marker>
-
-      <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
-        <Layer
-          id='circle-layer'
-          type='fill'
-          paint={{
-            'fill-color': '#777',
-            'fill-opacity': 0.3,
-          }}
-        />
-      </Source>
+      {(!marker.icon)
+        ? (
+          <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
+            <Layer
+              id='circle-layer'
+              type='fill'
+              paint={{
+                'fill-color': '#777',
+                'fill-opacity': 0.3,
+              }}
+            />
+          </Source>
+        )
+        : null}
     </div>
   )) : null);
 }

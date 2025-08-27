@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   useGetPOIsByTripIDQuery,
@@ -13,6 +13,8 @@ import {
   isTimeValid,
   setLocalTime,
 } from '../../utility/time';
+import { setMarker } from '../../redux/reducers/mapReducer';
+import { parkIcon } from '../../constants/constants';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
 import CustomButton from '../CustomButton';
@@ -33,6 +35,8 @@ export default function POIs({ tripID, handleFlyTo }) {
   const [updatePOI] = useUpdatePOIByUUIDMutation();
   const [deletePOI] = useDeletePOIMutation();
 
+  const dispatch = useDispatch();
+
   // Group pois by formatted date
   const dateGroupedPOIs = (() => {
     const result = {};
@@ -43,9 +47,16 @@ export default function POIs({ tripID, handleFlyTo }) {
     return result;
   })();
 
-  const flyToLocation = (location) => () => {
-    if (location) {
-      handleFlyTo(location.x, location.y, 15.5);
+  const flyToLocation = (poi) => () => {
+    if (poi.location && handleFlyTo) {
+      const newMarker = {
+        id: new Date().getTime(),
+        icon: parkIcon,
+        lng: poi.location.x,
+        lat: poi.location.y
+      };
+      dispatch(setMarker(newMarker));
+      handleFlyTo(poi.location.x, poi.location.y, 18);
     }
   };
 
@@ -84,8 +95,8 @@ export default function POIs({ tripID, handleFlyTo }) {
   const renderDetail = (poi) => (
     <div className='text-pretty'>
       <CustomButton
-        label='Locate 🗺️'
-        onClick={flyToLocation(poi.location)}
+        label={`Locate ${parkIcon}`}
+        onClick={flyToLocation(poi)}
       />
       <div className='underline underline-offset-2'>Visit Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
