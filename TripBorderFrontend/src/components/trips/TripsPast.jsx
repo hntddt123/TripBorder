@@ -105,7 +105,7 @@ export default function TripsPast() {
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
         titleOn={`${trip.title} ▼`}
-        titleOff={`${trip.title} ▶`}
+        titleOff={`${trip.title}`}
         component={renderDetail(trip)}
       />
       {!isLoadTrip

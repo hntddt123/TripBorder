@@ -38,7 +38,8 @@ export default function TripUploadForm() {
       if (isDatePast(e.target.value)) {
         setInputError('Start Date cannot be past');
       } else if (isStartDateAfterEndDate(e.target.value, endDate)) {
-        setInputError('Start Date cannot be after End Date');
+        dispatch(setStartDate(e.target.value));
+        dispatch(setEndDate(e.target.value));
       } else {
         setInputError('');
         dispatch(setStartDate(e.target.value));

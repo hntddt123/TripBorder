@@ -152,7 +152,7 @@ export default function Meals({ tripID, handleFlyTo }) {
                     aria-label={`Meal Button ${meal.uuid}`}
                     id={meal.uuid}
                     titleOn={`${meal.name} ▼`}
-                    titleOff={`${meal.name} ▶`}
+                    titleOff={`${meal.name}`}
                     component={renderDetail(meal)}
                   />
                 </div>

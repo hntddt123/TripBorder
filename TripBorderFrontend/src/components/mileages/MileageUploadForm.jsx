@@ -217,7 +217,7 @@ export default function MileageUploadForm() {
       <CustomToggle
         className='toggle text-xl px-2'
         titleOn='Create New Mileage ▼'
-        titleOff='Create New Mileage ▶'
+        titleOff='Create New Mileage'
         component={renderFormInputs()}
       />
     </div>

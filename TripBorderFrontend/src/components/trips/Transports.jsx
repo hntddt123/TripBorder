@@ -238,7 +238,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                     aria-label={`Transport Button ${transport.uuid}`}
                     id={transport.uuid}
                     titleOn={`${transport.name} ▼`}
-                    titleOff={`${transport.name} ▶`}
+                    titleOff={`${transport.name}`}
                     component={renderDetail(transport)}
                   />
                 </div>

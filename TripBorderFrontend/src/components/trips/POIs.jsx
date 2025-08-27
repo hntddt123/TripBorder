@@ -150,7 +150,7 @@ export default function POIs({ tripID, handleFlyTo }) {
                     aria-label={`Poi Button ${poi.uuid}`}
                     id={poi.uuid}
                     titleOn={`${poi.name} ▼`}
-                    titleOff={`${poi.name} ▶`}
+                    titleOff={`${poi.name}`}
                     component={renderDetail(poi)}
                   />
                 </div>

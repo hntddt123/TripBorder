@@ -207,7 +207,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
                       aria-label={`Hotel Button ${hotel.uuid}`}
                       id={hotel.uuid}
                       titleOn={`${hotel.name} ▼`}
-                      titleOff={`${hotel.name} ▶`}
+                      titleOff={`${hotel.name}`}
                       component={renderDetail(hotel)}
                     />
                   </div>
@@ -237,7 +237,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
                 aria-label={`Hotel Button ${hotel.uuid}`}
                 id={hotel.uuid}
                 titleOn={`${hotel.name} ▼`}
-                titleOff={`${hotel.name} ▶`}
+                titleOff={`${hotel.name}`}
                 component={renderDetail(hotel)}
               />
             </div>

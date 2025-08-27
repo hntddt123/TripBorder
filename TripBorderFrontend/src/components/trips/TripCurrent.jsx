@@ -14,7 +14,7 @@ import {
   setIsLoadTrip,
   setIsEditingTrip
 } from '../../redux/reducers/userSettingsReducer';
-import { formatDatecccMMMdyyyy } from '../../utility/time';
+import { formatDateccc, formatDatecccMMMdyyyy, formatDateMMMdyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
@@ -88,31 +88,24 @@ export default function TripCurrent({ handleFlyTo }) {
             </div>
           )
           : (
-            <div className='px-2 font-mono'>
-              {formatDatecccMMMdyyyy(startDate)} - {formatDatecccMMMdyyyy(endDate)}
-            </div>
+            <>
+              <div className='px-2 font-mono'>
+                {formatDateMMMdyyyy(startDate)} - {formatDateMMMdyyyy(endDate)}
+              </div>
+              <div className='px-2 font-mono'>
+                {formatDateccc(startDate)} - {formatDateccc(endDate)}
+              </div>
+            </>
           )}
       </div>
       <div>
-        <CustomToggle
-          translate='no'
-          className='toggle min-h-12 min-w-72 max-w-72 text-lg mb-1'
-          aria-label='All Trip items'
-          titleOn='All items ▼'
-          titleOff='All items ▶'
-          component={(
-            <div>
-              <Meals tripID={uuid} handleFlyTo={handleFlyTo} />
-              <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
-              <POIs tripID={uuid} handleFlyTo={handleFlyTo} />
-              <Transports tripID={uuid} handleFlyTo={handleFlyTo} />
-              <TripTags tripID={uuid} />
-              <Tags tripID={uuid} />
-              <Ratings tripID={uuid} />
-            </div>
-          )}
-          isOpened
-        />
+        <Meals tripID={uuid} handleFlyTo={handleFlyTo} />
+        <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
+        <POIs tripID={uuid} handleFlyTo={handleFlyTo} />
+        <Transports tripID={uuid} handleFlyTo={handleFlyTo} />
+        <TripTags tripID={uuid} />
+        <Tags tripID={uuid} />
+        <Ratings tripID={uuid} />
       </div>
     </div>
   );
@@ -143,44 +136,42 @@ export default function TripCurrent({ handleFlyTo }) {
       {(uuid)
         ? (
           <div className='text-base'>
-            <div className='cardInfo'>
-              <div className='flex justify-between mb-1'>
-                {(!isEditingTrip)
-                  ? (
-                    <CustomButton
-                      className='buttonBack'
-                      label='←Trip Selection'
-                      onClick={handleBackButton}
-                    />
-                  )
-                  : <div />}
-                <CustomButton
-                  className='buttonBack'
-                  label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
-                  onClick={handleEditButton}
-                />
-              </div>
+            <div className='flex justify-between mb-1'>
               {(!isEditingTrip)
                 ? (
-                  <div className='text-center'>
-                    <CustomToggle
-                      translate='no'
-                      className='toggle min-h-12 min-w-80 max-w-80 text-lg'
-                      aria-label={`Trip Button ${uuid}`}
-                      id={uuid}
-                      titleOn={`${title} ▼`}
-                      titleOff={`${title} ▶`}
-                      component={renderTripDetail()}
-                      isOpened
-                    />
-                  </div>
+                  <CustomButton
+                    className='buttonBack'
+                    label='←Trip Selection'
+                    onClick={handleBackButton}
+                  />
                 )
-                : (
-                  <div className='text-center'>
-                    <TripUploadForm />
-                  </div>
-                )}
+                : <div />}
+              <CustomButton
+                className='buttonBack'
+                label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
+                onClick={handleEditButton}
+              />
             </div>
+            {(!isEditingTrip)
+              ? (
+                <div className='text-center'>
+                  <CustomToggle
+                    translate='no'
+                    className='toggle min-h-12 min-w-72 max-w-80 text-lg'
+                    aria-label={`Trip Button ${uuid}`}
+                    id={uuid}
+                    titleOn={`${title} ▼`}
+                    titleOff={`${title}`}
+                    component={renderTripDetail()}
+                    isOpened
+                  />
+                </div>
+              )
+              : (
+                <div className='text-center'>
+                  <TripUploadForm />
+                </div>
+              )}
           </div>
         )
         : renderTripOptions()}

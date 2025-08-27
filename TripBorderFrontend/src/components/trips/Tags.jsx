@@ -159,7 +159,7 @@ export default function Tags({ tripID }) {
           className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
           aria-label='Tags Button'
           titleOn='Tags ▼'
-          titleOff='Tags ▶'
+          titleOff='Tags'
           component={renderDetail()}
         />
       </div>

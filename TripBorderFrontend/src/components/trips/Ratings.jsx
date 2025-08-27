@@ -148,7 +148,7 @@ export default function Ratings({ tripID }) {
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
               titleOn={`${rating.entity_type} ▼`}
-              titleOff={`${rating.entity_type} ▶`}
+              titleOff={`${rating.entity_type}`}
               component={renderDetail(rating)}
             />
           </div>
@@ -174,7 +174,7 @@ export default function Ratings({ tripID }) {
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
               titleOn={`Rate ${tripData.title} ▼`}
-              titleOff={`Rate ${tripData.title} ▶`}
+              titleOff={`Rate ${tripData.title}`}
               component={renderNewRating()}
             />
           </div>
