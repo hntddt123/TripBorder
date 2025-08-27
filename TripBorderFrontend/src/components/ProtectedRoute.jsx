@@ -6,7 +6,7 @@ import CustomLoading from './CustomLoading';
 import CustomFetching from './CustomFetching';
 
 export default function ProtectedRoute() {
-  const { data, isLoading, isFetching, error } = useCheckAuthStatusQuery();
+  const { data: user, isLoading, isFetching, error } = useCheckAuthStatusQuery();
 
   if (isDevMode) {
     // Skip auth in dev mode
@@ -25,9 +25,9 @@ export default function ProtectedRoute() {
     return <CustomError error={error} />;
   }
 
-  const isAuthenticated = data?.isAuthenticated;
+  const isAuthenticated = user?.isAuthenticated;
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated && user?.role !== null) {
     return <Navigate to='/' replace />;
   }
   return <Outlet />;
