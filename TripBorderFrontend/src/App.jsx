@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import PremiumProtectedRoute from './components/PremiumProtectedRoute';
+import ProtectedRoutePremium from './components/ProtectedRoutePremium';
+import ProtectedRouteAdmin from './components/ProtectedRouteAdmin';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
@@ -47,13 +48,13 @@ export default function App() {
               </div>
             )}
           />
-          <Route path='/plantrip' element={<PremiumProtectedRoute />}>
+          <Route path='/plantrip' element={<ProtectedRoutePremium />}>
             <Route
               index
               element={<TripBoard component={<TripsMap />} />}
             />
           </Route>
-          <Route path='/trips' element={<PremiumProtectedRoute />}>
+          <Route path='/trips' element={<ProtectedRoutePremium />}>
             <Route
               index
               path='/trips'
@@ -95,7 +96,7 @@ export default function App() {
               element={<TripBoard component={<Upgrade />} />}
             />
           </Route>
-          <Route path='/database' element={<ProtectedRoute />}>
+          <Route path='/database' element={<ProtectedRouteAdmin />}>
             <Route
               index
               path='/database'

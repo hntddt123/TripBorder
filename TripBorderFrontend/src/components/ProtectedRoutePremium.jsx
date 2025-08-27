@@ -6,7 +6,7 @@ import CustomLoading from './CustomLoading';
 import CustomFetching from './CustomFetching';
 import { isTrialActive } from '../utility/time';
 
-export default function PremiumProtectedRoute() {
+export default function ProtectedRoutePremium() {
   const { data: user, isLoading, isFetching, error } = useCheckAuthStatusQuery();
 
   if (isDevMode) {
@@ -26,8 +26,6 @@ export default function PremiumProtectedRoute() {
     return <CustomError error={error} />;
   }
 
-  const isAuthenticated = user?.isAuthenticated;
-
   const isPremium = (user?.role === 'premium_user'
     || user?.role === 'admin')
     || (isTrialActive(user?.trial_started_at));
@@ -36,7 +34,7 @@ export default function PremiumProtectedRoute() {
     return <Navigate to='/upgrade' replace />;
   }
 
-  if (!isAuthenticated && user?.role !== null) {
+  if (!user?.isAuthenticated) {
     return <Navigate to='/' replace />;
   }
 

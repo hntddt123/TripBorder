@@ -5,7 +5,7 @@ import CustomError from './CustomError';
 import CustomLoading from './CustomLoading';
 import CustomFetching from './CustomFetching';
 
-export default function ProtectedRoute() {
+export default function ProtectedRouteAdmin() {
   const { data: user, isLoading, isFetching, error } = useCheckAuthStatusQuery();
 
   if (isDevMode) {
@@ -25,7 +25,7 @@ export default function ProtectedRoute() {
     return <CustomError error={error} />;
   }
 
-  if (!user?.isAuthenticated) {
+  if (!user?.isAuthenticated || user?.role !== 'admin') {
     return <Navigate to='/' replace />;
   }
   return <Outlet />;
