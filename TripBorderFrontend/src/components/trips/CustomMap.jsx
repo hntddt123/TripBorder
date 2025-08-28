@@ -321,8 +321,9 @@ export default function CustomMap() {
           component={<TripPlanningTools handleFlyTo={handleFlyTo} />}
         />
       </div>
-      <div className='absoluteTopToolBarRight'>
+      <div>
         <CustomToggle
+          className='toggle absoluteTopToolBarRight'
           translate='no'
           titleOn='⚙️▼'
           titleOff='⚙️'

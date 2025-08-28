@@ -1125,7 +1125,7 @@ html, body {
   .tripAbsoluteContentLeft {
     min-width: 100dvw;
     min-height: calc(35dvh + 64px);
-    max-height: calc(30dvh + 64px);
+    max-height: calc(35dvh + 64px);
     bottom: 0;
     @apply 
     absolute
@@ -1142,13 +1142,12 @@ html, body {
     max-height: 40dvh;
     @apply 
     absolute
+    z-10
     flex-wrap
     rounded-lg
-    right-0
     overflow-y-scroll
-    z-10
     p-2
-    mt-1
+    mt-14
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
@@ -1156,6 +1155,9 @@ html, body {
     z-index: 10;
     @apply
     absolute
+    text-sm
+    min-w-10
+    min-h-10
     my-2
     top-0
     left-0
@@ -1165,6 +1167,9 @@ html, body {
     z-index: 10;
     @apply
     absolute
+    text-sm
+    min-w-10
+    min-h-10
     my-2
     top-0
     right-0
