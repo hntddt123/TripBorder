@@ -312,8 +312,9 @@ export default function CustomMap() {
             getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
           />
         )}
-      <div className='absoluteTopToolBarLeft'>
+      <div>
         <CustomToggle
+          className='toggle absoluteTopToolBarLeft'
           translate='no'
           titleOn='🏖️▼'
           titleOff='🏖️'

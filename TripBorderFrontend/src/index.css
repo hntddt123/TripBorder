@@ -894,6 +894,7 @@ html, body {
 
   .cardPOIAddInfo {
     z-index: 2;
+    min-height: calc(25dvh + 64px);
     max-height: calc(25dvh + 64px);
     @apply 
     absolute
@@ -902,7 +903,7 @@ html, body {
     p-2
     bottom-0
     border-0
-    rounded-lg
+    rounded-t-lg
     border-amber-300
     dark:bg-primary-button-dark-less-transparent
     text-white dark:text-white;
@@ -1083,9 +1084,9 @@ html, body {
 
   .tripAbsoluteContentLeft {
     min-width: 100dvw;
-    min-height: calc(40dvh + 64px);
-    max-height: calc(40dvh + 64px);
-    top: calc(60dvh - 128px);
+    min-height: calc(35dvh + 64px);
+    max-height: calc(30dvh + 64px);
+    bottom: 0;
     @apply 
     absolute
     flex-wrap
@@ -1093,7 +1094,6 @@ html, body {
     overflow-y-scroll
     z-10
     p-2
-    mt-1
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
