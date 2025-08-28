@@ -13,7 +13,7 @@ import {
   isTimeValid,
   setLocalTime
 } from '../../utility/time';
-import { carIcon } from '../../constants/constants';
+import { transportIcon } from '../../constants/constants';
 import { setMarker } from '../../redux/reducers/mapReducer';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -51,7 +51,7 @@ export default function Transports({ tripID, handleFlyTo }) {
     if (transport.location && handleFlyTo) {
       const newMarker = {
         id: new Date().getTime(),
-        icon: carIcon,
+        icon: transportIcon,
         lng: transport.location.x,
         lat: transport.location.y
       };
@@ -230,7 +230,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                 <div className='text-pretty px-2'>
                   <CustomButton
                     className='buttonLocate'
-                    label={carIcon}
+                    label={transportIcon}
                     onClick={flyToLocation(transport)}
                   />
                   <CustomToggle
