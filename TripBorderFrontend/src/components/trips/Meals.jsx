@@ -55,7 +55,7 @@ export default function Meals({ tripID, handleFlyTo }) {
         lat: meal.location.y
       };
       dispatch(setMarker(newMarker));
-      handleFlyTo(meal.location.x, meal.location.y, 18);
+      handleFlyTo(meal.location.x, meal.location.y, 17);
     }
   };
 

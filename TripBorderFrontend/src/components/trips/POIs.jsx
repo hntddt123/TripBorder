@@ -56,7 +56,7 @@ export default function POIs({ tripID, handleFlyTo }) {
         lat: poi.location.y
       };
       dispatch(setMarker(newMarker));
-      handleFlyTo(poi.location.x, poi.location.y, 18);
+      handleFlyTo(poi.location.x, poi.location.y, 17);
     }
   };
 
