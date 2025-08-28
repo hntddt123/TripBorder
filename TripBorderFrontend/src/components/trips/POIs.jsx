@@ -94,10 +94,6 @@ export default function POIs({ tripID, handleFlyTo }) {
 
   const renderDetail = (poi) => (
     <div className='text-pretty'>
-      <CustomButton
-        label={`Locate ${parkIcon}`}
-        onClick={flyToLocation(poi)}
-      />
       <div className='underline underline-offset-2'>Visit Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
       {(isEditing) ? (
@@ -144,9 +140,14 @@ export default function POIs({ tripID, handleFlyTo }) {
             {poisForDate?.map((poi) => (
               <div key={poi.uuid}>
                 <div className='text-pretty px-2'>
+                  <CustomButton
+                    className='buttonLocate'
+                    label={parkIcon}
+                    onClick={flyToLocation(poi)}
+                  />
                   <CustomToggle
                     translate='no'
-                    className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                    className='toggle toggleTrip'
                     aria-label={`Poi Button ${poi.uuid}`}
                     id={poi.uuid}
                     titleOn={`${poi.name} ▼`}

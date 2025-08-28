@@ -97,6 +97,11 @@ html, body {
     border-collapse;
   }
 
+  div {
+    @apply
+    font-family-sans;
+  }
+
   th,
   td {
     @apply 
@@ -428,10 +433,11 @@ html, body {
 
   .buttonEdit {
     @apply 
+    absolute
     text-center 
     content-center 
     rounded-full 
-    p-1 
+    px-1 
     ease-in-out duration-200
     bg-amber-100 dark:bg-primary-card-dark
     text-black dark:text-white;
@@ -447,6 +453,40 @@ html, body {
   .buttonEdit:active {
     @apply 
     border-amber-50 bg-amber-600;
+  }
+
+  .buttonLocate {
+    @apply
+    w-10 h-10
+    text-2xl
+    text-center
+    content-center
+    rounded-full -tracking-wider 
+    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonLocate:hover {
+    @apply
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .buttonLocate:active {
+    @apply
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonLocate:disabled {
+    @apply
+    cursor-not-allowed
+    ease-in-out duration-200
+    opacity-25 
+    border-amber-300 bg-amber-300;
   }
 
   .buttonCancel {
@@ -1289,6 +1329,25 @@ html, body {
     ease-in-out duration-200
     border-amber-50
     bg-amber-400 dark:bg-primary-google-focus;
+  }
+
+  .toggleTrip {
+    @apply
+    overflow-x-auto 
+    text-nowrap
+    min-h-10 min-w-64 max-w-64
+    text-center
+    px-4 mb-1;
+  }
+
+  .toggleTripTitle {
+    @apply
+    text-lg
+    overflow-x-auto 
+    text-nowrap
+    min-h-10 min-w-72 max-w-72
+    text-center 
+    px-4 mb-1;
   }
 
   /* Google Sign-In Button Styles */

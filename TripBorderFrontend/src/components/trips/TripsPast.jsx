@@ -101,7 +101,7 @@ export default function TripsPast() {
   const renderTripsItem = (trip) => (
     <div className='flex justify-center'>
       <CustomToggle
-        className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+        className='toggle toggleTrip'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
         titleOn={`${trip.title} ▼`}

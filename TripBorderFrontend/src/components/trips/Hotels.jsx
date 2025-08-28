@@ -121,10 +121,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
 
   const renderDetail = (hotel) => (
     <div className='text-pretty'>
-      <CustomButton
-        label={`Locate ${hotelIcon}`}
-        onClick={flyToLocation(hotel)}
-      />
       <form onSubmit={handleSubmit(hotel.uuid)} encType='multipart/form-data'>
         {(hotel.booking_reference)
           ? (
@@ -201,9 +197,14 @@ export default function Hotels({ tripID, handleFlyTo }) {
               {hotelsForDate?.map((hotel) => (
                 <div key={`${hotel.uuid}${date}`}>
                   <div className='text-pretty px-2'>
+                    <CustomButton
+                      className='buttonLocate'
+                      label={hotelIcon}
+                      onClick={flyToLocation(hotel)}
+                    />
                     <CustomToggle
                       translate='no'
-                      className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                      className='toggle toggleTrip'
                       aria-label={`Hotel Button ${hotel.uuid}`}
                       id={hotel.uuid}
                       titleOn={`${hotel.name} ▼`}
@@ -233,7 +234,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
             <div className='text-pretty px-2'>
               <CustomToggle
                 translate='no'
-                className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                className='toggle toggleTrip'
                 aria-label={`Hotel Button ${hotel.uuid}`}
                 id={hotel.uuid}
                 titleOn={`${hotel.name} ▼`}

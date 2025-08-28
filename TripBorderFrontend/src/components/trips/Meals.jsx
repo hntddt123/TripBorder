@@ -96,10 +96,6 @@ export default function Meals({ tripID, handleFlyTo }) {
 
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
-      <CustomButton
-        label={`Locate ${restaurantIcon}`}
-        onClick={flyToLocation(meal)}
-      />
       <div className='underline underline-offset-2'>Meal Time</div>
       <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>
       {(isEditing) ? (
@@ -146,9 +142,14 @@ export default function Meals({ tripID, handleFlyTo }) {
             {mealsForDate.map((meal) => (
               <div key={meal.uuid}>
                 <div className='text-pretty px-2'>
+                  <CustomButton
+                    className='buttonLocate'
+                    label={restaurantIcon}
+                    onClick={flyToLocation(meal)}
+                  />
                   <CustomToggle
                     translate='no'
-                    className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                    className='toggle toggleTrip'
                     aria-label={`Meal Button ${meal.uuid}`}
                     id={meal.uuid}
                     titleOn={`${meal.name} ▼`}

@@ -157,7 +157,7 @@ export default function TripCurrent({ handleFlyTo }) {
                 <div className='text-center'>
                   <CustomToggle
                     translate='no'
-                    className='toggle min-h-12 min-w-72 max-w-80 text-lg'
+                    className='toggle toggleTripTitle'
                     aria-label={`Trip Button ${uuid}`}
                     id={uuid}
                     titleOn={`${title} ▼`}

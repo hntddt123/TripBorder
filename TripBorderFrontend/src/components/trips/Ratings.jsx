@@ -144,7 +144,7 @@ export default function Ratings({ tripID }) {
         <div key={rating.uuid}>
           <div className='text-pretty'>
             <CustomToggle
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+              className='toggle toggleTrip'
               aria-label={`Rating Button ${rating.uuid}`}
               id={rating.uuid}
               titleOn={`${rating.entity_type} ▼`}
@@ -170,7 +170,7 @@ export default function Ratings({ tripID }) {
           <div className='flex justify-center'>
             <CustomToggle
               translate='no'
-              className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center'
+              className='toggle toggleTrip'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
               titleOn={`Rate ${tripData.title} ▼`}

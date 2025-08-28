@@ -116,10 +116,6 @@ export default function Transports({ tripID, handleFlyTo }) {
 
   const renderDetail = (transport) => (
     <div className='text-pretty'>
-      <CustomButton
-        label={`Locate ${carIcon}`}
-        onClick={flyToLocation(transport)}
-      />
       <form onSubmit={handleSubmit(transport.uuid)} encType='multipart/form-data'>
         {transport.booking_reference
           ? (
@@ -232,9 +228,14 @@ export default function Transports({ tripID, handleFlyTo }) {
             {TransportsForDate?.map((transport) => (
               <div key={transport.uuid}>
                 <div className='text-pretty px-2'>
+                  <CustomButton
+                    className='buttonLocate'
+                    label={carIcon}
+                    onClick={flyToLocation(transport)}
+                  />
                   <CustomToggle
                     translate='no'
-                    className='toggle min-h-12 min-w-72 max-w-72 overflow-x-auto text-center px-4 mb-1'
+                    className='toggle toggleTrip'
                     aria-label={`Transport Button ${transport.uuid}`}
                     id={transport.uuid}
                     titleOn={`${transport.name} ▼`}
