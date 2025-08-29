@@ -111,10 +111,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const handleCheckInDateChange = (hotelID) => (e) => {
     const { value } = e.target;
 
-    const currentCheckOut = checkOutDates[hotelID]
-      || formatLocalDateString(hotels
-        .find((hotel) => hotel.uuid === hotelID)
-        .check_out);
+    const currentCheckOut = checkOutDates[hotelID];
     const checkInTimeError = validateCheckInTime(value, currentCheckOut);
 
     setCheckInTimes((prevTimes) => ({
@@ -131,24 +128,12 @@ export default function Hotels({ tripID, handleFlyTo }) {
       newErrors[hotelID].checkIn = checkInTimeError;
       return newErrors;
     });
-
-    if (currentCheckOut) {
-      const checkInError = validateCheckOutTime(currentCheckOut, value);
-      setInputErrors((prevErrors) => {
-        const newErrors = { ...prevErrors };
-        newErrors[hotelID].checkOut = checkInError;
-        return newErrors;
-      });
-    }
   };
 
   const handleCheckOutDateChange = (hotelID) => (e) => {
     const { value } = e.target;
 
-    const currentCheckIn = checkInDates[hotelID]
-      || formatLocalDateString(hotels
-        .find((hotel) => hotel.uuid === hotelID)
-        .check_in);
+    const currentCheckIn = checkInDates[hotelID];
     const checkOutTimeError = validateCheckOutTime(value, currentCheckIn);
 
     setCheckOutTimes((prevTimes) => ({
@@ -165,15 +150,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
       newErrors[hotelID].checkOut = checkOutTimeError;
       return newErrors;
     });
-
-    if (currentCheckIn) {
-      const checkInError = validateCheckInTime(currentCheckIn, value);
-      setInputErrors((prevErrors) => {
-        const newErrors = { ...prevErrors };
-        newErrors[hotelID].checkIn = checkInError;
-        return newErrors;
-      });
-    }
   };
 
   const handleEditButton = () => {

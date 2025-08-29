@@ -107,10 +107,7 @@ export default function Transports({ tripID, handleFlyTo }) {
   const handleDepartureTimeChange = (transportID) => (e) => {
     const { value } = e.target;
 
-    const currentArrival = arrivalTimes[transportID]
-      || formatLocalDateTimeString(transports
-        .find((transport) => transport.uuid === transportID)
-        .arrival_time);
+    const currentArrival = arrivalTimes[transportID];
     const departureTimeError = validateDepartureTime(value, currentArrival);
 
     setDepartureTimes((prevTimes) => ({
@@ -127,24 +124,12 @@ export default function Transports({ tripID, handleFlyTo }) {
       newErrors[transportID].departure = departureTimeError;
       return newErrors;
     });
-
-    if (currentArrival) {
-      const arrivalError = validateArrivalTime(currentArrival, value);
-      setInputErrors((prevErrors) => {
-        const newErrors = { ...prevErrors };
-        newErrors[transportID].arrival = arrivalError;
-        return newErrors;
-      });
-    }
   };
 
   const handleArrivalTimeChange = (transportID) => (e) => {
     const { value } = e.target;
 
-    const currentDeparture = departureTimes[transportID]
-      || formatLocalDateTimeString(transports
-        .find((transport) => transport.uuid === transportID)
-        .departure_time);
+    const currentDeparture = departureTimes[transportID];
     const arrivalTimeError = validateArrivalTime(value, currentDeparture);
 
     setArrivalTimes((prevTimes) => ({
@@ -158,15 +143,6 @@ export default function Transports({ tripID, handleFlyTo }) {
       newErrors[transportID].arrival = arrivalTimeError;
       return newErrors;
     });
-
-    if (currentDeparture) {
-      const departureError = validateDepartureTime(currentDeparture, value);
-      setInputErrors((prevErrors) => {
-        const newErrors = { ...prevErrors };
-        newErrors[transportID].departure = departureError;
-        return newErrors;
-      });
-    }
   };
 
   const handleEditButton = () => {
