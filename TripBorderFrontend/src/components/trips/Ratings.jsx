@@ -18,7 +18,7 @@ export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const tripData = useSelector((state) => state.tripReducer);
+  const trip = useSelector((state) => state.tripReducer);
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -129,7 +129,8 @@ export default function Ratings({ tripID }) {
   return (
     <div>
       <div className='text-lg text-center'>
-        {ratings?.length > 0 ? <span>Ratings</span> : null}
+        {ratings?.length > 0 && !isEditing ? <span>Ratings</span> : null}
+        {(isEditing) ? <span>Edit Ratings</span> : null}
         {(ratings?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
@@ -173,8 +174,8 @@ export default function Ratings({ tripID }) {
               className='toggle toggleTrip'
               aria-label={`Rating Button ${tripID}`}
               id={tripID}
-              titleOn={`Rate ${tripData.title} ▼`}
-              titleOff={`Rate ${tripData.title}`}
+              titleOn={`Rate ${trip.title} ▼`}
+              titleOff={`Rate ${trip.title}`}
               component={renderNewRating()}
             />
           </div>

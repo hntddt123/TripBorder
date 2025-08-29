@@ -6,6 +6,7 @@ export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');
 export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
 export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
 export const formatDateccc = (date) => DateTime.fromISO(date).toFormat('ccc');
+export const formatDateHHmm = (date) => DateTime.fromISO(date).toFormat('HH:mm');
 export const formatDatecccMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d, yyyy');
 export const formatDateMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('MMM d, yyyy');
 export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
@@ -32,7 +33,7 @@ export const isTrialActive = (trialDate) => {
   return false;
 };
 
-export const isTimeValid = (startValue, endValue, tripData, name) => {
+export const isTimeValid = (startValue, endValue, trip, name) => {
   if (startValue === '') {
     return '';
   }
@@ -48,12 +49,13 @@ export const isTimeValid = (startValue, endValue, tripData, name) => {
     return `${name} Time cannot be past`;
   }
   // ex. 2025-07-25T00:00:00
-  const startDate = DateTime.fromISO(tripData.startDate).startOf('day');
+  const startDate = DateTime.fromISO(trip.startDate).startOf('day');
+
   if (time < startDate) {
     return `${name} Time cannot be before Trip Start Date`;
   }
   // Exclusive end: 2025-07-26T00:00:00
-  const endDate = DateTime.fromISO(tripData.endDate).plus({ days: 1 }).startOf('day');
+  const endDate = DateTime.fromISO(trip.endDate).plus({ days: 1 }).startOf('day');
   if (time >= endDate) {
     return `${name} Time cannot be after Trip End Date`;
   }

@@ -27,8 +27,9 @@ export default function Transports({ tripID, handleFlyTo }) {
   const [arrivalTimes, setArrivalTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const trip = useSelector((state) => state.tripReducer);
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
 
@@ -60,63 +61,106 @@ export default function Transports({ tripID, handleFlyTo }) {
     }
   };
 
-  const handleSubmit = (transportID) => (e) => {
+  const handleSubmit = (transport) => (e) => {
     e.preventDefault();
-    updateTransport({
-      uuid: transportID,
-      updates: {
-        departure_time: setLocalTime(departureTimes[transportID]),
-        arrival_time: setLocalTime(arrivalTimes[transportID])
-      }
-    });
+
+    const transportID = transport.uuid;
+    const departureTime = departureTimes[transportID]
+      || formatLocalDateTimeString(transport.departure_time);
+    const arrivalTime = arrivalTimes[transportID]
+      || formatLocalDateTimeString(transport.arrival_time);
+
+    if (departureTime && arrivalTime) {
+      updateTransport({
+        uuid: transportID,
+        updates: {
+          departure_time: setLocalTime(departureTime),
+          arrival_time: setLocalTime(arrivalTime)
+        }
+      });
+    }
   };
 
-  const validateDepartureTime = (value, arrivalTime) => isTimeValid(value, arrivalTime, tripData, 'Departure_time');
-  const validateArrivalTime = (value, departureTime) => isTimeValid(value, departureTime, tripData, 'Arrival_time');
+  const validateDepartureTime = (value, arrivalTime) => isTimeValid(value, arrivalTime, trip, 'Departure_time');
+  const validateArrivalTime = (value, departureTime) => isTimeValid(value, departureTime, trip, 'Arrival_time');
 
   const handleDepartureTimeChange = (transportID) => (e) => {
     const { value } = e.target;
 
-    const departureTimeError = validateDepartureTime(value, arrivalTimes[transportID]);
+    const currentArrival = arrivalTimes[transportID]
+      || formatLocalDateTimeString(transports
+        .find((transport) => transport.uuid === transportID)
+        .arrival_time);
+    const departureTimeError = validateDepartureTime(value, currentArrival);
 
-    setInputErrors((prevErrors) => ({
-      ...prevErrors,
-      [transportID]: departureTimeError,
+    setDepartureTimes((prevTimes) => ({
+      ...prevTimes,
+      [transportID]: value,
     }));
 
-    if (!departureTimeError) {
-      setDepartureTimes((prevTimes) => ({
-        ...prevTimes,
-        [transportID]: value,
-      }));
+    setInputErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+
+      if (!newErrors[transportID]) {
+        newErrors[transportID] = {};
+      }
+      newErrors[transportID].departure = departureTimeError;
+      return newErrors;
+    });
+
+    if (currentArrival) {
+      const arrivalError = validateArrivalTime(currentArrival, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[transportID].arrival = arrivalError;
+        return newErrors;
+      });
     }
   };
 
   const handleArrivalTimeChange = (transportID) => (e) => {
     const { value } = e.target;
 
-    const arrivalTimeError = validateArrivalTime(value, departureTimes[transportID]);
+    const currentDeparture = departureTimes[transportID]
+      || formatLocalDateTimeString(transports
+        .find((transport) => transport.uuid === transportID)
+        .departure_time);
+    const arrivalTimeError = validateArrivalTime(value, currentDeparture);
 
-    setInputErrors((prevErrors) => ({
-      ...prevErrors,
-      [transportID]: arrivalTimeError,
+    setArrivalTimes((prevTimes) => ({
+      ...prevTimes,
+      [transportID]: value,
     }));
 
-    if (!arrivalTimeError) {
-      setArrivalTimes((prevTimes) => ({
-        ...prevTimes,
-        [transportID]: value,
-      }));
+    setInputErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+      if (!newErrors[transportID]) newErrors[transportID] = {};
+      newErrors[transportID].arrival = arrivalTimeError;
+      return newErrors;
+    });
+
+    if (currentDeparture) {
+      const departureError = validateDepartureTime(currentDeparture, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[transportID].departure = departureError;
+        return newErrors;
+      });
     }
   };
 
   const handleEditButton = () => {
+    if (isEditing) {
+      setDepartureTimes({});
+      setArrivalTimes({});
+      setInputErrors({});
+    }
     setIsEditing(!isEditing);
   };
 
   const renderDetail = (transport) => (
     <div className='text-pretty'>
-      <form onSubmit={handleSubmit(transport.uuid)} encType='multipart/form-data'>
+      <form onSubmit={handleSubmit(transport)} encType='multipart/form-data'>
         {transport.booking_reference
           ? (
             <>
@@ -140,7 +184,7 @@ export default function Transports({ tripID, handleFlyTo }) {
               onChange={handleDepartureTimeChange(transport.uuid)}
               required
             />
-            <div className='text-red-600'>{inputErrors[transport.uuid] || ''}</div>
+            <div className='text-red-600'>{inputErrors[transport.uuid]?.departure || ''}</div>
           </div>
         )
           : null}
@@ -159,8 +203,17 @@ export default function Transports({ tripID, handleFlyTo }) {
               onChange={handleArrivalTimeChange(transport.uuid)}
               required
             />
-            <div className='text-red-600'>{inputErrors[transport.uuid] || ''}</div>
-            <CustomButton type='submit' label='Update' />
+            <div className='text-red-600'>{inputErrors[transport.uuid]?.arrival || ''}</div>
+            <CustomButton
+              type='submit'
+              label='Update Time'
+              disabled={!!inputErrors[transport.uuid]?.arrival
+                || !!inputErrors[transport.uuid]?.departure
+                || departureTimes[transport.uuid] === ''
+                || arrivalTimes[transport.uuid] === ''
+                || (departureTimes[transport.uuid] === formatLocalDateTimeString(transport.departure_time)
+                  && arrivalTimes[transport.uuid] === formatLocalDateTimeString(transport.arrival_time))}
+            />
           </div>
         )
           : null}

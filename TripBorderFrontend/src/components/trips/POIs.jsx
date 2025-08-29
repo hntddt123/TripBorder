@@ -8,7 +8,7 @@ import {
 } from '../../api/poisAPI';
 import {
   formatDatecccMMMdyyyy,
-  formatDatecccMMMMddyyyyHHmm,
+  formatDateHHmm,
   formatLocalDateTimeString,
   isTimeValid,
   setLocalTime,
@@ -26,7 +26,7 @@ export default function POIs({ tripID, handleFlyTo }) {
   const [visitTimes, setVisitTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const trip = useSelector((state) => state.tripReducer);
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
@@ -60,7 +60,7 @@ export default function POIs({ tripID, handleFlyTo }) {
     }
   };
 
-  const validateVisitTime = (value) => isTimeValid(value, undefined, tripData, 'Tour');
+  const validateVisitTime = (value) => isTimeValid(value, undefined, trip, 'Tour');
 
   const handleInputChange = (poiID) => (e) => {
     const { value } = e.target;
@@ -95,7 +95,7 @@ export default function POIs({ tripID, handleFlyTo }) {
   const renderDetail = (poi) => (
     <div className='text-pretty'>
       <div className='underline underline-offset-2'>Visit Time</div>
-      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(poi.visit_time)}</div>
+      <div className='px-2 font-mono'>{formatDateHHmm(poi.visit_time)}</div>
       {(isEditing) ? (
         <div>
           <input

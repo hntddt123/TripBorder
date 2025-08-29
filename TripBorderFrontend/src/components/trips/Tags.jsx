@@ -72,7 +72,8 @@ export default function Tags({ tripID }) {
   const renderDetail = () => (
     <div>
       <div className='text-lg text-center'>
-        {tags?.length > 0 ? <span>Customize Tags</span> : null}
+        {tags?.length && !isEditing > 0 ? <span>Customize Tags</span> : null}
+        {(isEditing) ? <span>Edit Customize Tags</span> : null}
         {((tags?.length > 0) && !isLoadTrip)
           ? (
             <CustomButton

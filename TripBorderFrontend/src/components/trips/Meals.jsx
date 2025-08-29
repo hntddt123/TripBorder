@@ -7,11 +7,11 @@ import {
   useDeleteMealMutation
 } from '../../api/mealsAPI';
 import {
-  formatDatecccMMMMddyyyyHHmm,
   formatDatecccMMMdyyyy,
   formatLocalDateTimeString,
   setLocalTime,
-  isTimeValid
+  isTimeValid,
+  formatDateHHmm
 } from '../../utility/time';
 import { setMarker } from '../../redux/reducers/mapReducer';
 import CustomToggle from '../CustomToggle';
@@ -26,7 +26,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [mealTimes, setMealTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const trip = useSelector((state) => state.tripReducer);
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
@@ -59,7 +59,7 @@ export default function Meals({ tripID, handleFlyTo }) {
     }
   };
 
-  const validateMealTime = (value) => isTimeValid(value, undefined, tripData, 'Meal');
+  const validateMealTime = (value) => isTimeValid(value, undefined, trip, 'Meal');
 
   const handleInputChange = (mealID) => (e) => {
     const { value } = e.target;
@@ -97,7 +97,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const renderDetail = (meal) => (
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Meal Time</div>
-      <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(meal.meal_time)}</div>
+      <div className='px-2 font-mono'>{formatDateHHmm(meal.meal_time)}</div>
       {(isEditing) ? (
         <div>
           <input

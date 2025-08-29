@@ -27,7 +27,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const [checkOutDates, setCheckOutTimes] = useState({});
   const [inputErrors, setInputErrors] = useState({});
 
-  const tripData = useSelector((state) => state.tripReducer);
+  const trip = useSelector((state) => state.tripReducer);
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
 
@@ -65,63 +65,107 @@ export default function Hotels({ tripID, handleFlyTo }) {
     }
   };
 
-  const handleSubmit = (hotelID) => (e) => {
+  const handleSubmit = (hotel) => (e) => {
     e.preventDefault();
-    updateHotel({
-      uuid: hotelID,
-      updates: {
-        check_in: setLocalTime(checkInDates[hotelID]),
-        check_out: setLocalTime(checkOutDates[hotelID])
-      }
-    });
+
+    const hotelID = hotel.uuid;
+    const checkInDate = checkInDates[hotelID]
+      || formatLocalDateString(hotel.check_in);
+    const checkOutDate = checkOutDates[hotelID]
+      || formatLocalDateString(hotel.check_out);
+
+    if (checkInDate && checkOutDate) {
+      updateHotel({
+        uuid: hotelID,
+        updates: {
+          check_in: setLocalTime(checkInDates[hotelID]),
+          check_out: setLocalTime(checkOutDates[hotelID])
+        }
+      });
+    }
   };
 
-  const validateCheckInTime = (value, checkOutDate) => isTimeValid(value, checkOutDate, tripData, 'Check-In');
-  const validateCheckOutTime = (value, checkInDate) => isTimeValid(value, checkInDate, tripData, 'Check-Out');
+  const validateCheckInTime = (value, checkOutDate) => isTimeValid(value, checkOutDate, trip, 'Check-In');
+  const validateCheckOutTime = (value, checkInDate) => isTimeValid(value, checkInDate, trip, 'Check-Out');
 
   const handleCheckInDateChange = (hotelID) => (e) => {
     const { value } = e.target;
 
-    const checkInTimeError = validateCheckInTime(value, checkOutDates[hotelID]);
+    const currentCheckOut = checkOutDates[hotelID]
+      || formatLocalDateString(hotels
+        .find((hotel) => hotel.uuid === hotelID)
+        .check_out);
+    const checkInTimeError = validateCheckInTime(value, currentCheckOut);
 
-    setInputErrors((prevErrors) => ({
-      ...prevErrors,
-      [hotelID]: checkInTimeError,
+    setCheckInTimes((prevTimes) => ({
+      ...prevTimes,
+      [hotelID]: value,
     }));
 
-    if (!checkInTimeError) {
-      setCheckInTimes((prevTimes) => ({
-        ...prevTimes,
-        [hotelID]: value,
-      }));
+    setInputErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+
+      if (!newErrors[hotelID]) {
+        newErrors[hotelID] = {};
+      }
+      newErrors[hotelID].checkIn = checkInTimeError;
+      return newErrors;
+    });
+
+    if (currentCheckOut) {
+      const checkInError = validateCheckOutTime(currentCheckOut, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[hotelID].checkOut = checkInError;
+        return newErrors;
+      });
     }
   };
 
   const handleCheckOutDateChange = (hotelID) => (e) => {
     const { value } = e.target;
 
-    const checkOutTimeError = validateCheckOutTime(value, checkInDates[hotelID]);
+    const currentCheckIn = checkInDates[hotelID]
+      || formatLocalDateString(hotels
+        .find((hotel) => hotel.uuid === hotelID)
+        .check_in);
+    const checkOutTimeError = validateCheckOutTime(value, currentCheckIn);
 
-    setInputErrors((prevErrors) => ({
-      ...prevErrors,
-      [hotelID]: checkOutTimeError,
+    setCheckOutTimes((prevTimes) => ({
+      ...prevTimes,
+      [hotelID]: value,
     }));
 
-    if (!checkOutTimeError) {
-      setCheckOutTimes((prevTimes) => ({
-        ...prevTimes,
-        [hotelID]: value,
-      }));
+    setInputErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+
+      if (!newErrors[hotelID]) {
+        newErrors[hotelID] = {};
+      }
+      newErrors[hotelID].checkOut = checkOutTimeError;
+      return newErrors;
+    });
+
+    if (currentCheckIn) {
+      const checkInError = validateCheckInTime(currentCheckIn, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[hotelID].checkIn = checkInError;
+        return newErrors;
+      });
     }
   };
 
   const handleEditButton = () => {
+    if (isEditing) {
+      setInputErrors({});
+    }
     setIsEditing(!isEditing);
   };
 
   const renderDetail = (hotel) => (
     <div className='text-pretty'>
-      <form onSubmit={handleSubmit(hotel.uuid)} encType='multipart/form-data'>
+      <form onSubmit={handleSubmit(hotel)} encType='multipart/form-data'>
         {(hotel.booking_reference)
           ? (
             <>
@@ -139,12 +183,12 @@ export default function Hotels({ tripID, handleFlyTo }) {
               className='customInput'
               id={`check_in_${hotel.uuid}`}
               type='date'
-              name='check_in_'
+              name='check_in'
               value={checkInDates[hotel.uuid] || formatLocalDateString(hotel.check_in)}
               onChange={handleCheckInDateChange(hotel.uuid)}
               required
             />
-            <div className='text-red-600'>{inputErrors[hotel.uuid] || ''}</div>
+            <div className='text-red-600'>{inputErrors[hotel.uuid]?.checkIn || ''}</div>
           </div>
         )
           : null}
@@ -156,13 +200,22 @@ export default function Hotels({ tripID, handleFlyTo }) {
               className='customInput'
               id={`check_out_${hotel.uuid}`}
               type='date'
-              name='check_out_'
+              name='check_out'
               value={checkOutDates[hotel.uuid] || formatLocalDateString(hotel.check_out)}
               onChange={handleCheckOutDateChange(hotel.uuid)}
               required
             />
-            <div className='text-red-600'>{inputErrors[hotel.uuid] || ''}</div>
-            <CustomButton type='submit' label='Update' />
+            <div className='text-red-600'>{inputErrors[hotel.uuid]?.checkOut || ''}</div>
+            <CustomButton
+              type='submit'
+              label='Update'
+              disabled={!!inputErrors[hotel.uuid]?.checkIn
+                || !!inputErrors[hotel.uuid]?.checkOut
+                || checkInDates[hotel.uuid] === ''
+                || checkOutDates[hotel.uuid] === ''
+                || (checkInDates[hotel.uuid] === formatLocalDateString(hotel.check_in)
+                && checkOutDates[hotel.uuid] === formatLocalDateString(hotel.check_out))}
+            />
           </div>
         )
           : null}
