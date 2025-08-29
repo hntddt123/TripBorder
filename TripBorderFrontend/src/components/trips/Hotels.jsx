@@ -65,6 +65,26 @@ export default function Hotels({ tripID, handleFlyTo }) {
     }
   };
 
+  const getCheckOutValue = (hotel) => {
+    if (checkOutDates[hotel.uuid] === undefined) {
+      setCheckOutTimes((prevTimes) => ({
+        ...prevTimes,
+        [hotel.uuid]: formatLocalDateString(hotel.check_out),
+      }));
+    }
+    return checkOutDates[hotel.uuid];
+  };
+
+  const getCheckInValue = (hotel) => {
+    if (checkInDates[hotel.uuid] === undefined) {
+      setCheckInTimes((prevTimes) => ({
+        ...prevTimes,
+        [hotel.uuid]: formatLocalDateString(hotel.check_in),
+      }));
+    }
+    return checkInDates[hotel.uuid];
+  };
+
   const handleSubmit = (hotel) => (e) => {
     e.preventDefault();
 
@@ -158,6 +178,8 @@ export default function Hotels({ tripID, handleFlyTo }) {
 
   const handleEditButton = () => {
     if (isEditing) {
+      setCheckInTimes({});
+      setCheckOutTimes({});
       setInputErrors({});
     }
     setIsEditing(!isEditing);
@@ -184,7 +206,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
               id={`check_in_${hotel.uuid}`}
               type='date'
               name='check_in'
-              value={checkInDates[hotel.uuid] || formatLocalDateString(hotel.check_in)}
+              value={getCheckInValue(hotel)}
               onChange={handleCheckInDateChange(hotel.uuid)}
               required
             />
@@ -201,7 +223,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
               id={`check_out_${hotel.uuid}`}
               type='date'
               name='check_out'
-              value={checkOutDates[hotel.uuid] || formatLocalDateString(hotel.check_out)}
+              value={getCheckOutValue(hotel)}
               onChange={handleCheckOutDateChange(hotel.uuid)}
               required
             />
@@ -214,7 +236,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
                 || checkInDates[hotel.uuid] === ''
                 || checkOutDates[hotel.uuid] === ''
                 || (checkInDates[hotel.uuid] === formatLocalDateString(hotel.check_in)
-                && checkOutDates[hotel.uuid] === formatLocalDateString(hotel.check_out))}
+                  && checkOutDates[hotel.uuid] === formatLocalDateString(hotel.check_out))}
             />
           </div>
         )

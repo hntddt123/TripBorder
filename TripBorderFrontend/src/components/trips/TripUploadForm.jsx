@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setTitle,
@@ -16,7 +16,7 @@ import {
 import CustomLoading from '../CustomLoading';
 
 export default function TripUploadForm() {
-  const [inputError, setInputError] = useState('');
+  const [inputError, setInputError] = useState({});
   const {
     uuid,
     title,
@@ -28,30 +28,70 @@ export default function TripUploadForm() {
 
   const dispatch = useDispatch();
 
-  const handleInputChange = (e) => {
-    const { name } = e.target;
+  const validateStartDate = (value, currentEnd) => {
+    if (value === '') return 'Start Date is required';
+    if (isDatePast(value)) return 'Start Date cannot be past';
+    if (isStartDateAfterEndDate(value, currentEnd)) return 'Start Date cannot be after End Date';
+    return '';
+  };
 
-    if (name === 'trip_title') {
-      dispatch(setTitle(e.target.value));
+  const validateEndDate = (value, currentStart) => {
+    if (value === '') return 'End Date is required';
+    if (isEndDateBeforeStartDate(value, currentStart)) return 'End Date cannot be before Start Date';
+    return '';
+  };
+
+  useEffect(() => {
+    const initialStartError = validateStartDate(startDate, endDate);
+    const initialEndError = validateEndDate(endDate, startDate);
+
+    setInputError({
+      startDate: initialStartError,
+      endDate: initialEndError
+    });
+  }, []);
+
+  const handleTitleInputChange = (e) => {
+    dispatch(setTitle(e.target.value));
+  };
+
+  const handleStartDateInputChange = (e) => {
+    const { value } = e.target;
+    const startError = validateStartDate(value, endDate);
+
+    dispatch(setStartDate(value));
+
+    setInputError((prev) => ({
+      ...prev,
+      startDate: startError
+    }));
+
+    if (endDate !== '') {
+      const endError = validateEndDate(endDate, value);
+      setInputError((prev) => ({
+        ...prev,
+        endDate: endError
+      }));
     }
-    if (name === 'trip_start_date') {
-      if (isDatePast(e.target.value)) {
-        setInputError('Start Date cannot be past');
-      } else if (isStartDateAfterEndDate(e.target.value, endDate)) {
-        dispatch(setStartDate(e.target.value));
-        dispatch(setEndDate(e.target.value));
-      } else {
-        setInputError('');
-        dispatch(setStartDate(e.target.value));
-      }
-    }
-    if (name === 'trip_end_date') {
-      if (isEndDateBeforeStartDate(e.target.value, startDate)) {
-        setInputError('End Date cannot be before Start Date');
-      } else {
-        setInputError('');
-        dispatch(setEndDate(e.target.value));
-      }
+  };
+
+  const handleEndDateInputChange = (e) => {
+    const { value } = e.target;
+    const endError = validateEndDate(value, startDate);
+
+    dispatch(setEndDate(value));
+
+    setInputError((prev) => ({
+      ...prev,
+      endDate: endError
+    }));
+
+    if (startDate !== '') {
+      const startError = validateStartDate(startDate, value);
+      setInputError((prev) => ({
+        ...prev,
+        startDate: startError
+      }));
     }
   };
 
@@ -79,7 +119,7 @@ export default function TripUploadForm() {
           type='text'
           name='trip_title'
           value={title}
-          onChange={handleInputChange}
+          onChange={handleTitleInputChange}
           required
           placeholder='Trip Name'
           minLength={1}
@@ -94,9 +134,10 @@ export default function TripUploadForm() {
           type='date'
           name='trip_start_date'
           value={formatLocalDateString(startDate)}
-          onChange={handleInputChange}
+          onChange={handleStartDateInputChange}
           required
         />
+        {(inputError.startDate) ? <div className='text-red-600'>{`${inputError.startDate}`}</div> : null}
         <label htmlFor='trip_end_date'>
           End Date
         </label>
@@ -106,12 +147,19 @@ export default function TripUploadForm() {
           type='date'
           name='trip_end_date'
           value={formatLocalDateString(endDate)}
-          onChange={handleInputChange}
+          onChange={handleEndDateInputChange}
           required
         />
-        {(inputError) ? <div className='text-red-600'>{`${inputError}`}</div> : null}
+        {(inputError.endDate) ? <div className='text-red-600'>{`${inputError.endDate}`}</div> : null}
         <CustomLoading isLoading={isLoading} text='Updating' />
-        <CustomButton type='submit' label='Save' />
+        <CustomButton
+          type='submit'
+          label='Save'
+          disabled={!!inputError.startDate
+            || !!inputError.endDate
+            || !startDate
+            || !endDate}
+        />
       </div>
     </form>
   );

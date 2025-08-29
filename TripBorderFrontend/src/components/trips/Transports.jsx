@@ -61,6 +61,26 @@ export default function Transports({ tripID, handleFlyTo }) {
     }
   };
 
+  const getDepartureTimeValue = (transport) => {
+    if (departureTimes[transport.uuid] === undefined) {
+      setDepartureTimes((prevTimes) => ({
+        ...prevTimes,
+        [transport.uuid]: formatLocalDateTimeString(transport.departure_time),
+      }));
+    }
+    return departureTimes[transport.uuid];
+  };
+
+  const getArrivalTimeValue = (transport) => {
+    if (arrivalTimes[transport.uuid] === undefined) {
+      setArrivalTimes((prevTimes) => ({
+        ...prevTimes,
+        [transport.uuid]: formatLocalDateTimeString(transport.arrival_time),
+      }));
+    }
+    return arrivalTimes[transport.uuid];
+  };
+
   const handleSubmit = (transport) => (e) => {
     e.preventDefault();
 
@@ -180,7 +200,7 @@ export default function Transports({ tripID, handleFlyTo }) {
               id={`departure_time_${transport.uuid}`}
               type='datetime-local'
               name='departure_time'
-              value={departureTimes[transport.uuid] || formatLocalDateTimeString(transport.departure_time)}
+              value={getDepartureTimeValue(transport)}
               onChange={handleDepartureTimeChange(transport.uuid)}
               required
             />
@@ -199,7 +219,7 @@ export default function Transports({ tripID, handleFlyTo }) {
               id={`arrival_time${transport.uuid}`}
               type='datetime-local'
               name='arrival_time'
-              value={arrivalTimes[transport.uuid] || formatLocalDateTimeString(transport.arrival_time)}
+              value={getArrivalTimeValue(transport)}
               onChange={handleArrivalTimeChange(transport.uuid)}
               required
             />

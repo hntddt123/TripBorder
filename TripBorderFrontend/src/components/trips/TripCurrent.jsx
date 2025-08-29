@@ -54,7 +54,6 @@ export default function TripCurrent({ handleFlyTo }) {
       dispatch(setStartDate(data.trip.start_date));
       dispatch(setEndDate(data.trip.end_date));
       dispatch(setTripUUID(data.trip.uuid));
-      dispatch(setTripUUID(data.trip.uuid));
       dispatch(setOwnerEmail(data.trip.owner_email));
       dispatch(setCreatedDate(data.trip.created_at));
     }
