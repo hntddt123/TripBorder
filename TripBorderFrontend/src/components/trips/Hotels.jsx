@@ -150,6 +150,15 @@ export default function Hotels({ tripID, handleFlyTo }) {
       newErrors[hotelID].checkOut = checkOutTimeError;
       return newErrors;
     });
+
+    if (currentCheckIn) {
+      const checkInError = validateCheckInTime(currentCheckIn, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[hotelID].checkIn = checkInError;
+        return newErrors;
+      });
+    }
   };
 
   const handleEditButton = () => {

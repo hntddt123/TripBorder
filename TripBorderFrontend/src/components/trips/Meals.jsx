@@ -59,6 +59,16 @@ export default function Meals({ tripID, handleFlyTo }) {
     }
   };
 
+  const getMealTimeValue = (meal) => {
+    if (mealTimes[meal.uuid] === undefined) {
+      setMealTimes((prevTimes) => ({
+        ...prevTimes,
+        [meal.uuid]: formatLocalDateTimeString(meal.meal_time)
+      }));
+    }
+    return mealTimes[meal.uuid];
+  };
+
   const validateMealTime = (value) => isTimeValid(value, undefined, trip, 'Meal');
 
   const handleInputChange = (mealID) => (e) => {
@@ -91,6 +101,10 @@ export default function Meals({ tripID, handleFlyTo }) {
     deleteMeal(mealID);
   };
   const handleEditButton = () => {
+    if (isEditing) {
+      setMealTimes({});
+      setInputErrors({});
+    }
     setIsEditing(!isEditing);
   };
 
@@ -105,7 +119,7 @@ export default function Meals({ tripID, handleFlyTo }) {
             id={`meal_time_${meal.uuid}`}
             type='datetime-local'
             name='meal_time'
-            value={mealTimes[meal.uuid] || formatLocalDateTimeString(meal.meal_time)}
+            value={getMealTimeValue(meal)}
             onChange={handleInputChange(meal.uuid)}
             required
           />

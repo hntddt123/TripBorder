@@ -60,6 +60,16 @@ export default function POIs({ tripID, handleFlyTo }) {
     }
   };
 
+  const getVisitTimeValue = (poi) => {
+    if (visitTimes[poi.uuid] === undefined) {
+      setVisitTimes((prevTimes) => ({
+        ...prevTimes,
+        [poi.uuid]: formatLocalDateTimeString(poi.visit_time),
+      }));
+    }
+    return visitTimes[poi.uuid];
+  };
+
   const validateVisitTime = (value) => isTimeValid(value, undefined, trip, 'Tour');
 
   const handleInputChange = (poiID) => (e) => {
@@ -89,6 +99,10 @@ export default function POIs({ tripID, handleFlyTo }) {
   };
 
   const handleEditButton = () => {
+    if (isEditing) {
+      setVisitTimes({});
+      setInputErrors({});
+    }
     setIsEditing(!isEditing);
   };
 
@@ -103,7 +117,7 @@ export default function POIs({ tripID, handleFlyTo }) {
             id={`visit_time_${poi.uuid}`}
             type='datetime-local'
             name='visit_time_'
-            value={visitTimes[poi.uuid] || formatLocalDateTimeString(poi.visit_time)}
+            value={getVisitTimeValue(poi)}
             onChange={handleInputChange(poi.uuid)}
             required
           />

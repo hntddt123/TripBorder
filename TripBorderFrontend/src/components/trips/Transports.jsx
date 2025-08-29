@@ -143,6 +143,15 @@ export default function Transports({ tripID, handleFlyTo }) {
       newErrors[transportID].arrival = arrivalTimeError;
       return newErrors;
     });
+
+    if (currentDeparture) {
+      const departureError = validateDepartureTime(currentDeparture, value);
+      setInputErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        newErrors[transportID].departure = departureError;
+        return newErrors;
+      });
+    }
   };
 
   const handleEditButton = () => {

@@ -60,12 +60,8 @@ export default function TripsPast() {
     dispatch(setTripUUID(trip.uuid));
     dispatch(setTitle(trip.title));
     dispatch(setOwnerEmail(trip.onwer_email));
-    if (trip.start_date) {
-      dispatch(setStartDate(trip.start_date));
-    }
-    if (trip.end_date) {
-      dispatch(setEndDate(trip.end_date));
-    }
+    dispatch(setStartDate(trip.start_date));
+    dispatch(setEndDate(trip.end_date));
     dispatch(setIsLoadTrip(false));
   };
 
@@ -108,15 +104,6 @@ export default function TripsPast() {
         titleOff={`${trip.title}`}
         component={renderDetail(trip)}
       />
-      {!isLoadTrip
-        ? (
-          <CustomButton
-            translate='no'
-            className='buttonEdit'
-            label='✏️'
-            onClick={handleEditButton}
-          />
-        ) : null}
     </div>
   );
 
@@ -157,12 +144,19 @@ export default function TripsPast() {
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
+            {!isLoadTrip
+              ? (
+                <CustomButton
+                  translate='no'
+                  className='buttonEdit relative'
+                  label='✏️'
+                  onClick={handleEditButton}
+                />
+              ) : null}
+            {(isLoadTrip)
+              ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+              : null}
             {renderTripsItem(trip)}
-            <div className='text-center'>
-              {(isLoadTrip)
-                ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
-                : null}
-            </div>
             <div className='text-center'>
               {(isEditing)
                 ? <CustomButton translate='no' label='Delete 🗑️' onClick={() => deleteTrip(trip.uuid)} />

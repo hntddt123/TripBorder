@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setTitle,
@@ -16,6 +16,8 @@ import {
 import CustomLoading from '../CustomLoading';
 
 export default function TripUploadForm() {
+  const [tripStartDate, setTripStartDate] = useState();
+  const [tripEndDate, setTripEndDate] = useState();
   const [inputError, setInputError] = useState({});
   const {
     uuid,
@@ -27,6 +29,20 @@ export default function TripUploadForm() {
   const [updateTripByUUID, { isLoading }] = useUpdateTripByUUIDMutation();
 
   const dispatch = useDispatch();
+
+  const getStartDateValue = () => {
+    if (tripStartDate === undefined) {
+      setTripStartDate(formatLocalDateString(startDate));
+    }
+    return tripStartDate;
+  };
+
+  const getEndDateValue = () => {
+    if (tripEndDate === undefined) {
+      setTripEndDate(formatLocalDateString(endDate));
+    }
+    return tripEndDate;
+  };
 
   const validateStartDate = (value, currentEnd) => {
     if (value === '') return 'Start Date is required';
@@ -41,33 +57,23 @@ export default function TripUploadForm() {
     return '';
   };
 
-  useEffect(() => {
-    const initialStartError = validateStartDate(startDate, endDate);
-    const initialEndError = validateEndDate(endDate, startDate);
-
-    setInputError({
-      startDate: initialStartError,
-      endDate: initialEndError
-    });
-  }, []);
-
   const handleTitleInputChange = (e) => {
     dispatch(setTitle(e.target.value));
   };
 
   const handleStartDateInputChange = (e) => {
     const { value } = e.target;
-    const startError = validateStartDate(value, endDate);
+    const startError = validateStartDate(value, tripEndDate);
 
-    dispatch(setStartDate(value));
+    setTripStartDate(value);
 
     setInputError((prev) => ({
       ...prev,
       startDate: startError
     }));
 
-    if (endDate !== '') {
-      const endError = validateEndDate(endDate, value);
+    if (tripEndDate !== '') {
+      const endError = validateEndDate(tripEndDate, value);
       setInputError((prev) => ({
         ...prev,
         endDate: endError
@@ -77,17 +83,17 @@ export default function TripUploadForm() {
 
   const handleEndDateInputChange = (e) => {
     const { value } = e.target;
-    const endError = validateEndDate(value, startDate);
+    const endError = validateEndDate(value, tripStartDate);
 
-    dispatch(setEndDate(value));
+    setTripEndDate(value);
 
     setInputError((prev) => ({
       ...prev,
       endDate: endError
     }));
 
-    if (startDate !== '') {
-      const startError = validateStartDate(startDate, value);
+    if (tripStartDate !== '') {
+      const startError = validateStartDate(tripStartDate, value);
       setInputError((prev) => ({
         ...prev,
         startDate: startError
@@ -97,12 +103,15 @@ export default function TripUploadForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    dispatch(setStartDate(tripStartDate));
+    dispatch(setEndDate(tripEndDate));
     updateTripByUUID({
       uuid: uuid,
       updates: {
         title: title,
-        start_date: startDate,
-        end_date: endDate,
+        start_date: tripStartDate,
+        end_date: tripEndDate,
       }
     });
   };
@@ -133,7 +142,7 @@ export default function TripUploadForm() {
           id='trip_start_date'
           type='date'
           name='trip_start_date'
-          value={formatLocalDateString(startDate)}
+          value={getStartDateValue()}
           onChange={handleStartDateInputChange}
           required
         />
@@ -146,7 +155,7 @@ export default function TripUploadForm() {
           id='trip_end_date'
           type='date'
           name='trip_end_date'
-          value={formatLocalDateString(endDate)}
+          value={getEndDateValue()}
           onChange={handleEndDateInputChange}
           required
         />
@@ -157,8 +166,8 @@ export default function TripUploadForm() {
           label='Save'
           disabled={!!inputError.startDate
             || !!inputError.endDate
-            || !startDate
-            || !endDate}
+            || tripStartDate === ''
+            || tripEndDate === ''}
         />
       </div>
     </form>
