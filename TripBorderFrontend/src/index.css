@@ -943,8 +943,8 @@ html, body {
   }
 
   .cardPOIAddInfoPictures {
-    padding-right: 10dvw;
-    padding-bottom: 10dvh;
+    padding-right: 30%;
+    padding-bottom: 30%;
     @apply 
     flex z-0 overflow-x-scroll;
   }
