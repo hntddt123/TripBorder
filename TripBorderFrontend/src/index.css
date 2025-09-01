@@ -433,7 +433,6 @@ html, body {
 
   .buttonEdit {
     @apply 
-    absolute
     text-center 
     content-center 
     rounded-full 

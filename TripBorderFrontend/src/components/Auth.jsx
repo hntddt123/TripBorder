@@ -35,10 +35,10 @@ export default function Auth() {
 
   const handleLogout = async () => {
     try {
-      await logout().unwrap();
+      await logout();
       navigate('/');
     } catch (err) {
-      console.error('Logout error:', error);
+      console.error('Logout error:', err);
     }
   };
 

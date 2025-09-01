@@ -18,6 +18,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-map-gl": "^7.1.9",
+    "react-modal-sheet": "^4.4.0",
     "react-redux": "^9.1.2",
     "react-router-dom": "^7.6.0",
     "react-slider": "^2.0.6",

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 export default function CustomToggle({
@@ -17,6 +17,10 @@ export default function CustomToggle({
     setIsOpen(!isOpen);
   };
 
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <span>
       <button
@@ -30,7 +34,7 @@ export default function CustomToggle({
           ? <span>{titleOn}</span>
           : <span>{titleOff}</span>}
       </button>
-      {isOpen ? component : null}
+      {isOpen && component ? cloneElement(component, { onClose: handleClose }) : null}
     </span>
   );
 }

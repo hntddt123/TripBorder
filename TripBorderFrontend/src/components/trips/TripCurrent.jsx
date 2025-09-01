@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { authAPI } from '../../api/authAPI';
+import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import {
   setTripUUID,
   setOwnerEmail,
@@ -42,8 +42,8 @@ export default function TripCurrent({ handleFlyTo }) {
     endDate
   } = useSelector((state) => state.tripReducer);
 
-  const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
-  const email = user.data?.email;
+  const { data: user } = useCheckAuthStatusQuery();
+  const email = user?.email;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
 
