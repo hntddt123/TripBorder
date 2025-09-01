@@ -8,10 +8,13 @@ export const authAPI = createApi({
     baseUrl: API_ROUTES.auth,
     credentials: 'include', // Include cookies in requests
   }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     checkAuthStatus: builder.query({
       query: () => '/',
-      providesTags: ['Auth']
+      providesTags: ['Auth'],
+      keepUnusedDataFor: 3600
     }),
     logout: builder.mutation({
       query: () => ({
