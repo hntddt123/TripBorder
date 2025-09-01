@@ -20,6 +20,7 @@ export const authAPI = createApi({
       query: () => ({
         url: '/logout',
         method: 'GET',
+        invalidatesTags: ['Auth']
       }),
       invalidatesTags: ['Auth']
     }),
