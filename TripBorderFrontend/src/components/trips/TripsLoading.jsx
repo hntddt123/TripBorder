@@ -1,10 +1,20 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { authAPI } from '../../api/authAPI';
 import {
   useGetTripsByEmailPaginationQuery,
   useDeleteTripsMutation
 } from '../../api/tripsAPI';
+import {
+  setTripUUID,
+  setTitle,
+  setOwnerEmail,
+  setStartDate,
+  setEndDate
+} from '../../redux/reducers/tripReducer';
+import {
+  setIsLoadTrip
+} from '../../redux/reducers/userSettingsReducer';
 import {
   formatDatecccMMMdyyyy,
   formatDateMMMMddyyyyHHmmssZZZZ
@@ -21,9 +31,13 @@ import CustomError from '../CustomError';
 import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
-export default function TripsPast() {
+export default function TripsLoading() {
+  const {
+    isLoadTrip
+  } = useSelector((state) => state.userSettingsReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
+  const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
@@ -34,8 +48,21 @@ export default function TripsPast() {
 
   const [deleteTrip] = useDeleteTripsMutation();
 
+  const handleBackButton = () => {
+    dispatch(setIsLoadTrip(false));
+  };
+
   const handleEditButton = () => {
     setIsEditing(!isEditing);
+  };
+
+  const handleLoad = (trip) => {
+    dispatch(setTripUUID(trip.uuid));
+    dispatch(setTitle(trip.title));
+    dispatch(setOwnerEmail(trip.onwer_email));
+    dispatch(setStartDate(trip.start_date));
+    dispatch(setEndDate(trip.end_date));
+    dispatch(setIsLoadTrip(false));
   };
 
   const handlePageChange = (newPage) => {
@@ -81,15 +108,18 @@ export default function TripsPast() {
   );
 
   return (
-    <div className='card overflow-x-auto table-fixed whitespace-nowrap'>
+    <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-base text-center'>
-        <div className='flex justify-end mb-1'>
-          <CustomButton
-            translate='no'
-            className='buttonBack relative'
-            label='Edit Trip'
-            onClick={handleEditButton}
-          />
+        <div className='flex justify-between'>
+          {(isLoadTrip)
+            ? (
+              <CustomButton
+                className='buttonBack'
+                label='←Trip Selection'
+                onClick={handleBackButton}
+              />
+            )
+            : <div />}
         </div>
         <div>
           <div>
@@ -114,13 +144,24 @@ export default function TripsPast() {
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
+            {!isLoadTrip
+              ? (
+                <CustomButton
+                  translate='no'
+                  className='buttonEdit relative'
+                  label='✏️'
+                  onClick={handleEditButton}
+                />
+              ) : null}
+            {(isLoadTrip)
+              ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
+              : null}
             {renderTripsItem(trip)}
             <div className='text-center'>
               {(isEditing)
                 ? (
                   <CustomButton
                     translate='no'
-                    className='buttonDelete'
                     label='Delete 🗑️'
                     onClick={() => deleteTrip(trip.uuid)}
                   />

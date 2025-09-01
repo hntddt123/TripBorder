@@ -26,7 +26,7 @@ import POIs from './POIs';
 import Transports from './Transports';
 import Ratings from './Ratings';
 import TripTags from './TripTags';
-import TripsPast from './TripsPast';
+import TripsLoading from './TripsLoading';
 import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 
@@ -112,7 +112,7 @@ export default function TripCurrent({ handleFlyTo }) {
   const renderTripOptions = () => {
     if (uuid === '') {
       if (isLoadTrip) {
-        return <TripsPast />;
+        return <TripsLoading />;
       }
       return (
         <div className='text-center'>
