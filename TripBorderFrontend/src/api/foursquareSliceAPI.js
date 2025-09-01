@@ -28,14 +28,18 @@ export const foursquareAPI = createApi({
       return headers;
     }
   }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     getNearbyPOI: builder.query({
       query: FOURSQUARE_API_QUERIES.getNearbyPOIQuery,
-      providesTags: ['foursquarePOIs']
+      providesTags: ['foursquarePOIs'],
+      keepUnusedDataFor: 900
     }),
     getPOIPhotos: builder.query({
       query: FOURSQUARE_API_QUERIES.getPOIPhotosQuery,
-      providesTags: ['foursquarePOIPhotos']
+      providesTags: ['foursquarePOIPhotos'],
+      keepUnusedDataFor: 900
     })
   }),
 });
