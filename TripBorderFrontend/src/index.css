@@ -931,7 +931,6 @@ html, body {
     min-height: calc(25dvh + 64px);
     max-height: calc(25dvh + 64px);
     @apply 
-    absolute
     w-full
     overflow-auto
     p-2
@@ -944,8 +943,8 @@ html, body {
   }
 
   .cardPOIAddInfoPictures {
-    padding-right: 30%;
-    padding-bottom: 30%;
+    padding-right: 10dvw;
+    padding-bottom: 10dvh;
     @apply 
     flex z-0 overflow-x-scroll;
   }

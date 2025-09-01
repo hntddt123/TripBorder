@@ -1,5 +1,6 @@
-/* eslint-disable react/prop-types */
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Sheet } from 'react-modal-sheet';
 import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
 import {
@@ -26,6 +27,11 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
+
+  const handleCloseEvent = () => {
+    dispatch(setIsShowingAdditionalPopUp(false));
+    dispatch(setIsShowingOnlySelectedPOI(false));
+  };
 
   const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
 
@@ -111,52 +117,66 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     if (filteredResult) {
       return (
         <div className='flex'>
-          <div
-            className='text-base cardPOIAddInfo'
+          <Sheet
+            isOpen
+            onClose={handleCloseEvent}
+            initialSnap={3}
+            snapPoints={[1, 0.7, 0.5, 0.35, 0]}
           >
-            <CustomButton
-              translate='no'
-              className='buttonCancel'
-              label='X'
-              onClick={handleCloseButton}
-            />
-            <CustomButton
-              className='buttonPOI ml-4'
-              label='Walk'
-              onClick={handleDirectionButton}
-            />
-            <CustomButton
-              className='buttonPOI'
-              label={`Walk from ${markerIcon}`}
-              onClick={handlePinDirectionButton}
-              disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
-            />
-            <div>
-              <ButtonMealsUpload filteredResult={filteredResult} />
-              <ButtonHotelsUpload filteredResult={filteredResult} />
-              <ButtonPOIUpload filteredResult={filteredResult} />
-              <ButtonTransportUpload filteredResult={filteredResult} />
-            </div>
-            <div translate='no' className='flex text-lg min-h-8'>
-              {(filteredResult.location.address)
-                ? (
-                  <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
-                    {`${index}. ${filteredResult.name} (${filteredResult.location.address})`}
+            <Sheet.Container>
+              <Sheet.Header className='bg-black' />
+              <Sheet.Content
+                className='bg-black'
+              >
+                <Sheet.Scroller>
+                  <div className='cardPOIAddInfo'>
+                    <CustomButton
+                      translate='no'
+                      className='buttonCancel'
+                      label='X'
+                      onClick={handleCloseButton}
+                    />
+                    <CustomButton
+                      className='buttonPOI ml-4'
+                      label='Walk'
+                      onClick={handleDirectionButton}
+                    />
+                    <CustomButton
+                      className='buttonPOI'
+                      label={`Walk from ${markerIcon}`}
+                      onClick={handlePinDirectionButton}
+                      disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
+                    />
+                    <div>
+                      <ButtonMealsUpload filteredResult={filteredResult} />
+                      <ButtonHotelsUpload filteredResult={filteredResult} />
+                      <ButtonPOIUpload filteredResult={filteredResult} />
+                      <ButtonTransportUpload filteredResult={filteredResult} />
+                    </div>
+                    <div translate='no' className='flex text-lg min-h-8'>
+                      {(filteredResult.location.address)
+                        ? (
+                          <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                            {`${index}. ${filteredResult.name} (${filteredResult.location.address})`}
+                          </div>
+                        )
+                        : (
+                          <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                            {`${index}. ${filteredResult.name}`}
+                          </div>
+                        )}
+                      <div className='min-w-2/12 text-right'>
+                        {`${filteredResult.distance}m`}
+                      </div>
+                    </div>
+                    <div className='cardPOIAddInfoPictures'>
+                      {getPhotos()}
+                    </div>
                   </div>
-                )
-                : (
-                  <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
-                    {`${index}. ${filteredResult.name}`}
-                  </div>
-                )}
-              <div className='min-w-2/12 text-right'>
-                {`${filteredResult.distance}m`}
-              </div>
-            </div>
-            <div className='cardPOIAddInfoPictures'>
-              {getPhotos()}
-            </div>
-          </div>
+                </Sheet.Scroller>
+              </Sheet.Content>
+            </Sheet.Container>
+          </Sheet>
         </div>
       );
     }
@@ -166,4 +186,6 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 
 ProximityMarkersInfo.propTypes = {
   data: FourSquareResponsePropTypes,
+  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
+  getDirectionsQueryTrigger: PropTypes.func
 };
