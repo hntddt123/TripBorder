@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sheet } from 'react-modal-sheet';
@@ -16,8 +17,11 @@ import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
 import { markerIcon } from '../../constants/constants';
 import CustomFetching from '../CustomFetching';
+import { useOrientation } from '../../hooks/useOrientation';
 
 export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
+  const [remountKey, setRemountKey] = useState(0);
+  const { isPortrait } = useOrientation();
   const {
     selectedPOI,
     selectedPOILonLat,
@@ -26,6 +30,11 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
+
+  useEffect(() => {
+    setRemountKey((prev) => prev + 1);
+  }, [isPortrait]);
+
   const dispatch = useDispatch();
 
   const handleCloseEvent = () => {
@@ -118,15 +127,16 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
       return (
         <div className='flex'>
           <Sheet
+            key={remountKey}
             isOpen
             onClose={handleCloseEvent}
-            initialSnap={3}
-            snapPoints={[1, 0.7, 0.5, 0.35, 0]}
+            initialSnap={2}
+            snapPoints={[1, 0.7, 0.5, 0]}
           >
             <Sheet.Container>
               <Sheet.Header className='bg-black' />
               <Sheet.Content
-                className='bg-black'
+                className='safeArea bg-black'
               >
                 <Sheet.Scroller>
                   <div className='cardPOIAddInfo'>

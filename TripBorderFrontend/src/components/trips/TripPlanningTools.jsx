@@ -1,23 +1,33 @@
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Sheet } from 'react-modal-sheet';
+import { useOrientation } from '../../hooks/useOrientation';
 import TripCurrent from './TripCurrent';
 
 export default function TripPlanningTools({ handleFlyTo, onClose }) {
+  const [remountKey, setRemountKey] = useState(0);
+  const { isPortrait } = useOrientation();
+
   const handleCloseEvent = () => {
     if (onClose) onClose();
   };
 
+  useEffect(() => {
+    setRemountKey((prev) => prev + 1);
+  }, [isPortrait]);
+
   return (
     <Sheet
+      key={remountKey}
       isOpen
       onClose={handleCloseEvent}
-      initialSnap={1}
-      snapPoints={[1, 0.35, 0]}
+      initialSnap={2}
+      snapPoints={[1, 0.7, 0.5, 0]}
     >
-      <Sheet.Container>
+      <Sheet.Container className='bg-black'>
         <Sheet.Header className='bg-black' />
         <Sheet.Content
-          className='bg-black'
+          className='safeArea bg-black'
         >
           <Sheet.Scroller>
             <TripCurrent handleFlyTo={handleFlyTo} />
