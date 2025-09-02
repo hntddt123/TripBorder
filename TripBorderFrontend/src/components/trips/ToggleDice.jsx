@@ -31,6 +31,7 @@ export default function ToggleDice({ poi }) {
 
   return (
     <Toggle
+      aria-label='toggle'
       translate='no'
       className='mx-2 align-middle justify-center scale-120'
       icons={{

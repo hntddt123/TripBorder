@@ -55,6 +55,7 @@ export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetchin
 
   return (
     <select
+      aria-label='poiSelection'
       translate='no'
       id='poiSelection'
       className='buttonPOIDropdown'
