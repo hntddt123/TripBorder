@@ -1,19 +1,49 @@
 {
-  "short_name": "Trip Border App",
-  "name": "Trip Border",
+  "short_name": "Trip Border",
+  "name": "Trip Border - Travel Planning App",
+  "description": "Plan your trips with interactive maps, POI discovery, and itinerary management",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["travel", "navigation", "lifestyle"],
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/android-chrome-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
-  "display": "standalone"
+  "shortcuts": [
+    {
+      "name": "Plan New Trip",
+      "short_name": "New Trip",
+      "description": "Start planning a new trip",
+      "url": "/plantrip",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "View Trips",
+      "short_name": "My Trips",
+      "description": "View your saved trips",
+      "url": "/trips",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    }
+  ]
 }
