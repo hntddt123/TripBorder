@@ -1,6 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { skipToken } from '@reduxjs/toolkit/query/react';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import Map, { GeolocateControl } from 'react-map-gl';
@@ -18,14 +17,9 @@ import {
   setIsUsingGPSLonLat,
   setSessionIDFSQ
 } from '../../redux/reducers/mapReducer';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
-import {
-  useLazyGetNearbyPOIQuery,
-  useLazyGetPOIPhotosQuery
-} from '../../api/foursquareSliceAPI';
-import { MAPBOX_API_KEY } from '../../constants/constants';
+import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
-import { useLazyGetLandmarkFromKeywordQuery } from '../../api/openstreemapSliceAPI';
+import { useLazyGetLandmarksFromPinQuery } from '../../api/openstreemapSliceAPI';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
@@ -42,10 +36,12 @@ import TripPlanningTools from './TripPlanningTools';
 import TripSearchTools from './TripSearchTools';
 import CustomFetching from '../CustomFetching';
 import CustomError from '../CustomError';
+import { getNearestPOI } from '../../utility/markerCalculation';
 
 // react-map-gl component
 export default function CustomMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [sortedData, setSortedData] = useState([]);
   const {
     mapStyle,
     viewState,
@@ -55,11 +51,7 @@ export default function CustomMap() {
     isThrowingDice,
     isUsingMapBoxGeocoder,
     selectedPOI,
-    selectedPOIIDNumber,
-    selectedPOIIcon,
-    selectedPOICount,
-    selectedPOIRadius,
-    sessionIDFSQ,
+    longPressedLonLat
   } = useSelector((state) => state.mapReducer);
   const {
     isDarkMode,
@@ -67,10 +59,8 @@ export default function CustomMap() {
 
   const dispatch = useDispatch();
 
-  const [getNearbyPOIQueryTrigger, { data, isFetching, isSuccess, error }] = useLazyGetNearbyPOIQuery();
-  const [getPOIPhotosQueryTrigger, getPOIPhotosQueryResult] = useLazyGetPOIPhotosQuery(isSuccess ? data : skipToken);
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
-  const [getLandmarkFromKeywordQueryTrigger, getLandmarkFromKeywordResult] = useLazyGetLandmarkFromKeywordQuery();
+  const [getLandmarkFromPinQueryTrigger, { data, error, isFetching }] = useLazyGetLandmarksFromPinQuery();
 
   const mapCSSStyle = { width: '100%', height: '94dvh', borderRadius: 10 };
   const mapRef = useRef();
@@ -95,14 +85,14 @@ export default function CustomMap() {
   };
 
   const handleMarkerSearch = (lng, lat) => {
-    getNearbyPOIQueryTrigger({
-      ll: `${lat},${lng}`,
-      radius: selectedPOIRadius,
-      limit: selectedPOICount,
-      category: selectedPOIIDNumber,
-      icon: selectedPOIIcon,
-      sessionToken: sessionIDFSQ
-    }, true);
+    getLandmarkFromPinQueryTrigger(
+      {
+        q: '餐廳',
+        pinLat: lat,
+        pinLon: lng,
+        limit: 10,
+      }
+    );
 
     handleFlyTo(lng, lat, 15.5, 1500);
 
@@ -116,22 +106,24 @@ export default function CustomMap() {
   };
 
   useEffect(() => {
-    if (getLandmarkFromKeywordResult?.data && mapRef?.current) {
-      const { lon, lat } = getLandmarkFromKeywordResult.data;
-      const newMarker = {
-        id: new Date().getTime(),
-        lng: lon,
-        lat: lat
-      };
+    if (data && mapRef?.current) {
+      setSortedData(getNearestPOI(data, longPressedLonLat));
+      //   const { lon, lat } = data;
 
-      dispatch(setLongPressedLonLat({ longitude: lon, latitude: lat }));
-      dispatch(setIsUsingGPSLonLat(false));
-      dispatch(setMarker(newMarker));
+      //   const newMarker = {
+      //     id: new Date().getTime(),
+      //     lng: lon,
+      //     lat: lat
+      //   };
 
-      handleFlyTo(lon, lat, 15.5, 1500);
-      handleMarkerSearch(lon, lat);
+      //   dispatch(setLongPressedLonLat({ longitude: lon, latitude: lat }));
+      //   dispatch(setIsUsingGPSLonLat(false));
+      //   dispatch(setMarker(newMarker));
+
+      //   handleFlyTo(lon, lat, 15.5, 1500);
+      //   handleMarkerSearch(lon, lat);
     }
-  }, [getLandmarkFromKeywordResult]);
+  }, [data]);
 
   const onGeocoderResult = (event) => {
     const [lng, lat] = event.result.center;
@@ -225,13 +217,12 @@ export default function CustomMap() {
   };
 
   const renderBottomMenu = () => {
-    if (data && data.results.length > 0 && !isThrowingDice && !isNavigating) {
+    if (sortedData && sortedData.length > 0 && !isThrowingDice && !isNavigating) {
       return (
         <div className={`bottomMenu ${isShowingAdditionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
-            poi={data}
+            poi={sortedData}
             handleFlyTo={handleFlyTo}
-            getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
           />
         </div>
       );
@@ -308,8 +299,7 @@ export default function CustomMap() {
         )
         : (
           <InputLandmarkSearch
-            getLandmarkFromKeywordQueryTrigger={getLandmarkFromKeywordQueryTrigger}
-            getLandmarkFromKeywordResult={getLandmarkFromKeywordResult}
+            handleFlyTo={handleFlyTo}
           />
         )}
       <div>
@@ -336,14 +326,12 @@ export default function CustomMap() {
           <CustomError error={error} />
         </div>
         <ButtonPOISelection
-          getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
         />
         <ButtonGPSSearch
-          getNearbyPOIQueryTrigger={getNearbyPOIQueryTrigger}
           isFetching={isFetching}
         />
-        <ToggleDice poi={data} />
+        <ToggleDice poi={sortedData} handleFlyTo={handleFlyTo} />
       </div>
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}
@@ -355,14 +343,12 @@ export default function CustomMap() {
         trackUserLocation
       />
       <ProximityMarkers
-        data={data}
-        getPOIPhotosQueryTrigger={getPOIPhotosQueryTrigger}
+        data={sortedData}
         isFetching={isFetching}
         handleFlyTo={handleFlyTo}
       />
       <AdditionalMarkerInfo
-        data={data}
-        getPOIPhotosQueryResult={getPOIPhotosQueryResult}
+        data={sortedData}
         getDirectionsQueryTrigger={getDirectionsQueryTrigger}
       />
       {(mapLoaded) ? <ClickMarker /> : null}
@@ -374,11 +360,7 @@ export default function CustomMap() {
 }
 
 CustomMap.propTypes = {
-  data: FourSquareResponsePropTypes,
   isFetching: PropTypes.bool,
-  getNearbyPOIQueryTrigger: PropTypes.func,
-  getPOIPhotosQueryTrigger: PropTypes.func,
-  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
   getLandmarkFromKeywordResult: PropTypes.shape({
     lat: PropTypes.number,
     lon: PropTypes.number,

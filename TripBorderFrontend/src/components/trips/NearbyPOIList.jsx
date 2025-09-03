@@ -7,33 +7,34 @@ import {
   setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat
 } from '../../redux/reducers/mapReducer';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
+import { OSMPropTypes } from '../../constants/osmPropTypes';
+import { calculateDistance } from '../../utility/geoCalculation';
 
-export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigger }) {
+export default function NearbyPOIList({ poi, handleFlyTo }) {
   const {
     viewState,
     isShowingAdditionalPopUp,
-    isNavigating
+    isNavigating,
+    longPressedLonLat
   } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
-  const isPOIExist = (poi && poi.results.length) > 0;
+  const isPOIExist = (poi && poi.length) > 0;
   const pressTimer = useRef(null);
 
   const handlePOIListItemClick = (marker) => () => {
     clearTimeout(pressTimer.current);
 
-    getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
     handleFlyTo(
-      marker.geocodes.main.longitude,
-      marker.geocodes.main.latitude,
+      marker.lon,
+      marker.lat,
       viewState.zoom,
       1420
     );
 
-    dispatch(setSelectedPOI(marker.fsq_id));
+    dispatch(setSelectedPOI(marker.place_id));
     dispatch(setSelectedPOILonLat({
-      longitude: marker.geocodes.main.longitude,
-      latitude: marker.geocodes.main.latitude
+      longitude: marker.lon,
+      latitude: marker.lat
     }));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingAdditionalPopUp(true));
@@ -42,7 +43,7 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
   const handleMouseEnter = (marker) => () => {
     if (!isShowingAdditionalPopUp
       && !isNavigating) {
-      dispatch(setSelectedPOI(marker.fsq_id));
+      dispatch(setSelectedPOI(marker.place_id));
     }
   };
 
@@ -56,7 +57,7 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
   const handleTouchDown = (marker) => () => {
     if (!isShowingAdditionalPopUp
       && !isNavigating) {
-      dispatch(setSelectedPOI(marker.fsq_id));
+      dispatch(setSelectedPOI(marker.place_id));
     }
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
@@ -72,14 +73,35 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
     }
   };
 
-  return (
-    <div>
-      {(isPOIExist)
-        ? poi.results.map((marker, i) => (
+  const renderDistance = (marker) => `${calculateDistance(
+    marker.lat,
+    marker.lon,
+    longPressedLonLat.latitude,
+    longPressedLonLat.longitude,
+    'm'
+  )} m`;
+
+  const renderPOINameAddress = (marker) => {
+    if (marker.address.house_number && marker.address.road) {
+      return `${marker.name} (${marker.address?.house_number} ${marker.address.road})`;
+    }
+    if (marker.address.road) {
+      return `${marker.name} (${marker.address.road})`;
+    }
+    if (marker.name) {
+      return `${marker.name}`;
+    }
+    return 'No Data';
+  };
+
+  if (isPOIExist) {
+    return (
+      <div>
+        {poi.map((marker, i) => (
           // event sequence touchstart → touchend → mousedown → mouseup → click
           <button
             translate='no'
-            key={marker.fsq_id}
+            key={marker.place_id}
             className='flex cardPOI'
             onClick={handlePOIListItemClick(marker)}
             onMouseEnter={handleMouseEnter(marker)}
@@ -90,29 +112,21 @@ export default function NearbyPOIList({ poi, handleFlyTo, getPOIPhotosQueryTrigg
             <div className='min-w-1/12 text-center'>
               {`${i + 1}`}
             </div>
-            {(marker.location.address)
-              ? (
-                <div className='min-w-9/12 overflow-scroll text-left cursor-pointer'>
-                  {`${marker.name} (${marker.location.address})`}
-                </div>
-              )
-              : (
-                <div className='min-w-9/12 overflow-scroll text-left'>
-                  {`${marker.name}`}
-                </div>
-              )}
+            <div className='min-w-9/12 overflow-scroll text-left cursor-pointer'>
+              {renderPOINameAddress(marker)}
+            </div>
             <div className='min-w-2/12 text-right'>
-              {`${marker.distance}m`}
+              {renderDistance(marker)}
             </div>
           </button>
-        ))
-        : null}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  }
+  return null;
 }
 
 NearbyPOIList.propTypes = {
-  poi: FourSquareResponsePropTypes,
-  getPOIPhotosQueryTrigger: PropTypes.func,
-  handleFlyTo: PropTypes.func,
+  poi: OSMPropTypes,
+  handleFlyTo: PropTypes.func
 };

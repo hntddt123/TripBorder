@@ -10,14 +10,11 @@ import {
   poiCategories
 } from '../../constants/constants';
 
-export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetching }) {
+export default function ButtonPOISelection({ isFetching }) {
   const {
-    selectedPOICount,
-    selectedPOIRadius,
     longPressedLonLat,
     gpsLonLat,
     isUsingGPSLonLat,
-    sessionIDFSQ
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -32,24 +29,24 @@ export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetchin
 
     if (longPressedLonLat.longitude !== null
       && longPressedLonLat.latitude !== null && !isUsingGPSLonLat) {
-      getNearbyPOIQueryTrigger({
-        ll: `${longPressedLonLat.latitude},${longPressedLonLat.longitude}`,
-        radius: selectedPOIRadius,
-        limit: selectedPOICount,
-        category: selectedID,
-        icon: selectedCategory.icon,
-        sessionToken: sessionIDFSQ
-      }, true);
+      // getNearbyPOIQueryTrigger({
+      //   ll: `${longPressedLonLat.latitude},${longPressedLonLat.longitude}`,
+      //   radius: selectedPOIRadius,
+      //   limit: selectedPOICount,
+      //   category: selectedID,
+      //   icon: selectedCategory.icon,
+      //   sessionToken: sessionIDFSQ
+      // }, true);
     } else if (gpsLonLat.longitude !== null
       && gpsLonLat.latitude !== null) {
-      getNearbyPOIQueryTrigger({
-        ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
-        radius: selectedPOIRadius,
-        limit: selectedPOICount,
-        category: selectedID,
-        icon: selectedCategory.icon,
-        sessionToken: sessionIDFSQ
-      }, true);
+      // getNearbyPOIQueryTrigger({
+      //   ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+      //   radius: selectedPOIRadius,
+      //   limit: selectedPOICount,
+      //   category: selectedID,
+      //   icon: selectedCategory.icon,
+      //   sessionToken: sessionIDFSQ
+      // }, true);
     }
   };
 
@@ -75,6 +72,5 @@ export default function ButtonPOISelection({ getNearbyPOIQueryTrigger, isFetchin
 }
 
 ButtonPOISelection.propTypes = {
-  getNearbyPOIQueryTrigger: PropTypes.func,
   isFetching: PropTypes.bool,
 };

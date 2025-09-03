@@ -10,15 +10,10 @@ import {
 import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 
-export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }) {
+export default function ButtonGPSSearch({ isFetching }) {
   const {
     gpsLonLat,
-    selectedPOIIDNumber,
-    selectedPOICount,
-    selectedPOIRadius,
-    selectedPOIIcon,
     isThrowingDice,
-    sessionIDFSQ
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -31,14 +26,14 @@ export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }
   const handleButtonGPSSearch = () => {
     if (hasGPSLonLat()) {
       dispatch(setIsUsingGPSLonLat(true));
-      getNearbyPOIQueryTrigger({
-        ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
-        radius: selectedPOIRadius,
-        limit: selectedPOICount,
-        category: selectedPOIIDNumber,
-        icon: selectedPOIIcon,
-        sessionToken: sessionIDFSQ
-      }, true);
+      // getNearbyPOIQueryTrigger({
+      //   ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
+      //   radius: selectedPOIRadius,
+      //   limit: selectedPOICount,
+      //   category: selectedPOIIDNumber,
+      //   icon: selectedPOIIcon,
+      //   sessionToken: sessionIDFSQ
+      // }, true);
       dispatch(setViewState({
         longitude: gpsLonLat.longitude,
         latitude: gpsLonLat.latitude,
@@ -68,6 +63,6 @@ export default function ButtonGPSSearch({ getNearbyPOIQueryTrigger, isFetching }
 }
 
 ButtonGPSSearch.propTypes = {
-  getNearbyPOIQueryTrigger: PropTypes.func,
+  // getNearbyPOIQueryTrigger: PropTypes.func,
   isFetching: PropTypes.bool
 };

@@ -9,11 +9,11 @@ import {
   setSelectedPOILonLat,
   setRandomPOINumber
 } from '../../redux/reducers/mapReducer';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
 import CustomButton from '../CustomButton';
+import { OSMPropTypes } from '../../constants/osmPropTypes';
 
 export default function ProximityMarkers({
-  data, getPOIPhotosQueryTrigger, isFetching, handleFlyTo
+  data, isFetching, handleFlyTo
 }) {
   const dispatch = useDispatch();
   const {
@@ -31,26 +31,25 @@ export default function ProximityMarkers({
   const pressTimer = useRef(null);
 
   useEffect(() => {
-    if (data?.results?.length > 0) {
-      dispatch(setRandomPOINumber(Math.floor(Math.random() * data.results.length)));
+    if (data?.length > 0) {
+      dispatch(setRandomPOINumber(Math.floor(Math.random() * data.length)));
     }
   }, [data, dispatch]);
 
   const handlePOIMarkerClick = (marker) => () => {
     clearTimeout(pressTimer.current);
 
-    getPOIPhotosQueryTrigger({ fsqId: marker.fsq_id });
     handleFlyTo(
-      marker.geocodes.main.longitude,
-      marker.geocodes.main.latitude,
+      marker.lon,
+      marker.lat,
       viewState.zoom,
       1420
     );
 
-    dispatch(setSelectedPOI(marker.fsq_id));
+    dispatch(setSelectedPOI(marker.place_id));
     dispatch(setSelectedPOILonLat({
-      longitude: marker.geocodes.main.longitude,
-      latitude: marker.geocodes.main.latitude
+      longitude: marker.lon,
+      latitude: marker.lat
     }));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingAdditionalPopUp(true));
@@ -59,7 +58,7 @@ export default function ProximityMarkers({
   const handleMouseEnter = (poi) => () => {
     if (!isShowingAdditionalPopUp
       && !isNavigating) {
-      dispatch(setSelectedPOI(poi.fsq_id));
+      dispatch(setSelectedPOI(poi.place_id));
     }
   };
 
@@ -73,7 +72,7 @@ export default function ProximityMarkers({
   const handleTouchDown = (poi) => () => {
     if (!isShowingAdditionalPopUp
       && !isNavigating) {
-      dispatch(setSelectedPOI(poi.fsq_id));
+      dispatch(setSelectedPOI(poi.place_id));
     }
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
@@ -92,7 +91,7 @@ export default function ProximityMarkers({
   const getPOILabel = (poi, index) => {
     const { name } = poi;
     const dist = poi.distance;
-    const isHovered = (selectedPOI === poi.fsq_id);
+    const isHovered = (selectedPOI === poi.place_id);
 
     let label = `${index + 1}`;
 
@@ -110,10 +109,10 @@ export default function ProximityMarkers({
     const label = getPOILabel(poi, index);
 
     return (
-      <div key={poi.fsq_id}>
+      <div key={poi.place_id}>
         <Marker
-          longitude={poi.geocodes.main.longitude}
-          latitude={poi.geocodes.main.latitude}
+          longitude={poi.lon}
+          latitude={poi.lat}
         >
           <div
             className='text-2xl text-center'
@@ -124,7 +123,7 @@ export default function ProximityMarkers({
           <CustomButton
             onClick={handlePOIMarkerClick(poi)}
             translate='no'
-            className={(selectedPOI === poi.fsq_id)
+            className={(selectedPOI === poi.place_id)
               ? 'cardPOIMarkerTriggerHover'
               : 'cardPOIMarker'}
             label={label}
@@ -138,30 +137,29 @@ export default function ProximityMarkers({
     );
   };
 
-  if (isFetching || !data?.results?.length) return null;
+  if (isFetching || !data?.length) return null;
 
   let markersToRender = [];
 
   if (isThrowingDice) {
-    const poi = data.results[randomPOINumber];
+    const poi = data[randomPOINumber];
     if (poi) {
       markersToRender = [renderSingleMarker(poi, randomPOINumber)];
     }
   } else if (isShowingOnlySelectedPOI) {
-    const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI);
+    const index = data.findIndex((marker) => marker.place_id === selectedPOI);
     if (index !== -1) {
-      const poi = data.results[index];
+      const poi = data[index];
       markersToRender = [renderSingleMarker(poi, index)];
     }
   } else {
-    markersToRender = data.results.map((poi, index) => renderSingleMarker(poi, index));
+    markersToRender = data.map((poi, index) => renderSingleMarker(poi, index));
   }
   return markersToRender;
 }
 
 ProximityMarkers.propTypes = {
-  data: FourSquareResponsePropTypes,
-  getPOIPhotosQueryTrigger: PropTypes.func,
+  data: OSMPropTypes,
   isFetching: PropTypes.bool,
   handleFlyTo: PropTypes.func
 };

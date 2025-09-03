@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { mapBoxBaseUrl, getMapBoxDirectionUrl } from '../constants/constants';
+import { mapBoxBaseUrl, getMapBoxDirectionUrl } from '../constants/apiConstants';
 
 /*
   Get Directions

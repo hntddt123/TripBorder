@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
-import { BASE_URL } from '../constants/constants';
+import { BASE_URL } from '../constants/apiConstants';
 import { isTrialActive } from '../utility/time';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';

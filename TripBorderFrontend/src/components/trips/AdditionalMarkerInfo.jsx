@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sheet } from 'react-modal-sheet';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
-import CustomButton from '../CustomButton';
+import { OSMPropTypes } from '../../constants/osmPropTypes';
 import {
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
@@ -11,15 +10,16 @@ import {
   setIsShowingSideBar,
   setSelectedPOI
 } from '../../redux/reducers/mapReducer';
+import { markerIcon } from '../../constants/constants';
+import { useOrientation } from '../../hooks/useOrientation';
+import { calculateDistance } from '../../utility/geoCalculation';
+import CustomButton from '../CustomButton';
 import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
-import { markerIcon } from '../../constants/constants';
-import CustomFetching from '../CustomFetching';
-import { useOrientation } from '../../hooks/useOrientation';
 
-export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, getDirectionsQueryTrigger }) {
+export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
   const {
@@ -93,35 +93,32 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
     dispatch(setIsNavigating(true));
   };
 
-  const formatPhotos = () => ((getPOIPhotosQueryResult.data && getPOIPhotosQueryResult.data.length > 0)
-    ? getPOIPhotosQueryResult.data.map((photo) => (
-      <button key={photo.id} tabIndex={0} className='pictureContainer'>
-        <img
-          className='picture'
-          src={`${photo.prefix}400x400${photo.suffix}`}
-          alt={`${photo.prefix}400x400${photo.suffix}`}
-        />
-      </button>
-    ))
-    : null
-  );
+  const renderDistance = (marker) => `${calculateDistance(
+    marker.lat,
+    marker.lon,
+    longPressedLonLat.latitude,
+    longPressedLonLat.longitude,
+    'm'
+  )} m`;
 
-  const getPhotos = () => {
-    if (getPOIPhotosQueryResult.isFetching) {
-      return <CustomFetching isFetching={getPOIPhotosQueryResult.isFetching} text='Getting Photos' />;
+  const renderPOINameAddress = (index, filteredResult) => {
+    if (filteredResult.address.house_number && filteredResult.address.road) {
+      return `${index} 
+      ${filteredResult.name}
+      (${filteredResult.address?.house_number} ${filteredResult.address.road})`;
     }
-    if (getPOIPhotosQueryResult.isError) {
-      return <span>Photo Not Found</span>;
+    if (filteredResult.address.road) {
+      return `${index} ${filteredResult.name} (${filteredResult.address.road})`;
     }
-    if (getPOIPhotosQueryResult.isSuccess) {
-      return formatPhotos();
+    if (filteredResult.name) {
+      return `${index} ${filteredResult.name}`;
     }
-    return null;
+    return 'No Data';
   };
 
-  if (data && data.results.length > 0 && isShowingAdditionalPopUp) {
-    const filteredResult = data.results.filter((marker) => marker.fsq_id === selectedPOI)[0];
-    const index = data.results.findIndex((marker) => marker.fsq_id === selectedPOI) + 1;
+  if (data && data.length > 0 && isShowingAdditionalPopUp) {
+    const filteredResult = data.filter((marker) => marker.place_id === selectedPOI)[0];
+    const index = data.findIndex((marker) => marker.place_id === selectedPOI) + 1;
 
     if (filteredResult) {
       return (
@@ -155,7 +152,8 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
                       className='buttonPOI'
                       label={`Walk from ${markerIcon}`}
                       onClick={handlePinDirectionButton}
-                      disabled={longPressedLonLat.longitude === null && longPressedLonLat.latitude === null}
+                      disabled={longPressedLonLat.longitude === null
+                        && longPressedLonLat.latitude === null}
                     />
                     <div>
                       <ButtonMealsUpload filteredResult={filteredResult} />
@@ -164,23 +162,12 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
                       <ButtonTransportUpload filteredResult={filteredResult} />
                     </div>
                     <div translate='no' className='flex text-lg min-h-8'>
-                      {(filteredResult.location.address)
-                        ? (
-                          <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
-                            {`${index}. ${filteredResult.name} (${filteredResult.location.address})`}
-                          </div>
-                        )
-                        : (
-                          <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
-                            {`${index}. ${filteredResult.name}`}
-                          </div>
-                        )}
-                      <div className='min-w-2/12 text-right'>
-                        {`${filteredResult.distance}m`}
+                      <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                        {renderPOINameAddress(index, filteredResult)}
                       </div>
-                    </div>
-                    <div className='cardPOIAddInfoPictures'>
-                      {getPhotos()}
+                      <div className='min-w-2/12 text-right'>
+                        {renderDistance(filteredResult)}
+                      </div>
                     </div>
                   </div>
                 </Sheet.Scroller>
@@ -195,7 +182,6 @@ export default function ProximityMarkersInfo({ data, getPOIPhotosQueryResult, ge
 }
 
 ProximityMarkersInfo.propTypes = {
-  data: FourSquareResponsePropTypes,
-  getPOIPhotosQueryResult: FourSquareResponsePropTypes,
+  data: OSMPropTypes,
   getDirectionsQueryTrigger: PropTypes.func
 };

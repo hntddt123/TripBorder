@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { openstreetmapBaseUrl } from '../constants/constants';
+import { openstreetmapBaseUrl, OPENSTREETMAP_API_QUERIES } from '../constants/apiConstants';
 
 /*
   Nominatim API for global keyword-to-coords search.
@@ -10,10 +10,12 @@ export const openstreetmapAPI = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: openstreetmapBaseUrl,
   }),
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     getLandmarkFromKeyword: builder.query({
       // Encodes keyword (prevents URI errors/injection), limit=1 for top result (extratags=1, addressdetails=1 for details).
-      query: (keyword) => `/search?q=${encodeURIComponent(keyword)}&format=json&limit=1`,
+      query: OPENSTREETMAP_API_QUERIES.getLandmarkFromKeywordQuery,
       transformResponse: (response) => {
         if (!response.length) return null;
         const result = response[0]; // First item; why: Highest global relevance rank.
@@ -23,10 +25,18 @@ export const openstreetmapAPI = createApi({
           lon: parseFloat(result.lon), // Longitude; example value: 139.8107004 (float from string "139.8107004").
         };
       },
+      keepUnusedDataFor: 900,
+      providesTags: ['OpenStreetMapPOIs']
+    }),
+    getLandmarksFromPin: builder.query({
+      query: OPENSTREETMAP_API_QUERIES.getLandmarkFromPinQuery,
+      keepUnusedDataFor: 900,
+      providesTags: ['OpenStreetMapPOIs']
     }),
   }),
 });
 
 export const {
-  useLazyGetLandmarkFromKeywordQuery
+  useLazyGetLandmarkFromKeywordQuery,
+  useLazyGetLandmarksFromPinQuery
 } = openstreetmapAPI;

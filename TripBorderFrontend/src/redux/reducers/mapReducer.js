@@ -13,7 +13,7 @@ const initialMapState = {
   longPressedLonLat: { longitude: null, latitude: null },
   isUsingGPSLonLat: true,
   markers: [],
-  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // default to restaurants 4d4b7105d754a06374d81259
+  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // foursquareAPI category default to restaurants 4d4b7105d754a06374d81259
   selectedPOI: '',
   selectedPOIIcon: '🍱', // default to 🍱
   selectedPOILonLat: { longitude: null, latitude: null },

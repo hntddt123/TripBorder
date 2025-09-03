@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import Toggle from 'react-toggle';
 import { diceIcon } from '../../constants/constants';
 import {
-  setViewState,
   setIsShowingOnlySelectedPOI,
   setIsThrowingDice
 } from '../../redux/reducers/mapReducer';
-import { FourSquareResponsePropTypes } from '../../constants/fourSquarePropTypes';
+import { OSMPropTypes } from '../../constants/osmPropTypes';
 
-export default function ToggleDice({ poi }) {
+export default function ToggleDice({ poi, handleFlyTo }) {
   const {
     isThrowingDice,
     isShowingOnlySelectedPOI,
@@ -20,12 +20,13 @@ export default function ToggleDice({ poi }) {
   const handleDiceToggle = () => {
     dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
     dispatch(setIsThrowingDice(!isThrowingDice));
-    if (poi !== undefined && isThrowingDice === false) {
-      dispatch(setViewState({
-        latitude: poi.results[randomPOINumber].geocodes.main.latitude,
-        longitude: poi.results[randomPOINumber].geocodes.main.longitude,
-        zoom: viewState.zoom
-      }));
+    if (poi && poi[randomPOINumber].lon && poi[randomPOINumber].lat && isThrowingDice === false) {
+      handleFlyTo(
+        poi[randomPOINumber].lon,
+        poi[randomPOINumber].lat,
+        viewState.zoom,
+        1500
+      );
     }
   };
 
@@ -45,5 +46,6 @@ export default function ToggleDice({ poi }) {
 }
 
 ToggleDice.propTypes = {
-  poi: FourSquareResponsePropTypes
+  poi: OSMPropTypes,
+  handleFlyTo: PropTypes.func
 };
