@@ -10,7 +10,7 @@ import {
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 import { calculateDistance } from '../../utility/geoCalculation';
 
-export default function NearbyPOIList({ poi, handleFlyTo }) {
+export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
   const {
     viewState,
     isShowingAdditionalPopUp,
@@ -18,7 +18,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
     longPressedLonLat
   } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
-  const isPOIExist = (poi && poi.length) > 0;
+  const isPOIExist = (data && data.length) > 0;
   const pressTimer = useRef(null);
 
   const handlePOIListItemClick = (marker) => () => {
@@ -97,7 +97,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
   if (isPOIExist) {
     return (
       <div>
-        {poi.map((marker, i) => (
+        {data.map((marker, i) => (
           // event sequence touchstart → touchend → mousedown → mouseup → click
           <button
             translate='no'
@@ -116,7 +116,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
               {renderPOINameAddress(marker)}
             </div>
             <div className='min-w-2/12 text-right'>
-              {renderDistance(marker)}
+              {(activeQueryType === 'pin') ? renderDistance(marker) : null}
             </div>
           </button>
         ))}
@@ -127,6 +127,7 @@ export default function NearbyPOIList({ poi, handleFlyTo }) {
 }
 
 NearbyPOIList.propTypes = {
-  poi: OSMPropTypes,
-  handleFlyTo: PropTypes.func
+  data: PropTypes.arrayOf(OSMPropTypes),
+  handleFlyTo: PropTypes.func,
+  activeQueryType: PropTypes.string
 };

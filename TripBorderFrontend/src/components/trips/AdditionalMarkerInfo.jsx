@@ -19,7 +19,7 @@ import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
 
-export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger }) {
+export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, activeQueryType }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
   const {
@@ -101,7 +101,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger }
     'm'
   )} m`;
 
-  const renderPOINameAddress = (index, filteredResult) => {
+  const getPOINameAddress = (index, filteredResult) => {
     if (filteredResult.address.house_number && filteredResult.address.road) {
       return `${index} 
       ${filteredResult.name}
@@ -163,10 +163,10 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger }
                     </div>
                     <div translate='no' className='flex text-lg min-h-8'>
                       <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
-                        {renderPOINameAddress(index, filteredResult)}
+                        {getPOINameAddress(index, filteredResult)}
                       </div>
                       <div className='min-w-2/12 text-right'>
-                        {renderDistance(filteredResult)}
+                        {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
                       </div>
                     </div>
                   </div>
@@ -182,6 +182,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger }
 }
 
 ProximityMarkersInfo.propTypes = {
-  data: OSMPropTypes,
-  getDirectionsQueryTrigger: PropTypes.func
+  data: PropTypes.arrayOf(OSMPropTypes),
+  getDirectionsQueryTrigger: PropTypes.func,
+  activeQueryType: PropTypes.string
 };

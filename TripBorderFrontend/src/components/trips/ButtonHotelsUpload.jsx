@@ -1,9 +1,10 @@
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
+import { getOSMAddress } from '../../utility/osmFormat';
+import { OSMPropTypes } from '../../constants/osmPropTypes';
 
 export default function ButtonHotelsUpload({ filteredResult }) {
   const {
@@ -19,11 +20,14 @@ export default function ButtonHotelsUpload({ filteredResult }) {
       const hotels = {
         trips_uuid: uuid,
         name: filteredResult.name,
-        address: filteredResult.location.formatted_address,
+        address: getOSMAddress(filteredResult.address),
         check_in: startDate,
         check_out: endDate,
         // booking_reference: booking_reference
-        location: filteredResult.geocodes.main
+        location: {
+          longitude: filteredResult.lon,
+          latitude: filteredResult.lat
+        }
       };
       PostHotelsByTripID(hotels);
     }
@@ -44,16 +48,5 @@ export default function ButtonHotelsUpload({ filteredResult }) {
 }
 
 ButtonHotelsUpload.propTypes = {
-  filteredResult: PropTypes.shape({
-    name: PropTypes.string,
-    location: PropTypes.shape({
-      formatted_address: PropTypes.string
-    }),
-    geocodes: PropTypes.shape({
-      main: PropTypes.shape({
-        longitude: PropTypes.number,
-        latitude: PropTypes.number
-      })
-    })
-  })
+  filteredResult: OSMPropTypes
 };

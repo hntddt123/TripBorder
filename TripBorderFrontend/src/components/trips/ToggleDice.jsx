@@ -49,6 +49,6 @@ export default function ToggleDice({ data, handleFlyTo }) {
 }
 
 ToggleDice.propTypes = {
-  data: OSMPropTypes,
+  data: PropTypes.arrayOf(OSMPropTypes),
   handleFlyTo: PropTypes.func
 };

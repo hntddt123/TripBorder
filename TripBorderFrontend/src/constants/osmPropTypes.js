@@ -56,7 +56,7 @@ const nameDetailsPropType = PropTypes.shape({
   place_rank: 30
   type: "restaurant"
 */
-export const OSMPropTypes = PropTypes.arrayOf(
+export const OSMPropTypes = (
   PropTypes.shape({
     address: addressPropType,
     addressType: PropTypes.string,

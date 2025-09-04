@@ -159,7 +159,7 @@ export default function ProximityMarkers({
 }
 
 ProximityMarkers.propTypes = {
-  data: OSMPropTypes,
+  data: PropTypes.arrayOf(OSMPropTypes),
   isFetching: PropTypes.bool,
   handleFlyTo: PropTypes.func
 };

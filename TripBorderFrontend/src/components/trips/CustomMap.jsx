@@ -240,8 +240,9 @@ export default function CustomMap() {
       return (
         <div className={`bottomMenu ${isShowingAdditionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
-            poi={sortedData}
+            data={sortedData}
             handleFlyTo={handleFlyTo}
+            activeQueryType={activeQueryType}
           />
         </div>
       );
@@ -372,6 +373,7 @@ export default function CustomMap() {
       <AdditionalMarkerInfo
         data={sortedData}
         getDirectionsQueryTrigger={getDirectionsQueryTrigger}
+        activeQueryType={activeQueryType}
       />
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
