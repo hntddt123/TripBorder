@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  setViewState,
   setIsShowingOnlySelectedPOI,
   setSelectedPOI,
   setIsShowingAdditionalPopUp,
@@ -10,7 +9,7 @@ import {
 import { GPSIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 
-export default function ButtonGPSSearch({ isFetching }) {
+export default function ButtonGPSSearch({ handleGPSSearch, isFetching }) {
   const {
     gpsLonLat,
     isThrowingDice,
@@ -26,20 +25,7 @@ export default function ButtonGPSSearch({ isFetching }) {
   const handleButtonGPSSearch = () => {
     if (hasGPSLonLat()) {
       dispatch(setIsUsingGPSLonLat(true));
-      // getNearbyPOIQueryTrigger({
-      //   ll: `${gpsLonLat.latitude},${gpsLonLat.longitude}`,
-      //   radius: selectedPOIRadius,
-      //   limit: selectedPOICount,
-      //   category: selectedPOIIDNumber,
-      //   icon: selectedPOIIcon,
-      //   sessionToken: sessionIDFSQ
-      // }, true);
-      dispatch(setViewState({
-        longitude: gpsLonLat.longitude,
-        latitude: gpsLonLat.latitude,
-        pitch: 30,
-        zoom: 15.5
-      }));
+      handleGPSSearch(gpsLonLat.longitude, gpsLonLat.latitude);
 
       if (isThrowingDice) {
         dispatch(setIsShowingOnlySelectedPOI(true));
@@ -63,6 +49,6 @@ export default function ButtonGPSSearch({ isFetching }) {
 }
 
 ButtonGPSSearch.propTypes = {
-  // getNearbyPOIQueryTrigger: PropTypes.func,
+  handleGPSSearch: PropTypes.func,
   isFetching: PropTypes.bool
 };

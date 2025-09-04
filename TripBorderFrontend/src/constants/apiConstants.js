@@ -43,10 +43,20 @@ export const FOURSQUARE_API_QUERIES = {
 };
 
 export const OPENSTREETMAP_API_QUERIES = {
-  getLandmarkFromKeywordQuery: (keyword) => (
-    `/search?q=${encodeURIComponent(keyword)}&format=json&limit=1`
-  ),
-  getLandmarkFromPinQuery: ({ q, pinLat, pinLon, radiusDeg = metersToDeltas(500, pinLat), limit = 5 }) => {
+  getLandmarkFromKeywordQuery: (keyword) => {
+    const params = {
+      q: keyword,
+      format: 'json',
+      limit: '1',
+      addressdetails: '1',
+      extratags: '1',
+      namedetails: '1'
+    };
+    return { url: 'search', params };
+  },
+  getLandmarkFromPinQuery: (
+    { q, pinLat, pinLon, radiusDeg = metersToDeltas(500, pinLat), limit = 5 }
+  ) => {
     const lon1 = pinLon - radiusDeg.deltaLon;
     const lat1 = pinLat - radiusDeg.deltaLat;
     const lon2 = pinLon + radiusDeg.deltaLon;

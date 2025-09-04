@@ -1,20 +1,13 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { useLazyGetLandmarkFromKeywordQuery } from '../../api/openstreemapSliceAPI';
 import CustomError from '../CustomError';
-import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
+import { errorPropTypes } from '../../constants/errorPropTypes';
 
-export default function InputLandmarkSearch({ handleFlyTo }) {
-  const [getLandmarkFromKeywordQueryTrigger, { data, isLoading, isFetching, error }] = useLazyGetLandmarkFromKeywordQuery();
+export default function InputLandmarkSearch({
+  handleKeywordSearch, isFetching, error }) {
   const [keyword, setKeyword] = useState('');
   const inputRef = useRef(null);
-
-  useEffect(() => {
-    if (data) {
-      handleFlyTo(data.lon, data.lat, 15.5, 1500);
-    }
-  }, [data, isFetching]);
 
   const handleInputChange = (e) => {
     setKeyword(e.target.value);
@@ -23,7 +16,7 @@ export default function InputLandmarkSearch({ handleFlyTo }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     inputRef.current.blur();
-    getLandmarkFromKeywordQueryTrigger(keyword);
+    handleKeywordSearch(keyword);
   };
 
   return (
@@ -46,7 +39,6 @@ export default function InputLandmarkSearch({ handleFlyTo }) {
           enterKeyHint='search'
         />
       </form>
-      <CustomLoading isLoading={isLoading} />
       <CustomFetching isFetching={isFetching} />
       <CustomError error={error} />
     </div>
@@ -54,5 +46,7 @@ export default function InputLandmarkSearch({ handleFlyTo }) {
 }
 
 InputLandmarkSearch.propTypes = {
-  handleFlyTo: PropTypes.func
+  handleKeywordSearch: PropTypes.func,
+  isFetching: PropTypes.bool,
+  error: errorPropTypes
 };

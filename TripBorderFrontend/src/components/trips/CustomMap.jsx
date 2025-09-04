@@ -19,7 +19,10 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
-import { useLazyGetLandmarksFromPinQuery } from '../../api/openstreemapSliceAPI';
+import {
+  useLazyGetLandmarksFromPinQuery,
+  useLazyGetLandmarkFromKeywordQuery
+} from '../../api/openstreemapSliceAPI';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
@@ -41,6 +44,7 @@ import { getNearestPOI } from '../../utility/markerCalculation';
 // react-map-gl component
 export default function CustomMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [activeQueryType, setActiveQueryType] = useState('pin');
   const [sortedData, setSortedData] = useState([]);
   const {
     mapStyle,
@@ -60,7 +64,12 @@ export default function CustomMap() {
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
-  const [getLandmarkFromPinQueryTrigger, { data, error, isFetching }] = useLazyGetLandmarksFromPinQuery();
+  const [getLandmarkFromPinQueryTrigger,
+    { data: resultPin, error: errorPin, isFetching: isFetchingPin }
+  ] = useLazyGetLandmarksFromPinQuery();
+  const [getLandmarkFromKeywordTrigger,
+    { data: resultKeyword, error: errorKeyword, isFetching: isFetchingKeyword }
+  ] = useLazyGetLandmarkFromKeywordQuery();
 
   const mapCSSStyle = { width: '100%', height: '94dvh', borderRadius: 10 };
   const mapRef = useRef();
@@ -74,6 +83,23 @@ export default function CustomMap() {
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
 
+  const getIsFetchingByQueryType = () => {
+    if (activeQueryType === 'pin') return isFetchingPin;
+    return isFetchingKeyword;
+  };
+
+  useEffect(() => {
+    if (resultPin && activeQueryType === 'pin') {
+      setSortedData(getNearestPOI(resultPin, longPressedLonLat));
+    }
+  }, [resultPin, activeQueryType]);
+
+  useEffect(() => {
+    if (resultKeyword && activeQueryType === 'keyword') {
+      setSortedData(resultKeyword);
+    }
+  }, [resultKeyword, activeQueryType]);
+
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
     mapRef.current.flyTo({
       center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
@@ -84,15 +110,14 @@ export default function CustomMap() {
     });
   };
 
-  const handleMarkerSearch = (lng, lat) => {
-    getLandmarkFromPinQueryTrigger(
-      {
-        q: '餐廳',
-        pinLat: lat,
-        pinLon: lng,
-        limit: 10,
-      }
-    );
+  const handlePinSearch = (lng, lat) => {
+    setActiveQueryType('pin');
+    getLandmarkFromPinQueryTrigger({
+      q: '餐廳',
+      pinLat: lat,
+      pinLon: lng,
+      limit: 10,
+    });
 
     handleFlyTo(lng, lat, 15.5, 1500);
 
@@ -105,31 +130,25 @@ export default function CustomMap() {
     dispatch(setIsShowingAdditionalPopUp(false));
   };
 
-  useEffect(() => {
-    if (data && mapRef?.current) {
-      setSortedData(getNearestPOI(data, longPressedLonLat));
-      //   const { lon, lat } = data;
+  const handleKeywordSearch = async (keyword) => {
+    setActiveQueryType('keyword');
+    const resultKey = (await getLandmarkFromKeywordTrigger(keyword)).data;
+    handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
 
-      //   const newMarker = {
-      //     id: new Date().getTime(),
-      //     lng: lon,
-      //     lat: lat
-      //   };
-
-      //   dispatch(setLongPressedLonLat({ longitude: lon, latitude: lat }));
-      //   dispatch(setIsUsingGPSLonLat(false));
-      //   dispatch(setMarker(newMarker));
-
-      //   handleFlyTo(lon, lat, 15.5, 1500);
-      //   handleMarkerSearch(lon, lat);
+    if (isThrowingDice) {
+      dispatch(setIsShowingOnlySelectedPOI(true));
+    } else {
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
     }
-  }, [data]);
+    dispatch(setIsShowingAdditionalPopUp(false));
+  };
 
   const onGeocoderResult = (event) => {
     const [lng, lat] = event.result.center;
     dispatch(setLongPressedLonLat({ longitude: lng, latitude: lat }));
     dispatch(setIsUsingGPSLonLat(false));
-    handleMarkerSearch(lng, lat);
+    handlePinSearch(lng, lat);
   };
 
   const handleGeoRef = (ref) => {
@@ -191,7 +210,7 @@ export default function CustomMap() {
       }));
       dispatch(setMarker(newMarker));
       dispatch(setIsUsingGPSLonLat(false));
-      handleMarkerSearch(lng, lat);
+      handlePinSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
 
@@ -299,7 +318,9 @@ export default function CustomMap() {
         )
         : (
           <InputLandmarkSearch
-            handleFlyTo={handleFlyTo}
+            handleKeywordSearch={handleKeywordSearch}
+            error={errorKeyword}
+            isFetching={isFetchingKeyword}
           />
         )}
       <div>
@@ -322,16 +343,17 @@ export default function CustomMap() {
       </div>
       <div className='absoluteBottomToolBar mb-1'>
         <div className='min-h-5'>
-          <CustomFetching isFetching={isFetching} />
-          <CustomError error={error} />
+          <CustomFetching isFetching={isFetchingPin} />
+          <CustomError error={errorPin} />
         </div>
         <ButtonPOISelection
-          isFetching={isFetching}
+          isFetching={isFetchingPin}
         />
         <ButtonGPSSearch
-          isFetching={isFetching}
+          handleGPSSearch={handlePinSearch}
+          isFetching={isFetchingPin}
         />
-        <ToggleDice poi={sortedData} handleFlyTo={handleFlyTo} />
+        <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} />
       </div>
       <GeolocateControl
         ref={(ref) => handleGeoRef(ref)}
@@ -344,7 +366,7 @@ export default function CustomMap() {
       />
       <ProximityMarkers
         data={sortedData}
-        isFetching={isFetching}
+        isFetching={getIsFetchingByQueryType()}
         handleFlyTo={handleFlyTo}
       />
       <AdditionalMarkerInfo
@@ -361,9 +383,4 @@ export default function CustomMap() {
 
 CustomMap.propTypes = {
   isFetching: PropTypes.bool,
-  getLandmarkFromKeywordResult: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-    name: PropTypes.string,
-  })
 };

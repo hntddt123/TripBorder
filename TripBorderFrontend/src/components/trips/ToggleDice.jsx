@@ -8,7 +8,7 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 
-export default function ToggleDice({ poi, handleFlyTo }) {
+export default function ToggleDice({ data, handleFlyTo }) {
   const {
     isThrowingDice,
     isShowingOnlySelectedPOI,
@@ -20,10 +20,13 @@ export default function ToggleDice({ poi, handleFlyTo }) {
   const handleDiceToggle = () => {
     dispatch(setIsShowingOnlySelectedPOI(!isShowingOnlySelectedPOI));
     dispatch(setIsThrowingDice(!isThrowingDice));
-    if (poi && poi[randomPOINumber].lon && poi[randomPOINumber].lat && isThrowingDice === false) {
+    if (data && data.length > 0
+      && data[randomPOINumber].lon
+      && data[randomPOINumber].lat
+      && isThrowingDice === false) {
       handleFlyTo(
-        poi[randomPOINumber].lon,
-        poi[randomPOINumber].lat,
+        data[randomPOINumber].lon,
+        data[randomPOINumber].lat,
         viewState.zoom,
         1500
       );
@@ -46,6 +49,6 @@ export default function ToggleDice({ poi, handleFlyTo }) {
 }
 
 ToggleDice.propTypes = {
-  poi: OSMPropTypes,
+  data: OSMPropTypes,
   handleFlyTo: PropTypes.func
 };
