@@ -48,8 +48,8 @@ export default function ProximityMarkers({
 
     dispatch(setSelectedPOI(marker.place_id));
     dispatch(setSelectedPOILonLat({
-      longitude: marker.lon,
-      latitude: marker.lat
+      longitude: parseFloat(marker.lon),
+      latitude: parseFloat(marker.lat)
     }));
     dispatch(setIsShowingOnlySelectedPOI(true));
     dispatch(setIsShowingAdditionalPopUp(true));

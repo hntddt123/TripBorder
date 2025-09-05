@@ -7,7 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   setViewState,
   setMarker,
-  // setGPSLonLat,
+  setGPSLonLat,
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
@@ -183,12 +183,13 @@ export default function CustomMap() {
     dispatch(setViewState(event.viewState));
   }, [dispatch]);
 
-  // const handleCurrentLocation = (event) => {
-  //   dispatch(setGPSLonLat({
-  //     longitude: event.coords.longitude,
-  //     latitude: event.coords.latitude,
-  //   }));
-  // };
+  const handleCurrentLocation = (event) => {
+    dispatch(setGPSLonLat({
+      longitude: event.coords.longitude,
+      latitude: event.coords.latitude,
+    }));
+    handleFlyTo(event.coords.longitude, event.coords.latitude, 15.5, 1500);
+  };
 
   const handleClick = () => {
     if (!isNavigating && isShowingAdditionalPopUp && selectedPOI) {
@@ -368,7 +369,7 @@ export default function CustomMap() {
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
         positionOptions={{ enableHighAccuracy: true }}
-        // onGeolocate={handleCurrentLocation}
+        onGeolocate={handleCurrentLocation}
         showUserHeading
         showUserLocation
         trackUserLocation
