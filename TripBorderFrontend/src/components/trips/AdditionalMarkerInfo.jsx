@@ -162,7 +162,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
                       <ButtonTransportUpload filteredResult={filteredResult} />
                     </div>
                     <div translate='no' className='flex text-lg min-h-8'>
-                      <div className='min-w-10/12 text-left text-nowrap overflow-x-scroll'>
+                      <div className='min-w-10/12 text-left text-nowrap overflow-x-auto'>
                         {getPOINameAddress(index, filteredResult)}
                       </div>
                       <div className='min-w-2/12 text-right'>

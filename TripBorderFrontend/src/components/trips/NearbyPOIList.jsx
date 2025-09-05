@@ -112,7 +112,7 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
             <div className='min-w-1/12 text-center'>
               {`${i + 1}`}
             </div>
-            <div className='min-w-9/12 overflow-scroll text-left cursor-pointer'>
+            <div className='min-w-9/12 text-left cursor-pointer'>
               {renderPOINameAddress(marker)}
             </div>
             <div className='min-w-2/12 text-right'>

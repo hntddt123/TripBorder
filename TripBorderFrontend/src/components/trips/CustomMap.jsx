@@ -113,12 +113,11 @@ export default function CustomMap() {
   const handlePinSearch = (lng, lat) => {
     setActiveQueryType('pin');
     getLandmarkFromPinQueryTrigger({
-      q: '餐廳',
+      q: '[amenity=restaurant] 餐廳 restaurant',
       pinLat: lat,
       pinLon: lng,
       limit: 10,
     });
-
     handleFlyTo(lng, lat, 15.5, 1500);
 
     if (isThrowingDice) {
@@ -133,8 +132,9 @@ export default function CustomMap() {
   const handleKeywordSearch = async (keyword) => {
     setActiveQueryType('keyword');
     const resultKey = (await getLandmarkFromKeywordTrigger(keyword)).data;
-    handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
-
+    if (resultKey.length > 0) {
+      handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
+    }
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
     } else {

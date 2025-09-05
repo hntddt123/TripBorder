@@ -32,7 +32,7 @@ export const numIcon = '🔢';
 export const markerIcon = '📍';
 
 // Define the Foursquare categories and their corresponding icons
-export const iconMap = {
+export const iconMapFoursquare = {
   '4d4b7105d754a06374d81259': { icon: restaurantIcon, label: 'Restaurant' },
   '4d4b7105d754a06377d81259': { icon: parkIcon, label: 'Landmarks and Outdoors' },
   '4bf58dd8d48988d181941735': { icon: museumIcon, label: 'Museum' },
@@ -42,8 +42,18 @@ export const iconMap = {
   '4bf58dd8d48988d1fd941735': { icon: shoppingIcon, label: 'Shopping' },
 };
 
+export const iconMapOSM = {
+  'amenity=restaurant': { icon: restaurantIcon, label: 'Restaurant', query: 'restaurant' },
+  'leisure=park': { icon: parkIcon, label: 'Landmarks and Outdoors', query: 'park OR landmark' },
+  'tourism=museum': { icon: museumIcon, label: 'Museum', query: 'museum' },
+  'amenity=place_of_worship': { icon: SpritIcon, label: 'Spiritual Centers', query: 'church OR temple OR mosque' },
+  'tourism=hotel': { icon: hotelIcon, label: 'Hotel', query: 'hotel' },
+  'public_transport=station': { icon: transportIcon, label: 'Travel and Transportation', query: 'bus station OR train station OR airport' },
+  'shop=mall': { icon: shoppingIcon, label: 'Shopping', query: 'shopping mall' },
+};
+
 export const poiCategories = Object
-  .entries(iconMap)
+  .entries(iconMapOSM)
   .map(([id, { icon, label }]) => ({
     id,
     icon,

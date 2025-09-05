@@ -18,7 +18,7 @@ export default function UserProfile() {
   const trialStartedAt = user?.trial_started_at;
 
   return (
-    <div className='cardInfo p-4 overflow-x-scroll text-nowrap'>
+    <div className='cardInfo p-4 overflow-x-auto text-nowrap'>
       <CustomFetching isFetching={isFetching} />
       <CustomError error={error} />
       <img className='profilepic' src={profilePicture} alt='profilepic' />

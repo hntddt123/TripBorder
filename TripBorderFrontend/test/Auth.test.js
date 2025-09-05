@@ -39,9 +39,9 @@ describe('Auth Component', () => {
   });
 
   test('renders error state', () => {
-    useCheckAuthStatusQuery.mockReturnValue({ error: { message: 'Auth failed' }, refetch: jest.fn() });
+    useCheckAuthStatusQuery.mockReturnValue({ error: { status: 401, message: 'Auth failed' }, refetch: jest.fn() });
     renderWithRouter(['/auth'], <Auth />);
-    expect(screen.getByTestId('customError')).toHaveTextContent('Status: - Unknown error');
+    expect(screen.getByTestId('customError')).toHaveTextContent('Status: 401 - Auth failed');
   });
 
   test('renders login button when not authenticated', () => {

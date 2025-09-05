@@ -81,7 +81,7 @@ html, body {
   @apply 
   font-family-sans 
   m-0
-  overflow-y-scroll;
+  overflow-y-auto;
 }
 
 @layer components {
@@ -791,7 +791,7 @@ html, body {
     width: 99%;
     @apply
     items-center
-    text-nowrap overflow-x-scroll
+    text-nowrap overflow-x-auto
     ml-auto mr-auto mt-0.5
     p-2
     border-0
@@ -946,7 +946,7 @@ html, body {
     padding-right: 30%;
     padding-bottom: 30%;
     @apply 
-    flex z-0 overflow-x-scroll;
+    flex z-0 overflow-x-auto;
   }
 
   .cardInfo {
@@ -1058,7 +1058,7 @@ html, body {
     mt-2
     p-1
     rounded-lg
-    overflow-y-scroll
+    overflow-y-auto
     bg-amber-50 dark:bg-primary-button-dark-transparent;
   }
 
@@ -1124,7 +1124,7 @@ html, body {
     absolute
     flex-wrap
     rounded-lg
-    overflow-y-scroll
+    overflow-y-auto
     z-10
     p-2
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
@@ -1138,7 +1138,7 @@ html, body {
     z-10
     flex-wrap
     rounded-lg
-    overflow-y-scroll
+    overflow-y-auto
     p-2
     mt-14
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;

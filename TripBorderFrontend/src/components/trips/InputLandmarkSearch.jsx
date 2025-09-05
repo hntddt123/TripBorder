@@ -16,7 +16,7 @@ export default function InputLandmarkSearch({
   const handleSubmit = (e) => {
     e.preventDefault();
     inputRef.current.blur();
-    handleKeywordSearch(keyword);
+    handleKeywordSearch(keyword.trim());
   };
 
   return (

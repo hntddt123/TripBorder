@@ -10,6 +10,12 @@ export const errorPropTypes = PropTypes.shape({
     PropTypes.shape({
       error: PropTypes.string
     }),
+    PropTypes.shape({
+      error: PropTypes.shape({
+        code: PropTypes.number,
+        message: PropTypes.string
+      })
+    }),
     PropTypes.string
   ])
 });
