@@ -32,7 +32,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
       const transport = {
         trips_uuid: uuid,
         name: filteredResult.name,
-        address: getOSMAddress(filteredResult.address),
+        address: getOSMAddress(filteredResult),
         departure_time: startDate,
         arrival_time: startDate,
         location: {

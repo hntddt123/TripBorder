@@ -7,7 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   setViewState,
   setMarker,
-  setGPSLonLat,
+  // setGPSLonLat,
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
@@ -15,12 +15,13 @@ import {
   setSelectedPOI,
   setIsShowingAdditionalPopUp,
   setIsUsingGPSLonLat,
-  setSessionIDFSQ
+  setSessionIDFSQ,
+  setSelectedPOIIcon
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import {
-  useLazyGetLandmarksFromPinQuery,
+  // useLazyGetLandmarksFromPinQuery,
   useLazyGetLandmarkFromKeywordQuery
 } from '../../api/openstreemapSliceAPI';
 import ClickMarker from './ClickMarker';
@@ -31,15 +32,17 @@ import NearbyPOIList from './NearbyPOIList';
 import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 import InputLandmarkSearch from './InputLandmarkSearch';
-import ButtonGPSSearch from './ButtonGPSSearch';
-import ButtonPOISelection from './ButtonPOISelection';
-import ToggleDice from './ToggleDice';
+// import ButtonGPSSearch from './ButtonGPSSearch';
+// import ButtonPOISelection from './ButtonPOISelection';
+// import ToggleDice from './ToggleDice';
 import CustomToggle from '../CustomToggle';
 import TripPlanningTools from './TripPlanningTools';
 import TripSearchTools from './TripSearchTools';
-import CustomFetching from '../CustomFetching';
-import CustomError from '../CustomError';
-import { getNearestPOI } from '../../utility/markerCalculation';
+import { searchIcon } from '../../constants/constants';
+// import CustomFetching from '../CustomFetching';
+// import CustomError from '../CustomError';
+// import { getNearestPOI } from '../../utility/markerCalculation';
+// import { metersToDeltas } from '../../utility/geoCalculation';
 
 // react-map-gl component
 export default function CustomMap() {
@@ -55,7 +58,9 @@ export default function CustomMap() {
     isThrowingDice,
     isUsingMapBoxGeocoder,
     selectedPOI,
-    longPressedLonLat
+    // longPressedLonLat,
+    // selectedPOIRadius,
+    // selectedPOICount
   } = useSelector((state) => state.mapReducer);
   const {
     isDarkMode,
@@ -64,9 +69,9 @@ export default function CustomMap() {
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
-  const [getLandmarkFromPinQueryTrigger,
-    { data: resultPin, error: errorPin, isFetching: isFetchingPin }
-  ] = useLazyGetLandmarksFromPinQuery();
+  // const [getLandmarkFromPinQueryTrigger,
+  //   { data: resultPin, error: errorPin, isFetching: isFetchingPin }
+  // ] = useLazyGetLandmarksFromPinQuery();
   const [getLandmarkFromKeywordTrigger,
     { data: resultKeyword, error: errorKeyword, isFetching: isFetchingKeyword }
   ] = useLazyGetLandmarkFromKeywordQuery();
@@ -83,16 +88,16 @@ export default function CustomMap() {
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
 
-  const getIsFetchingByQueryType = () => {
-    if (activeQueryType === 'pin') return isFetchingPin;
-    return isFetchingKeyword;
-  };
+  // const getIsFetchingByQueryType = () => {
+  //   if (activeQueryType === 'pin') return isFetchingPin;
+  //   return isFetchingKeyword;
+  // };
 
-  useEffect(() => {
-    if (resultPin && activeQueryType === 'pin') {
-      setSortedData(getNearestPOI(resultPin, longPressedLonLat));
-    }
-  }, [resultPin, activeQueryType]);
+  // useEffect(() => {
+  //   if (resultPin && activeQueryType === 'pin') {
+  //     setSortedData(getNearestPOI(resultPin, longPressedLonLat));
+  //   }
+  // }, [resultPin, activeQueryType]);
 
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
@@ -110,28 +115,31 @@ export default function CustomMap() {
     });
   };
 
-  const handlePinSearch = (lng, lat) => {
-    setActiveQueryType('pin');
-    getLandmarkFromPinQueryTrigger({
-      q: '[amenity=restaurant] 餐廳 restaurant',
-      pinLat: lat,
-      pinLon: lng,
-      limit: 10,
-    });
-    handleFlyTo(lng, lat, 15.5, 1500);
+  // const handlePinSearch = (lng, lat) => {
+  //   setActiveQueryType('pin');
+  //   getLandmarkFromPinQueryTrigger({
+  //     q: '[amenity=restaurant] tokyo',
+  //     pinLat: lat,
+  //     pinLon: lng,
+  //     radiusDeg: metersToDeltas(selectedPOIRadius, lat),
+  //     limit: selectedPOICount
+  //   });
+  //   handleFlyTo(lng, lat, 15.5, 1500);
 
-    if (isThrowingDice) {
-      dispatch(setIsShowingOnlySelectedPOI(true));
-    } else {
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
-    }
-    dispatch(setIsShowingAdditionalPopUp(false));
-  };
+  //   if (isThrowingDice) {
+  //     dispatch(setIsShowingOnlySelectedPOI(true));
+  //   } else {
+  //     dispatch(setIsShowingOnlySelectedPOI(false));
+  //     dispatch(setSelectedPOI(''));
+  //   }
+  //   dispatch(setIsShowingAdditionalPopUp(false));
+  // };
 
   const handleKeywordSearch = async (keyword) => {
     setActiveQueryType('keyword');
+    dispatch(setSelectedPOIIcon(searchIcon));
     const resultKey = (await getLandmarkFromKeywordTrigger(keyword)).data;
+
     if (resultKey.length > 0) {
       handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
     }
@@ -148,12 +156,12 @@ export default function CustomMap() {
     const [lng, lat] = event.result.center;
     dispatch(setLongPressedLonLat({ longitude: lng, latitude: lat }));
     dispatch(setIsUsingGPSLonLat(false));
-    handlePinSearch(lng, lat);
+    // handlePinSearch(lng, lat);
   };
 
-  const handleGeoRef = (ref) => {
-    geoLocateRef.current = ref;
-  };
+  // const handleGeoRef = (ref) => {
+  //   geoLocateRef.current = ref;
+  // };
 
   const handleOnLoad = (map) => {
     map.target.touchZoomRotate.enable();
@@ -175,12 +183,12 @@ export default function CustomMap() {
     dispatch(setViewState(event.viewState));
   }, [dispatch]);
 
-  const handleCurrentLocation = (event) => {
-    dispatch(setGPSLonLat({
-      longitude: event.coords.longitude,
-      latitude: event.coords.latitude,
-    }));
-  };
+  // const handleCurrentLocation = (event) => {
+  //   dispatch(setGPSLonLat({
+  //     longitude: event.coords.longitude,
+  //     latitude: event.coords.latitude,
+  //   }));
+  // };
 
   const handleClick = () => {
     if (!isNavigating && isShowingAdditionalPopUp && selectedPOI) {
@@ -210,7 +218,7 @@ export default function CustomMap() {
       }));
       dispatch(setMarker(newMarker));
       dispatch(setIsUsingGPSLonLat(false));
-      handlePinSearch(lng, lat);
+      // handlePinSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
 
@@ -344,31 +352,32 @@ export default function CustomMap() {
       </div>
       <div className='absoluteBottomToolBar mb-1'>
         <div className='min-h-5'>
-          <CustomFetching isFetching={isFetchingPin} />
-          <CustomError error={errorPin} />
+          {/* <CustomFetching isFetching={isFetchingPin} />
+          <CustomError error={errorPin} /> */}
         </div>
-        <ButtonPOISelection
+        {/* <ButtonPOISelection
           isFetching={isFetchingPin}
         />
         <ButtonGPSSearch
           handleGPSSearch={handlePinSearch}
           isFetching={isFetchingPin}
         />
-        <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} />
+        <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} /> */}
       </div>
       <GeolocateControl
-        ref={(ref) => handleGeoRef(ref)}
+        // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
         positionOptions={{ enableHighAccuracy: true }}
-        onGeolocate={handleCurrentLocation}
+        // onGeolocate={handleCurrentLocation}
         showUserHeading
         showUserLocation
         trackUserLocation
       />
       <ProximityMarkers
         data={sortedData}
-        isFetching={getIsFetchingByQueryType()}
+        isFetching={isFetchingKeyword}
         handleFlyTo={handleFlyTo}
+        activeQueryType={activeQueryType}
       />
       <AdditionalMarkerInfo
         data={sortedData}

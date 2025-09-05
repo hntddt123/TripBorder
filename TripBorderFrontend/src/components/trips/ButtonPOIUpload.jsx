@@ -18,7 +18,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
       const poi = {
         trips_uuid: uuid,
         name: filteredResult.name,
-        address: getOSMAddress(filteredResult.address),
+        address: getOSMAddress(filteredResult),
         visit_time: startDate,
         location: {
           longitude: filteredResult.lon,

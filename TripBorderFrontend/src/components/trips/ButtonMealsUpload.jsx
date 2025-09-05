@@ -22,7 +22,7 @@ export default function ButtonMealsUpload({ filteredResult }) {
       const meals = {
         trips_uuid: uuid,
         name: filteredResult.name,
-        address: getOSMAddress(filteredResult.address),
+        address: getOSMAddress(filteredResult),
         meal_time: mealTime,
         location: {
           longitude: filteredResult.lon,

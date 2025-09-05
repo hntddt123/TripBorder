@@ -135,7 +135,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
               <Sheet.Content
                 className='safeArea bg-black'
               >
-                <Sheet.Scroller>
+                <Sheet.Scroller className='select-text'>
                   <div className='cardPOIAddInfo'>
                     <CustomButton
                       translate='no'

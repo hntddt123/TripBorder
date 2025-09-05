@@ -29,7 +29,7 @@ export default function TripPlanningTools({ handleFlyTo, onClose }) {
         <Sheet.Content
           className='safeArea bg-black'
         >
-          <Sheet.Scroller>
+          <Sheet.Scroller className='select-text'>
             <TripCurrent handleFlyTo={handleFlyTo} />
           </Sheet.Scroller>
         </Sheet.Content>

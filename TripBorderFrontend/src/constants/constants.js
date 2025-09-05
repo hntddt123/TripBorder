@@ -14,7 +14,7 @@ export const {
 
 export const isDevMode = (MODE === 'development');
 
-// FoursquarePOI icon list
+// poi icon list
 export const restaurantIcon = '🍱';
 export const parkIcon = '🏞️';
 export const museumIcon = '🏛️';
@@ -22,7 +22,8 @@ export const SpritIcon = '🙏';
 export const hotelIcon = '🛌';
 export const transportIcon = '🚀';
 export const shoppingIcon = '🛍️';
-// FoursquarePOI icon list End
+export const searchIcon = '🔍';
+// poi icon list End
 
 export const GPSIcon = '🛰️🔍';
 export const diceIcon = '🎲';

@@ -1106,7 +1106,7 @@ html, body {
 
   .bottomMenu {
     z-index: 1;
-    bottom: 64px;
+    bottom: 80px;
     width: 100%;
     max-height: 25dvh;
     overflow-y: scroll;

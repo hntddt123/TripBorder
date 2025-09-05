@@ -55,7 +55,7 @@ export const OPENSTREETMAP_API_QUERIES = {
     return { url: 'search', params };
   },
   getLandmarkFromPinQuery: (
-    { q, pinLat, pinLon, radiusDeg = metersToDeltas(500, pinLat), limit = 5 }
+    { q, pinLat, pinLon, radiusDeg = metersToDeltas(500, pinLat), limit = 20 }
   ) => {
     const lon1 = pinLon - radiusDeg.deltaLon;
     const lat1 = pinLat - radiusDeg.deltaLat;
@@ -63,13 +63,13 @@ export const OPENSTREETMAP_API_QUERIES = {
     const lat2 = pinLat + radiusDeg.deltaLat;
     const params = {
       q,
-      format: 'json',
-      limit: limit.toString(),
       viewbox: `${lon1},${lat1},${lon2},${lat2}`,
       bounded: '1',
+      format: 'json',
+      limit: limit.toString(),
       addressdetails: '1',
       extratags: '1',
-      namedetails: '1'
+      namedetails: '1',
     };
     return { url: 'search', params };
   }

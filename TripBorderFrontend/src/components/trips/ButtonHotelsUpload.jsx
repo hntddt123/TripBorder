@@ -20,7 +20,7 @@ export default function ButtonHotelsUpload({ filteredResult }) {
       const hotels = {
         trips_uuid: uuid,
         name: filteredResult.name,
-        address: getOSMAddress(filteredResult.address),
+        address: getOSMAddress(filteredResult),
         check_in: startDate,
         check_out: endDate,
         // booking_reference: booking_reference
