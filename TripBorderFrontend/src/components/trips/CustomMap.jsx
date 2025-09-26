@@ -79,7 +79,7 @@ export default function CustomMap() {
   const mapCSSStyle = { width: '100%', height: '94dvh', borderRadius: 10 };
   const mapRef = useRef();
   const pressTimer = useRef(null);
-  const geoLocateRef = useRef(null);
+  // const geoLocateRef = useRef(null);
 
   const screenHeight = window.innerHeight;
   // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
@@ -176,7 +176,7 @@ export default function CustomMap() {
     }
     setMapLoaded(true);
     dispatch(setSessionIDFSQ(uuidv4()));
-    geoLocateRef.current?.trigger();
+    // geoLocateRef.current?.trigger();
   };
 
   const onMove = useCallback((event) => {
@@ -184,11 +184,15 @@ export default function CustomMap() {
   }, [dispatch]);
 
   const handleCurrentLocation = (event) => {
-    dispatch(setGPSLonLat({
-      longitude: event.coords.longitude,
-      latitude: event.coords.latitude,
-    }));
-    handleFlyTo(event.coords.longitude, event.coords.latitude, 15.5, 1500);
+    const { coords } = event;
+
+    if (coords) {
+      dispatch(setGPSLonLat({
+        longitude: coords.longitude,
+        latitude: coords.latitude,
+      }));
+      handleFlyTo(coords.longitude, coords.latitude, 15.5, 1500);
+    }
   };
 
   const handleClick = () => {
@@ -368,8 +372,9 @@ export default function CustomMap() {
       <GeolocateControl
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
-        positionOptions={{ enableHighAccuracy: true }}
+        positionOptions={{ enableHighAccuracy: true, timeout: 10000 }}
         onGeolocate={handleCurrentLocation}
+        onError={(error) => { console.error('Geolocate error:', error); }}
         showUserHeading
         showUserLocation
         trackUserLocation
