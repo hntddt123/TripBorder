@@ -272,18 +272,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
                       component={renderDetail(hotel)}
                     />
                   </div>
-                  <div>
-                    {(isEditing)
-                      ? (
-                        <CustomButton
-                          className='buttonDelete'
-                          translate='no'
-                          label={`🗑️ ${hotel.name}`}
-                          onClick={() => deleteHotel(hotel.uuid)}
-                        />
-                      )
-                      : null}
-                  </div>
                 </div>
               ))}
             </div>
@@ -292,6 +280,16 @@ export default function Hotels({ tripID, handleFlyTo }) {
           <div key={`${hotel.uuid}`}>
             {`${formatDatecccMMMdyyyy(hotel.check_in)} - ${formatDatecccMMMdyyyy(hotel.check_out)}`}
             <div className='text-pretty px-2'>
+              {(isEditing)
+                ? (
+                  <CustomButton
+                    className='buttonDelete'
+                    translate='no'
+                    label='🗑️'
+                    onClick={() => deleteHotel(hotel.uuid)}
+                  />
+                )
+                : null}
               <CustomToggle
                 translate='no'
                 className='toggle toggleTrip'
@@ -301,18 +299,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
                 titleOff={`${hotel.name}`}
                 component={renderDetail(hotel)}
               />
-            </div>
-            <div>
-              {(isEditing)
-                ? (
-                  <CustomButton
-                    className='buttonDelete'
-                    translate='no'
-                    label={`🗑️ ${hotel.name}`}
-                    onClick={() => deleteHotel(hotel.uuid)}
-                  />
-                )
-                : null}
             </div>
           </div>
         )))}

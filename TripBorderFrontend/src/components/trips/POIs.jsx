@@ -154,11 +154,22 @@ export default function POIs({ tripID, handleFlyTo }) {
             {poisForDate?.map((poi) => (
               <div key={poi.uuid}>
                 <div className='text-pretty px-2'>
-                  <CustomButton
-                    className='buttonLocate'
-                    label={parkIcon}
-                    onClick={flyToLocation(poi)}
-                  />
+                  {(isEditing)
+                    ? (
+                      <CustomButton
+                        className='buttonDelete'
+                        translate='no'
+                        label='🗑️'
+                        onClick={() => deletePOI(poi.uuid)}
+                      />
+                    )
+                    : (
+                      <CustomButton
+                        className='buttonLocate'
+                        label={parkIcon}
+                        onClick={flyToLocation(poi)}
+                      />
+                    )}
                   <CustomToggle
                     translate='no'
                     className='toggle toggleTrip'
@@ -168,18 +179,6 @@ export default function POIs({ tripID, handleFlyTo }) {
                     titleOff={`${poi.name}`}
                     component={renderDetail(poi)}
                   />
-                </div>
-                <div>
-                  {(isEditing)
-                    ? (
-                      <CustomButton
-                        className='buttonDelete'
-                        translate='no'
-                        label={`🗑️ ${poi.name}`}
-                        onClick={() => deletePOI(poi.uuid)}
-                      />
-                    )
-                    : null}
                 </div>
               </div>
             ))}

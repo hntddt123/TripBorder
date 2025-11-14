@@ -156,11 +156,20 @@ export default function Meals({ tripID, handleFlyTo }) {
             {mealsForDate.map((meal) => (
               <div key={meal.uuid}>
                 <div className='text-pretty px-2'>
-                  <CustomButton
-                    className='buttonLocate'
-                    label={restaurantIcon}
-                    onClick={flyToLocation(meal)}
-                  />
+                  {(isEditing) ? (
+                    <CustomButton
+                      className='buttonDelete'
+                      translate='no'
+                      label='🗑️'
+                      onClick={handleDeleteButton(meal.uuid)}
+                    />
+                  ) : (
+                    <CustomButton
+                      className='buttonLocate'
+                      label={restaurantIcon}
+                      onClick={flyToLocation(meal)}
+                    />
+                  )}
                   <CustomToggle
                     translate='no'
                     className='toggle toggleTrip'
@@ -170,20 +179,6 @@ export default function Meals({ tripID, handleFlyTo }) {
                     titleOff={`${meal.name}`}
                     component={renderDetail(meal)}
                   />
-                </div>
-                <div>
-                  {(isEditing) ? (
-                    <div>
-                      <div>
-                        <CustomButton
-                          className='buttonDelete'
-                          translate='no'
-                          label={`🗑️ ${meal.name}`}
-                          onClick={handleDeleteButton(meal.uuid)}
-                        />
-                      </div>
-                    </div>
-                  ) : null}
                 </div>
               </div>
             ))}

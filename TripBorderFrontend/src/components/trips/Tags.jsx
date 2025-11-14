@@ -107,22 +107,22 @@ export default function Tags({ tripID }) {
         {tags?.map(((tag) => (
           <div key={tag.uuid}>
             <div>
+              {(isEditing)
+                ? (
+                  <CustomButton
+                    className='buttonDelete'
+                    translate='no'
+                    label='🗑️'
+                    onClick={handleDeleteTagButton(tag.uuid)}
+                  />
+                )
+                : null}
               <CustomButton
                 className='button min-h-6 max-w-72 overflow-x-auto text-center px-4 mb-1'
                 label={tag.name}
                 onClick={handleButtonTag(tag)}
               />
             </div>
-            {(isEditing)
-              ? (
-                <CustomButton
-                  className='buttonDelete'
-                  translate='no'
-                  label={`🗑️ ${tag.name}`}
-                  onClick={handleDeleteTagButton(tag.uuid)}
-                />
-              )
-              : null}
           </div>
         )))}
       </div>

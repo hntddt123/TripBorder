@@ -52,7 +52,7 @@ export default function TripTags({ tripID }) {
                   <CustomButton
                     className='buttonDelete'
                     translate='no'
-                    label={`🗑️ ${tag.name}`}
+                    label='🗑️'
                     onClick={handleDeleteButton(tag.uuid)}
                   />
                 )

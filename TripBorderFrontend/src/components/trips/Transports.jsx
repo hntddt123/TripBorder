@@ -286,11 +286,22 @@ export default function Transports({ tripID, handleFlyTo }) {
             {TransportsForDate?.map((transport) => (
               <div key={transport.uuid}>
                 <div className='text-pretty px-2'>
-                  <CustomButton
-                    className='buttonLocate'
-                    label={transportIcon}
-                    onClick={flyToLocation(transport)}
-                  />
+                  {(isEditing)
+                    ? (
+                      <CustomButton
+                        className='buttonDelete'
+                        translate='no'
+                        label='🗑️'
+                        onClick={() => deleteTransport(transport.uuid)}
+                      />
+                    )
+                    : (
+                      <CustomButton
+                        className='buttonLocate'
+                        label={transportIcon}
+                        onClick={flyToLocation(transport)}
+                      />
+                    )}
                   <CustomToggle
                     translate='no'
                     className='toggle toggleTrip'
@@ -300,18 +311,6 @@ export default function Transports({ tripID, handleFlyTo }) {
                     titleOff={`${transport.name}`}
                     component={renderDetail(transport)}
                   />
-                </div>
-                <div>
-                  {(isEditing)
-                    ? (
-                      <CustomButton
-                        className='buttonDelete'
-                        translate='no'
-                        label={`🗑️ ${transport.name}`}
-                        onClick={() => deleteTransport(transport.uuid)}
-                      />
-                    )
-                    : null}
                 </div>
               </div>
             ))}

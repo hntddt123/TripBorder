@@ -144,6 +144,16 @@ export default function Ratings({ tripID }) {
       {ratings?.map(((rating) => (
         <div key={rating.uuid}>
           <div className='text-pretty'>
+            {(isEditing)
+              ? (
+                <CustomButton
+                  className='buttonDelete'
+                  translate='no'
+                  label='🗑️'
+                  onClick={handleDelete(rating)}
+                />
+              )
+              : null}
             <CustomToggle
               className='toggle toggleTrip'
               aria-label={`Rating Button ${rating.uuid}`}
@@ -153,16 +163,6 @@ export default function Ratings({ tripID }) {
               component={renderDetail(rating)}
             />
           </div>
-          {(isEditing)
-            ? (
-              <CustomButton
-                className='buttonDelete'
-                translate='no'
-                label={`🗑️ ${rating.entity_type} Rating`}
-                onClick={handleDelete(rating)}
-              />
-            )
-            : null}
         </div>
       )))}
       {(ratings?.length > 0 || isLoadTrip)

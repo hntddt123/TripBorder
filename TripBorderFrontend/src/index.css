@@ -381,7 +381,7 @@ html, body {
     @apply 
     text-pretty text-center 
     content-center 
-    m-2 py-1 px-4 
+    py-1 px-2
     rounded-full 
     ease-in-out duration-200
     bg-red-700 dark:bg-red-700
