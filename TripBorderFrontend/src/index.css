@@ -1335,7 +1335,7 @@ html, body {
     text-nowrap
     min-h-10 min-w-64 max-w-64
     text-center
-    px-4 mb-1;
+    px-4 mb-2;
   }
 
   .toggleTripTitle {
