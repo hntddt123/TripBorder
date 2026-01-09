@@ -48,12 +48,13 @@ export default function Meals({ tripID, handleFlyTo }) {
 
   const flyToLocation = (meal) => () => {
     if (meal.location && handleFlyTo) {
-      const newMarker = {
+      const newMarker = [{
         id: new Date().getTime(),
         icon: restaurantIcon,
+        text: meal.name,
         lng: meal.location.x,
         lat: meal.location.y
-      };
+      }];
       dispatch(setMarker(newMarker));
       handleFlyTo(meal.location.x, meal.location.y, 17);
     }

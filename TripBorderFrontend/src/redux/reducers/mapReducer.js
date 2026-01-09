@@ -37,7 +37,7 @@ const mapSlice = createSlice({
   reducers: {
     setMapLightPresetMode: (state, action) => ({ ...state, mapLightPresetMode: action.payload }),
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
-    setMarker: (state, action) => ({ ...state, markers: [action.payload] }),
+    setMarker: (state, action) => ({ ...state, markers: action.payload }),
     setGPSLonLat: (state, action) => ({ ...state, gpsLonLat: action.payload }),
     setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
     setIsUsingGPSLonLat: (state, action) => ({ ...state, isUsingGPSLonLat: action.payload }),

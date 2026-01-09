@@ -49,12 +49,13 @@ export default function POIs({ tripID, handleFlyTo }) {
 
   const flyToLocation = (poi) => () => {
     if (poi.location && handleFlyTo) {
-      const newMarker = {
+      const newMarker = [{
         id: new Date().getTime(),
         icon: parkIcon,
+        text: poi.name,
         lng: poi.location.x,
         lat: poi.location.y
-      };
+      }];
       dispatch(setMarker(newMarker));
       handleFlyTo(poi.location.x, poi.location.y, 17);
     }

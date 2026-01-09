@@ -23,6 +23,7 @@ export const hotelIcon = '🛌';
 export const transportIcon = '🚀';
 export const shoppingIcon = '🛍️';
 export const searchIcon = '🔍';
+export const allIcon = '🗺️';
 // poi icon list End
 
 export const GPSIcon = '🛰️🔍';

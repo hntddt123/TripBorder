@@ -436,7 +436,7 @@ html, body {
     text-center 
     content-center 
     rounded-full 
-    px-1 
+    px-1.5
     ease-in-out duration-200
     bg-amber-100 dark:bg-primary-card-dark
     text-black dark:text-white;
@@ -456,6 +456,7 @@ html, body {
 
   .buttonLocate {
     @apply
+    my-1 mx-1
     w-10 h-10
     text-2xl
     text-center
@@ -880,20 +881,19 @@ html, body {
     px-2 py-0.5
     cursor-pointer
     rounded-full border-x-0 shadow-xs 
-    text-base
+    text-base text-center content-center
     ease-in-out duration-200
     bg-amber-100 dark:bg-primary-button-dark-hover;
   }
-
 
   .cardPOIMarker {
     @apply 
     relative
     z-10
-    min-w-10 min-h-10 max-w-56
+    min-w-10 min-h-8 max-w-56
     px-2 py-0.5
     rounded-full border-x-0 shadow-xs 
-    text-base
+    text-base text-center content-center
     ease-in-out duration-800
     bg-amber-50 dark:bg-primary-button-dark-much-transparent;
   }
@@ -1340,10 +1340,10 @@ html, body {
 
   .toggleTripTitle {
     @apply
-    text-lg
+    text-xl
     overflow-x-auto 
     text-nowrap
-    min-h-10 min-w-72 max-w-72
+    min-h-10 min-w-80 max-w-80
     text-center 
     px-4 mb-1;
   }

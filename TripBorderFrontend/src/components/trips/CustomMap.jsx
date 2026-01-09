@@ -211,12 +211,11 @@ export default function CustomMap() {
     }
     pressTimer.current = setTimeout(() => {
       const { lng, lat } = event.lngLat;
-      const newMarker = {
+      const newMarker = [{
         id: new Date().getTime(),
         lng: lng,
         lat: lat
-      };
-
+      }];
       dispatch(setLongPressedLonLat({
         longitude: lng,
         latitude: lat,

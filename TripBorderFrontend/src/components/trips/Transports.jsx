@@ -50,12 +50,13 @@ export default function Transports({ tripID, handleFlyTo }) {
 
   const flyToLocation = (transport) => () => {
     if (transport.location && handleFlyTo) {
-      const newMarker = {
+      const newMarker = [{
         id: new Date().getTime(),
         icon: transportIcon,
+        text: transport.name,
         lng: transport.location.x,
         lat: transport.location.y
-      };
+      }];
       dispatch(setMarker(newMarker));
       handleFlyTo(transport.location.x, transport.location.y, 16);
     }

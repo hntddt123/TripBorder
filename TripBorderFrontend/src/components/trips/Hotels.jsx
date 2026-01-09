@@ -54,12 +54,13 @@ export default function Hotels({ tripID, handleFlyTo }) {
 
   const flyToLocation = (hotel) => () => {
     if (hotel.location && handleFlyTo) {
-      const newMarker = {
+      const newMarker = [{
         id: new Date().getTime(),
         icon: hotelIcon,
+        text: hotel.name,
         lng: hotel.location.x,
         lat: hotel.location.y
-      };
+      }];
       dispatch(setMarker(newMarker));
       handleFlyTo(hotel.location.x, hotel.location.y, 17);
     }

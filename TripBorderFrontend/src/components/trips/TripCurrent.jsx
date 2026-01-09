@@ -29,6 +29,7 @@ import TripTags from './TripTags';
 import TripsLoading from './TripsLoading';
 import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
+import IconMapOverview from './IconMapOverview';
 
 export default function TripCurrent({ handleFlyTo }) {
   const {
@@ -98,6 +99,7 @@ export default function TripCurrent({ handleFlyTo }) {
           )}
       </div>
       <div>
+        <IconMapOverview tripID={uuid} handleFlyTo={handleFlyTo} />
         <Meals tripID={uuid} handleFlyTo={handleFlyTo} />
         <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
         <POIs tripID={uuid} handleFlyTo={handleFlyTo} />

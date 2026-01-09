@@ -47,7 +47,10 @@ export default function ClickMarker() {
   return ((markers.length > 0) ? markers.map((marker) => (
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
-        <div translate='no' className='text-4xl'>{marker.icon || markerIcon}</div>
+        <div translate='no' className='text-2xl text-center'>{marker.icon || markerIcon}</div>
+        <div translate='no' className={((marker.text) ? 'cardPOIMarker' : '')}>
+          {marker.text || ''}
+        </div>
       </Marker>
       {(!marker.icon)
         ? (
