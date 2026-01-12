@@ -107,13 +107,13 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
       }));
   };
 
-  const calculateMarkerArrayBoundsAndFlyTo = (markers) => {
+  const calculateMarkerArrayBoundsAndFlyTo = (markers, zoom) => {
     const bounds = new mapboxgl.LngLatBounds();
     markers.forEach((marker) => bounds.extend([marker.lng, marker.lat]));
     if (markers.length > 1) {
-      handleFitBounds(bounds, 80, 7);
+      handleFitBounds(bounds, 80, zoom);
     } else if (markers.length === 1) {
-      handleFlyTo(markers[0].lng, markers[0].lat, 16);
+      handleFlyTo(markers[0].lng, markers[0].lat);
     }
   };
 
@@ -131,7 +131,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
         ...newTransportsMarkers
       ];
       dispatch(setMarker(newMarkers));
-      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers, 4);
     }
   };
 

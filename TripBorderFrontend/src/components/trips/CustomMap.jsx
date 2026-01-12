@@ -115,12 +115,12 @@ export default function CustomMap() {
     });
   };
 
-  const handleFitBounds = (bounds, pad, zoom, duration = 1000) => {
+  const handleFitBounds = (bounds, pad, zoom = viewState.zoom, duration = 1000) => {
     mapRef.current?.fitBounds(
       bounds, // W,S,E,N bounds order
       {
         padding: pad,
-        zoom: zoom,
+        zoom: (mapRef.current.getZoom() >= 16.0 && zoom >= 16.0) ? 12.0 : zoom,
         pitch: 30,
         duration: duration,
         essential: true
