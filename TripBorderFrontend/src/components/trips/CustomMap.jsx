@@ -106,13 +106,26 @@ export default function CustomMap() {
   }, [resultKeyword, activeQueryType]);
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
-    mapRef.current.flyTo({
+    mapRef.current?.flyTo({
       center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
       zoom: zoom, // Target zoom level.
       pitch: 30, // Target pitch angle in degrees.
       duration: duration, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
       essential: true // Ensures animation runs even if user interacts (optional, for better UX).
     });
+  };
+
+  const handleFitBounds = (bounds, pad, zoom, duration = 1000) => {
+    mapRef.current?.fitBounds(
+      bounds, // W,S,E,N bounds order
+      {
+        padding: pad,
+        zoom: zoom,
+        pitch: 30,
+        duration: duration,
+        essential: true
+      }
+    );
   };
 
   // const handlePinSearch = (lng, lat) => {
@@ -342,7 +355,7 @@ export default function CustomMap() {
           translate='no'
           titleOn='🏖️▼'
           titleOff='🏖️'
-          component={<TripPlanningTools handleFlyTo={handleFlyTo} />}
+          component={<TripPlanningTools handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />}
         />
       </div>
       <div>

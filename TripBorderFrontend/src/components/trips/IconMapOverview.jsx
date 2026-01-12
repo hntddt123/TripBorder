@@ -1,4 +1,4 @@
-// import mapboxgl from 'mapbox-gl';
+import mapboxgl from 'mapbox-gl';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useGetMealsByTripIDQuery } from '../../api/mealsAPI';
@@ -16,7 +16,7 @@ import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 import CustomError from '../CustomError';
 
-export default function IconMapOverview({ tripID, handleFlyTo }) {
+export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }) {
   const { data: mealData,
     isLoading: isMealLoading,
     isFetching: isMealFetching,
@@ -107,14 +107,15 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
       }));
   };
 
-  // const calculateMarkerArrayBounds = (markers) => {
-  //   const bounds = new mapboxgl.LngLatBounds();
-  //   const coord = markers.forEach((marker) => marker);
-  //   console.log(bounds);
-  //   console.log(coord);
-
-  //   return markers.forEach((marker) => bounds.extend([marker.lng, marker.lat]));
-  // };
+  const calculateMarkerArrayBoundsAndFlyTo = (markers) => {
+    const bounds = new mapboxgl.LngLatBounds();
+    markers.forEach((marker) => bounds.extend([marker.lng, marker.lat]));
+    if (markers.length === 1) {
+      handleFlyTo(markers[0].lng, markers[0].lat, 16);
+    } else {
+      handleFitBounds(bounds, 80, 14);
+    }
+  };
 
   const showAllLocations = () => {
     if (dateGroupedMeals && dateGroupedHotels && dateGroupedPOIs && dateGroupedTransports && handleFlyTo) {
@@ -130,6 +131,7 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
         ...newTransportsMarkers
       ];
       dispatch(setMarker(newMarkers));
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
 
@@ -137,6 +139,7 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
     if (dateGroupedMeals && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedMeals, restaurantIcon);
       dispatch(setMarker(newMarkers));
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
 
@@ -144,6 +147,7 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
     if (dateGroupedHotels && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedHotels, hotelIcon);
       dispatch(setMarker(newMarkers));
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
 
@@ -151,6 +155,7 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
     if (dateGroupedPOIs && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedPOIs, parkIcon);
       dispatch(setMarker(newMarkers));
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
 
@@ -158,21 +163,9 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
     if (dateGroupedTransports && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedTransports, transportIcon);
       dispatch(setMarker(newMarkers));
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
-
-  // const flyToLocation = (meal) => () => {
-  //   if (meal.location && handleFlyTo) {
-  //     const newMarker = [{
-  //       id: new Date().getTime(),
-  //       icon: restaurantIcon,
-  //       lng: meal.location.x,
-  //       lat: meal.location.y
-  //     }];
-  //     dispatch(setMarker(newMarker));
-  //     handleFlyTo(meal.location.x, meal.location.y, 17);
-  //   }
-  // };
 
   return (
     <div>
@@ -245,5 +238,6 @@ export default function IconMapOverview({ tripID, handleFlyTo }) {
 
 IconMapOverview.propTypes = {
   tripID: PropTypes.string,
-  handleFlyTo: PropTypes.func
+  handleFlyTo: PropTypes.func,
+  handleFitBounds: PropTypes.func
 };

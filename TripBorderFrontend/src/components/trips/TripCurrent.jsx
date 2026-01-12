@@ -31,7 +31,7 @@ import TripUploadForm from './TripUploadForm';
 import Tags from './Tags';
 import IconMapOverview from './IconMapOverview';
 
-export default function TripCurrent({ handleFlyTo }) {
+export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
     isLoadTrip,
     isEditingTrip,
@@ -99,7 +99,7 @@ export default function TripCurrent({ handleFlyTo }) {
           )}
       </div>
       <div>
-        <IconMapOverview tripID={uuid} handleFlyTo={handleFlyTo} />
+        <IconMapOverview tripID={uuid} handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />
         <Meals tripID={uuid} handleFlyTo={handleFlyTo} />
         <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
         <POIs tripID={uuid} handleFlyTo={handleFlyTo} />
@@ -184,4 +184,5 @@ export default function TripCurrent({ handleFlyTo }) {
 
 TripCurrent.propTypes = {
   handleFlyTo: PropTypes.func,
+  handleFitBounds: PropTypes.func
 };

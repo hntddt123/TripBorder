@@ -4,7 +4,7 @@ import { Sheet } from 'react-modal-sheet';
 import { useOrientation } from '../../hooks/useOrientation';
 import TripCurrent from './TripCurrent';
 
-export default function TripPlanningTools({ handleFlyTo, onClose }) {
+export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClose }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
 
@@ -30,7 +30,7 @@ export default function TripPlanningTools({ handleFlyTo, onClose }) {
           className='safeArea bg-black'
         >
           <Sheet.Scroller className='select-text'>
-            <TripCurrent handleFlyTo={handleFlyTo} />
+            <TripCurrent handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />
           </Sheet.Scroller>
         </Sheet.Content>
       </Sheet.Container>
@@ -40,5 +40,6 @@ export default function TripPlanningTools({ handleFlyTo, onClose }) {
 
 TripPlanningTools.propTypes = {
   handleFlyTo: PropTypes.func,
+  handleFitBounds: PropTypes.func,
   onClose: PropTypes.func
 };
