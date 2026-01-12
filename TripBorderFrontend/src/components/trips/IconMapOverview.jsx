@@ -110,10 +110,10 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const calculateMarkerArrayBoundsAndFlyTo = (markers) => {
     const bounds = new mapboxgl.LngLatBounds();
     markers.forEach((marker) => bounds.extend([marker.lng, marker.lat]));
-    if (markers.length === 1) {
+    if (markers.length > 1) {
+      handleFitBounds(bounds, 80, 7);
+    } else if (markers.length === 1) {
       handleFlyTo(markers[0].lng, markers[0].lat, 16);
-    } else {
-      handleFitBounds(bounds, 80, 14);
     }
   };
 
