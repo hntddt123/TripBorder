@@ -30,6 +30,7 @@ export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClos
       initialSnap={initialSnap}
       snapPoints={snapPoints}
       detent='full'
+      disableDismiss
     >
       <Sheet.Container className='bg-black'>
         <Sheet.Header className='bg-black' />
