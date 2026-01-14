@@ -76,7 +76,7 @@ export default function CustomMap() {
     { data: resultKeyword, error: errorKeyword, isFetching: isFetchingKeyword }
   ] = useLazyGetLandmarkFromKeywordQuery();
 
-  const mapCSSStyle = { width: '100%', height: '94dvh', borderRadius: 10 };
+  const mapCSSStyle = { width: '100%', height: '100dvh' };
   const mapRef = useRef();
   const pressTimer = useRef(null);
   // const geoLocateRef = useRef(null);
@@ -367,12 +367,12 @@ export default function CustomMap() {
           component={<TripSearchTools />}
         />
       </div>
-      <div className='absoluteBottomToolBar mb-1'>
-        <div className='min-h-5'>
-          {/* <CustomFetching isFetching={isFetchingPin} />
+      {/* <div className='absoluteBottomToolBar mb-1'> */}
+      {/* <div className='min-h-5'> */}
+      {/* <CustomFetching isFetching={isFetchingPin} />
           <CustomError error={errorPin} /> */}
-        </div>
-        {/* <ButtonPOISelection
+      {/* </div> */}
+      {/* <ButtonPOISelection
           isFetching={isFetchingPin}
         />
         <ButtonGPSSearch
@@ -380,7 +380,7 @@ export default function CustomMap() {
           isFetching={isFetchingPin}
         />
         <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} /> */}
-      </div>
+      {/* </div> */}
       <GeolocateControl
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'

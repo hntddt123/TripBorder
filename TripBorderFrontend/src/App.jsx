@@ -61,7 +61,7 @@ export default function App() {
             <Route path='/plantrip' element={<ProtectedRoutePremium />}>
               <Route
                 index
-                element={<TripBoard component={<TripsMap />} />}
+                element={<TripsMap />}
               />
             </Route>
             <Route path='/trips' element={<ProtectedRoutePremium />}>

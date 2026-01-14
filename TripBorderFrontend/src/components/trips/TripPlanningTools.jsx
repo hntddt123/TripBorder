@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useTransform } from 'motion/react';
 import PropTypes from 'prop-types';
 import { Sheet } from 'react-modal-sheet';
 import { useOrientation } from '../../hooks/useOrientation';
@@ -7,6 +8,10 @@ import TripCurrent from './TripCurrent';
 export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClose }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
+  const ref = useRef(null);
+  const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
+  const initialSnap = 2;
+  const snapPoints = [0, 0.25, 0.5, 0.75, 1];
 
   const handleCloseEvent = () => {
     if (onClose) onClose();
@@ -18,20 +23,22 @@ export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClos
 
   return (
     <Sheet
+      ref={ref}
       key={remountKey}
       isOpen
       onClose={handleCloseEvent}
-      initialSnap={2}
-      snapPoints={[1, 0.7, 0.5, 0]}
+      initialSnap={initialSnap}
+      snapPoints={snapPoints}
+      detent='full'
     >
       <Sheet.Container className='bg-black'>
         <Sheet.Header className='bg-black' />
         <Sheet.Content
-          className='safeArea bg-black'
+          className='safeArea bg-black select-text'
+          scrollStyle={{ paddingBottom }}
+          disableDrag
         >
-          <Sheet.Scroller className='select-text'>
-            <TripCurrent handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />
-          </Sheet.Scroller>
+          <TripCurrent handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />
         </Sheet.Content>
       </Sheet.Container>
     </Sheet>
