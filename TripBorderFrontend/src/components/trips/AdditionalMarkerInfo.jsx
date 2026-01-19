@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useTransform } from 'motion/react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sheet } from 'react-modal-sheet';
@@ -30,6 +31,10 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
+  const ref = useRef(null);
+  const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
+  const initialSnap = 2;
+  const snapPoints = [0, 0.25, 0.5, 0.75, 1];
 
   useEffect(() => {
     setRemountKey((prev) => prev + 1);
@@ -124,53 +129,55 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
       return (
         <div className='flex'>
           <Sheet
+            ref={ref}
             key={remountKey}
             isOpen
             onClose={handleCloseEvent}
-            initialSnap={2}
-            snapPoints={[1, 0.7, 0.5, 0]}
+            initialSnap={initialSnap}
+            snapPoints={snapPoints}
+            detent='full'
           >
             <Sheet.Container>
               <Sheet.Header className='bg-black' />
               <Sheet.Content
-                className='safeArea bg-black'
+                className='safeArea bg-black select-text'
+                scrollStyle={{ paddingBottom }}
+                disableDrag
               >
-                <Sheet.Scroller className='select-text'>
-                  <div className='cardPOIAddInfo'>
-                    <CustomButton
-                      translate='no'
-                      className='buttonCancel'
-                      label='X'
-                      onClick={handleCloseButton}
-                    />
-                    <CustomButton
-                      className='buttonPOI ml-4'
-                      label='Walk'
-                      onClick={handleDirectionButton}
-                    />
-                    <CustomButton
-                      className='buttonPOI'
-                      label={`Walk from ${markerIcon}`}
-                      onClick={handlePinDirectionButton}
-                      disabled={longPressedLonLat.longitude === null
-                        && longPressedLonLat.latitude === null}
-                    />
-                    <div>
-                      <ButtonMealsUpload filteredResult={filteredResult} />
-                      <ButtonHotelsUpload filteredResult={filteredResult} />
-                      <ButtonPOIUpload filteredResult={filteredResult} />
-                      <ButtonTransportUpload filteredResult={filteredResult} />
+                <div className='cardPOIAddInfo'>
+                  <CustomButton
+                    translate='no'
+                    className='buttonCancel'
+                    label='X'
+                    onClick={handleCloseButton}
+                  />
+                  <CustomButton
+                    className='buttonPOI ml-4'
+                    label='Walk'
+                    onClick={handleDirectionButton}
+                  />
+                  <CustomButton
+                    className='buttonPOI'
+                    label={`Walk from ${markerIcon}`}
+                    onClick={handlePinDirectionButton}
+                    disabled={longPressedLonLat.longitude === null
+                      && longPressedLonLat.latitude === null}
+                  />
+                  <div>
+                    <ButtonMealsUpload filteredResult={filteredResult} />
+                    <ButtonHotelsUpload filteredResult={filteredResult} />
+                    <ButtonPOIUpload filteredResult={filteredResult} />
+                    <ButtonTransportUpload filteredResult={filteredResult} />
+                  </div>
+                  <div translate='no' className='flex text-lg min-h-8'>
+                    <div className='min-w-10/12 text-left text-nowrap overflow-x-auto'>
+                      {getPOINameAddress(index, filteredResult)}
                     </div>
-                    <div translate='no' className='flex text-lg min-h-8'>
-                      <div className='min-w-10/12 text-left text-nowrap overflow-x-auto'>
-                        {getPOINameAddress(index, filteredResult)}
-                      </div>
-                      <div className='min-w-2/12 text-right'>
-                        {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
-                      </div>
+                    <div className='min-w-2/12 text-right'>
+                      {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
                     </div>
                   </div>
-                </Sheet.Scroller>
+                </div>
               </Sheet.Content>
             </Sheet.Container>
           </Sheet>
