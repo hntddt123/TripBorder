@@ -43,7 +43,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     endDate
   } = useSelector((state) => state.tripReducer);
 
-  const { data: user } = useCheckAuthStatusQuery();
+  const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
   const email = user?.email;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();

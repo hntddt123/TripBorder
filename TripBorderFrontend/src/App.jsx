@@ -7,6 +7,7 @@ import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
 import { VERSION_NUMBER, isDevMode } from './constants/constants';
+import { AuthMonitor } from './components/AuthMonitor';
 
 // Lazy load components
 const TripsMap = lazy(() => import('./components/trips/TripsMap'));
@@ -30,6 +31,7 @@ export default function App() {
             </div>
           )}
         >
+          <AuthMonitor />
           <Routes>
             <Route
               path='/'
