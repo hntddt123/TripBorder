@@ -178,7 +178,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
 
   return (
     <div>
-      <div className='text-lg text-center'>
+      <div className='text-lg text-center select-none'>
         <CustomButton
           className='buttonLocate'
           label='-'

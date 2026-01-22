@@ -271,7 +271,7 @@ export default function Transports({ tripID, handleFlyTo }) {
             ? (
               <CustomButton
                 translate='no'
-                className='buttonEdit'
+                className='buttonEdit select-none'
                 label='✏️'
                 onClick={handleEditButton}
               />

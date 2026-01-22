@@ -148,7 +148,7 @@ export default function TripsLoading() {
               ? (
                 <CustomButton
                   translate='no'
-                  className='buttonEdit relative'
+                  className='buttonEdit relative select-none'
                   label='✏️'
                   onClick={handleEditButton}
                 />

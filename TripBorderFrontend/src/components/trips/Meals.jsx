@@ -142,7 +142,7 @@ export default function Meals({ tripID, handleFlyTo }) {
           ? (
             <CustomButton
               translate='no'
-              className='buttonEdit'
+              className='buttonEdit select-none'
               label='✏️'
               onClick={handleEditButton}
             />
