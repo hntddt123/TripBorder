@@ -1,5 +1,5 @@
 import mapboxgl from 'mapbox-gl';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useGetMealsByTripIDQuery } from '../../api/mealsAPI';
 import { useGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
@@ -38,6 +38,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const { points_of_interest: pois } = poiData || {};
   const { transports } = transportData || {};
 
+  const { viewState } = useSelector((state) => state.mapReducer);
   const dispatch = useDispatch();
 
   // Group meals by formatted date
@@ -167,9 +168,22 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
     }
   };
 
+  const zoomMinus = () => {
+    handleFlyTo(viewState.longitude, viewState.latitude, viewState.zoom - 1.375, 500);
+  };
+
+  const zoomPlus = () => {
+    handleFlyTo(viewState.longitude, viewState.latitude, viewState.zoom + 1.375, 500);
+  };
+
   return (
     <div>
       <div className='text-lg text-center'>
+        <CustomButton
+          className='buttonLocate'
+          label='-'
+          onClick={zoomMinus}
+        />
         <CustomButton
           className='buttonLocate'
           label={allIcon}
@@ -194,6 +208,11 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
           className='buttonLocate'
           label={transportIcon}
           onClick={showAllTransportsLocations}
+        />
+        <CustomButton
+          className='buttonLocate'
+          label='+'
+          onClick={zoomPlus}
         />
         <div>
           <CustomLoading isLoading={isMealLoading} text='Loading Meals' />

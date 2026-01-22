@@ -1343,7 +1343,7 @@ html, body {
     text-xl
     overflow-x-auto 
     text-nowrap
-    min-h-10 min-w-80 max-w-80
+    min-h-10 min-w-82 max-w-80
     text-center 
     px-4 mb-1;
   }
