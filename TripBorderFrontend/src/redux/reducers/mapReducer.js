@@ -4,7 +4,7 @@ const initialMapState = {
   mapStyle: 'mapbox://styles/mapbox/standard',
   mapLightPresetMode: 'Day',
   viewState: {
-    longitude: 153.4250000,
+    longitude: 184.4250000,
     latitude: 22.4250000,
     pitch: 30,
     zoom: 1.5
