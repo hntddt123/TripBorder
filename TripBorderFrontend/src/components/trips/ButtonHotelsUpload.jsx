@@ -37,7 +37,7 @@ export default function ButtonHotelsUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Hotels'
+        label='🛌 Hotel'
         onClick={handleClick}
         disabled={uuid === '' || (startDate === endDate)}
       />

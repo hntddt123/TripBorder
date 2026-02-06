@@ -48,7 +48,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Transport'
+        label='🚀 Ride'
         onClick={handleClick}
         disabled={uuid === ''}
       />

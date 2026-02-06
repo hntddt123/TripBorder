@@ -33,7 +33,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Tour Spot'
+        label='🏞️ Tour'
         onClick={handleClick}
         disabled={uuid === ''}
       />

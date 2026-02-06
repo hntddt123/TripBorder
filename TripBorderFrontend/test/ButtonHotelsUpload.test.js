@@ -4,6 +4,6 @@ import { renderWithRedux } from './renderWithRedux';
 
 test('renders ButtonHotelsUpload', () => {
   renderWithRedux(<ButtonHotelsUpload />);
-  const ButtonElement = screen.getByText(/\+Hotels/i);
+  const ButtonElement = screen.getByText(/Hotel/i);
   expect(ButtonElement).toBeInTheDocument();
 });

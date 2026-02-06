@@ -31,6 +31,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
+  const { title } = useSelector((state) => state.tripReducer);
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
   const initialSnap = 2;
@@ -43,13 +44,6 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
   const dispatch = useDispatch();
 
   const handleCloseEvent = () => {
-    dispatch(setIsShowingAdditionalPopUp(false));
-    dispatch(setIsShowingOnlySelectedPOI(false));
-  };
-
-  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
-
-  const handleCloseButton = () => {
     dispatch(setIsShowingOnlySelectedPOI(false));
     if (isThrowingDice) {
       dispatch(setIsShowingOnlySelectedPOI(true));
@@ -57,6 +51,8 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setSelectedPOI(null));
   };
+
+  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
 
   const handleDirectionButton = () => {
     if (gpsLonLat.longitude !== null
@@ -145,36 +141,37 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
                 disableDrag
               >
                 <div className='cardPOIAddInfo'>
-                  <CustomButton
-                    translate='no'
-                    className='buttonCancel'
-                    label='X'
-                    onClick={handleCloseButton}
-                  />
-                  <CustomButton
-                    className='buttonPOI ml-4'
-                    label='Walk'
-                    onClick={handleDirectionButton}
-                  />
-                  <CustomButton
-                    className='buttonPOI'
-                    label={`Walk from ${markerIcon}`}
-                    onClick={handlePinDirectionButton}
-                    disabled={longPressedLonLat.longitude === null
-                      && longPressedLonLat.latitude === null}
-                  />
-                  <div>
-                    <ButtonMealsUpload filteredResult={filteredResult} />
-                    <ButtonHotelsUpload filteredResult={filteredResult} />
-                    <ButtonPOIUpload filteredResult={filteredResult} />
-                    <ButtonTransportUpload filteredResult={filteredResult} />
-                  </div>
-                  <div translate='no' className='flex text-lg min-h-8'>
-                    <div className='min-w-10/12 text-left text-nowrap overflow-x-auto'>
+                  <div translate='no' className='text-lg'>
+                    <div className='min-w-10/12 text-center text-nowrap overflow-x-auto'>
                       {getPOINameAddress(index, filteredResult)}
                     </div>
                     <div className='min-w-2/12 text-right'>
                       {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
+                    </div>
+                    <div className='text-center m-2'>
+                      <CustomButton
+                        className='buttonPOI'
+                        label='Walk from 🔵'
+                        onClick={handleDirectionButton}
+                      />
+                      <CustomButton
+                        className='buttonPOI'
+                        label={`Walk from ${markerIcon}`}
+                        onClick={handlePinDirectionButton}
+                        disabled={longPressedLonLat.longitude === null
+                          && longPressedLonLat.latitude === null}
+                      />
+                    </div>
+                    <div>
+                      <div className='text-nowrap overflow-x-auto text-center'>
+                        {`Add to ${title}`}
+                      </div>
+                      <div className='text-center'>
+                        <ButtonMealsUpload filteredResult={filteredResult} />
+                        <ButtonHotelsUpload filteredResult={filteredResult} />
+                        <ButtonPOIUpload filteredResult={filteredResult} />
+                        <ButtonTransportUpload filteredResult={filteredResult} />
+                      </div>
                     </div>
                   </div>
                 </div>

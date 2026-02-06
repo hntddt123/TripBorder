@@ -4,6 +4,6 @@ import { renderWithRedux } from './renderWithRedux';
 
 test('renders ButtonPOIUpload', () => {
   renderWithRedux(<ButtonPOIUpload />);
-  const ButtonElement = screen.getByText(/\+Tour Spot/i);
+  const ButtonElement = screen.getByText(/Tour/i);
   expect(ButtonElement).toBeInTheDocument();
 });

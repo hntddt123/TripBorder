@@ -37,7 +37,7 @@ export default function ButtonMealsUpload({ filteredResult }) {
     <>
       <CustomButton
         className='buttonPOIAdd'
-        label='+Meal'
+        label='🍱 Meal'
         onClick={handleClick(setLocalTime(startDate))}
         disabled={uuid === ''}
       />
