@@ -153,6 +153,8 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
                         className='buttonPOI'
                         label='Walk from 🔵'
                         onClick={handleDirectionButton}
+                        disabled={gpsLonLat.longitude === null
+                          && gpsLonLat.latitude === null}
                       />
                       <CustomButton
                         className='buttonPOI'
