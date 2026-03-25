@@ -6,6 +6,7 @@ const initialMapState = {
   viewState: {
     longitude: 184.4250000,
     latitude: 22.4250000,
+    bearing: 0,
     pitch: 30,
     zoom: 1.5
   },
@@ -28,6 +29,7 @@ const initialMapState = {
   isNavigating: false,
   isThrowingDice: false,
   isUsingMapBoxGeocoder: false,
+  isNorthUp: true,
   sessionIDFSQ: ''
 };
 
@@ -57,6 +59,7 @@ const mapSlice = createSlice({
     setIsShowingSideBar: (state, action) => ({ ...state, isShowingSideBar: action.payload }),
     setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
     setIsUsingMapBoxGeocoder: (state, action) => ({ ...state, isUsingMapBoxGeocoder: action.payload }),
+    setIsNorthUp: (state, action) => ({ ...state, isNorthUp: action.payload }),
     setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload })
   }
 });
@@ -83,6 +86,7 @@ export const {
   setIsShowingSideBar,
   setIsThrowingDice,
   setIsUsingMapBoxGeocoder,
+  setIsNorthUp,
   setSessionIDFSQ
 } = mapSlice.actions;
 

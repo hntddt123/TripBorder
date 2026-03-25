@@ -16,7 +16,8 @@ import {
   setIsShowingAdditionalPopUp,
   setIsUsingGPSLonLat,
   setSessionIDFSQ,
-  setSelectedPOIIcon
+  setSelectedPOIIcon,
+  setIsNorthUp
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -49,6 +50,7 @@ export default function CustomMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [activeQueryType, setActiveQueryType] = useState('pin');
   const [sortedData, setSortedData] = useState([]);
+
   const {
     mapStyle,
     viewState,
@@ -58,6 +60,7 @@ export default function CustomMap() {
     isThrowingDice,
     isUsingMapBoxGeocoder,
     selectedPOI,
+    isNorthUp,
     // longPressedLonLat,
     // selectedPOIRadius,
     // selectedPOICount
@@ -104,6 +107,25 @@ export default function CustomMap() {
       setSortedData(resultKeyword);
     }
   }, [resultKeyword, activeQueryType]);
+
+  const orientationEvent = (e) => {
+    if (!isNorthUp) {
+      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 30, duration: 400 }); // e.alpha is the device heading
+    }
+  };
+
+  useEffect(() => {
+    const orient = 'deviceorientation';
+    if (isNorthUp === false) {
+      window.addEventListener(orient, orientationEvent);
+    }
+    return () => window.removeEventListener(orient, orientationEvent);
+  }, [isNorthUp]);
+
+  const handleNorthUp = () => {
+    dispatch(setIsNorthUp(!isNorthUp));
+    mapRef.current?.easeTo({ bearing: 0, pitch: 30, duration: 400 });
+  };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
     mapRef.current?.flyTo({
@@ -350,6 +372,24 @@ export default function CustomMap() {
           />
         )}
       <div>
+        {(isNorthUp)
+          ? (
+            <CustomButton
+              className='toggle absoluteTopToolBarRight mt-14'
+              translate='no'
+              label='N'
+              onClick={handleNorthUp}
+            />
+          ) : (
+            <CustomButton
+              className='toggle absoluteTopToolBarRight mt-14'
+              translate='no'
+              label='🧭'
+              onClick={handleNorthUp}
+            />
+          )}
+      </div>
+      <div>
         <CustomToggle
           className='toggle absoluteTopToolBarLeft'
           translate='no'
@@ -385,8 +425,8 @@ export default function CustomMap() {
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
         positionOptions={{ enableHighAccuracy: true, timeout: 10000 }}
-        onGeolocate={handleCurrentLocation}
         onError={(error) => { console.error('Geolocate error:', error); }}
+        onGeolocate={handleCurrentLocation}
         showUserHeading
         showUserLocation
         trackUserLocation
