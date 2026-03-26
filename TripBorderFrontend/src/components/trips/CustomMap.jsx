@@ -122,9 +122,14 @@ export default function CustomMap() {
     return () => window.removeEventListener(orient, orientationEvent);
   }, [isNorthUp]);
 
-  const handleNorthUp = () => {
-    dispatch(setIsNorthUp(!isNorthUp));
-    mapRef.current?.easeTo({ bearing: 0, pitch: 30, duration: 400 });
+  const handleNorthUp = async () => {
+    if (typeof DeviceMotionEvent.requestPermission === 'function') {
+      const permissionState = await DeviceMotionEvent.requestPermission();
+      if (permissionState === 'granted') {
+        dispatch(setIsNorthUp(!isNorthUp));
+      }
+      mapRef.current?.easeTo({ bearing: 0, pitch: 30, duration: 400 });
+    }
   };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
@@ -375,14 +380,14 @@ export default function CustomMap() {
         {(isNorthUp)
           ? (
             <CustomButton
-              className='toggle absoluteTopToolBarRight mt-14'
+              className='button absoluteTopToolBarRight mt-14'
               translate='no'
               label='N'
               onClick={handleNorthUp}
             />
           ) : (
             <CustomButton
-              className='toggle absoluteTopToolBarRight mt-14'
+              className='button absoluteTopToolBarRight mt-14'
               translate='no'
               label='🧭'
               onClick={handleNorthUp}
