@@ -1,7 +1,7 @@
 {
   "name": "tripborder-frontend",
   "author": "Nien-Tai Ho <nientaiho@gmail.com>",
-  "version": "3.0.3",
+  "version": "3.1.0",
   "private": true,
   "engines": {
     "node": ">=18"
