@@ -110,7 +110,7 @@ export default function CustomMap() {
 
   const orientationEvent = (e) => {
     if (!isNorthUp) {
-      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 30, duration: 400 }); // e.alpha is the device heading
+      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 30, duration: 100 }); // e.alpha is the device heading
     }
   };
 
