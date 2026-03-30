@@ -38,3 +38,4 @@ services:
       interval: 30s  # Check frequency (example: '30s' balances load).
       timeout: 10s  # Max wait (example: '10s' for quick fail).
       retries: 3  # Attempts before unhealthy (example: '3' for resilience).
+    restart: unless-stopped
