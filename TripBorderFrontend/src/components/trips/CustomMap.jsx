@@ -2,7 +2,7 @@ import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
-import Map, { GeolocateControl } from 'react-map-gl';
+import Map, { GeolocateControl, ScaleControl } from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   setViewState,
@@ -61,6 +61,7 @@ export default function CustomMap() {
     isUsingMapBoxGeocoder,
     selectedPOI,
     isNorthUp,
+    isShowingScaleRuler,
     // longPressedLonLat,
     // selectedPOIRadius,
     // selectedPOICount
@@ -380,14 +381,14 @@ export default function CustomMap() {
         {(isNorthUp)
           ? (
             <CustomButton
-              className='button absoluteTopToolBarRight mt-14'
+              className='button absoluteTopToolBarRight mt-14 select-none'
               translate='no'
               label='N'
               onClick={handleNorthUp}
             />
           ) : (
             <CustomButton
-              className='button absoluteTopToolBarRight mt-14'
+              className='button absoluteTopToolBarRight mt-14 select-none'
               translate='no'
               label='🧭'
               onClick={handleNorthUp}
@@ -396,7 +397,7 @@ export default function CustomMap() {
       </div>
       <div>
         <CustomToggle
-          className='toggle absoluteTopToolBarLeft'
+          className='toggle absoluteTopToolBarLeft select-none'
           translate='no'
           titleOn='🏖️▼'
           titleOff='🏖️'
@@ -405,7 +406,7 @@ export default function CustomMap() {
       </div>
       <div>
         <CustomToggle
-          className='toggle absoluteTopToolBarRight'
+          className='toggle absoluteTopToolBarRight select-none'
           translate='no'
           titleOn='⚙️▼'
           titleOff='⚙️'
@@ -426,6 +427,7 @@ export default function CustomMap() {
         />
         <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} /> */}
       {/* </div> */}
+      {(isShowingScaleRuler) ? <ScaleControl /> : null }
       <GeolocateControl
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'

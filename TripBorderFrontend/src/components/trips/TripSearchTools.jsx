@@ -4,6 +4,7 @@ import {
   setSelectedPOICount,
   setSelectedPOIRadius
 } from '../../redux/reducers/mapReducer';
+import ToggleScale from './ToggleScale';
 import TogglePlaceName from './TogglePlaceName';
 import ToggleDistance from './ToggleDistance';
 import ToggleMapBoxSearch from './ToggleMapBoxSearch';
@@ -48,6 +49,10 @@ export default function TripSearchTools() {
 
   return (
     <div className='text-lg tripAbsoluteContentRight'>
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Show scale ruler</span>
+        <ToggleScale />
+      </div>
       <div className='flex justify-around'>
         <span className='min-w-2/3 text-left'>Show name on markers</span>
         <TogglePlaceName />
