@@ -60,7 +60,7 @@ export default function ClickMarker() {
               type='fill'
               paint={{
                 'fill-color': '#777',
-                'fill-opacity': 0.3,
+                'fill-opacity': 0.21,
               }}
             />
           </Source>

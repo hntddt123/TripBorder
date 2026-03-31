@@ -12,21 +12,16 @@ import {
 import CustomButton from '../CustomButton';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 
-export default function ProximityMarkers({
-  data, isFetching, handleFlyTo
-}) {
+export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
   const dispatch = useDispatch();
   const {
     selectedPOIIcon,
     selectedPOI,
     isFullPOIname,
     isShowingDistance,
-    isShowingOnlySelectedPOI,
     isShowingAdditionalPopUp,
     isNavigating,
-    isThrowingDice,
     viewState,
-    randomPOINumber
   } = useSelector((state) => state.mapReducer);
   const pressTimer = useRef(null);
 
@@ -90,6 +85,7 @@ export default function ProximityMarkers({
 
   const getPOILabel = (poi, index) => {
     const { name } = poi;
+
     const dist = poi.distance;
     const isHovered = (selectedPOI === poi.place_id);
 
@@ -98,7 +94,7 @@ export default function ProximityMarkers({
     if (isFullPOIname || isHovered) {
       label = `${label} ${name}`;
     }
-    if (isShowingDistance) {
+    if (isShowingDistance && dist) {
       label = `${label} ${dist}m`;
     }
 
@@ -139,23 +135,23 @@ export default function ProximityMarkers({
 
   if (isFetching || !data?.length) return null;
 
-  let markersToRender = [];
+  // let markersToRender = [];
 
-  if (isThrowingDice) {
-    const poi = data[randomPOINumber];
-    if (poi) {
-      markersToRender = [renderSingleMarker(poi, randomPOINumber)];
-    }
-  } else if (isShowingOnlySelectedPOI) {
-    const index = data.findIndex((marker) => marker.place_id === selectedPOI);
-    if (index !== -1) {
-      const poi = data[index];
-      markersToRender = [renderSingleMarker(poi, index)];
-    }
-  } else {
-    markersToRender = data.map((poi, index) => renderSingleMarker(poi, index));
-  }
-  return markersToRender;
+  // if (isThrowingDice) {
+  //   const poi = data[randomPOINumber];
+  //   if (poi) {
+  //     markersToRender = [renderSingleMarker(poi, randomPOINumber)];
+  //   }
+  // } else if (isShowingOnlySelectedPOI) {
+  //   const index = data.findIndex((marker) => marker.place_id === selectedPOI);
+  //   if (index !== -1) {
+  //     const poi = data[index];
+  //     markersToRender = [renderSingleMarker(poi, index)];
+  //   }
+  // } else {
+  //   markersToRender = data.map((poi, index) => renderSingleMarker(poi, index));
+  // }
+  return data.map((poi, index) => renderSingleMarker(poi, index));
 }
 
 ProximityMarkers.propTypes = {
