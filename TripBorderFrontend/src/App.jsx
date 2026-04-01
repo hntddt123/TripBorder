@@ -18,6 +18,7 @@ const MileagesList = lazy(() => import('./components/mileages/MileagesList'));
 const DevMode = lazy(() => import('./components/DevMode'));
 const MileagesAdmin = lazy(() => import('./components/mileages/MileagesAdmin'));
 const Disclaimers = lazy(() => import('./components/Disclaimers'));
+const Sponsors = lazy(() => import('./components/Sponsors'));
 const Upgrade = lazy(() => import('./components/Upgrade'));
 
 export default function App() {
@@ -92,6 +93,13 @@ export default function App() {
                 index
                 path='/settings'
                 element={<TripBoard component={<Settings />} />}
+              />
+            </Route>
+            <Route path='/sponsors' element={<ProtectedRoute />}>
+              <Route
+                index
+                path='/sponsors'
+                element={<TripBoard component={<Sponsors />} />}
               />
             </Route>
             <Route path='/disclaimers' element={<ProtectedRoute />}>

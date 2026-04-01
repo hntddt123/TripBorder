@@ -46,6 +46,10 @@ export default function DevMode() {
               />
             </div>
             <CustomButton
+              label='Sponsors'
+              to='/sponsors'
+            />
+            <CustomButton
               label='Disclaimers'
               to='/disclaimers'
             />

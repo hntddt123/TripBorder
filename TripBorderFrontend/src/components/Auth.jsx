@@ -172,6 +172,10 @@ export default function Auth() {
           {renderPremiumUserFeatures()}
           {renderUserFeatures()}
           <div className='grid grid-cols-1'>
+            <CustomButton
+              label='Sponsors'
+              to='/sponsors'
+            />
             {(role === 'user')
               ? <CustomButton label='Upgrade' to='/upgrade' />
               : null}
