@@ -14,7 +14,6 @@ Create the following files
 ```.env.production```
 under TripBorderFrontend folder and include your 
 VITE_MAPBOX_API_KEY=YOURKEY (https://docs.mapbox.com/help/glossary/access-token/)
-VITE_FOURSQUARE_API_KEY=YOURKEY (https://docs.foursquare.com/developer/docs/manage-api-keys)
 
 Private key and certificate for HTTPS development
 ```
@@ -44,10 +43,10 @@ Build and runs with docker, see Dockerfile and compose.dev.yml in the folder
 ```npm run dockerprod```  
 Build and runs with docker, see Dockerfile and compose.prod.yml in the folder
 
-```npm run dockerlog``  
+```npm run dockerlog```  
 Log Docker development containers
 
-```npm run dockerprodlog``  
+```npm run dockerprodlog```  
 Log Docker production containers
 
 ```npm run test``` 
@@ -59,8 +58,7 @@ Runs Jest testing suite with options 1 time, coverage report,  watch mode
 Runs eslint
 
 ## React Stuff
-TripBorder Frontend project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+TripBorder Frontend  was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 See [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more.
 
