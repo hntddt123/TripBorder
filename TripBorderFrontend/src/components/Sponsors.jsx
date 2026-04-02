@@ -25,10 +25,10 @@ export default function Sponsors() {
               />
             </a>
           </div>
-          {/* <div className='cardInfo p-4 text-2xl'>
+          <div className='cardInfo p-4 text-2xl'>
             Sponsors List
-            <div className='text-2xl mb-2'>$7</div>
-          </div> */}
+            {/* <div className='text-2xl mb-2'></div> */}
+          </div>
         </div>
       </div>
     </div>
