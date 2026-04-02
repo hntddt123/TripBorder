@@ -4,6 +4,7 @@ import { Marker } from 'react-map-gl';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   setSelectedPOI,
+  setSelectedPOIName,
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat,
@@ -40,8 +41,8 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
       viewState.zoom,
       1420
     );
-
     dispatch(setSelectedPOI(marker.place_id));
+    dispatch(setSelectedPOIName(marker.name));
     dispatch(setSelectedPOILonLat({
       longitude: parseFloat(marker.lon),
       latitude: parseFloat(marker.lat)

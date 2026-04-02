@@ -60,6 +60,7 @@ export default function CustomMap() {
     isThrowingDice,
     isUsingMapBoxGeocoder,
     selectedPOI,
+    selectedPOIName,
     isNorthUp,
     isShowingScaleRuler,
     // longPressedLonLat,
@@ -427,7 +428,7 @@ export default function CustomMap() {
         />
         <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} /> */}
       {/* </div> */}
-      {(isShowingScaleRuler) ? <ScaleControl /> : null }
+      {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
         // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
@@ -444,11 +445,14 @@ export default function CustomMap() {
         handleFlyTo={handleFlyTo}
         activeQueryType={activeQueryType}
       />
-      <AdditionalMarkerInfo
-        data={sortedData}
-        getDirectionsQueryTrigger={getDirectionsQueryTrigger}
-        activeQueryType={activeQueryType}
-      />
+      {selectedPOIName
+        ? (
+          <AdditionalMarkerInfo
+            data={sortedData}
+            getDirectionsQueryTrigger={getDirectionsQueryTrigger}
+            activeQueryType={activeQueryType}
+          />
+        ) : null}
       {(mapLoaded) ? <ClickMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       {renderBottomMenu()}

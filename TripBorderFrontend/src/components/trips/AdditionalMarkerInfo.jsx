@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sheet } from 'react-modal-sheet';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
+import { UNSPLASH_APP_NAME, markerIcon } from '../../constants/constants';
 import {
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
@@ -11,7 +12,7 @@ import {
   setIsShowingSideBar,
   setSelectedPOI
 } from '../../redux/reducers/mapReducer';
-import { markerIcon } from '../../constants/constants';
+import { useLazyGetUnsplashPhotosQuery, useGetDownloadImageMutation } from '../../api/unsplashImageAPI';
 import { useOrientation } from '../../hooks/useOrientation';
 import { calculateDistance } from '../../utility/geoCalculation';
 import CustomButton from '../CustomButton';
@@ -19,12 +20,15 @@ import ButtonMealsUpload from './ButtonMealsUpload';
 import ButtonHotelsUpload from './ButtonHotelsUpload';
 import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
+import CustomLoading from '../CustomLoading';
+import CustomError from '../CustomError';
 
 export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, activeQueryType }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
   const {
     selectedPOI,
+    selectedPOIName,
     selectedPOILonLat,
     gpsLonLat,
     longPressedLonLat,
@@ -37,11 +41,38 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
   const initialSnap = 2;
   const snapPoints = [0, 0.25, 0.5, 0.75, 1];
 
+  const [getUnsplashPhotosTrigger, { data: images = [], isLoading, isError }] = useLazyGetUnsplashPhotosQuery();
+  const [getDownloadImageMutationTrigger] = useGetDownloadImageMutation();
+
+  useEffect(() => {
+    const checkText = selectedPOIName;
+    const isPureNumeric = (str) => /^\d+$/.test(str);
+    if (selectedPOIName !== '' && !isPureNumeric(checkText)) {
+      getUnsplashPhotosTrigger({ poiName: selectedPOIName });
+    }
+  }, [selectedPOIName]);
+
   useEffect(() => {
     setRemountKey((prev) => prev + 1);
   }, [isPortrait]);
 
   const dispatch = useDispatch();
+
+  const handleUsePhoto = async (selectedImage) => {
+    if (!selectedImage?.links?.download_location) return;
+
+    try {
+      await getDownloadImageMutationTrigger(selectedImage.links.download_location).unwrap();
+      const link = document.createElement('a');
+
+      link.href = selectedImage.urls.full;
+      link.download = `${selectedPOIName}.jpg`;
+      link.target = 'blank';
+      link.click();
+    } catch (err) {
+      console.error('Failed to track or download', err);
+    }
+  };
 
   const handleCloseEvent = () => {
     dispatch(setIsShowingOnlySelectedPOI(false));
@@ -173,6 +204,52 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
                         <ButtonHotelsUpload filteredResult={filteredResult} />
                         <ButtonPOIUpload filteredResult={filteredResult} />
                         <ButtonTransportUpload filteredResult={filteredResult} />
+                      </div>
+                      <div className='text-center'>
+                        {(images?.results?.length > 0)
+                          ? images?.results.map((selectedImage) => (
+                            <div key={selectedImage.id} className='flex items-center justify-center'>
+                              <img
+                                src={selectedImage.urls.regular}
+                                alt={selectedImage.alt_description || 'unsplash image'}
+                                className='w-2/4 max-h-[60vh] mb-1 object-cover aspect-square rounded-2xl transition-transform duration-200'
+                              />
+                              <div>
+                                <div>Photo by</div>
+                                <div>
+                                  <a
+                                    href={`${selectedImage.user.links.html}?utm_source=${UNSPLASH_APP_NAME}&utm_medium=referral`}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='button inline-block max-w-20'
+                                  >
+                                    {selectedImage.user.name}
+                                  </a>
+                                </div>
+                                <div>
+                                  <a
+                                    href={`https://unsplash.com/?utm_source=${UNSPLASH_APP_NAME}&utm_medium=referral`}
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    className='button inline-block max-w-20'
+                                  >
+                                    Unsplash
+                                  </a>
+                                </div>
+                                <div>
+                                  <button
+                                    onClick={() => handleUsePhoto(selectedImage)}
+                                    className='button max-w-20'
+                                  >
+                                    🔎
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          ))
+                          : null}
+                        <CustomLoading isLoading={isLoading} />
+                        <CustomError isError={isError} />
                       </div>
                     </div>
                   </div>
