@@ -53,7 +53,8 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     if (previousSelectedPOIName !== selectedPOIName
       && selectedPOIName !== ''
       && !isPureNumeric(checkText)) {
-      getUnsplashPhotosTrigger({ poiName: selectedPOIName });
+      const resultText = checkText.split('(')[0].trim();
+      getUnsplashPhotosTrigger({ poiName: resultText });
     }
   }, [selectedPOIName]);
 
