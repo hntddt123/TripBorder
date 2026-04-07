@@ -10,7 +10,8 @@ import {
   setIsShowingOnlySelectedPOI,
   setIsNavigating,
   setIsShowingSideBar,
-  setSelectedPOI
+  setSelectedPOI,
+  setPreviousSelectedPOIName
 } from '../../redux/reducers/mapReducer';
 import { useLazyGetUnsplashPhotosQuery, useGetDownloadImageMutation } from '../../api/unsplashImageAPI';
 import { useOrientation } from '../../hooks/useOrientation';
@@ -32,6 +33,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     selectedPOILonLat,
     gpsLonLat,
     longPressedLonLat,
+    previousSelectedPOIName,
     isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
@@ -47,7 +49,10 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
   useEffect(() => {
     const checkText = selectedPOIName;
     const isPureNumeric = (str) => /^\d+$/.test(str);
-    if (selectedPOIName !== '' && !isPureNumeric(checkText)) {
+
+    if (previousSelectedPOIName !== selectedPOIName
+      && selectedPOIName !== ''
+      && !isPureNumeric(checkText)) {
       getUnsplashPhotosTrigger({ poiName: selectedPOIName });
     }
   }, [selectedPOIName]);
@@ -80,6 +85,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
     dispatch(setIsShowingAdditionalPopUp(false));
+    dispatch(setPreviousSelectedPOIName(selectedPOIName));
     dispatch(setSelectedPOI(null));
   };
 

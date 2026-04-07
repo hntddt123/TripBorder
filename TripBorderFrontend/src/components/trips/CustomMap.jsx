@@ -22,7 +22,6 @@ import {
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import {
-  // useLazyGetLandmarksFromPinQuery,
   useLazyGetLandmarkFromKeywordQuery
 } from '../../api/openstreemapSliceAPI';
 import ClickMarker from './ClickMarker';
@@ -33,17 +32,10 @@ import NearbyPOIList from './NearbyPOIList';
 import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
 import InputLandmarkSearch from './InputLandmarkSearch';
-// import ButtonGPSSearch from './ButtonGPSSearch';
-// import ButtonPOISelection from './ButtonPOISelection';
-// import ToggleDice from './ToggleDice';
 import CustomToggle from '../CustomToggle';
 import TripPlanningTools from './TripPlanningTools';
 import TripSearchTools from './TripSearchTools';
 import { searchIcon } from '../../constants/constants';
-// import CustomFetching from '../CustomFetching';
-// import CustomError from '../CustomError';
-// import { getNearestPOI } from '../../utility/markerCalculation';
-// import { metersToDeltas } from '../../utility/geoCalculation';
 
 // react-map-gl component
 export default function CustomMap() {
@@ -63,9 +55,6 @@ export default function CustomMap() {
     selectedPOIName,
     isNorthUp,
     isShowingScaleRuler,
-    // longPressedLonLat,
-    // selectedPOIRadius,
-    // selectedPOICount
   } = useSelector((state) => state.mapReducer);
   const {
     isDarkMode,
@@ -74,9 +63,6 @@ export default function CustomMap() {
   const dispatch = useDispatch();
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
-  // const [getLandmarkFromPinQueryTrigger,
-  //   { data: resultPin, error: errorPin, isFetching: isFetchingPin }
-  // ] = useLazyGetLandmarksFromPinQuery();
   const [getLandmarkFromKeywordTrigger,
     { data: resultKeyword, error: errorKeyword, isFetching: isFetchingKeyword }
   ] = useLazyGetLandmarkFromKeywordQuery();
@@ -84,7 +70,6 @@ export default function CustomMap() {
   const mapCSSStyle = { width: '100%', height: '100dvh' };
   const mapRef = useRef();
   const pressTimer = useRef(null);
-  // const geoLocateRef = useRef(null);
 
   const screenHeight = window.innerHeight;
   // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
@@ -92,17 +77,6 @@ export default function CustomMap() {
   const pixelShift = (percentage / 100) * screenHeight;
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
-
-  // const getIsFetchingByQueryType = () => {
-  //   if (activeQueryType === 'pin') return isFetchingPin;
-  //   return isFetchingKeyword;
-  // };
-
-  // useEffect(() => {
-  //   if (resultPin && activeQueryType === 'pin') {
-  //     setSortedData(getNearestPOI(resultPin, longPressedLonLat));
-  //   }
-  // }, [resultPin, activeQueryType]);
 
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
@@ -157,26 +131,6 @@ export default function CustomMap() {
     );
   };
 
-  // const handlePinSearch = (lng, lat) => {
-  //   setActiveQueryType('pin');
-  //   getLandmarkFromPinQueryTrigger({
-  //     q: '[amenity=restaurant] tokyo',
-  //     pinLat: lat,
-  //     pinLon: lng,
-  //     radiusDeg: metersToDeltas(selectedPOIRadius, lat),
-  //     limit: selectedPOICount
-  //   });
-  //   handleFlyTo(lng, lat, 15.5, 1500);
-
-  //   if (isThrowingDice) {
-  //     dispatch(setIsShowingOnlySelectedPOI(true));
-  //   } else {
-  //     dispatch(setIsShowingOnlySelectedPOI(false));
-  //     dispatch(setSelectedPOI(''));
-  //   }
-  //   dispatch(setIsShowingAdditionalPopUp(false));
-  // };
-
   const handleKeywordSearch = async (keyword) => {
     setActiveQueryType('keyword');
     dispatch(setSelectedPOIIcon(searchIcon));
@@ -198,12 +152,7 @@ export default function CustomMap() {
     const [lng, lat] = event.result.center;
     dispatch(setLongPressedLonLat({ longitude: lng, latitude: lat }));
     dispatch(setIsUsingGPSLonLat(false));
-    // handlePinSearch(lng, lat);
   };
-
-  // const handleGeoRef = (ref) => {
-  //   geoLocateRef.current = ref;
-  // };
 
   const handleOnLoad = (map) => {
     map.target.touchZoomRotate.enable();
@@ -218,7 +167,6 @@ export default function CustomMap() {
     }
     setMapLoaded(true);
     dispatch(setSessionIDFSQ(uuidv4()));
-    // geoLocateRef.current?.trigger();
   };
 
   const onMove = useCallback((event) => {
@@ -264,7 +212,6 @@ export default function CustomMap() {
       }));
       dispatch(setMarker(newMarker));
       dispatch(setIsUsingGPSLonLat(false));
-      // handlePinSearch(lng, lat);
     }, 500); // 500ms delay before considered a 'hold'
   };
 
@@ -414,23 +361,8 @@ export default function CustomMap() {
           component={<TripSearchTools />}
         />
       </div>
-      {/* <div className='absoluteBottomToolBar mb-1'> */}
-      {/* <div className='min-h-5'> */}
-      {/* <CustomFetching isFetching={isFetchingPin} />
-          <CustomError error={errorPin} /> */}
-      {/* </div> */}
-      {/* <ButtonPOISelection
-          isFetching={isFetchingPin}
-        />
-        <ButtonGPSSearch
-          handleGPSSearch={handlePinSearch}
-          isFetching={isFetchingPin}
-        />
-        <ToggleDice data={sortedData} handleFlyTo={handleFlyTo} /> */}
-      {/* </div> */}
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
-        // ref={(ref) => handleGeoRef(ref)}
         position='bottom-right'
         positionOptions={{ enableHighAccuracy: true, timeout: 10000 }}
         onError={(error) => { console.error('Geolocate error:', error); }}

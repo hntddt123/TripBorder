@@ -111,10 +111,7 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
           longitude={poi.lon}
           latitude={poi.lat}
         >
-          <div
-            className='text-2xl text-center'
-            translate='no'
-          >
+          <div className='text-2xl text-center' translate='no'>
             {selectedPOIIcon}
           </div>
           <CustomButton
@@ -136,22 +133,6 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
 
   if (isFetching || !data?.length) return null;
 
-  // let markersToRender = [];
-
-  // if (isThrowingDice) {
-  //   const poi = data[randomPOINumber];
-  //   if (poi) {
-  //     markersToRender = [renderSingleMarker(poi, randomPOINumber)];
-  //   }
-  // } else if (isShowingOnlySelectedPOI) {
-  //   const index = data.findIndex((marker) => marker.place_id === selectedPOI);
-  //   if (index !== -1) {
-  //     const poi = data[index];
-  //     markersToRender = [renderSingleMarker(poi, index)];
-  //   }
-  // } else {
-  //   markersToRender = data.map((poi, index) => renderSingleMarker(poi, index));
-  // }
   return data.map((poi, index) => renderSingleMarker(poi, index));
 }
 

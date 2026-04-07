@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   setSelectedPOI,
+  setSelectedPOIName,
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
   setSelectedPOILonLat
@@ -32,6 +33,7 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
     );
 
     dispatch(setSelectedPOI(marker.place_id));
+    dispatch(setSelectedPOIName(marker.name));
     dispatch(setSelectedPOILonLat({
       longitude: parseFloat(marker.lon),
       latitude: parseFloat(marker.lat)

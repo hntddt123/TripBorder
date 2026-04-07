@@ -38,7 +38,7 @@ export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
 
 export const UNSPLASH_API_QUERIES = {
   getUnsplashPhotosQuery: ({ poiName }) => (
-    `search/photos?query=${poiName}&per_page=5`
+    `search/photos?query=${poiName}&per_page=10`
   )
 };
 

@@ -15,7 +15,8 @@ const initialMapState = {
   isUsingGPSLonLat: true,
   markers: [],
   selectedPOIIDNumber: '4d4b7105d754a06374d81259', // foursquareAPI category default to restaurants 4d4b7105d754a06374d81259
-  selectedPOIName: '', // poi name
+  selectedPOIName: '', // poi in string
+  previousSelectedPOIName: '', // prev poi in string
   selectedPOI: '', // poi number
   selectedPOIIcon: '🍱', // default to 🍱
   selectedPOILonLat: { longitude: null, latitude: null },
@@ -49,6 +50,7 @@ const mapSlice = createSlice({
     setSelectedPOIIDNumber: (state, action) => ({ ...state, selectedPOIIDNumber: action.payload }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIName: (state, action) => ({ ...state, selectedPOIName: action.payload }),
+    setPreviousSelectedPOIName: (state, action) => ({ ...state, previousSelectedPOIName: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
     setSelectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
     setSelectedPOIRadius: (state, action) => ({ ...state, selectedPOIRadius: action.payload }),
@@ -78,6 +80,7 @@ export const {
   setSelectedPOIIDNumber,
   setSelectedPOI,
   setSelectedPOIName,
+  setPreviousSelectedPOIName,
   setSelectedPOIIcon,
   setSelectedPOILonLat,
   setSelectedPOIRadius,
