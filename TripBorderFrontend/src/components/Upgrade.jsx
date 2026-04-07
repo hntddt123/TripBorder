@@ -39,7 +39,7 @@ export default function Upgrade() {
       return (
         <div className='cardInfo p-4 text-3xl'>
           <div>
-            Trip Border Trial For 7 Days
+            Trip Border Trial For 30 Days
           </div>
           <CustomButton
             className='buttonUpgrade'
@@ -52,13 +52,13 @@ export default function Upgrade() {
     if (isTrialActive(user?.trial_started_at) || isTrial) {
       return (
         <div className='cardInfo p-4 text-3xl'>
-          In Trip Border Trial For 7 Days
+          In Trip Border Trial For 30 Days
         </div>
       );
     }
     return (
       <div className='cardInfo p-4 text-3xl'>
-        Trip Border Trial For 7 Days Ended
+        Trip Border Trial For 30 Days Ended
       </div>
     );
   };

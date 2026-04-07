@@ -27,7 +27,7 @@ export const setLocalTime = (date) => DateTime.fromISO(date);
 
 export const isTrialActive = (trialDate) => {
   if (trialDate
-    && DateTime.utc() < DateTime.fromISO(trialDate, { zone: 'utc' }).plus({ days: 7 })) {
+    && DateTime.utc() < DateTime.fromISO(trialDate, { zone: 'utc' }).plus({ days: 30 })) {
     return true;
   }
   return false;

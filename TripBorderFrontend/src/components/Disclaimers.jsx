@@ -32,7 +32,7 @@ export default function Disclaimers() {
           <div className='text-sm mb-2'>
             “The premium trip planning feature on Trip Border requires a $9.99 annual subscription,
             charged automatically upon signup and each renewal via Stripe.
-            A [7 day] free trial is offered, after which the full fee applies unless canceled.
+            A [30 day] free trial is offered, after which the full fee applies unless canceled.
             All payments are non-refundable except as required by law.
             You must cancel before renewal to avoid charges.”
           </div>
