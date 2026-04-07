@@ -75,12 +75,10 @@ export default function Upgrade() {
             Plan Trip with Trip Border custom map
           </div>
           <div>
-            Fast Point of Interest Search (currently support US, JP, TW)
-          </div>
-          <div>
-            View Past Trip
+            View Past Trips
           </div>
           {/* $9.99/year */}
+          contact: nientaiho@gmail.com
         </div>
       </div>
     </div>

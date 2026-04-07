@@ -36,9 +36,10 @@ import CustomToggle from '../CustomToggle';
 import TripPlanningTools from './TripPlanningTools';
 import TripSearchTools from './TripSearchTools';
 import { searchIcon } from '../../constants/constants';
+import Compass from './mapControls/Compass';
 
 // react-map-gl component
-export default function CustomMap() {
+export default function CustomMap({ premium }) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [activeQueryType, setActiveQueryType] = useState('pin');
   const [sortedData, setSortedData] = useState([]);
@@ -326,40 +327,33 @@ export default function CustomMap() {
           />
         )}
       <div>
-        {(isNorthUp)
+        {(premium) ? <Compass handleNorthUp={handleNorthUp} /> : null}
+      </div>
+      <div>
+        {(premium)
           ? (
-            <CustomButton
-              className='button absoluteTopToolBarRight mt-14 select-none'
+            <CustomToggle
+              className='toggle absoluteTopToolBarLeft select-none'
               translate='no'
-              label='N'
-              onClick={handleNorthUp}
+              titleOn='🏖️▼'
+              titleOff='🏖️'
+              component={<TripPlanningTools handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />}
             />
-          ) : (
-            <CustomButton
-              className='button absoluteTopToolBarRight mt-14 select-none'
-              translate='no'
-              label='🧭'
-              onClick={handleNorthUp}
-            />
-          )}
+          )
+          : null}
       </div>
       <div>
-        <CustomToggle
-          className='toggle absoluteTopToolBarLeft select-none'
-          translate='no'
-          titleOn='🏖️▼'
-          titleOff='🏖️'
-          component={<TripPlanningTools handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />}
-        />
-      </div>
-      <div>
-        <CustomToggle
-          className='toggle absoluteTopToolBarRight select-none'
-          translate='no'
-          titleOn='⚙️▼'
-          titleOff='⚙️'
-          component={<TripSearchTools />}
-        />
+        {(premium)
+          ? (
+            <CustomToggle
+              className='toggle absoluteTopToolBarRight select-none'
+              translate='no'
+              titleOn='⚙️▼'
+              titleOff='⚙️'
+              component={<TripSearchTools />}
+            />
+          )
+          : null}
       </div>
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
@@ -395,4 +389,5 @@ export default function CustomMap() {
 
 CustomMap.propTypes = {
   isFetching: PropTypes.bool,
+  premium: PropTypes.bool
 };

@@ -11,7 +11,7 @@ export default function DevMode() {
         ? (
           <div>
             <div className='text-2xl m-2'>
-              Dev Mode
+              Version: {VERSION_NUMBER} {MODE} Mode
             </div>
             <div className='mainmenu'>
               <CustomButton
@@ -45,20 +45,9 @@ export default function DevMode() {
                 to='/settings'
               />
             </div>
-            <CustomButton
-              label='Sponsors'
-              to='/sponsors'
-            />
-            <CustomButton
-              label='Disclaimers'
-              to='/disclaimers'
-            />
           </div>
         )
         : null}
-      <div className='text-2xl m-2'>
-        Version: {VERSION_NUMBER} {MODE}
-      </div>
     </div>
   );
 }

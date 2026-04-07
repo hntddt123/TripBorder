@@ -172,14 +172,9 @@ export default function Auth() {
           {renderPremiumUserFeatures()}
           {renderUserFeatures()}
           <div className='grid grid-cols-1'>
-            <CustomButton
-              label='Sponsors'
-              to='/sponsors'
-            />
             {(role === 'user')
               ? <CustomButton label='Upgrade' to='/upgrade' />
               : null}
-            <CustomButton label='Disclaimers' to='/disclaimers' />
           </div>
           <CustomButton
             label={isLoggingOut ? 'Logging out...' : 'Logout'}
@@ -189,7 +184,7 @@ export default function Auth() {
         </div>
       ) : (
         <div>
-          <div className='text-2xl m-2'>Login with following options</div>
+          <div className='text-2xl m-2'>Sign in to get premium features</div>
           <GoogleSignInButton onClick={handleLogin} />
         </div>
       )}

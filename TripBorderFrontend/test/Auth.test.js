@@ -47,7 +47,7 @@ describe('Auth Component', () => {
   test('renders login button when not authenticated', () => {
     useCheckAuthStatusQuery.mockReturnValue({ data: { isAuthenticated: false }, refetch: jest.fn() });
     renderWithRouter(['/auth'], <Auth />);
-    expect(screen.getByText('Login with following options')).toBeInTheDocument();
+    expect(screen.getByText('Sign in to get premium features')).toBeInTheDocument();
     expect(screen.getByTestId('GoogleSignInButton')).toBeInTheDocument();
   });
 
@@ -75,7 +75,6 @@ describe('Auth Component', () => {
     expect(screen.getByTestId('button-Mileage Verification')).toBeInTheDocument();
     expect(screen.getByTestId('button-Database Table')).toBeInTheDocument();
     expect(screen.getByTestId('button-Settings')).toBeInTheDocument();
-    expect(screen.getByTestId('button-Disclaimers')).toBeInTheDocument();
     expect(screen.queryByTestId('button-Upgrade')).not.toBeInTheDocument();
     expect(screen.getByTestId('button-Logout')).toBeInTheDocument();
   });
@@ -91,7 +90,6 @@ describe('Auth Component', () => {
     expect(screen.getByTestId('button-View Trips')).toBeInTheDocument();
     expect(screen.getByTestId('button-Mileages')).toBeInTheDocument();
     expect(screen.getByTestId('button-Settings')).toBeInTheDocument();
-    expect(screen.getByTestId('button-Disclaimers')).toBeInTheDocument();
     expect(screen.queryByTestId('button-Upgrade')).not.toBeInTheDocument();
     expect(screen.getByTestId('button-Logout')).toBeInTheDocument();
   });
@@ -108,7 +106,6 @@ describe('Auth Component', () => {
     expect(screen.getByTestId('button-View Trips')).toBeInTheDocument();
     expect(screen.getByTestId('button-Mileages')).toBeInTheDocument();
     expect(screen.getByTestId('button-Settings')).toBeInTheDocument();
-    expect(screen.getByTestId('button-Disclaimers')).toBeInTheDocument();
     expect(screen.getByTestId('button-Upgrade')).toBeInTheDocument();
     expect(screen.getByTestId('button-Logout')).toBeInTheDocument();
   });
@@ -125,7 +122,6 @@ describe('Auth Component', () => {
     expect(screen.queryByTestId('button-View Trips')).not.toBeInTheDocument();
     expect(screen.getByTestId('button-Mileages')).toBeInTheDocument();
     expect(screen.getByTestId('button-Settings')).toBeInTheDocument();
-    expect(screen.getByTestId('button-Disclaimers')).toBeInTheDocument();
     expect(screen.getByTestId('button-Upgrade')).toBeInTheDocument();
     expect(screen.getByTestId('button-Logout')).toBeInTheDocument();
   });

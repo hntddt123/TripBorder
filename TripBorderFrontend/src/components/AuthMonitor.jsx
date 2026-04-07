@@ -17,6 +17,11 @@ export function AuthMonitor() {
   useEffect(() => {
     // Avoid redirect loop if already on login
     // Preserve full current path for post-login return (e.g., /plantrip?step=3)
+    if (location.pathname === '/sponsors'
+      || location.pathname === '/disclaimers') {
+      return;
+    }
+
     if (
       !isLoading
       && data?.isAuthenticated === false

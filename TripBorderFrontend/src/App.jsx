@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProtectedRoutePremium from './components/ProtectedRoutePremium';
@@ -10,12 +10,13 @@ import { VERSION_NUMBER, isDevMode } from './constants/constants';
 import { AuthMonitor } from './components/AuthMonitor';
 
 // Lazy load components
-const TripsMap = lazy(() => import('./components/trips/TripsMap'));
+const TripsMap = lazy(() => import('./components/trips/CustomMap'));
 const TripsHistory = lazy(() => import('./components/trips/TripsHistory'));
 const Settings = lazy(() => import('./components/Settings'));
 const DatabaseTableDev = lazy(() => import('./components/devtables/DatabaseTableDev'));
 const MileagesList = lazy(() => import('./components/mileages/MileagesList'));
 const DevMode = lazy(() => import('./components/DevMode'));
+const GuestMode = lazy(() => import('./components/GuestMode'));
 const MileagesAdmin = lazy(() => import('./components/mileages/MileagesAdmin'));
 const Disclaimers = lazy(() => import('./components/Disclaimers'));
 const Sponsors = lazy(() => import('./components/Sponsors'));
@@ -50,21 +51,25 @@ export default function App() {
                         <DevMode />
                       </div>
                     )
-                    : (
-                      <>
-                        <Auth />
-                        <div className='text-2xl m-2'>
-                          Version: {VERSION_NUMBER}
-                        </div>
-                      </>
-                    )}
+                    : (<Auth />)}
+                  <div>
+                    <GuestMode />
+                    <div className='text-2xl m-2'>
+                      Version: {VERSION_NUMBER}
+                    </div>
+                    <CustomButton
+                      label='Sponsors'
+                      to='/sponsors'
+                    />
+                    <CustomButton label='Disclaimers' to='/disclaimers' />
+                  </div>
                 </div>
               )}
             />
             <Route path='/plantrip' element={<ProtectedRoutePremium />}>
               <Route
                 index
-                element={<TripsMap />}
+                element={<TripsMap premium />}
               />
             </Route>
             <Route path='/trips' element={<ProtectedRoutePremium />}>
@@ -95,14 +100,14 @@ export default function App() {
                 element={<TripBoard component={<Settings />} />}
               />
             </Route>
-            <Route path='/sponsors' element={<ProtectedRoute />}>
+            <Route path='/sponsors' element={<Outlet />}>
               <Route
                 index
                 path='/sponsors'
                 element={<TripBoard component={<Sponsors />} />}
               />
             </Route>
-            <Route path='/disclaimers' element={<ProtectedRoute />}>
+            <Route path='/disclaimers' element={<Outlet />}>
               <Route
                 index
                 path='/disclaimers'
