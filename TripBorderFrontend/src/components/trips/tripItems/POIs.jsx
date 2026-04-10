@@ -5,21 +5,21 @@ import {
   useGetPOIsByTripIDQuery,
   useUpdatePOIByUUIDMutation,
   useDeletePOIMutation
-} from '../../api/poisAPI';
+} from '../../../api/poisAPI';
 import {
   formatDatecccMMMdyyyy,
   formatDateHHmm,
   formatLocalDateTimeString,
   isTimeValid,
   setLocalTime,
-} from '../../utility/time';
-import { setMarker } from '../../redux/reducers/mapReducer';
-import { parkIcon } from '../../constants/constants';
-import CustomToggle from '../CustomToggle';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomLoading from '../CustomLoading';
-import CustomFetching from '../CustomFetching';
+} from '../../../utility/time';
+import { setMarker } from '../../../redux/reducers/mapReducer';
+import { parkIcon } from '../../../constants/constants';
+import CustomToggle from '../../CustomToggle';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomLoading from '../../CustomLoading';
+import CustomFetching from '../../CustomFetching';
 
 export default function POIs({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +27,7 @@ export default function POIs({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
 
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};

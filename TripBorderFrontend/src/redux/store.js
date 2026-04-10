@@ -18,6 +18,7 @@ import { transportsAPI } from '../api/transportsAPI';
 import { tagsAPI } from '../api/tagsAPI';
 import { tripTagsAPI } from '../api/tripTagsAPI';
 import { ratingsAPI } from '../api/ratingsAPI';
+import { tripSharesAPI } from '../api/tripSharesAPI';
 
 const store = configureStore({
   reducer: {
@@ -40,6 +41,7 @@ const store = configureStore({
     [tagsAPI.reducerPath]: tagsAPI.reducer,
     [tripTagsAPI.reducerPath]: tripTagsAPI.reducer,
     [ratingsAPI.reducerPath]: ratingsAPI.reducer,
+    [tripSharesAPI.reducerPath]: tripSharesAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -57,7 +59,8 @@ const store = configureStore({
       transportsAPI.middleware,
       tagsAPI.middleware,
       tripTagsAPI.middleware,
-      ratingsAPI.middleware
+      ratingsAPI.middleware,
+      tripSharesAPI.middleware
     )
 });
 

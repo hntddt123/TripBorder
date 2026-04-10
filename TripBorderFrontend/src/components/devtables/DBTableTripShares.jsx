@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import { useGetTripTagsAllQuery } from '../../api/tripTagsAPI';
+import { useGetTripSharesAllQuery } from '../../api/tripSharesAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
 import CustomFetching from '../CustomFetching';
 
-export default function DBTableTripTagsDev() {
+export default function DBTableTripSharesDev() {
   const [page, setPage] = useState(1);
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGetTripTagsAllQuery({ page, limit });
-  const { tripTags, total, totalPages, page: currentPage } = data || {};
+  const { data, isLoading, isFetching, error } = useGetTripSharesAllQuery({ page, limit });
+  const { tripShares, total, totalPages, page: currentPage } = data || {};
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
@@ -25,7 +25,7 @@ export default function DBTableTripTagsDev() {
 
   return (
     <div>
-      <div>trip_tags</div>
+      <div>trip_shares</div>
       <div className='text-center'>
         <div>
           <CustomButton
@@ -52,15 +52,21 @@ export default function DBTableTripTagsDev() {
           <tr>
             <th>uuid</th>
             <th>trips_uuid</th>
-            <th>tags_uuid</th>
+            <th>shared_email</th>
+            <th>shared_at</th>
+            <th>created_at</th>
+            <th>updated_at</th>
           </tr>
         </thead>
         <tbody>
-          {tripTags?.map((tripTag) => (
-            <tr key={tripTag.uuid}>
-              <td className='tdScroll'>{tripTag.uuid}</td>
-              <td className='tdScroll'>{tripTag.trips_uuid}</td>
-              <td className='tdScroll'>{tripTag.tags_uuid}</td>
+          {tripShares?.map((tripShare) => (
+            <tr key={tripShare.uuid}>
+              <td className='tdScroll'>{tripShare.uuid}</td>
+              <td className='tdScroll'>{tripShare.trips_uuid}</td>
+              <td>{tripShare.shared_email}</td>
+              <td>{tripShare.shared_at}</td>
+              <td>{tripShare.created_at}</td>
+              <td>{tripShare.updated_at}</td>
             </tr>
           ))}
         </tbody>

@@ -58,7 +58,7 @@ export default function DBTableTagsDev() {
         <tbody>
           {tags?.map((tag) => (
             <tr key={tag.uuid}>
-              <td>{tag.uuid}</td>
+              <td className='tdScroll'>{tag.uuid}</td>
               <td>{tag.name}</td>
               <td>{tag.owner_email}</td>
             </tr>

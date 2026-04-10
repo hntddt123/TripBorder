@@ -6,7 +6,9 @@ const initialTripState = {
   ownerEmail: '',
   startDate: '',
   endDate: '',
-  createdAt: ''
+  createdAt: '',
+  sharedMode: '',
+  sharedEmail: []
 };
 
 const tripSlice = createSlice({
@@ -19,6 +21,8 @@ const tripSlice = createSlice({
     setStartDate: (state, action) => ({ ...state, startDate: action.payload }),
     setEndDate: (state, action) => ({ ...state, endDate: action.payload }),
     setCreatedDate: (state, action) => ({ ...state, createdAt: action.payload }),
+    setSharedMode: (state, action) => ({ ...state, sharedMode: action.payload }),
+    setSharedEmail: (state, action) => ({ ...state, sharedEmail: action.payload }),
     resetTrip: () => (initialTripState)
   }
 });
@@ -30,6 +34,8 @@ export const {
   setStartDate,
   setEndDate,
   setCreatedDate,
+  setSharedMode,
+  setSharedEmail,
   resetTrip
 } = tripSlice.actions;
 

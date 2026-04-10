@@ -15,6 +15,7 @@ import {
   TestTags,
   TestTripTags,
   TestRatings,
+  TestTripShares
 } from '../src/constants/testConstants';
 import { authAPI } from '../src/api/authAPI';
 
@@ -158,6 +159,17 @@ describe('Database Table tests', () => {
         page: 1
       });
 
+    nock(TestBaseUrl)
+      .get('/api/trip_shares/')
+      .query({ page: 1, limit: 3 })
+      .delay(100)
+      .reply(200, {
+        tripShares: TestTripShares,
+        total: 1,
+        totalPages: 1,
+        page: 1
+      });
+
     renderWithRedux(<DatabaseTableDev />);
 
     await waitFor(() => {
@@ -173,6 +185,7 @@ describe('Database Table tests', () => {
       expect(screen.getByText(/culture/i)).toHaveTextContent('culture');
       expect(screen.getByText(/550e8400-e29b-41d4-a716-446655440901/i)).toHaveTextContent('550e8400-e29b-41d4-a716-446655440901');
       expect(screen.getByText(/friendly staff/i)).toHaveTextContent('friendly staff');
+      expect(screen.getByText(/testShare@tripborder.com/i)).toHaveTextContent('testShare@tripborder.com');
     });
   });
 });

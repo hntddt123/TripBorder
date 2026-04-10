@@ -3,9 +3,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setTitle,
   setStartDate,
-  setEndDate
+  setEndDate,
+  setSharedMode,
+  // setSharedEmail
 } from '../../redux/reducers/tripReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
+// import { useUpdateTripShareByUUIDMutation } from '../../api/tripSharesAPI';
 import CustomButton from '../CustomButton';
 import {
   formatLocalDateString,
@@ -23,10 +26,13 @@ export default function TripUploadForm() {
     uuid,
     title,
     startDate,
-    endDate
+    endDate,
+    sharedMode,
+    // sharedEmail
   } = useSelector((state) => state.tripReducer);
 
   const [updateTripByUUID, { isLoading }] = useUpdateTripByUUIDMutation();
+  // const [updateTripShareByTripUUID, { isTripShareLoading }] = useUpdateTripShareByUUIDMutation();
 
   const dispatch = useDispatch();
 
@@ -55,6 +61,14 @@ export default function TripUploadForm() {
     if (value === '') return 'End Date is required';
     if (isEndDateBeforeStartDate(value, currentStart)) return 'End Date cannot be before Start Date';
     return '';
+  };
+
+  // const handleSharedEmailChange = (e) => {
+  //   dispatch(setSharedEmail(e.target.value));
+  // };
+
+  const handleShareModeChange = (e) => {
+    dispatch(setSharedMode(e.target.value));
   };
 
   const handleTitleInputChange = (e) => {
@@ -112,13 +126,20 @@ export default function TripUploadForm() {
         title: title,
         start_date: tripStartDate,
         end_date: tripEndDate,
+        shared_mode: sharedMode
       }
     });
+    // updateTripShareByTripUUID({
+    //   updates: {
+    //     trips_uuid: uuid,
+    //     shared_email: sharedEmail
+    //   }
+    // });
   };
 
   return (
     <form onSubmit={handleSubmit} encType='multipart/form-data'>
-      <div className='inputField mt-2 text-left'>
+      <div className='inputField px-4 mt-2 text-left'>
         <label htmlFor='trip_title'>
           Trip Name
         </label>
@@ -159,8 +180,40 @@ export default function TripUploadForm() {
           onChange={handleEndDateInputChange}
           required
         />
+        <label htmlFor='trip_shared_mode'>
+          Shared Mode
+        </label>
+        <select
+          className='customInput text-nowrap'
+          id='trip_shared_mode'
+          name='trip_shared_mode'
+          value={sharedMode}
+          onChange={handleShareModeChange}
+          required
+        >
+          <option key='private' value='private'>Private</option>
+          <option key='shared' value='shared'>Shared</option>
+          <option key='public' value='public'>Public</option>
+        </select>
+        {/* {sharedMode === 'shared'
+          ? (
+            <>
+              <label htmlFor='trip_shared_email'>
+                Trip Shared Email
+              </label>
+              <input
+                className='customInput'
+                id='trip_shared_email'
+                type='email'
+                name='trip_shared_email'
+                value={sharedEmail}
+                onChange={handleSharedEmailChange}
+                placeholder='Trip Shared Email'
+                maxLength={300000}
+              />
+            </>
+          ) : null} */}
         {(inputError.endDate) ? <div className='text-red-600'>{`${inputError.endDate}`}</div> : null}
-        <CustomLoading isLoading={isLoading} text='Updating' />
         <CustomButton
           type='submit'
           label='Save'
@@ -169,6 +222,8 @@ export default function TripUploadForm() {
             || tripStartDate === ''
             || tripEndDate === ''}
         />
+        <CustomLoading isLoading={isLoading} text='Updating Trip' />
+        {/* <CustomLoading isLoading={isTripShareLoading} text='Updating Trip Share' /> */}
       </div>
     </form>
   );

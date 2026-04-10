@@ -120,6 +120,12 @@ html, body {
     container justify-center text-center mx-auto
   }
 
+  .tdScroll {
+    @apply
+    max-w-32 
+    overflow-auto
+  }
+
   .customdiv {
     @apply 
     text-primary-dark dark:text-white;
@@ -127,6 +133,7 @@ html, body {
 
   .customInput {
     @apply 
+    min-w-3/4
     ease-in-out duration-200
     m-1 p-2
     rounded-xl

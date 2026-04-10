@@ -11,6 +11,7 @@ import DBTableTransportsDev from './DBTableTransportsDev';
 import DBTableTagsDev from './DBTableTagsDev';
 import DBTableTripTagsDev from './DBTableTripTagsDev';
 import DBTableRatingsDev from './DBTableRatingsDev';
+import DBTableTripSharesDev from './DBTableTripShares';
 
 export default function DatabaseTableDev() {
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -34,6 +35,7 @@ export default function DatabaseTableDev() {
               <DBTableTagsDev />
               <DBTableTripTagsDev />
               <DBTableRatingsDev />
+              <DBTableTripSharesDev />
             </div>
           </div>
         </div>

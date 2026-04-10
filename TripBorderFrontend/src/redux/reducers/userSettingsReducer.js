@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialUserSettingsSliceState = {
   isDarkMode: true,
   isLoadTrip: false,
-  IsEditingTrip: false
+  IsEditingTrip: false,
+  isLoadTripPublic: false,
 };
 
 const userSettingsSlice = createSlice({
@@ -12,6 +13,7 @@ const userSettingsSlice = createSlice({
   reducers: {
     setIsDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
     setIsLoadTrip: (state, action) => ({ ...state, isLoadTrip: action.payload }),
+    setIsLoadTripPublic: (state, action) => ({ ...state, isLoadTripPublic: action.payload }),
     setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload }),
   }
 });
@@ -19,6 +21,7 @@ const userSettingsSlice = createSlice({
 export const {
   setIsDarkMode,
   setIsLoadTrip,
+  setIsLoadTripPublic,
   setIsEditingTrip
 } = userSettingsSlice.actions;
 

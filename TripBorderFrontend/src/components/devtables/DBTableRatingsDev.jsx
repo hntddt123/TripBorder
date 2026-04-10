@@ -64,9 +64,9 @@ export default function DBTableRatingsDev() {
         <tbody>
           {ratings?.map((rating) => (
             <tr key={rating.uuid}>
-              <td>{rating.uuid}</td>
-              <td>{rating.trips_uuid}</td>
-              <td>{rating.entity_id}</td>
+              <td className='tdScroll'>{rating.uuid}</td>
+              <td className='tdScroll'>{rating.trips_uuid}</td>
+              <td className='tdScroll'>{rating.entity_id}</td>
               <td>{rating.entity_type}</td>
               <td>{rating.comment}</td>
               <td>{rating.score}</td>

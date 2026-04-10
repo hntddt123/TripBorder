@@ -66,8 +66,8 @@ export default function DBTableTransportsDev() {
         <tbody>
           {transports?.map((transport) => (
             <tr key={transport.uuid}>
-              <td>{transport.uuid}</td>
-              <td>{transport.trips_uuid}</td>
+              <td className='tdScroll'>{transport.uuid}</td>
+              <td className='tdScroll'>{transport.trips_uuid}</td>
               <td>{transport.name}</td>
               <td>{transport.type}</td>
               <td>{transport.address}</td>

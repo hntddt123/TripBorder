@@ -18,6 +18,14 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
+    getTripsPublicPagination: builder.query({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: '/tripspublicpagination',
+        method: 'GET',
+        params: { page, limit },
+      }),
+      providesTags: ['Trips'],
+    }),
     getTripsByEmailPagination: createByEmailPaginationQuery(
       builder,
       {
@@ -66,6 +74,7 @@ export const tripsAPI = createApi({
 export const {
   useGetTripsAllQuery,
   useGetTripsByEmailPaginationQuery,
+  useGetTripsPublicPaginationQuery,
   useGetTripByUUIDMutation,
   useInitTripByEmailMutation,
   useUpdateTripByUUIDMutation,

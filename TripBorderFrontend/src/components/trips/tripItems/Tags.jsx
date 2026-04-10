@@ -1,21 +1,21 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { authAPI } from '../../api/authAPI';
+import { authAPI } from '../../../api/authAPI';
 import {
   usePostTagByEmailMutation,
   useGetTagsByEmailPaginationQuery,
   useDeleteTagMutation
-} from '../../api/tagsAPI';
+} from '../../../api/tagsAPI';
 import {
   usePostTripTagsByTripIDAndTagIDMutation
-} from '../../api/tripTagsAPI';
+} from '../../../api/tripTagsAPI';
 
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomToggle from '../CustomToggle';
-import CustomFetching from '../CustomFetching';
-import CustomLoading from '../CustomLoading';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomToggle from '../../CustomToggle';
+import CustomFetching from '../../CustomFetching';
+import CustomLoading from '../../CustomLoading';
 
 export default function Tags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);

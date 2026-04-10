@@ -52,11 +52,11 @@ export default function DBTableMileagesDev() {
       <table>
         <thead>
           <tr>
+            <th>uuid</th>
             <th>is_listed</th>
             <th>is_verified</th>
             <th>is_ocr_verified</th>
             <th>owner_email</th>
-            <th>uuid</th>
             <th>frequent_flyer_number</th>
             <th>airline</th>
             <th>mileage_price</th>
@@ -72,11 +72,11 @@ export default function DBTableMileagesDev() {
         <tbody>
           {mileages?.map((mileage) => (
             <tr key={mileage.uuid}>
+              <td className='tdScroll'>{mileage.uuid}</td>
               <td>{mileage.is_listed.toString()}</td>
               <td>{mileage.is_verified.toString()}</td>
               <td>{mileage.is_ocr_verified.toString()}</td>
               <td>{mileage.owner_email}</td>
-              <td>{mileage.uuid}</td>
               <td>{mileage.frequent_flyer_number}</td>
               <td>{mileage.airline}</td>
               <td>{mileage.mileage_price}</td>

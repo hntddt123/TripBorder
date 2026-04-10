@@ -59,8 +59,8 @@ export default function DBTablePOIsDev() {
         <tbody>
           {pois?.map((poi) => (
             <tr key={poi.uuid}>
-              <td>{poi.uuid}</td>
-              <td>{poi.trips_uuid}</td>
+              <td className='tdScroll'>{poi.uuid}</td>
+              <td className='tdScroll'>{poi.trips_uuid}</td>
               <td>{poi.name}</td>
               <td>{poi.address}</td>
             </tr>

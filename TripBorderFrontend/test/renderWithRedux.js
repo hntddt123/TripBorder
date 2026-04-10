@@ -16,6 +16,7 @@ import { transportsAPI } from '../src/api/transportsAPI';
 import { tagsAPI } from '../src/api/tagsAPI';
 import { tripTagsAPI } from '../src/api/tripTagsAPI';
 import { ratingsAPI } from '../src/api/ratingsAPI';
+import { tripSharesAPI } from '../src/api/tripSharesAPI';
 
 export const renderWithRedux = (
   component,
@@ -37,6 +38,7 @@ export const renderWithRedux = (
         [tagsAPI.reducerPath]: tagsAPI.reducer,
         [tripTagsAPI.reducerPath]: tripTagsAPI.reducer,
         [ratingsAPI.reducerPath]: ratingsAPI.reducer,
+        [tripSharesAPI.reducerPath]: tripSharesAPI.reducer,
       },
       middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
         authAPI.middleware,
@@ -49,7 +51,8 @@ export const renderWithRedux = (
         transportsAPI.middleware,
         tagsAPI.middleware,
         tripTagsAPI.middleware,
-        ratingsAPI.middleware
+        ratingsAPI.middleware,
+        tripSharesAPI.middleware
       )
     }),
   } = {}

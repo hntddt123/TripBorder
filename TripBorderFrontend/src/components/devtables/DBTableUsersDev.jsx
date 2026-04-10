@@ -58,9 +58,9 @@ export default function DBTableUsersDev() {
       <table>
         <thead>
           <tr>
+            <th>uuid</th>
             <th>email</th>
             <th>role</th>
-            <th>uuid</th>
             <th>provider</th>
             <th>provider_user_id</th>
             <th>name</th>
@@ -73,6 +73,7 @@ export default function DBTableUsersDev() {
         <tbody>
           {users?.map((user) => (
             <tr key={user.uuid}>
+              <td className='tdScroll'>{user.uuid}</td>
               <td>{user.email}</td>
               <td>
                 {user.role}
@@ -96,7 +97,6 @@ export default function DBTableUsersDev() {
                   ? (update.data.message)
                   : null}
               </td>
-              <td>{user.uuid}</td>
               <td>{user.provider}</td>
               <td>{user.provider_user_id}</td>
               <td>{user.name}</td>

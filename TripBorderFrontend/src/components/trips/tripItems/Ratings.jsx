@@ -1,25 +1,25 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { authAPI } from '../../api/authAPI';
+import { authAPI } from '../../../api/authAPI';
 import {
   useDeleteRatingMutation,
   useGetRatingsByTripIDQuery,
   usePostRatingByTripIDMutation,
   useUpdateRatingByUUIDMutation
-} from '../../api/ratingsAPI';
-import CustomToggle from '../CustomToggle';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomLoading from '../CustomLoading';
-import CustomFetching from '../CustomFetching';
+} from '../../../api/ratingsAPI';
+import CustomToggle from '../../CustomToggle';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomLoading from '../../CustomLoading';
+import CustomFetching from '../../CustomFetching';
 
 export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const trip = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;

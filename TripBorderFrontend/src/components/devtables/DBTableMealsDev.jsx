@@ -60,8 +60,8 @@ export default function DBTableMealsDev() {
         <tbody>
           {meals?.map((meal) => (
             <tr key={meal.uuid}>
-              <td>{meal.uuid}</td>
-              <td>{meal.trips_uuid}</td>
+              <td className='tdScroll'>{meal.uuid}</td>
+              <td className='tdScroll'>{meal.trips_uuid}</td>
               <td>{meal.name}</td>
               <td>{meal.address}</td>
               <td>{meal.meal_time}</td>

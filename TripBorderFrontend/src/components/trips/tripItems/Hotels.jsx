@@ -5,20 +5,20 @@ import {
   useGetHotelsByTripIDQuery,
   useDeleteHotelsMutation,
   useUpdateHotelByUUIDMutation
-} from '../../api/hotelsAPI';
+} from '../../../api/hotelsAPI';
 import {
   formatDatecccMMMdyyyy,
   formatLocalDateString,
   isTimeValid,
   setLocalTime
-} from '../../utility/time';
-import { setMarker } from '../../redux/reducers/mapReducer';
-import { hotelIcon } from '../../constants/constants';
-import CustomToggle from '../CustomToggle';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomFetching from '../CustomFetching';
-import CustomLoading from '../CustomLoading';
+} from '../../../utility/time';
+import { setMarker } from '../../../redux/reducers/mapReducer';
+import { hotelIcon } from '../../../constants/constants';
+import CustomToggle from '../../CustomToggle';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomFetching from '../../CustomFetching';
+import CustomLoading from '../../CustomLoading';
 
 export default function Hotels({ tripID, handleFlyTo }) {
   const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);

@@ -143,6 +143,25 @@ export const TestRatings = [
   }
 ];
 
+export const TestTripShares = [
+  {
+    uuid: '550e8400-e29b-41d4-a716-446655440009',
+    trips_uuid: '550e8400-e29b-41d4-a716-446655440888',
+    shared_email: 'testShare@tripborder.com',
+    shared_at: '9999-12-31 23:59:59',
+    created_at: '9999-12-31 23:59:59',
+    updated_at: '9999-12-31 23:59:59'
+  },
+  {
+    uuid: '550e8400-e29b-41d4-a716-446655440010',
+    trips_uuid: '550e8400-e29b-41d4-a716-446655440888',
+    shared_email: 'test3@tripborder.com',
+    shared_at: '9999-12-31 23:59:59',
+    created_at: '9999-12-31 23:59:59',
+    updated_at: '9999-12-31 23:59:59'
+  }
+];
+
 export const TestMileages = [
   {
     uuid: '550e8400-e29b-41d4-a716-446655440001',

@@ -5,21 +5,21 @@ import {
   useGetTransportByTripIDQuery,
   useUpdateTransportByUUIDMutation,
   useDeleteTransportMutation
-} from '../../api/transportsAPI';
+} from '../../../api/transportsAPI';
 import {
   formatDatecccMMMdyyyy,
   formatDatecccMMMMddyyyyHHmm,
   formatLocalDateTimeString,
   isTimeValid,
   setLocalTime
-} from '../../utility/time';
-import { transportIcon } from '../../constants/constants';
-import { setMarker } from '../../redux/reducers/mapReducer';
-import CustomToggle from '../CustomToggle';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomLoading from '../CustomLoading';
-import CustomFetching from '../CustomFetching';
+} from '../../../utility/time';
+import { transportIcon } from '../../../constants/constants';
+import { setMarker } from '../../../redux/reducers/mapReducer';
+import CustomToggle from '../../CustomToggle';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomLoading from '../../CustomLoading';
+import CustomFetching from '../../CustomFetching';
 
 export default function Transports({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);

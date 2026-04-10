@@ -5,21 +5,21 @@ import {
   useGetMealsByTripIDQuery,
   useUpdateMealByUUIDMutation,
   useDeleteMealMutation
-} from '../../api/mealsAPI';
+} from '../../../api/mealsAPI';
 import {
   formatDatecccMMMdyyyy,
   formatLocalDateTimeString,
   setLocalTime,
   isTimeValid,
   formatDateHHmm
-} from '../../utility/time';
-import { setMarker } from '../../redux/reducers/mapReducer';
-import CustomToggle from '../CustomToggle';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomLoading from '../CustomLoading';
-import CustomFetching from '../CustomFetching';
-import { restaurantIcon } from '../../constants/constants';
+} from '../../../utility/time';
+import { setMarker } from '../../../redux/reducers/mapReducer';
+import CustomToggle from '../../CustomToggle';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomLoading from '../../CustomLoading';
+import CustomFetching from '../../CustomFetching';
+import { restaurantIcon } from '../../../constants/constants';
 
 export default function Meals({ tripID, handleFlyTo }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -27,7 +27,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
   const [updateMeal] = useUpdateMealByUUIDMutation();

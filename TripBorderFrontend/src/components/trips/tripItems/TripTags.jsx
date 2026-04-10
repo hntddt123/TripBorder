@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import {
   useGetTripTagsByTripIDQuery,
   useDeleteTripTagsMutation
-} from '../../api/tripTagsAPI';
-import CustomError from '../CustomError';
-import CustomButton from '../CustomButton';
-import CustomLoading from '../CustomLoading';
-import CustomFetching from '../CustomFetching';
+} from '../../../api/tripTagsAPI';
+import CustomError from '../../CustomError';
+import CustomButton from '../../CustomButton';
+import CustomLoading from '../../CustomLoading';
+import CustomFetching from '../../CustomFetching';
 
 export default function TripTags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);

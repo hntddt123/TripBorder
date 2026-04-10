@@ -51,6 +51,7 @@ export default function DBTableTripsDev() {
         <thead>
           <tr>
             <th>uuid</th>
+            <th>shared_mode</th>
             <th>owner_email</th>
             <th>title</th>
             <th>start_date</th>
@@ -62,7 +63,8 @@ export default function DBTableTripsDev() {
         <tbody>
           {trips?.map((trip) => (
             <tr key={trip.uuid}>
-              <td>{trip.uuid}</td>
+              <td className='tdScroll'>{trip.uuid}</td>
+              <td>{trip.shared_mode}</td>
               <td>{trip.owner_email}</td>
               <td>{trip.title}</td>
               <td>{trip.start_date}</td>

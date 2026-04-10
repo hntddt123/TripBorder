@@ -62,8 +62,8 @@ export default function DBTableHotelsDev() {
         <tbody>
           {hotels?.map((hotel) => (
             <tr key={hotel.uuid}>
-              <td>{hotel.uuid}</td>
-              <td>{hotel.trips_uuid}</td>
+              <td className='tdScroll'>{hotel.uuid}</td>
+              <td className='tdScroll'>{hotel.trips_uuid}</td>
               <td>{hotel.name}</td>
               <td>{hotel.address}</td>
               <td>{hotel.check_in}</td>

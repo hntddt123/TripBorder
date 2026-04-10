@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import PropTypes from 'prop-types';
 import { authAPI } from '../../api/authAPI';
 import {
   useGetTripsByEmailPaginationQuery,
@@ -10,7 +11,8 @@ import {
   setTitle,
   setOwnerEmail,
   setStartDate,
-  setEndDate
+  setEndDate,
+  setSharedMode
 } from '../../redux/reducers/tripReducer';
 import {
   setIsLoadTrip
@@ -21,17 +23,17 @@ import {
 } from '../../utility/time';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
-import Meals from './Meals';
-import Hotels from './Hotels';
-import POIs from './POIs';
-import Transports from './Transports';
-import Ratings from './Ratings';
-import TripTags from './TripTags';
+import Meals from './tripItems/Meals';
+import Hotels from './tripItems/Hotels';
+import POIs from './tripItems/POIs';
+import Transports from './tripItems/Transports';
+import Ratings from './tripItems/Ratings';
+import TripTags from './tripItems/TripTags';
 import CustomError from '../CustomError';
 import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
-export default function TripsLoading() {
+export default function TripsLoading({ handleFlyTo }) {
   const {
     isLoadTrip
   } = useSelector((state) => state.userSettingsReducer);
@@ -63,6 +65,7 @@ export default function TripsLoading() {
     dispatch(setStartDate(trip.start_date));
     dispatch(setEndDate(trip.end_date));
     dispatch(setIsLoadTrip(false));
+    dispatch(setSharedMode(trip.sharedMode));
   };
 
   const handlePageChange = (newPage) => {
@@ -85,10 +88,10 @@ export default function TripsLoading() {
         )}
       <div>{`Created: ${formatDateMMMMddyyyyHHmmssZZZZ(trip.created_at)}`}</div>
       <div>{`Updated: ${formatDateMMMMddyyyyHHmmssZZZZ(trip.updated_at)}`}</div>
-      <Meals tripID={trip.uuid} />
-      <Hotels tripID={trip.uuid} />
-      <POIs tripID={trip.uuid} />
-      <Transports tripID={trip.uuid} />
+      <Meals tripID={trip.uuid} handleFlyTo={handleFlyTo} />
+      <Hotels tripID={trip.uuid} handleFlyTo={handleFlyTo} />
+      <POIs tripID={trip.uuid} handleFlyTo={handleFlyTo} />
+      <Transports tripID={trip.uuid} handleFlyTo={handleFlyTo} />
       <Ratings tripID={trip.uuid} />
       <TripTags tripID={trip.uuid} />
     </div>
@@ -137,7 +140,7 @@ export default function TripsLoading() {
         </div>
         <span>
           {(currentPage && totalPages) ? `Page ${currentPage} of ${totalPages}` : null}
-          {(total) ? `(Total: ${total} Trips)` : null}
+          {(total) ? ` (Total: ${total} Trips)` : null}
         </span>
       </div>
       <CustomFetching isFetching={isFetching} text='Fetching new page' />
@@ -176,3 +179,7 @@ export default function TripsLoading() {
     </div>
   );
 }
+
+TripsLoading.propTypes = {
+  handleFlyTo: PropTypes.func
+};
