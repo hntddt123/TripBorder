@@ -7,7 +7,7 @@ const initialMapState = {
     longitude: 184.4250000,
     latitude: 22.4250000,
     bearing: 0,
-    pitch: 30,
+    pitch: 45,
     zoom: 1.5
   },
   gpsLonLat: { longitude: null, latitude: null },

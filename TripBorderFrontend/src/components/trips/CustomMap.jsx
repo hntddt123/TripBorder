@@ -87,7 +87,7 @@ export default function CustomMap({ premium }) {
 
   const orientationEvent = (e) => {
     if (!isNorthUp) {
-      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 30, duration: 100 }); // e.alpha is the device heading
+      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 45, duration: 100 }); // e.alpha is the device heading
     }
   };
 
@@ -105,7 +105,7 @@ export default function CustomMap({ premium }) {
       if (permissionState === 'granted') {
         dispatch(setIsNorthUp(!isNorthUp));
       }
-      mapRef.current?.easeTo({ bearing: 0, pitch: 30, duration: 400 });
+      mapRef.current?.easeTo({ bearing: 0, pitch: 45, duration: 400 });
     }
   };
 
@@ -113,7 +113,7 @@ export default function CustomMap({ premium }) {
     mapRef.current?.flyTo({
       center: [lng, lat], // Target coordinates (array format: [longitude, latitude]).
       zoom: zoom, // Target zoom level.
-      pitch: 30, // Target pitch angle in degrees.
+      pitch: 45, // Target pitch angle in degrees.
       duration: duration, // Animation time in ms (e.g., 1000 = 1 second smooth transition).
       essential: true // Ensures animation runs even if user interacts (optional, for better UX).
     });
@@ -125,7 +125,7 @@ export default function CustomMap({ premium }) {
       {
         padding: pad,
         zoom: (mapRef.current.getZoom() >= 16.0 && zoom >= 16.0) ? 12.0 : zoom,
-        pitch: 30,
+        pitch: 45,
         duration: duration,
         essential: true
       }
