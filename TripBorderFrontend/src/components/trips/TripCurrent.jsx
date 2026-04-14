@@ -14,6 +14,8 @@ import {
 import {
   setIsLoadTrip,
   setIsLoadTripPublic,
+  setIsLoadTripShared,
+  setIsLoadTripOthersShared,
   setIsEditingTrip
 } from '../../redux/reducers/userSettingsReducer';
 import { formatDateccc, formatDatecccMMMdyyyy, formatDateMMMdyyyy } from '../../utility/time';
@@ -37,6 +39,8 @@ import RatingsReadOnly from './tripItems/RatingsReadOnly';
 import TripTagsReadOnly from './tripItems/TripTagsReadOnly';
 import TripsLoading from './TripsLoading';
 import TripsPublicLoading from './TripsPublicLoading';
+import TripsSharedLoading from './TripsSharedLoading';
+import TripsOthersSharedLoading from './TripsOthersSharedLoading';
 import TripUploadForm from './TripUploadForm';
 import IconMapOverview from './IconMapOverview';
 
@@ -44,6 +48,8 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
     isLoadTrip,
     isLoadTripPublic,
+    isLoadTripShared,
+    isLoadTripOthersShared,
     isEditingTrip,
   } = useSelector((state) => state.userSettingsReducer);
   const {
@@ -51,8 +57,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     title,
     startDate,
     endDate,
-    sharedMode,
-    sharedEmail
+    sharedMode
   } = useSelector((state) => state.tripReducer);
 
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
@@ -90,6 +95,14 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     dispatch(setIsLoadTrip(true));
   };
 
+  const handleTripSharedButtonClick = () => {
+    dispatch(setIsLoadTripShared(true));
+  };
+
+  const handleTripOthersSharedButtonClick = () => {
+    dispatch(setIsLoadTripOthersShared(true));
+  };
+
   const handleTripPublicButtonClick = () => {
     dispatch(setIsLoadTripPublic(true));
   };
@@ -115,7 +128,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             </>
           )}
       </div>
-      {isLoadTripPublic
+      {isLoadTripPublic || isLoadTripShared || isLoadTripOthersShared
         ? (
           <div>
             <IconMapOverview tripID={uuid} handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />
@@ -150,6 +163,12 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       if (isLoadTripPublic) {
         return <TripsPublicLoading handleFlyTo={handleFlyTo} />;
       }
+      if (isLoadTripShared) {
+        return <TripsSharedLoading handleFlyTo={handleFlyTo} />;
+      }
+      if (isLoadTripOthersShared) {
+        return <TripsOthersSharedLoading handleFlyTo={handleFlyTo} />;
+      }
       return (
         <div className='text-center'>
           <CustomButton
@@ -161,8 +180,12 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             onClick={handleLoadTripButtonClick}
           />
           <CustomButton
-            label='Shared Trips'
-          // onClick={handleSharedTripButtonClick}
+            label='My Shared Trips'
+            onClick={handleTripSharedButtonClick}
+          />
+          <CustomButton
+            label='Shared Trips to Me'
+            onClick={handleTripOthersSharedButtonClick}
           />
           <CustomButton
             label='Public Trips'
@@ -189,14 +212,15 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                   />
                 )
                 : <div />}
-              {(!isLoadTripPublic)
-                ? (
+              {(isLoadTripPublic || isLoadTripOthersShared)
+                ? null
+                : (
                   <CustomButton
                     className='buttonBack'
                     label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
                     onClick={handleEditButton}
                   />
-                ) : null}
+                )}
             </div>
             {(!isEditingTrip)
               ? (
@@ -211,14 +235,11 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                     component={renderTripDetail()}
                     isOpened
                   />
+                  <div>Sharing Mode: {sharedMode}</div>
                 </div>
               )
               : (
                 <div className='text-center'>
-                  <div>Trip sharing: {sharedMode} mode</div>
-                  {sharedMode === 'shared'
-                    ? <div>Sharing To: {sharedEmail}</div>
-                    : null}
                   <TripUploadForm />
                 </div>
               )}

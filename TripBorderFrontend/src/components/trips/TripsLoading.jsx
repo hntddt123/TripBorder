@@ -64,8 +64,8 @@ export default function TripsLoading({ handleFlyTo }) {
     dispatch(setOwnerEmail(trip.onwer_email));
     dispatch(setStartDate(trip.start_date));
     dispatch(setEndDate(trip.end_date));
+    dispatch(setSharedMode(trip.shared_mode));
     dispatch(setIsLoadTrip(false));
-    dispatch(setSharedMode(trip.sharedMode));
   };
 
   const handlePageChange = (newPage) => {

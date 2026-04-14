@@ -26,6 +26,29 @@ export const tripsAPI = createApi({
       }),
       providesTags: ['Trips'],
     }),
+    // Search for trips from shared email
+    getTripsSharedEmailPagination: builder.query({
+      query: ({ othersEmail, page = 1, limit = 10 }) => ({
+        url: '/tripsbysharedemailpagination',
+        method: 'POST',
+        body: { data: othersEmail, page, limit }
+      }),
+      providesTags: ['Trips'],
+    }),
+    getMySharedTripsPagination: createByEmailPaginationQuery(
+      builder,
+      {
+        url: '/tripsmysharedpagination',
+        tagName: 'Trips'
+      }
+    ),
+    getOthersSharedTripsPagination: createByEmailPaginationQuery(
+      builder,
+      {
+        url: '/tripsotherssharedpagination',
+        tagName: 'Trips'
+      }
+    ),
     getTripsByEmailPagination: createByEmailPaginationQuery(
       builder,
       {
@@ -33,11 +56,11 @@ export const tripsAPI = createApi({
         tagName: 'Trips'
       }
     ),
-    getTripByUUID: builder.mutation({
-      query: (uuid) => ({
+    getTripByUUID: builder.query({
+      query: ({ uuid, email }) => ({
         url: '/tripsbyuuid',
         method: 'POST',
-        body: { data: uuid },
+        body: { data: uuid, email },
       }),
       providesTags: ['Trips'],
     }),
@@ -74,8 +97,11 @@ export const tripsAPI = createApi({
 export const {
   useGetTripsAllQuery,
   useGetTripsByEmailPaginationQuery,
+  useGetMySharedTripsPaginationQuery,
+  useGetOthersSharedTripsPaginationQuery,
+  useGetTripsSharedEmailPaginationQuery,
   useGetTripsPublicPaginationQuery,
-  useGetTripByUUIDMutation,
+  useGetTripByUUIDQuery,
   useInitTripByEmailMutation,
   useUpdateTripByUUIDMutation,
   useDeleteTripsMutation

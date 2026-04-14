@@ -18,7 +18,7 @@ export const tripSharesAPI = createApi({
       }),
       providesTags: ['TripShares'],
     }),
-    geTripSharesByTripID: createByTripQuery(
+    getTripSharesByTripID: createByTripQuery(
       builder,
       {
         url: '/tripsharesbytrip',
@@ -58,7 +58,8 @@ export const tripSharesAPI = createApi({
 // Export hooks for usage in components
 export const {
   useGetTripSharesAllQuery,
-  useGeTripSharesByTripIDQuery,
+  useGetTripSharesByTripIDQuery,
+  useLazyGetTripSharesByTripIDQuery,
   usePostTripShareByTripIDMutation,
   useUpdateTripShareByUUIDMutation,
   useDeleteTripShareMutation

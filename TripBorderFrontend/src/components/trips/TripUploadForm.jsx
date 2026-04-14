@@ -5,10 +5,14 @@ import {
   setStartDate,
   setEndDate,
   setSharedMode,
-  // setSharedEmail
+  setSharedEmailInput
 } from '../../redux/reducers/tripReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
-// import { useUpdateTripShareByUUIDMutation } from '../../api/tripSharesAPI';
+import {
+  usePostTripShareByTripIDMutation,
+  useGetTripSharesByTripIDQuery,
+  useDeleteTripShareMutation
+} from '../../api/tripSharesAPI';
 import CustomButton from '../CustomButton';
 import {
   formatLocalDateString,
@@ -17,6 +21,8 @@ import {
   isEndDateBeforeStartDate
 } from '../../utility/time';
 import CustomLoading from '../CustomLoading';
+import CustomError from '../CustomError';
+import { useCheckAuthStatusQuery } from '../../api/authAPI';
 
 export default function TripUploadForm() {
   const [tripStartDate, setTripStartDate] = useState();
@@ -28,11 +34,16 @@ export default function TripUploadForm() {
     startDate,
     endDate,
     sharedMode,
-    // sharedEmail
+    sharedEmailInput
   } = useSelector((state) => state.tripReducer);
 
+  const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
+  const email = user?.email;
+
+  const { data, isTripSharesLoading, error } = useGetTripSharesByTripIDQuery({ tripID: uuid });
   const [updateTripByUUID, { isLoading }] = useUpdateTripByUUIDMutation();
-  // const [updateTripShareByTripUUID, { isTripShareLoading }] = useUpdateTripShareByUUIDMutation();
+  const [postTripShare, { isLoading: isTripSharePosting, error: tripShareError }] = usePostTripShareByTripIDMutation();
+  const [deleteTripShare, { isLoading: isTripShareDeleting, error: tripShareDeleteError }] = useDeleteTripShareMutation();
 
   const dispatch = useDispatch();
 
@@ -63,9 +74,15 @@ export default function TripUploadForm() {
     return '';
   };
 
-  // const handleSharedEmailChange = (e) => {
-  //   dispatch(setSharedEmail(e.target.value));
-  // };
+  const handleDeleteSharedEmail = (tripShareUUID) => () => {
+    deleteTripShare(tripShareUUID);
+  };
+
+  const handleSharedEmailChange = (e) => {
+    if (e.target.value !== email) {
+      dispatch(setSharedEmailInput(e.target.value));
+    }
+  };
 
   const handleShareModeChange = (e) => {
     dispatch(setSharedMode(e.target.value));
@@ -129,12 +146,13 @@ export default function TripUploadForm() {
         shared_mode: sharedMode
       }
     });
-    // updateTripShareByTripUUID({
-    //   updates: {
-    //     trips_uuid: uuid,
-    //     shared_email: sharedEmail
-    //   }
-    // });
+    if (sharedMode === 'shared') {
+      postTripShare({
+        trips_uuid: uuid,
+        shared_email: sharedEmailInput
+      });
+      dispatch(setSharedEmailInput(''));
+    }
   };
 
   return (
@@ -181,7 +199,7 @@ export default function TripUploadForm() {
           required
         />
         <label htmlFor='trip_shared_mode'>
-          Shared Mode
+          Sharing Mode
         </label>
         <select
           className='customInput text-nowrap'
@@ -195,7 +213,7 @@ export default function TripUploadForm() {
           <option key='shared' value='shared'>Shared</option>
           <option key='public' value='public'>Public</option>
         </select>
-        {/* {sharedMode === 'shared'
+        {sharedMode === 'shared'
           ? (
             <>
               <label htmlFor='trip_shared_email'>
@@ -206,13 +224,30 @@ export default function TripUploadForm() {
                 id='trip_shared_email'
                 type='email'
                 name='trip_shared_email'
-                value={sharedEmail}
+                value={sharedEmailInput}
                 onChange={handleSharedEmailChange}
                 placeholder='Trip Shared Email'
                 maxLength={300000}
+                required
               />
+              <div>Shared To: {data?.trip_shares.map((tripShare) => (
+                <div key={tripShare.uuid}>
+                  <button
+                    className='button'
+                  >
+                    {tripShare.shared_email}
+                  </button>
+                  <CustomButton
+                    className='buttonDelete'
+                    translate='no'
+                    label='🗑️'
+                    onClick={handleDeleteSharedEmail(tripShare.uuid)}
+                  />
+                </div>
+              ))}
+              </div>
             </>
-          ) : null} */}
+          ) : null}
         {(inputError.endDate) ? <div className='text-red-600'>{`${inputError.endDate}`}</div> : null}
         <CustomButton
           type='submit'
@@ -223,7 +258,12 @@ export default function TripUploadForm() {
             || tripEndDate === ''}
         />
         <CustomLoading isLoading={isLoading} text='Updating Trip' />
-        {/* <CustomLoading isLoading={isTripShareLoading} text='Updating Trip Share' /> */}
+        <CustomLoading isLoading={isTripSharePosting} text='Posting TripShare' />
+        <CustomLoading isLoading={isTripSharesLoading} text='Loading TripShares' />
+        <CustomLoading isLoading={isTripShareDeleting} text='Deleting TripShares' />
+        <CustomError error={error} />
+        <CustomError error={tripShareError} />
+        <CustomError error={tripShareDeleteError} />
       </div>
     </form>
   );

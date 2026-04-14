@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import {
-  useGetTripsPublicPaginationQuery
+  useGetMySharedTripsPaginationQuery
 } from '../../api/tripsAPI';
 import {
   setTripUUID,
@@ -12,7 +13,7 @@ import {
   setSharedMode
 } from '../../redux/reducers/tripReducer';
 import {
-  setIsLoadTripPublic
+  setIsLoadTripShared
 } from '../../redux/reducers/userSettingsReducer';
 import {
   formatDatecccMMMdyyyy,
@@ -30,20 +31,23 @@ import CustomError from '../CustomError';
 import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
-export default function TripsPulbicLoading({ handleFlyTo }) {
+export default function TripsSharedLoading({ handleFlyTo }) {
+  const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
+  const email = user?.email;
+
   const {
-    isLoadTripPublic
+    isLoadTripShared
   } = useSelector((state) => state.userSettingsReducer);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
 
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGetTripsPublicPaginationQuery({ page, limit });
+  const { data, isLoading, isFetching, error } = useGetMySharedTripsPaginationQuery({ email, page, limit });
   const { trips, total, totalPages, page: currentPage } = data || {};
 
   const handleBackButton = () => {
-    dispatch(setIsLoadTripPublic(false));
+    dispatch(setIsLoadTripShared(false));
   };
 
   const handleLoad = (trip) => {
@@ -52,7 +56,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
     dispatch(setStartDate(trip.start_date));
     dispatch(setEndDate(trip.end_date));
     dispatch(setSharedMode(trip.shared_mode));
-    dispatch(setIsLoadTripPublic(true));
+    dispatch(setIsLoadTripShared(true));
   };
 
   const handlePageChange = (newPage) => {
@@ -61,6 +65,10 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
 
   const renderDetail = (trip) => (
     <div className='text-pretty'>
+      <div>
+        Shared to
+        {trip.shared_emails.map((mail, index) => <div key={trip.shared_emails[index]}>{mail}</div>)}
+      </div>
       <div className='underline underline-offset-2'>Travel Date</div>
       {(formatDatecccMMMdyyyy(trip.start_date) === formatDatecccMMMdyyyy(trip.end_date))
         ? (
@@ -101,7 +109,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
     <div className='overflow-x-auto table-fixed whitespace-nowrap'>
       <div className='text-base text-center'>
         <div className='flex justify-between'>
-          {(isLoadTripPublic)
+          {(isLoadTripShared)
             ? (
               <CustomButton
                 className='buttonBack'
@@ -134,7 +142,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
-            {(isLoadTripPublic)
+            {(isLoadTripShared)
               ? <CustomButton className='button max-h-12' label='Load' onClick={() => handleLoad(trip)} />
               : null}
             {renderTripsItem(trip)}
@@ -147,6 +155,6 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
   );
 }
 
-TripsPulbicLoading.propTypes = {
+TripsSharedLoading.propTypes = {
   handleFlyTo: PropTypes.func
 };

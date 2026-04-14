@@ -37,7 +37,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
     isShowingAdditionalPopUp,
     isThrowingDice
   } = useSelector((state) => state.mapReducer);
-  const { title } = useSelector((state) => state.tripReducer);
+  const { title, sharedMode } = useSelector((state) => state.tripReducer);
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
   const initialSnap = 2;
@@ -204,13 +204,18 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
                     </div>
                     <div>
                       <div className='text-nowrap overflow-x-auto text-center'>
-                        {`Add to ${title}`}
+                        {sharedMode !== 'public' ? `Add to ${title}` : null}
                       </div>
                       <div className='text-center'>
-                        <ButtonMealsUpload filteredResult={filteredResult} />
-                        <ButtonHotelsUpload filteredResult={filteredResult} />
-                        <ButtonPOIUpload filteredResult={filteredResult} />
-                        <ButtonTransportUpload filteredResult={filteredResult} />
+                        {sharedMode !== 'public'
+                          ? (
+                            <>
+                              <ButtonMealsUpload filteredResult={filteredResult} />
+                              <ButtonHotelsUpload filteredResult={filteredResult} />
+                              <ButtonPOIUpload filteredResult={filteredResult} />
+                              <ButtonTransportUpload filteredResult={filteredResult} />
+                            </>
+                          ) : null}
                       </div>
                       <div className='text-center'>
                         {(images?.results?.length > 0)
