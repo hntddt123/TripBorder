@@ -146,7 +146,7 @@ export default function TripUploadForm() {
         shared_mode: sharedMode
       }
     });
-    if (sharedMode === 'shared') {
+    if (sharedMode === 'shared' && sharedEmailInput !== '') {
       postTripShare({
         trips_uuid: uuid,
         shared_email: sharedEmailInput
@@ -228,7 +228,6 @@ export default function TripUploadForm() {
                 onChange={handleSharedEmailChange}
                 placeholder='Trip Shared Email'
                 maxLength={300000}
-                required
               />
               <div>Shared To: {data?.trip_shares.map((tripShare) => (
                 <div key={tripShare.uuid}>

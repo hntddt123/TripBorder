@@ -172,22 +172,27 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       return (
         <div className='text-center'>
           <CustomButton
+            className='button min-w-36'
             label='New Trip'
             onClick={handleNewTripButtonClick}
           />
           <CustomButton
+            className='button min-w-36'
             label='My Trips'
             onClick={handleLoadTripButtonClick}
           />
           <CustomButton
-            label='My Shared Trips'
+            className='button min-w-36'
+            label='Shared Trips'
             onClick={handleTripSharedButtonClick}
           />
           <CustomButton
-            label='Shared Trips to Me'
+            className='button min-w-36'
+            label='Shared to Me'
             onClick={handleTripOthersSharedButtonClick}
           />
           <CustomButton
+            className='button min-w-36'
             label='Public Trips'
             onClick={handleTripPublicButtonClick}
           />
