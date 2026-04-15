@@ -9,7 +9,7 @@ import {
   formatDatecccMMMdyyyy,
   setLocalTime
 } from '../../utility/time';
-import { setMarker } from '../../redux/reducers/mapReducer';
+import { setTripMarker } from '../../redux/reducers/mapReducer';
 import { allIcon, hotelIcon, parkIcon, restaurantIcon, transportIcon } from '../../constants/constants';
 import CustomButton from '../CustomButton';
 import CustomLoading from '../CustomLoading';
@@ -131,7 +131,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
         ...newPOIsMarkers,
         ...newTransportsMarkers
       ];
-      dispatch(setMarker(newMarkers));
+      dispatch(setTripMarker(newMarkers));
       calculateMarkerArrayBoundsAndFlyTo(newMarkers, 4);
     }
   };
@@ -139,7 +139,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const showAllMealsLocations = () => {
     if (dateGroupedMeals && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedMeals, restaurantIcon);
-      dispatch(setMarker(newMarkers));
+      dispatch(setTripMarker(newMarkers));
       calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
@@ -147,7 +147,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const showAllHotelsLocations = () => {
     if (dateGroupedHotels && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedHotels, hotelIcon);
-      dispatch(setMarker(newMarkers));
+      dispatch(setTripMarker(newMarkers));
       calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
@@ -155,7 +155,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const showAllPOIsLocations = () => {
     if (dateGroupedPOIs && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedPOIs, parkIcon);
-      dispatch(setMarker(newMarkers));
+      dispatch(setTripMarker(newMarkers));
       calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };
@@ -163,7 +163,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
   const showAllTransportsLocations = () => {
     if (dateGroupedTransports && handleFlyTo) {
       const newMarkers = prepareMarkerArray(dateGroupedTransports, transportIcon);
-      dispatch(setMarker(newMarkers));
+      dispatch(setTripMarker(newMarkers));
       calculateMarkerArrayBoundsAndFlyTo(newMarkers);
     }
   };

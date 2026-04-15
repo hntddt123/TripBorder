@@ -11,8 +11,7 @@ import CustomButton from '../CustomButton';
 
 export default function ButtonGPSSearch({ handleGPSSearch, isFetching }) {
   const {
-    gpsLonLat,
-    isThrowingDice,
+    gpsLonLat
   } = useSelector((state) => state.mapReducer);
 
   const dispatch = useDispatch();
@@ -27,12 +26,8 @@ export default function ButtonGPSSearch({ handleGPSSearch, isFetching }) {
       dispatch(setIsUsingGPSLonLat(true));
       handleGPSSearch(gpsLonLat.longitude, gpsLonLat.latitude);
 
-      if (isThrowingDice) {
-        dispatch(setIsShowingOnlySelectedPOI(true));
-      } else {
-        dispatch(setIsShowingOnlySelectedPOI(false));
-        dispatch(setSelectedPOI(''));
-      }
+      dispatch(setIsShowingOnlySelectedPOI(false));
+      dispatch(setSelectedPOI(''));
       dispatch(setIsShowingAdditionalPopUp(false));
     }
   };

@@ -12,7 +12,7 @@ import {
   isTimeValid,
   setLocalTime
 } from '../../../utility/time';
-import { setMarker } from '../../../redux/reducers/mapReducer';
+import { setTripMarker } from '../../../redux/reducers/mapReducer';
 import { hotelIcon } from '../../../constants/constants';
 import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
@@ -61,7 +61,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
         lng: hotel.location.x,
         lat: hotel.location.y
       }];
-      dispatch(setMarker(newMarker));
+      dispatch(setTripMarker(newMarker));
       handleFlyTo(hotel.location.x, hotel.location.y, 17);
     }
   };

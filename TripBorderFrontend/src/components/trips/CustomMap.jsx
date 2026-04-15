@@ -37,6 +37,7 @@ import TripPlanningTools from './TripPlanningTools';
 import TripSearchTools from './TripSearchTools';
 import { searchIcon } from '../../constants/constants';
 import Compass from './mapControls/Compass';
+import TripMarker from './TripMarker';
 
 // react-map-gl component
 export default function CustomMap({ premium }) {
@@ -50,7 +51,6 @@ export default function CustomMap({ premium }) {
     isShowingAdditionalPopUp,
     isShowingSideBar,
     isNavigating,
-    isThrowingDice,
     isUsingMapBoxGeocoder,
     selectedPOI,
     selectedPOIName,
@@ -140,12 +140,8 @@ export default function CustomMap({ premium }) {
     if (resultKey.length > 0) {
       handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
     }
-    if (isThrowingDice) {
-      dispatch(setIsShowingOnlySelectedPOI(true));
-    } else {
-      dispatch(setIsShowingOnlySelectedPOI(false));
-      dispatch(setSelectedPOI(''));
-    }
+    dispatch(setIsShowingOnlySelectedPOI(false));
+    dispatch(setSelectedPOI(''));
     dispatch(setIsShowingAdditionalPopUp(false));
   };
 
@@ -190,10 +186,6 @@ export default function CustomMap({ premium }) {
     if (!isNavigating && isShowingAdditionalPopUp && selectedPOI) {
       dispatch(setIsShowingOnlySelectedPOI(true));
     }
-
-    if (isThrowingDice) {
-      dispatch(setIsShowingOnlySelectedPOI(true));
-    }
   };
 
   const handleMouseDown = (event) => {
@@ -228,17 +220,13 @@ export default function CustomMap({ premium }) {
   };
 
   const handleCancelDirectionButton = () => {
-    if (isThrowingDice) {
-      dispatch(setIsShowingOnlySelectedPOI(true));
-    } else {
-      dispatch(setIsShowingOnlySelectedPOI(false));
-    }
+    dispatch(setIsShowingOnlySelectedPOI(false));
     dispatch(setIsNavigating(false));
     dispatch(setIsShowingSideBar(false));
   };
 
   const renderBottomMenu = () => {
-    if (sortedData && sortedData.length > 0 && !isThrowingDice && !isNavigating) {
+    if (sortedData && sortedData.length > 0 && !isNavigating) {
       return (
         <div className={`bottomMenu ${isShowingAdditionalPopUp ? 'blur-sm' : ''}`}>
           <NearbyPOIList
@@ -380,6 +368,7 @@ export default function CustomMap({ premium }) {
           />
         ) : null}
       {(mapLoaded) ? <ClickMarker /> : null}
+      {(mapLoaded) ? <TripMarker handleKeywordSearch={handleKeywordSearch} /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       {renderBottomMenu()}
       {(getDirectionsQueryResults.isError) ? null : renderDirectionMenu()}

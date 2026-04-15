@@ -48,24 +48,17 @@ export default function ClickMarker() {
     <div key={marker.id}>
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div translate='no' className='text-2xl text-center'>{marker.icon || markerIcon}</div>
-        <div translate='no' className={((marker.text) ? 'cardPOIMarker' : '')}>
-          {marker.text || ''}
-        </div>
+        <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
+          <Layer
+            id='circle-layer'
+            type='fill'
+            paint={{
+              'fill-color': '#777',
+              'fill-opacity': 0.21,
+            }}
+          />
+        </Source>
       </Marker>
-      {(!marker.icon)
-        ? (
-          <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
-            <Layer
-              id='circle-layer'
-              type='fill'
-              paint={{
-                'fill-color': '#777',
-                'fill-opacity': 0.21,
-              }}
-            />
-          </Source>
-        )
-        : null}
     </div>
   )) : null);
 }

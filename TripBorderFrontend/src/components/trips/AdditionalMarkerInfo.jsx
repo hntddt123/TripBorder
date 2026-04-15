@@ -34,8 +34,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     gpsLonLat,
     longPressedLonLat,
     previousSelectedPOIName,
-    isShowingAdditionalPopUp,
-    isThrowingDice
+    isShowingAdditionalPopUp
   } = useSelector((state) => state.mapReducer);
   const { title, sharedMode } = useSelector((state) => state.tripReducer);
   const ref = useRef(null);
@@ -82,9 +81,6 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
 
   const handleCloseEvent = () => {
     dispatch(setIsShowingOnlySelectedPOI(false));
-    if (isThrowingDice) {
-      dispatch(setIsShowingOnlySelectedPOI(true));
-    }
     dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setPreviousSelectedPOIName(selectedPOIName));
     dispatch(setSelectedPOI(null));
@@ -158,7 +154,6 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
   if (data && data.length > 0 && isShowingAdditionalPopUp) {
     const filteredResult = data.filter((marker) => marker.place_id === selectedPOI)[0];
     const index = data.findIndex((marker) => marker.place_id === selectedPOI) + 1;
-
     if (filteredResult) {
       return (
         <div className='flex'>

@@ -12,9 +12,9 @@ export default function CustomButton({
 }) {
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     if (to) navigate(to);
-    if (onClick) onClick();
+    if (onClick) onClick(e);
   };
 
   return (

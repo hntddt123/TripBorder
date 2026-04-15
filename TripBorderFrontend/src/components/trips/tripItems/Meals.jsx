@@ -13,7 +13,7 @@ import {
   isTimeValid,
   formatDateHHmm
 } from '../../../utility/time';
-import { setMarker } from '../../../redux/reducers/mapReducer';
+import { setTripMarker } from '../../../redux/reducers/mapReducer';
 import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
 import CustomButton from '../../CustomButton';
@@ -55,7 +55,7 @@ export default function Meals({ tripID, handleFlyTo }) {
         lng: meal.location.x,
         lat: meal.location.y
       }];
-      dispatch(setMarker(newMarker));
+      dispatch(setTripMarker(newMarker));
       handleFlyTo(meal.location.x, meal.location.y, 17);
     }
   };

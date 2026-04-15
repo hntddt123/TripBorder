@@ -14,7 +14,7 @@ import {
   setLocalTime
 } from '../../../utility/time';
 import { transportIcon } from '../../../constants/constants';
-import { setMarker } from '../../../redux/reducers/mapReducer';
+import { setTripMarker } from '../../../redux/reducers/mapReducer';
 import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
 import CustomButton from '../../CustomButton';
@@ -57,7 +57,7 @@ export default function Transports({ tripID, handleFlyTo }) {
         lng: transport.location.x,
         lat: transport.location.y
       }];
-      dispatch(setMarker(newMarker));
+      dispatch(setTripMarker(newMarker));
       handleFlyTo(transport.location.x, transport.location.y, 16);
     }
   };

@@ -7,7 +7,7 @@ import {
   formatDatecccMMMdyyyy,
   formatDateHHmm
 } from '../../../utility/time';
-import { setMarker } from '../../../redux/reducers/mapReducer';
+import { setTripMarker } from '../../../redux/reducers/mapReducer';
 import { parkIcon } from '../../../constants/constants';
 import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
@@ -40,7 +40,7 @@ export default function POIsReadOnly({ tripID, handleFlyTo }) {
         lng: poi.location.x,
         lat: poi.location.y
       }];
-      dispatch(setMarker(newMarker));
+      dispatch(setTripMarker(newMarker));
       handleFlyTo(poi.location.x, poi.location.y, 17);
     }
   };

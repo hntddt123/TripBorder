@@ -14,6 +14,8 @@ const initialMapState = {
   longPressedLonLat: { longitude: null, latitude: null },
   isUsingGPSLonLat: true,
   markers: [],
+  tripMarkers: [],
+  selectedTripMarkerPOIName: '',
   selectedPOIIDNumber: '4d4b7105d754a06374d81259', // foursquareAPI category default to restaurants 4d4b7105d754a06374d81259
   selectedPOIName: '', // poi in string
   previousSelectedPOIName: '', // prev poi in string
@@ -43,6 +45,7 @@ const mapSlice = createSlice({
     setMapLightPresetMode: (state, action) => ({ ...state, mapLightPresetMode: action.payload }),
     setViewState: (state, action) => ({ ...state, viewState: action.payload }),
     setMarker: (state, action) => ({ ...state, markers: action.payload }),
+    setTripMarker: (state, action) => ({ ...state, tripMarkers: action.payload }),
     setGPSLonLat: (state, action) => ({ ...state, gpsLonLat: action.payload }),
     setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
     setIsUsingGPSLonLat: (state, action) => ({ ...state, isUsingGPSLonLat: action.payload }),
@@ -50,6 +53,7 @@ const mapSlice = createSlice({
     setSelectedPOIIDNumber: (state, action) => ({ ...state, selectedPOIIDNumber: action.payload }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIName: (state, action) => ({ ...state, selectedPOIName: action.payload }),
+    setSelectedTripMarkerPOIName: (state, action) => ({ ...state, selectedTripMarkerPOIName: action.payload }),
     setPreviousSelectedPOIName: (state, action) => ({ ...state, previousSelectedPOIName: action.payload }),
     setSelectedPOIIcon: (state, action) => ({ ...state, selectedPOIIcon: action.payload }),
     setSelectedPOILonLat: (state, action) => ({ ...state, selectedPOILonLat: action.payload }),
@@ -74,6 +78,7 @@ export const {
   setMapLightPresetMode,
   setViewState,
   setMarker,
+  setTripMarker,
   setGPSLonLat,
   setLongPressedLonLat,
   setIsUsingGPSLonLat,
@@ -81,6 +86,7 @@ export const {
   setSelectedPOI,
   setSelectedPOIName,
   setPreviousSelectedPOIName,
+  setSelectedTripMarkerPOIName,
   setSelectedPOIIcon,
   setSelectedPOILonLat,
   setSelectedPOIRadius,
