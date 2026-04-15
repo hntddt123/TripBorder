@@ -78,7 +78,7 @@ export default function Upgrade() {
             View Past Trips
           </div>
           {/* $9.99/year */}
-          contact: nientaiho@gmail.com
+          contact: support@tripborder.com
         </div>
       </div>
     </div>

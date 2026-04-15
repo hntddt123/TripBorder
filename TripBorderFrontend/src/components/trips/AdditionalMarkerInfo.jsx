@@ -24,7 +24,7 @@ import ButtonTransportUpload from './ButtonTransportUpload';
 import CustomLoading from '../CustomLoading';
 import CustomError from '../CustomError';
 
-export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, activeQueryType }) {
+export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, activeQueryType }) {
   const [remountKey, setRemountKey] = useState(0);
   const { isPortrait } = useOrientation();
   const {
@@ -276,7 +276,7 @@ export default function ProximityMarkersInfo({ data, getDirectionsQueryTrigger, 
   return null;
 }
 
-ProximityMarkersInfo.propTypes = {
+AdditionalMarkerInfo.propTypes = {
   data: PropTypes.arrayOf(OSMPropTypes),
   getDirectionsQueryTrigger: PropTypes.func,
   activeQueryType: PropTypes.string
