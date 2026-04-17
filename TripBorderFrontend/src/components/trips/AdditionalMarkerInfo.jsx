@@ -40,7 +40,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
   const initialSnap = 2;
-  const snapPoints = [0, 0.25, 0.5, 0.75, 1];
+  const snapPoints = [0, 0.25, 0.618, 1];
 
   const [getUnsplashPhotosTrigger, { data: images = [], isLoading, isError }] = useLazyGetUnsplashPhotosQuery();
   const [getDownloadImageMutationTrigger] = useGetDownloadImageMutation();

@@ -11,7 +11,7 @@ export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClos
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
   const initialSnap = 2;
-  const snapPoints = [0, 0.0618, 0.5, 0.75, 1];
+  const snapPoints = [0, 0.0618, 0.618, 1];
 
   const handleCloseEvent = () => {
     if (onClose) onClose();
