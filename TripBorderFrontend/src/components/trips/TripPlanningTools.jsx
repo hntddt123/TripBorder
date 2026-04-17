@@ -31,6 +31,7 @@ export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClos
       snapPoints={snapPoints}
       detent='full'
       disableDismiss
+      avoidKeyboard={false}
     >
       <Sheet.Container className='bg-black'>
         <Sheet.Header className='bg-black' />

@@ -165,6 +165,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
             initialSnap={initialSnap}
             snapPoints={snapPoints}
             detent='full'
+            avoidKeyboard={false}
           >
             <Sheet.Container>
               <Sheet.Header className='bg-black' />
