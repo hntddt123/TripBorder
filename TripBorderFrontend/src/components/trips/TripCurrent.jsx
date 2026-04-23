@@ -217,15 +217,17 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                   />
                 )
                 : <div />}
-              {(isLoadTripPublic || isLoadTripOthersShared)
+              {((isLoadTripPublic || isLoadTripOthersShared)
                 ? null
                 : (
                   <CustomButton
                     className='buttonBack'
-                    label={(!isEditingTrip) ? 'Edit Trip' : 'Done'}
+                    label='Edit Trip'
                     onClick={handleEditButton}
+                    hidden={isEditingTrip}
                   />
-                )}
+                )
+              )}
             </div>
             {(!isEditingTrip)
               ? (

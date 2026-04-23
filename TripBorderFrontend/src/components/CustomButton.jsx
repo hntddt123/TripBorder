@@ -7,6 +7,7 @@ export default function CustomButton({
   onClick,
   type = 'button',
   disabled = false,
+  hidden = false,
   to,
   ...props
 }) {
@@ -24,6 +25,7 @@ export default function CustomButton({
       type={type}
       onClick={handleClick}
       disabled={disabled}
+      hidden={hidden}
       {...props}
     >
       {label}
@@ -37,5 +39,6 @@ CustomButton.propTypes = {
   type: PropTypes.string,
   className: PropTypes.string,
   to: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  hidden: PropTypes.bool
 };

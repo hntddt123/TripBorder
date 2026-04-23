@@ -5,8 +5,11 @@ import {
   setStartDate,
   setEndDate,
   setSharedMode,
-  setSharedEmailInput
+  setSharedEmailInput,
 } from '../../redux/reducers/tripReducer';
+import {
+  setIsEditingTrip
+} from '../../redux/reducers/userSettingsReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
 import {
   usePostTripShareByTripIDMutation,
@@ -153,6 +156,7 @@ export default function TripUploadForm() {
       });
       dispatch(setSharedEmailInput(''));
     }
+    dispatch(setIsEditingTrip(false));
   };
 
   return (
