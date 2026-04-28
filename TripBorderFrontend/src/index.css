@@ -182,10 +182,10 @@ html, body {
   }
 
   .landmarkSearchContainer {
-    width: 100%;
     z-index: 1;
     top: 0dvh;
     @apply
+    left-1/2 -translate-x-1/2
     absolute
     text-center
     my-2
