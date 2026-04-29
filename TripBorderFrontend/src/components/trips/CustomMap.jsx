@@ -189,9 +189,6 @@ export default function CustomMap({ premium }) {
   };
 
   const handleMouseDown = (event) => {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
     if (pressTimer.current) {
       clearTimeout(pressTimer.current);
     }

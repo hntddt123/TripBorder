@@ -84,21 +84,6 @@ html, body {
   overflow-y-auto;
 }
 
-@layer utilities {
-  /* === iOS MAP PIN PROTECTION === */
-  .mapboxgl-marker,
-  .mapboxgl-marker-anchor-center,
-  .map-pin-no-select {
-    touch-action: none !important;
-    user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    -webkit-user-select: none !important;
-    -webkit-touch-callout: none !important;     /* kills the iOS callout menu */
-    -webkit-tap-highlight-color: transparent !important;   /* removes select flash */
-  }
-}
-
 @layer components {
   body {
     @apply 
