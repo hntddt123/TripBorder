@@ -84,6 +84,21 @@ html, body {
   overflow-y-auto;
 }
 
+@layer utilities {
+  /* === iOS MAP PIN PROTECTION === */
+  .mapboxgl-marker,
+  .mapboxgl-marker *,
+  .map-pin-no-select {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-touch-callout: none !important;     /* kills the iOS callout menu */
+    -webkit-tap-highlight-color: transparent;   /* removes select flash */
+    touch-action: none;                         /* prevents default touch gestures on the pin */
+  }
+}
+
 @layer components {
   body {
     @apply 
@@ -120,6 +135,8 @@ html, body {
     -ms-user-select: none !important;
     user-select: none !important;
     -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
   }
 
   .mainmenu {
