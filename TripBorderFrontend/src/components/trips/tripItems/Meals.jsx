@@ -27,7 +27,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
+  const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
   const [updateMeal] = useUpdateMealByUUIDMutation();

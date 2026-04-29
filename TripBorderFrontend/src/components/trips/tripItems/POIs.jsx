@@ -27,7 +27,7 @@ export default function POIs({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
+  const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};

@@ -19,7 +19,7 @@ export default function Ratings({ tripID }) {
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const trip = useSelector((state) => state.tripReducer);
-  const { isLoadTrip } = useSelector((state) => state.userSettingsReducer);
+  const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;

@@ -12,7 +12,7 @@ import CustomFetching from '../../CustomFetching';
 
 export default function TripTags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isLoadTrip = useSelector((state) => state.tripReducer.isLoadTrip);
 
   const { data, isLoading, isFetching, error } = useGetTripTagsByTripIDQuery({ tripID });
   const { tripTags } = data || {};

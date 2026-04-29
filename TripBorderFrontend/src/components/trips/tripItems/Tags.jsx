@@ -23,7 +23,7 @@ export default function Tags({ tripID }) {
   const [page, setPage] = useState(1);
   const limit = 4;
 
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isLoadTrip = useSelector((state) => state.tripReducer.isLoadTrip);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const { data, isLoading, isFetching, error } = useGetTagsByEmailPaginationQuery({ email, page, limit });

@@ -28,7 +28,7 @@ export default function Transports({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isLoadTrip = useSelector((state) => state.tripReducer.isLoadTrip);
 
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};

@@ -21,7 +21,7 @@ import CustomFetching from '../../CustomFetching';
 import CustomLoading from '../../CustomLoading';
 
 export default function Hotels({ tripID, handleFlyTo }) {
-  const isLoadTrip = useSelector((state) => state.userSettingsReducer.isLoadTrip);
+  const isLoadTrip = useSelector((state) => state.tripReducer.isLoadTrip);
   const [isEditing, setIsEditing] = useState(false);
   const [checkInDates, setCheckInTimes] = useState({});
   const [checkOutDates, setCheckOutTimes] = useState({});

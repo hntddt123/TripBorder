@@ -10,11 +10,9 @@ import {
   setTitle,
   setStartDate,
   setEndDate,
-  setSharedMode
-} from '../../redux/reducers/tripReducer';
-import {
+  setSharedMode,
   setIsLoadTripOthersShared
-} from '../../redux/reducers/userSettingsReducer';
+} from '../../redux/reducers/tripReducer';
 import {
   formatDatecccMMMdyyyy,
   formatDateMMMMddyyyyHHmmssZZZZ
@@ -35,9 +33,7 @@ export default function TripsOthersSharedLoading({ handleFlyTo }) {
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
   const email = user?.email;
 
-  const {
-    isLoadTripOthersShared
-  } = useSelector((state) => state.userSettingsReducer);
+  const { isLoadTripOthersShared } = useSelector((state) => state.tripReducer);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);

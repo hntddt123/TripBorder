@@ -9,11 +9,9 @@ import {
   setTitle,
   setStartDate,
   setEndDate,
-  setSharedMode
-} from '../../redux/reducers/tripReducer';
-import {
+  setSharedMode,
   setIsLoadTripPublic
-} from '../../redux/reducers/userSettingsReducer';
+} from '../../redux/reducers/tripReducer';
 import {
   formatDatecccMMMdyyyy,
   formatDateMMMMddyyyyHHmmssZZZZ
@@ -31,9 +29,7 @@ import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
 
 export default function TripsPulbicLoading({ handleFlyTo }) {
-  const {
-    isLoadTripPublic
-  } = useSelector((state) => state.userSettingsReducer);
+  const { isLoadTripPublic } = useSelector((state) => state.tripReducer);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);

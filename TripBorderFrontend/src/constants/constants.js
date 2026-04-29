@@ -54,6 +54,20 @@ export const iconMapOSM = {
   'shop=mall': { icon: shoppingIcon, label: 'Shopping', query: 'shopping mall' },
 };
 
+export const mapBoxLangs = {
+  en: 'English',
+  ja: 'Japanese',
+  ko: 'Korean',
+  'zh-tw': 'Chinese (Traditional)',
+  zh: 'Chinese (Simplified)',
+  fr: 'French',
+  de: 'German',
+  es: 'Spanish',
+  it: 'Italian',
+  pt: 'Portuguese',
+  ru: 'Russian',
+};
+
 export const poiCategories = Object
   .entries(iconMapOSM)
   .map(([id, { icon, label }]) => ({

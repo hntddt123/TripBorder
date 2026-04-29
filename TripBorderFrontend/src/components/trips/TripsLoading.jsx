@@ -12,11 +12,9 @@ import {
   setOwnerEmail,
   setStartDate,
   setEndDate,
-  setSharedMode
-} from '../../redux/reducers/tripReducer';
-import {
+  setSharedMode,
   setIsLoadTrip
-} from '../../redux/reducers/userSettingsReducer';
+} from '../../redux/reducers/tripReducer';
 import {
   formatDatecccMMMdyyyy,
   formatDateMMMMddyyyyHHmmssZZZZ
@@ -36,7 +34,7 @@ import CustomLoading from '../CustomLoading';
 export default function TripsLoading({ handleFlyTo }) {
   const {
     isLoadTrip
-  } = useSelector((state) => state.userSettingsReducer);
+  } = useSelector((state) => state.tripReducer);
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
   const dispatch = useDispatch();

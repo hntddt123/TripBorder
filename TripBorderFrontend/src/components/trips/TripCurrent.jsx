@@ -9,15 +9,13 @@ import {
   resetTrip,
   setStartDate,
   setEndDate,
-  setSharedMode
-} from '../../redux/reducers/tripReducer';
-import {
+  setSharedMode,
   setIsLoadTrip,
   setIsLoadTripPublic,
   setIsLoadTripShared,
   setIsLoadTripOthersShared,
   setIsEditingTrip
-} from '../../redux/reducers/userSettingsReducer';
+} from '../../redux/reducers/tripReducer';
 import { formatDateccc, formatDatecccMMMdyyyy, formatDateMMMdyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
@@ -46,18 +44,16 @@ import IconMapOverview from './IconMapOverview';
 
 export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
-    isLoadTrip,
-    isLoadTripPublic,
-    isLoadTripShared,
-    isLoadTripOthersShared,
-    isEditingTrip,
-  } = useSelector((state) => state.userSettingsReducer);
-  const {
     uuid,
     title,
     startDate,
     endDate,
-    sharedMode
+    sharedMode,
+    isLoadTrip,
+    isLoadTripPublic,
+    isLoadTripShared,
+    isLoadTripOthersShared,
+    isEditingTrip
   } = useSelector((state) => state.tripReducer);
 
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });

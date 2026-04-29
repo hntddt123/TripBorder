@@ -8,7 +8,12 @@ const initialTripState = {
   endDate: '',
   createdAt: '',
   sharedMode: '',
-  sharedEmailInput: ''
+  sharedEmailInput: '',
+  isLoadTrip: false,
+  IsEditingTrip: false,
+  isLoadTripPublic: false,
+  isLoadTripShared: false,
+  isLoadTripOthersShared: false
 };
 
 const tripSlice = createSlice({
@@ -23,7 +28,12 @@ const tripSlice = createSlice({
     setCreatedDate: (state, action) => ({ ...state, createdAt: action.payload }),
     setSharedMode: (state, action) => ({ ...state, sharedMode: action.payload }),
     setSharedEmailInput: (state, action) => ({ ...state, sharedEmailInput: action.payload }),
-    resetTrip: () => (initialTripState)
+    resetTrip: () => (initialTripState),
+    setIsLoadTrip: (state, action) => ({ ...state, isLoadTrip: action.payload }),
+    setIsLoadTripPublic: (state, action) => ({ ...state, isLoadTripPublic: action.payload }),
+    setIsLoadTripShared: (state, action) => ({ ...state, isLoadTripShared: action.payload }),
+    setIsLoadTripOthersShared: (state, action) => ({ ...state, isLoadTripOthersShared: action.payload }),
+    setIsEditingTrip: (state, action) => ({ ...state, isEditingTrip: action.payload })
   }
 });
 
@@ -36,7 +46,12 @@ export const {
   setCreatedDate,
   setSharedMode,
   setSharedEmailInput,
-  resetTrip
+  resetTrip,
+  setIsLoadTrip,
+  setIsLoadTripPublic,
+  setIsLoadTripShared,
+  setIsLoadTripOthersShared,
+  setIsEditingTrip
 } = tripSlice.actions;
 
 export const tripReducer = tripSlice.reducer;

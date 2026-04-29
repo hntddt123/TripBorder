@@ -37,6 +37,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     isShowingAdditionalPopUp
   } = useSelector((state) => state.mapReducer);
   const { title, sharedMode } = useSelector((state) => state.tripReducer);
+  const { language } = useSelector((state) => state.userSettingsReducer);
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
   const initialSnap = 2;
@@ -86,21 +87,18 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     dispatch(setSelectedPOI(null));
   };
 
-  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd) => ({ lonStart, latStart, lonEnd, latEnd });
+  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd, lang) => ({ lonStart, latStart, lonEnd, latEnd, lang });
 
   const handleDirectionButton = () => {
     if (gpsLonLat.longitude !== null
       && gpsLonLat.latitude !== null) {
-      try {
-        getDirectionsQueryTrigger(setRouteQuery(
-          gpsLonLat.longitude,
-          gpsLonLat.latitude,
-          selectedPOILonLat.longitude,
-          selectedPOILonLat.latitude
-        ));
-      } catch (err) {
-        console.error(err);
-      }
+      getDirectionsQueryTrigger(setRouteQuery(
+        gpsLonLat.longitude,
+        gpsLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude,
+        language
+      ));
     }
     dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));
@@ -111,16 +109,13 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
   const handlePinDirectionButton = () => {
     if (longPressedLonLat.longitude !== null
       && longPressedLonLat.latitude !== null) {
-      try {
-        getDirectionsQueryTrigger(setRouteQuery(
-          longPressedLonLat.longitude,
-          longPressedLonLat.latitude,
-          selectedPOILonLat.longitude,
-          selectedPOILonLat.latitude
-        ));
-      } catch (err) {
-        console.error(err);
-      }
+      getDirectionsQueryTrigger(setRouteQuery(
+        longPressedLonLat.longitude,
+        longPressedLonLat.latitude,
+        selectedPOILonLat.longitude,
+        selectedPOILonLat.latitude,
+        language
+      ));
     }
     dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(true));

@@ -6,10 +6,8 @@ import {
   setEndDate,
   setSharedMode,
   setSharedEmailInput,
-} from '../../redux/reducers/tripReducer';
-import {
   setIsEditingTrip
-} from '../../redux/reducers/userSettingsReducer';
+} from '../../redux/reducers/tripReducer';
 import { useUpdateTripByUUIDMutation } from '../../api/tripsAPI';
 import {
   usePostTripShareByTripIDMutation,

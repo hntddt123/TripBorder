@@ -33,8 +33,10 @@ export const fourSquareBaseUrl = 'https://places-api.foursquare.com';
 export const unsplashBaseUrl = 'https://api.unsplash.com';
 export const openstreetmapBaseUrl = `${BASE_URL}/nominatim`; // localhost:8080 for seperated docker
 export const mapBoxBaseUrl = 'https://api.mapbox.com';
-export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd) => (
-  `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}?steps=true&geometries=geojson&access_token=${MAPBOX_API_KEY}`
+
+export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd, lang) => (
+  `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}
+  ?steps=true&geometries=geojson&language=${lang}&access_token=${MAPBOX_API_KEY}`
 );
 
 export const UNSPLASH_API_QUERIES = {
