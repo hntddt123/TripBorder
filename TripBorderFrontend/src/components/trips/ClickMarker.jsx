@@ -45,7 +45,7 @@ export default function ClickMarker() {
   const drawRadius = (lng, lat) => createGeoJSONCircle([lng, lat], selectedPOIRadius);
 
   return ((markers.length > 0) ? markers.map((marker) => (
-    <div key={marker.id}>
+    <div key={marker.id} className='select-none'>
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div translate='no' className='text-2xl text-center'>{marker.icon || markerIcon}</div>
         <Source id='circle-data' type='geojson' data={drawRadius(marker.lng, marker.lat)}>
