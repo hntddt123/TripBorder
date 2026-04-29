@@ -94,8 +94,8 @@ html, body {
     -ms-user-select: none !important;
     user-select: none !important;
     -webkit-touch-callout: none !important;     /* kills the iOS callout menu */
-    -webkit-tap-highlight-color: transparent;   /* removes select flash */
-    touch-action: none;                         /* prevents default touch gestures on the pin */
+    -webkit-tap-highlight-color: transparent !important;   /* removes select flash */
+    touch-action: none !important;                         /* prevents default touch gestures on the pin */
   }
 }
 
@@ -135,8 +135,8 @@ html, body {
     -ms-user-select: none !important;
     user-select: none !important;
     -webkit-touch-callout: none !important;
-    -webkit-tap-highlight-color: transparent;
-    touch-action: none;
+    -webkit-tap-highlight-color: transparent !important;
+    touch-action: none !important;
   }
 
   .mainmenu {
