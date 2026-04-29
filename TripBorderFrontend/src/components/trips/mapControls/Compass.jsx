@@ -8,7 +8,7 @@ export default function Compass({ handleNorthUp }) {
   if (isNorthUp) {
     return (
       <CustomButton
-        className='button absoluteTopToolBarRight mt-14 select-none'
+        className='button absoluteTopToolBarRight mt-14 no-select'
         translate='no'
         label='N'
         onClick={handleNorthUp}
@@ -17,7 +17,7 @@ export default function Compass({ handleNorthUp }) {
   }
   return (
     <CustomButton
-      className='button absoluteTopToolBarRight mt-14 select-none'
+      className='button absoluteTopToolBarRight mt-14 no-select'
       translate='no'
       label='🧭'
       onClick={handleNorthUp}

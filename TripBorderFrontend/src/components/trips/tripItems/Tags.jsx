@@ -78,7 +78,7 @@ export default function Tags({ tripID }) {
           ? (
             <CustomButton
               translate='no'
-              className='buttonEdit select-none'
+              className='buttonEdit no-select'
               label='✏️'
               onClick={handleEditButton}
             />

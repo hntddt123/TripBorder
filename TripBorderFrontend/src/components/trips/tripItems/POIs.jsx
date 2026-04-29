@@ -140,7 +140,7 @@ export default function POIs({ tripID, handleFlyTo }) {
           ? (
             <CustomButton
               translate='no'
-              className='buttonEdit select-none'
+              className='buttonEdit no-select'
               label='✏️'
               onClick={handleEditButton}
             />

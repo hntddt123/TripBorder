@@ -49,14 +49,7 @@ export default function ClickMarker() {
       <Marker longitude={marker.lng} latitude={marker.lat}>
         <div
           translate='no'
-          className='text-2xl text-center select-none'
-          style={{
-            WebkitUserSelect: 'none',
-            MozUserSelect: 'none',
-            msUserSelect: 'none',
-            userSelect: 'none',
-            WebkitTouchCallout: 'none'
-          }}
+          className='text-2xl text-center no-select'
         >
           {marker.icon || markerIcon}
         </div>

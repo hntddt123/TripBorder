@@ -111,10 +111,10 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
             onTouchStart={handleTouchDown(marker)}
             onTouchEnd={handleTouchUp}
           >
-            <div className='min-w-1/12 text-center'>
+            <div className='min-w-1/12 text-center no-select'>
               {`${i + 1}`}
             </div>
-            <div className='min-w-9/12 text-left cursor-pointer'>
+            <div className='min-w-9/12 text-left cursor-pointer no-select'>
               {renderPOINameAddress(marker)}
             </div>
             <div className='min-w-2/12 text-right'>

@@ -111,15 +111,15 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
           longitude={poi.lon}
           latitude={poi.lat}
         >
-          <div className='text-2xl text-center' translate='no'>
+          <div className='text-2xl text-center no-select' translate='no'>
             {selectedPOIIcon}
           </div>
           <CustomButton
             onClick={handlePOIMarkerClick(poi)}
             translate='no'
             className={(selectedPOI === poi.place_id)
-              ? 'cardPOIMarkerTriggerHover'
-              : 'cardPOIMarker'}
+              ? 'cardPOIMarkerTriggerHover no-select'
+              : 'cardPOIMarker no-select'}
             label={label}
             onMouseEnter={handleMouseEnter(poi)}
             onMouseLeave={handleMouseLeave}
