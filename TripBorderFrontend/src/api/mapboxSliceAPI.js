@@ -17,7 +17,7 @@ export const mapboxAPI = createApi({
   }),
   endpoints: (builder) => ({
     getDirections: builder.query({
-      query: ({ lonStart, latStart, lonEnd, latEnd, lang }) => {
+      query: ({ lonStart, latStart, lonEnd, latEnd, lang, mode }) => {
         const isValidCoord = (lon, lat) => typeof lon === 'number'
           && typeof lat === 'number'
           && lon >= -180 && lon <= 180
@@ -31,7 +31,7 @@ export const mapboxAPI = createApi({
           throw new Error('Start and end coordinates cannot be identical');
         }
 
-        return getMapBoxDirectionUrl(lonStart, latStart, lonEnd, latEnd, lang);
+        return getMapBoxDirectionUrl(lonStart, latStart, lonEnd, latEnd, lang, mode);
       },
       transformErrorResponse: (response) => {
         if (response.status === 422) {

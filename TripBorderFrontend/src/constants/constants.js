@@ -54,7 +54,15 @@ export const iconMapOSM = {
   'shop=mall': { icon: shoppingIcon, label: 'Shopping', query: 'shopping mall' },
 };
 
-export const mapBoxLangs = {
+export const poiCategories = Object
+  .entries(iconMapOSM)
+  .map(([id, { icon, label }]) => ({
+    id,
+    icon,
+    label,
+  }));
+
+export const MAPBOX_LANGS = {
   en: 'English',
   ja: 'Japanese',
   ko: 'Korean',
@@ -68,10 +76,9 @@ export const mapBoxLangs = {
   ru: 'Russian',
 };
 
-export const poiCategories = Object
-  .entries(iconMapOSM)
-  .map(([id, { icon, label }]) => ({
-    id,
-    icon,
-    label,
-  }));
+export const TRAVEL_MODES = {
+  walking: { profile: 'walking', icon: '🚶', label: 'Walk' },
+  driving: { profile: 'driving', icon: '🚗', label: 'Drive' },
+  cycling: { profile: 'cycling', icon: '🚲', label: 'Cycle' }
+};
+export const getTravelModeConfig = (mode) => TRAVEL_MODES[mode] || TRAVEL_MODES.walking;

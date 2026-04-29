@@ -34,9 +34,9 @@ export const unsplashBaseUrl = 'https://api.unsplash.com';
 export const openstreetmapBaseUrl = `${BASE_URL}/nominatim`; // localhost:8080 for seperated docker
 export const mapBoxBaseUrl = 'https://api.mapbox.com';
 
-export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd, lang) => (
-  `directions/v5/mapbox/walking/${lonStart},${latStart};${lonEnd},${latEnd}
-  ?steps=true&geometries=geojson&language=${lang}&access_token=${MAPBOX_API_KEY}`
+export const getMapBoxDirectionUrl = (lonStart, latStart, lonEnd, latEnd, language, travelMode) => (
+  `directions/v5/mapbox/${travelMode}/${lonStart},${latStart};${lonEnd},${latEnd}
+  ?steps=true&geometries=geojson&language=${language}&access_token=${MAPBOX_API_KEY}`
 );
 
 export const UNSPLASH_API_QUERIES = {

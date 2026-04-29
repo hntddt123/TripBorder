@@ -2,14 +2,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import DarkModeToggle from './DarkModeToggle';
 import MileagesByEmail from './mileages/MileagesByEmail';
 import UserProfile from './UserProfile';
-import { mapBoxLangs } from '../constants/constants';
+import { MAPBOX_LANGS } from '../constants/constants';
 import { setLanguage } from '../redux/reducers/userSettingsReducer';
 
 export default function Settings() {
   const dispatch = useDispatch();
   const { language } = useSelector((state) => state.userSettingsReducer);
 
-  const getLanguagesOptions = () => Object.entries(mapBoxLangs).map(([code, name]) => (
+  const getLanguagesOptions = () => Object.entries(MAPBOX_LANGS).map(([code, name]) => (
     <option key={code} value={code}>
       {name}
     </option>

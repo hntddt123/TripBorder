@@ -1,4 +1,4 @@
-import { mapBoxLangs } from '../constants/constants';
+import { MAPBOX_LANGS } from '../constants/constants';
 
 export const getMapboxLanguage = (deviceLang = navigator.language || 'en') => {
   const lang = deviceLang.toLowerCase();
@@ -7,7 +7,7 @@ export const getMapboxLanguage = (deviceLang = navigator.language || 'en') => {
   if (lang.startsWith('zh')) return 'zh';
 
   // Add more if we want later (ja, ko, etc. – Mapbox supports tons)
-  const supported = Object.entries(mapBoxLangs).map((code) => code);
+  const supported = Object.entries(MAPBOX_LANGS).map((code) => code);
   const base = lang.split('-')[0];
   return supported.includes(base) ? base : 'en';
 };

@@ -4,14 +4,15 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Sheet } from 'react-modal-sheet';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
-import { UNSPLASH_APP_NAME, markerIcon } from '../../constants/constants';
+import { TRAVEL_MODES, UNSPLASH_APP_NAME, getTravelModeConfig, markerIcon } from '../../constants/constants';
 import {
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI,
   setIsNavigating,
   setIsShowingSideBar,
   setSelectedPOI,
-  setPreviousSelectedPOIName
+  setPreviousSelectedPOIName,
+  setTravelMode
 } from '../../redux/reducers/mapReducer';
 import { useLazyGetUnsplashPhotosQuery, useGetDownloadImageMutation } from '../../api/unsplashImageAPI';
 import { useOrientation } from '../../hooks/useOrientation';
@@ -34,7 +35,8 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     gpsLonLat,
     longPressedLonLat,
     previousSelectedPOIName,
-    isShowingAdditionalPopUp
+    isShowingAdditionalPopUp,
+    travelMode
   } = useSelector((state) => state.mapReducer);
   const { title, sharedMode } = useSelector((state) => state.tripReducer);
   const { language } = useSelector((state) => state.userSettingsReducer);
@@ -87,7 +89,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     dispatch(setSelectedPOI(null));
   };
 
-  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd, lang) => ({ lonStart, latStart, lonEnd, latEnd, lang });
+  const setRouteQuery = (lonStart, latStart, lonEnd, latEnd, lang, mode) => ({ lonStart, latStart, lonEnd, latEnd, lang, mode });
 
   const handleDirectionButton = () => {
     if (gpsLonLat.longitude !== null
@@ -97,7 +99,8 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
         gpsLonLat.latitude,
         selectedPOILonLat.longitude,
         selectedPOILonLat.latitude,
-        language
+        language,
+        travelMode
       ));
     }
     dispatch(setIsShowingAdditionalPopUp(false));
@@ -114,7 +117,8 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
         longPressedLonLat.latitude,
         selectedPOILonLat.longitude,
         selectedPOILonLat.latitude,
-        language
+        language,
+        travelMode
       ));
     }
     dispatch(setIsShowingAdditionalPopUp(false));
@@ -178,16 +182,29 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
                       {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
                     </div>
                     <div className='text-center m-2'>
+                      <div className='flex justify-center gap-2 mb-4'>
+                        {Object.entries(TRAVEL_MODES).map(([key, config]) => {
+                          const isActive = (travelMode === key);
+                          return (
+                            <CustomButton
+                              key={key}
+                              className={`buttonPOI ${isActive ? 'bg-primary-button-light-hover dark:bg-primary-button-dark-hover' : ''}`}
+                              label={`${config.icon} ${config.label}`}
+                              onClick={() => dispatch(setTravelMode(key))}
+                            />
+                          );
+                        })}
+                      </div>
                       <CustomButton
                         className='buttonPOI'
-                        label='Walk from 🔵'
+                        label={`${getTravelModeConfig(travelMode).label} from 🔵`}
                         onClick={handleDirectionButton}
                         disabled={gpsLonLat.longitude === null
                           && gpsLonLat.latitude === null}
                       />
                       <CustomButton
                         className='buttonPOI'
-                        label={`Walk from ${markerIcon}`}
+                        label={`${getTravelModeConfig(travelMode).label} from ${markerIcon}`}
                         onClick={handlePinDirectionButton}
                         disabled={longPressedLonLat.longitude === null
                           && longPressedLonLat.latitude === null}

@@ -6,6 +6,7 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
   const {
     selectedPOILonLat,
     isNavigating,
+    travelMode
   } = useSelector((state) => state.mapReducer);
 
   const geojson = {
@@ -13,7 +14,9 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
     properties: {},
     geometry: {
       type: 'LineString',
-      coordinates: (getDirectionsQueryResults.isSuccess) ? getDirectionsQueryResults.data.routes[0].geometry.coordinates : ''
+      coordinates: (getDirectionsQueryResults.isSuccess)
+        ? getDirectionsQueryResults.data.routes[0].geometry.coordinates
+        : ''
     }
   };
 
@@ -44,7 +47,7 @@ export default function DirectionLayer({ getDirectionsQueryResults }) {
           ? (
             <Marker longitude={selectedPOILonLat.longitude} latitude={selectedPOILonLat.latitude} offset={[0, -50]}>
               <div className='cardPOITimeMarker'>
-                {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min Walk`}
+                {`${(getDirectionsQueryResults.data.routes[0].legs[0].duration / 60).toFixed(0)} Min ${travelMode}`}
               </div>
             </Marker>
           ) : null}

@@ -613,7 +613,7 @@ html, body {
   .buttonPOI:active {
     @apply
     border-amber-50
-    bg-amber-600;
+    dark:bg-primary-button-dark-hover;
   }
 
   .buttonPOI:disabled {

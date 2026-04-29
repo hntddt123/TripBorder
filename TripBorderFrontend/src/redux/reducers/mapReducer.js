@@ -35,7 +35,8 @@ const initialMapState = {
   isThrowingDice: false,
   isUsingMapBoxGeocoder: false,
   isNorthUp: true,
-  sessionIDFSQ: ''
+  sessionIDFSQ: '',
+  travelMode: 'walking'
 };
 
 const mapSlice = createSlice({
@@ -70,7 +71,8 @@ const mapSlice = createSlice({
     setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
     setIsUsingMapBoxGeocoder: (state, action) => ({ ...state, isUsingMapBoxGeocoder: action.payload }),
     setIsNorthUp: (state, action) => ({ ...state, isNorthUp: action.payload }),
-    setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload })
+    setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload }),
+    setTravelMode: (state, action) => ({ ...state, travelMode: action.payload })
   }
 });
 
@@ -102,7 +104,8 @@ export const {
   setIsThrowingDice,
   setIsUsingMapBoxGeocoder,
   setIsNorthUp,
-  setSessionIDFSQ
+  setSessionIDFSQ,
+  setTravelMode
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;
