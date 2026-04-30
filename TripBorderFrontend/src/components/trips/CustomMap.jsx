@@ -24,6 +24,7 @@ import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import {
   useLazyGetLandmarkFromKeywordQuery
 } from '../../api/openstreemapSliceAPI';
+import { searchIcon } from '../../constants/constants';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
@@ -31,11 +32,10 @@ import DirectionLayer from './DirectionLayer';
 import NearbyPOIList from './NearbyPOIList';
 import CustomButton from '../CustomButton';
 import GeocoderControl from './GeoCoderControl';
-import InputLandmarkSearch from './InputLandmarkSearch';
 import CustomToggle from '../CustomToggle';
-import TripPlanningTools from './TripPlanningTools';
-import TripSearchTools from './TripSearchTools';
-import { searchIcon } from '../../constants/constants';
+import TripPlanningTools from './mapControls/TripPlanningTools';
+import InputLandmarkSearch from './mapControls/InputLandmarkSearch';
+import TripSearchTools from './mapControls/TripSearchTools';
 import Compass from './mapControls/Compass';
 import TripMarker from './TripMarker';
 
@@ -311,7 +311,6 @@ export default function CustomMap({ premium }) {
           <InputLandmarkSearch
             handleKeywordSearch={handleKeywordSearch}
             error={errorKeyword}
-            isFetching={isFetchingKeyword}
           />
         )}
       <div>

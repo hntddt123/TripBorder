@@ -3,11 +3,11 @@ import ReactSlider from 'react-slider';
 import {
   setSelectedPOICount,
   setSelectedPOIRadius
-} from '../../redux/reducers/mapReducer';
-import ToggleScale from './ToggleScale';
-import TogglePlaceName from './TogglePlaceName';
-import ToggleDistance from './ToggleDistance';
-import ToggleMapBoxSearch from './ToggleMapBoxSearch';
+} from '../../../redux/reducers/mapReducer';
+import ToggleScale from '../ToggleScale';
+import TogglePlaceName from '../TogglePlaceName';
+import ToggleDistance from '../ToggleDistance';
+import ToggleMapBoxSearch from '../ToggleMapBoxSearch';
 
 export default function TripSearchTools() {
   const {

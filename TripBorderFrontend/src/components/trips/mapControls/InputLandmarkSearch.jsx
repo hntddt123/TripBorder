@@ -1,11 +1,10 @@
 import { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import CustomError from '../CustomError';
-import CustomFetching from '../CustomFetching';
-import { errorPropTypes } from '../../constants/errorPropTypes';
+import CustomError from '../../CustomError';
+import { errorPropTypes } from '../../../constants/errorPropTypes';
 
 export default function InputLandmarkSearch({
-  handleKeywordSearch, isFetching, error }) {
+  handleKeywordSearch, error }) {
   const [keyword, setKeyword] = useState('');
   const inputRef = useRef(null);
 
@@ -17,6 +16,11 @@ export default function InputLandmarkSearch({
     e.preventDefault();
     inputRef.current.blur();
     handleKeywordSearch(keyword.trim());
+  };
+
+  const handleClear = () => {
+    setKeyword('');
+    handleKeywordSearch('');
   };
 
   return (
@@ -38,8 +42,15 @@ export default function InputLandmarkSearch({
           maxLength={42}
           enterKeyHint='search'
         />
+        <button
+          type='button'
+          className='clearButton select-none'
+          onClick={handleClear}
+          hidden={keyword === ''}
+        >
+          x
+        </button>
       </form>
-      <CustomFetching isFetching={isFetching} />
       <CustomError error={error} />
     </div>
   );
@@ -47,6 +58,5 @@ export default function InputLandmarkSearch({
 
 InputLandmarkSearch.propTypes = {
   handleKeywordSearch: PropTypes.func,
-  isFetching: PropTypes.bool,
   error: errorPropTypes
 };

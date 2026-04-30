@@ -157,11 +157,13 @@ html, body {
   }
 
   .customInputLandmarkSearch {
-    max-width: 50dvw;
+    max-width: 60dvw;
     @apply 
+    py-1 pl-11
+    pr-11
+    min-h-10
     text-lg
     text-center
-    py-1 px-2
     rounded-full
     ease-in-out duration-200
     bg-primary-light dark:bg-primary-button-dark-much-transparent
@@ -321,6 +323,46 @@ html, body {
   }
 
   .button:disabled {
+    @apply
+    cursor-not-allowed
+    ease-in-out duration-200
+    opacity-25 
+    border-amber-300 bg-amber-300;
+  }
+
+  .clearButton {
+    @apply 
+    absolute
+    right-0.5
+    min-h-8
+    min-w-8
+    my-1 mr-0.5
+    content-center
+    align-middle
+    text-center
+    tracking-wider
+    rounded-full
+    ease-in-out duration-400
+    bg-primary-button-light dark:bg-primary-dark 
+    text-black dark:text-white;
+  }
+
+  .clearButton:hover {
+    @apply
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-400 dark:bg-primary-google-focus;
+  }
+
+  .clearButton:active {
+    @apply
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .clearButton:disabled {
     @apply
     cursor-not-allowed
     ease-in-out duration-200
@@ -1330,7 +1372,7 @@ html, body {
     content-center
     align-middle
     text-center
-    -tracking-wider
+    tracking-wider
     rounded-full
     ease-in-out duration-400
     bg-primary-button-light dark:bg-primary-dark 

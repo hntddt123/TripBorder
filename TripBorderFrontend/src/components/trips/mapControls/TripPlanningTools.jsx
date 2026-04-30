@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useTransform } from 'motion/react';
 import PropTypes from 'prop-types';
 import { Sheet } from 'react-modal-sheet';
-import { useOrientation } from '../../hooks/useOrientation';
-import TripCurrent from './TripCurrent';
+import { useOrientation } from '../../../hooks/useOrientation';
+import TripCurrent from '../TripCurrent';
 
 export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClose }) {
   const [remountKey, setRemountKey] = useState(0);
