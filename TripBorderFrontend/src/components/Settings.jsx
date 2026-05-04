@@ -10,7 +10,7 @@ export default function Settings() {
   const { language } = useSelector((state) => state.userSettingsReducer);
 
   const getLanguagesOptions = () => Object.entries(MAPBOX_LANGS).map(([code, name]) => (
-    <option key={code} value={code}>
+    <option key={code} value={code} defaultValue={language}>
       {name}
     </option>
   ));
