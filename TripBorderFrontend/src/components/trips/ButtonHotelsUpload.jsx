@@ -3,7 +3,7 @@ import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
-import { getOSMAddress } from '../../utility/osmFormat';
+import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 
 export default function ButtonHotelsUpload({ filteredResult }) {
@@ -19,7 +19,7 @@ export default function ButtonHotelsUpload({ filteredResult }) {
     if (uuid) {
       const hotels = {
         trips_uuid: uuid,
-        name: filteredResult.name,
+        name: `${filteredResult.name} ${getAltName(filteredResult)}`,
         address: getOSMAddress(filteredResult),
         check_in: startDate,
         check_out: endDate,
