@@ -114,16 +114,6 @@ html, body {
     bg-primary-light dark:bg-primary-dark;
   }
 
-  .no-select {
-    touch-action: none !important;
-    user-select: none !important;
-    -moz-user-select: none !important;
-    -ms-user-select: none !important;
-    -webkit-user-select: none !important;
-    -webkit-touch-callout: none !important;     /* kills the iOS callout menu */
-    -webkit-tap-highlight-color: transparent !important;   /* removes select flash */
-  }
-
   .mainmenu {
     @apply
     grid grid-cols-2
