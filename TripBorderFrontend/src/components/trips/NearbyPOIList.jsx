@@ -33,9 +33,9 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
       1420
     );
     dispatch(setSelectedPOI(marker.place_id));
-    if (marker.namedetails.name) {
+    if (marker.namedetails?.name) {
       dispatch(setSelectedPOIName(marker.namedetails.name));
-    } else {
+    } else if (marker.name) {
       dispatch(setSelectedPOIName(marker.name));
     }
     dispatch(setSelectedPOILonLat({
