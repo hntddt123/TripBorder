@@ -1,5 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProtectedRoutePremium from './components/ProtectedRoutePremium';
@@ -9,8 +8,6 @@ import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
 import { VERSION_NUMBER, isDevMode } from './constants/constants';
 import { AuthMonitor } from './components/AuthMonitor';
-import { getMapboxLanguage } from './utility/mapboxLanguage';
-import { setLanguage } from './redux/reducers/userSettingsReducer';
 
 // Lazy load components
 const TripsMap = lazy(() => import('./components/trips/CustomMap'));
@@ -26,13 +23,6 @@ const Sponsors = lazy(() => import('./components/Sponsors'));
 const Upgrade = lazy(() => import('./components/Upgrade'));
 
 export default function App() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const mapboxLang = getMapboxLanguage();
-    dispatch(setLanguage(mapboxLang));
-  }, []);
-
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>

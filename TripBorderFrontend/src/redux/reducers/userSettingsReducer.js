@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getMapboxLanguage } from '../../utility/mapboxLanguage';
 
 const initialUserSettingsSliceState = {
   isDarkMode: true,
-  language: 'en',
+  language: getMapboxLanguage(),
 };
 
 const userSettingsSlice = createSlice({
