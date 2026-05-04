@@ -58,7 +58,7 @@ export default function CustomMap({ premium }) {
     isShowingScaleRuler,
   } = useSelector((state) => state.mapReducer);
   const {
-    isDarkMode,
+    isDarkMode
   } = useSelector((state) => state.userSettingsReducer);
 
   const dispatch = useDispatch();
@@ -132,10 +132,10 @@ export default function CustomMap({ premium }) {
     );
   };
 
-  const handleKeywordSearch = async (keyword) => {
+  const handleKeywordSearch = async (query) => {
     setActiveQueryType('keyword');
     dispatch(setSelectedPOIIcon(searchIcon));
-    const resultKey = (await getLandmarkFromKeywordTrigger(keyword)).data;
+    const resultKey = (await getLandmarkFromKeywordTrigger(query)).data;
 
     if (resultKey.length > 0) {
       handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
@@ -367,7 +367,7 @@ export default function CustomMap({ premium }) {
           />
         ) : null}
       {(mapLoaded) ? <ClickMarker /> : null}
-      {(mapLoaded) ? <TripMarker handleKeywordSearch={handleKeywordSearch} /> : null}
+      {(mapLoaded) ? <TripMarker /> : null}
       {(mapLoaded) ? <DirectionLayer getDirectionsQueryResults={getDirectionsQueryResults} /> : null}
       {renderBottomMenu()}
       {(getDirectionsQueryResults.isError) ? null : renderDirectionMenu()}

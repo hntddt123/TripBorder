@@ -10,6 +10,7 @@ import {
 } from '../../redux/reducers/mapReducer';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 import { calculateDistance } from '../../utility/geoCalculation';
+import { getAltName } from '../../utility/osmFormat';
 
 export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
   const {
@@ -31,9 +32,12 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
       viewState.zoom,
       1420
     );
-
     dispatch(setSelectedPOI(marker.place_id));
-    dispatch(setSelectedPOIName(marker.name));
+    if (marker.namedetails.name) {
+      dispatch(setSelectedPOIName(marker.namedetails.name));
+    } else {
+      dispatch(setSelectedPOIName(marker.name));
+    }
     dispatch(setSelectedPOILonLat({
       longitude: parseFloat(marker.lon),
       latitude: parseFloat(marker.lat)
@@ -85,10 +89,10 @@ export default function NearbyPOIList({ data, handleFlyTo, activeQueryType }) {
 
   const renderPOINameAddress = (marker) => {
     if (marker.address.house_number && marker.address.road) {
-      return `${marker.name} (${marker.address?.house_number} ${marker.address.road})`;
+      return `${marker.name} (${marker.address?.house_number} ${marker.address.road}) ${getAltName(marker)}`;
     }
     if (marker.address.road) {
-      return `${marker.name} (${marker.address.road})`;
+      return `${marker.name} (${marker.address.road}) ${getAltName(marker)}`;
     }
     if (marker.name) {
       return `${marker.name}`;

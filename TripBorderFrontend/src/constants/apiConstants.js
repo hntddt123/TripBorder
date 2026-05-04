@@ -55,14 +55,16 @@ export const FOURSQUARE_API_QUERIES = {
 };
 
 export const OPENSTREETMAP_API_QUERIES = {
-  getLandmarkFromKeywordQuery: (keyword) => {
+  getLandmarkFromKeywordQuery: ({ keyword, language }) => {
     const params = {
       q: keyword,
-      format: 'json',
-      limit: '1',
+      format: 'jsonv2',
+      limit: '10',
       addressdetails: '1',
       extratags: '1',
-      namedetails: '1'
+      namedetails: '1',
+      entrances: '1',
+      'accept-language': language
     };
     return { url: 'search', params };
   },
@@ -77,11 +79,12 @@ export const OPENSTREETMAP_API_QUERIES = {
       q,
       viewbox: `${lon1},${lat1},${lon2},${lat2}`,
       bounded: '1',
-      format: 'json',
+      format: 'jsonv2',
       limit: limit.toString(),
       addressdetails: '1',
       extratags: '1',
       namedetails: '1',
+      entrances: '1'
     };
     return { url: 'search', params };
   }

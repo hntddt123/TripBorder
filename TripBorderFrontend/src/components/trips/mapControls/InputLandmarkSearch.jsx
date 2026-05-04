@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import CustomError from '../../CustomError';
 import { errorPropTypes } from '../../../constants/errorPropTypes';
@@ -7,6 +8,7 @@ export default function InputLandmarkSearch({
   handleKeywordSearch, error }) {
   const [keyword, setKeyword] = useState('');
   const inputRef = useRef(null);
+  const { language } = useSelector((state) => state.userSettingsReducer);
 
   const handleInputChange = (e) => {
     setKeyword(e.target.value);
@@ -15,12 +17,12 @@ export default function InputLandmarkSearch({
   const handleSubmit = (e) => {
     e.preventDefault();
     inputRef.current.blur();
-    handleKeywordSearch(keyword.trim());
+    handleKeywordSearch({ keyword: keyword.trim(), language });
   };
 
   const handleClear = () => {
     setKeyword('');
-    handleKeywordSearch('');
+    handleKeywordSearch({ keyword: '', language });
   };
 
   return (

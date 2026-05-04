@@ -14,7 +14,7 @@ export const openstreetmapAPI = createApi({
   refetchOnReconnect: true,
   endpoints: (builder) => ({
     getLandmarkFromKeyword: builder.query({
-      // Encodes keyword (prevents URI errors/injection), limit=1 for top result (extratags=1, addressdetails=1 for details).
+      // Encodes keyword (prevents URI errors/injection), limit=10 for top 10 results (extratags=1, addressdetails=1 for details).
       query: OPENSTREETMAP_API_QUERIES.getLandmarkFromKeywordQuery,
       keepUnusedDataFor: 900,
       providesTags: ['OpenStreetMapPOIs']

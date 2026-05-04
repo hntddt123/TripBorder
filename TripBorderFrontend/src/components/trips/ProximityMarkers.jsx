@@ -12,6 +12,7 @@ import {
 } from '../../redux/reducers/mapReducer';
 import CustomButton from '../CustomButton';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
+import { getAltName } from '../../utility/osmFormat';
 
 export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
   const dispatch = useDispatch();
@@ -42,7 +43,11 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
       1420
     );
     dispatch(setSelectedPOI(marker.place_id));
-    dispatch(setSelectedPOIName(marker.name));
+    if (marker.namedetails.name) {
+      dispatch(setSelectedPOIName(marker.namedetails.name));
+    } else {
+      dispatch(setSelectedPOIName(marker.name));
+    }
     dispatch(setSelectedPOILonLat({
       longitude: parseFloat(marker.lon),
       latitude: parseFloat(marker.lat)
@@ -93,10 +98,10 @@ export default function ProximityMarkers({ data, isFetching, handleFlyTo }) {
     let label = `${index + 1}`;
 
     if (isFullPOIname || isHovered) {
-      label = `${label} ${name}`;
+      label = `${label} ${name} ${getAltName(poi)}`;
     }
     if (isShowingDistance && dist) {
-      label = `${label} ${dist}m`;
+      label = `${label} ${getAltName(poi)} ${dist}m`;
     }
 
     return label;
