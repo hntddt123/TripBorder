@@ -320,7 +320,7 @@ export default function CustomMap({ premium }) {
         {(premium)
           ? (
             <CustomToggle
-              className='toggle absoluteTopToolBarLeft no-select'
+              className='toggle absoluteTopToolBarLeft select-none'
               translate='no'
               titleOn='🏖️▼'
               titleOff='🏖️'
@@ -333,7 +333,7 @@ export default function CustomMap({ premium }) {
         {(premium)
           ? (
             <CustomToggle
-              className='toggle absoluteTopToolBarRight no-select'
+              className='toggle absoluteTopToolBarRight select-none'
               translate='no'
               titleOn='⚙️▼'
               titleOff='⚙️'

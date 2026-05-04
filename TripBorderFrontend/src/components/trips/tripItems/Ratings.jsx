@@ -135,7 +135,7 @@ export default function Ratings({ tripID }) {
           ? (
             <CustomButton
               translate='no'
-              className='buttonEdit no-select'
+              className='buttonEdit select-none'
               label='✏️'
               onClick={handleEditButton}
             />

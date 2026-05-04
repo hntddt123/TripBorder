@@ -149,7 +149,7 @@ export default function TripsLoading({ handleFlyTo }) {
               ? (
                 <CustomButton
                   translate='no'
-                  className='buttonEdit relative no-select'
+                  className='buttonEdit relative select-none'
                   label='✏️'
                   onClick={handleEditButton}
                 />

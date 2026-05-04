@@ -242,7 +242,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
           ? (
             <CustomButton
               translate='no'
-              className='buttonEdit no-select'
+              className='buttonEdit select-none'
               label='✏️'
               onClick={handleEditButton}
             />
