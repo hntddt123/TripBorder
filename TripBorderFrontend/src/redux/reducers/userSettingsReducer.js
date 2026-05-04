@@ -3,7 +3,7 @@ import { getMapboxLanguage } from '../../utility/mapboxLanguage';
 
 const initialUserSettingsSliceState = {
   isDarkMode: true,
-  language: getMapboxLanguage(),
+  language: getMapboxLanguage().toLocaleLowerCase(),
 };
 
 const userSettingsSlice = createSlice({
