@@ -56,7 +56,9 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
       && selectedPOIName !== ''
       && !isPureNumeric(checkText)) {
       const resultText = checkText.split('(')[0].trim();
-      getUnsplashPhotosTrigger({ poiName: resultText });
+      if (resultText) {
+        getUnsplashPhotosTrigger({ poiName: resultText });
+      }
     }
   }, [selectedPOIName]);
 
