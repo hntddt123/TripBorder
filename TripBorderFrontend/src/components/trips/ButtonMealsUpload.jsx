@@ -7,7 +7,7 @@ import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
-import { getOSMAddress } from '../../utility/osmFormat';
+import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 
 export default function ButtonMealsUpload({ filteredResult }) {
   const {
@@ -21,7 +21,7 @@ export default function ButtonMealsUpload({ filteredResult }) {
     if (uuid) {
       const meals = {
         trips_uuid: uuid,
-        name: filteredResult.name,
+        name: `${filteredResult.name} ${getAltName(filteredResult)}`,
         address: getOSMAddress(filteredResult),
         meal_time: mealTime,
         location: {

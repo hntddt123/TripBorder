@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { usePostTransportByTripIDMutation } from '../../api/transportsAPI';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
-import { getOSMAddress } from '../../utility/osmFormat';
+import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
@@ -31,7 +31,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
     if (uuid) {
       const transport = {
         trips_uuid: uuid,
-        name: filteredResult.name,
+        name: `${filteredResult.name} ${getAltName(filteredResult)}`,
         address: getOSMAddress(filteredResult),
         departure_time: startDate,
         arrival_time: startDate,

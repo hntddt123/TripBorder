@@ -24,6 +24,7 @@ import ButtonPOIUpload from './ButtonPOIUpload';
 import ButtonTransportUpload from './ButtonTransportUpload';
 import CustomLoading from '../CustomLoading';
 import CustomError from '../CustomError';
+import { getAltName } from '../../utility/osmFormat';
 
 export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, activeQueryType }) {
   const [remountKey, setRemountKey] = useState(0);
@@ -141,13 +142,14 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     if (filteredResult.address.house_number && filteredResult.address.road) {
       return `${index} 
       ${filteredResult.name}
-      (${filteredResult.address?.house_number} ${filteredResult.address.road})`;
+      (${filteredResult.address?.house_number} ${filteredResult.address.road})
+      ${getAltName(filteredResult)}`;
     }
     if (filteredResult.address.road) {
-      return `${index} ${filteredResult.name} (${filteredResult.address.road})`;
+      return `${index} ${filteredResult.name} (${filteredResult.address.road}) ${getAltName(filteredResult)}`;
     }
     if (filteredResult.name) {
-      return `${index} ${filteredResult.name}`;
+      return `${index} ${filteredResult.name} ${getAltName(filteredResult)}`;
     }
     return 'No Data';
   };
