@@ -106,7 +106,8 @@ html, body {
   td {
     @apply 
     bg-primary-light dark:bg-primary-dark
-    border-2 p-2 text-left;
+    border-amber-200 dark:border-gray-700
+    border p-2 text-left;
   }
 
   th {
@@ -132,8 +133,9 @@ html, body {
 
   .tdScroll {
     @apply
-    max-w-32 
-    overflow-auto
+    max-w-32
+    overflow-y-clip
+    overflow-x-scroll
   }
 
   .customdiv {

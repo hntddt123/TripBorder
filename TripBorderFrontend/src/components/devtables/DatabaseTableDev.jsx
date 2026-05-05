@@ -8,6 +8,7 @@ import DBTableMealsDev from './DBTableMealsDev';
 import DBTablePOIsDev from './DBTablePOIsDev';
 import DBTableHotelsDev from './DBTableHotelsDev';
 import DBTableTransportsDev from './DBTableTransportsDev';
+import DBTableTagsInfiniteDev from './DBTableTagsInfiniteDev';
 import DBTableTagsDev from './DBTableTagsDev';
 import DBTableTripTagsDev from './DBTableTripTagsDev';
 import DBTableRatingsDev from './DBTableRatingsDev';
@@ -32,6 +33,7 @@ export default function DatabaseTableDev() {
               <DBTablePOIsDev />
               <DBTableHotelsDev />
               <DBTableTransportsDev />
+              <DBTableTagsInfiniteDev />
               <DBTableTagsDev />
               <DBTableTripTagsDev />
               <DBTableRatingsDev />

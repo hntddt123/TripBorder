@@ -18,6 +18,14 @@ export const tagsAPI = createApi({
       }),
       providesTags: ['Tags'],
     }),
+    getTagsAllInfinite: builder.query({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: '/infinite',
+        method: 'GET',
+        params: { page, limit },
+      }),
+      providesTags: ['Tags'],
+    }),
     getTagsByEmailPagination: createByEmailPaginationQuery(
       builder,
       {
@@ -49,6 +57,7 @@ export const tagsAPI = createApi({
 // Export hooks for usage in components
 export const {
   useGetTagsAllQuery,
+  useGetTagsAllInfiniteQuery,
   useGetTagsByEmailPaginationQuery,
   usePostTagByEmailMutation,
   useDeleteTagMutation
