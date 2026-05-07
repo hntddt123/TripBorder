@@ -71,7 +71,7 @@ export default function DBTableTagsInfiniteDev() {
         <table className='table-fixed whitespace-nowrap'>
           <thead>
             <tr>
-              {allTags.map((tag) => (
+              {allTags?.map((tag) => (
                 <th key={tag.uuid} className='tdScroll w-20'>
                   {tag.name}
                 </th>
