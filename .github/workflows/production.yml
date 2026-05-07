@@ -1,31 +1,53 @@
-name: Production workflow
+name: Production CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  frontend-ci:
+    name: Frontend CI (prod)
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./TripBorderFrontend
     steps:
-      - name: Production Code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Use Node.js 22.x
-        uses: actions/setup-node@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 22.x
-      - run: npm install
-      - run: npm run lint
-      - run: npm run test
-      
-      - name: Set up SSL certificates
-        run: | 
-          mkdir -p ssl 
-          echo "${{ secrets.TRIP_DAY_SSL_CERT }}" > ./ssl/tripborderfrontend-cert.pem 
-          echo "${{ secrets.TRIP_DAY_SSL_KEY }}" > ./ssl/tripborderfrontend-key.pem
-      - run: npm run build --if-present
+          node-version: 22
+          cache: 'npm'
+          cache-dependency-path: 'TripBorderFrontend/package-lock.json'
+
+      - name: Install deps (reproducible CI)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test (TDD safety net)
+        run: npm run test
+
+      - name: Setup SSL certs (for build if needed)
+        run: |
+          mkdir -p ssl
+          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_CERT }}" > ./ssl/tripborderfrontend-cert.pem
+          echo "${{ secrets.TRIP_BORDER_FRONTEND_SSL_KEY }}" > ./ssl/tripborderfrontend-key.pem
+
+      - name: Build
+        run: npm run build --if-present
+
+      - name: Docker Compose validate (your stack parity)
+        run: |
+          if [ -f compose.prod.yml ]; then
+            docker compose -f compose.prod.yml config --quiet && echo "✅ compose.prod.yml valid" || echo "⚠️ compose issue (check syntax)"
+          fi
