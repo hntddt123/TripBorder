@@ -24,7 +24,7 @@ export default function DBTableHotelsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>hotels</div>
       <div className='text-center'>
         <div>

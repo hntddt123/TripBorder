@@ -26,7 +26,7 @@ export default function DBTableMileagesDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>mileages</div>
       <div className='text-center'>
         <div>

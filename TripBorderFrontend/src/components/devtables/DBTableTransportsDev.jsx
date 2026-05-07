@@ -24,7 +24,7 @@ export default function DBTableTransportsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>transports</div>
       <div className='text-center'>
         <div>

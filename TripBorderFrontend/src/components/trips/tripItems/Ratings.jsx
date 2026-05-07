@@ -71,8 +71,8 @@ export default function Ratings({ tripID }) {
   };
 
   const renderDetail = (rating) => (
-    <div className='text-pretty'>
-      <div>{`Score: ${rating.score}`}</div>
+    <div className='text-pretty text-xl'>
+      <div>{`★${rating.score}`}</div>
       {[...Array(10)].map((_, index) => (
         <span
           key={`${rating.uuid + index}`}
@@ -89,14 +89,16 @@ export default function Ratings({ tripID }) {
                 Comment
               </label>
               <div>
-                <input
-                  className='customInput'
+                <textarea
+                  className='customInput focus:bg-primary-button-dark'
                   id='rate_comment'
                   type='text'
                   name='rate_comment'
+                  placeholder='Say something about this trip'
                   value={comment}
                   onChange={handleCommentChange}
                   minLength={1}
+                  rows={4}
                   required
                 />
               </div>

@@ -38,7 +38,7 @@ export default function DBTableUsersDev() {
   };
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>Search user_accounts</div>
       <form
         onSubmit={handleSubmit}

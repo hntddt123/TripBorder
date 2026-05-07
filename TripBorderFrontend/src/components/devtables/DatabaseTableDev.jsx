@@ -8,6 +8,7 @@ import DBTableMealsDev from './DBTableMealsDev';
 import DBTablePOIsDev from './DBTablePOIsDev';
 import DBTableHotelsDev from './DBTableHotelsDev';
 import DBTableTransportsDev from './DBTableTransportsDev';
+import DBTableTagsInfiniteDev from './DBTableTagsInfiniteDev';
 import DBTableTagsDev from './DBTableTagsDev';
 import DBTableTripTagsDev from './DBTableTripTagsDev';
 import DBTableRatingsDev from './DBTableRatingsDev';
@@ -22,7 +23,7 @@ export default function DatabaseTableDev() {
       <div className='cardMX1 text-left'>
         <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
           <div className='m-2'>
-            <div className='cardInfo text-base overflow-x-auto table-fixed whitespace-nowrap'>
+            <div className='cardInfo text-base table-fixed whitespace-nowrap'>
               <div>Database Table</div>
               <DBTableUsersSearchDev />
               <DBTableUsersDev />
@@ -32,6 +33,7 @@ export default function DatabaseTableDev() {
               <DBTablePOIsDev />
               <DBTableHotelsDev />
               <DBTableTransportsDev />
+              <DBTableTagsInfiniteDev />
               <DBTableTagsDev />
               <DBTableTripTagsDev />
               <DBTableRatingsDev />

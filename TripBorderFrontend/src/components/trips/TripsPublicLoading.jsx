@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -27,16 +27,77 @@ import TripTagsReadOnly from './tripItems/TripTagsReadOnly';
 import CustomError from '../CustomError';
 import CustomFetching from '../CustomFetching';
 import CustomLoading from '../CustomLoading';
+import { useGetPublicTripTagsAllInfiniteQuery } from '../../api/tripTagsAPI';
 
 export default function TripsPulbicLoading({ handleFlyTo }) {
   const { isLoadTripPublic } = useSelector((state) => state.tripReducer);
   const dispatch = useDispatch();
 
   const [page, setPage] = useState(1);
+  const [tripTags, setAllTripTags] = useState([]);
+  const [tripTagsPage, setTripTagsPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [tagName, setTagName] = useState(null);
 
   const limit = 3;
-  const { data, isLoading, isFetching, error } = useGetTripsPublicPaginationQuery({ page, limit });
+  const tripTagslimit = 3;
+  const { data, isLoading, isFetching, error } = useGetTripsPublicPaginationQuery({ page, limit, tagName });
+
+  const {
+    data: publicTripTagsData,
+    isFetching: isTripTagsFetching,
+    error: tripTagsError
+  } = useGetPublicTripTagsAllInfiniteQuery({ page: tripTagsPage, limit: tripTagslimit });
   const { trips, total, totalPages, page: currentPage } = data || {};
+
+  const observer = useRef();
+  const sentinelRef = useRef(null);
+
+  useEffect(() => {
+    // Don't set up observer if we're already loading or have no more
+    if (!sentinelRef.current || isTripTagsFetching || !hasMore) {
+      if (observer.current) {
+        observer.current.disconnect();
+        observer.current = null;
+      }
+      return;
+    }
+    observer.current = new IntersectionObserver(
+      (entries) => {
+        // Use refs inside callback → always fresh values, no stale closure
+        if (entries[0].isIntersecting && hasMore) {
+          setTripTagsPage((prev) => prev + 1);
+        }
+      },
+      {
+        threshold: 0.8,
+        rootMargin: '0px 120px 0px 0px', // horizontal scroll friendly
+      }
+    );
+    observer.current.observe(sentinelRef.current);
+  }, [isTripTagsFetching, hasMore]); // re-run only when these actually change
+
+  useEffect(() => {
+    if (publicTripTagsData?.tripTags) {
+      setAllTripTags((prev) => {
+        const existingIds = new Set(prev.map((t) => t.uuid));
+        const freshTags = publicTripTagsData.tripTags.filter((triptag) => !existingIds.has(triptag.uuid));
+        return [...prev, ...freshTags];
+      });
+
+      setHasMore(publicTripTagsData.hasMore !== false);
+    }
+  }, [publicTripTagsData]);
+
+  // Cleanup observer when component unmounts
+  useEffect(() => () => {
+    if (observer.current) observer.current.disconnect();
+    setTagName(undefined);
+  }, []);
+
+  const handleTagButton = (tag) => () => {
+    setTagName(tag.name);
+  };
 
   const handleBackButton = () => {
     dispatch(setIsLoadTripPublic(false));
@@ -107,6 +168,36 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
             )
             : <div />}
         </div>
+        <div className='text-center'>
+          <span>
+            Showing {tripTags.length} of {publicTripTagsData?.total || 0} tags
+          </span>
+        </div>
+        <div className='overflow-x-auto'>
+          {tripTags?.map((tag) => (
+            <button
+              key={tag.uuid}
+              className='button'
+              onClick={handleTagButton(tag)}
+            >
+              {tag.name}
+            </button>
+          ))}
+          {hasMore && (
+            <button
+              className='button'
+              ref={sentinelRef}
+              disabled={isTripTagsFetching}
+            >
+              {isTripTagsFetching ? (
+                'Loading'
+              ) : (
+                'Load more tags →'
+              )}
+              <CustomError error={tripTagsError} />
+            </button>
+          )}
+        </div>
         <div>
           <div>
             <CustomButton
@@ -119,6 +210,9 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
               onClick={() => handlePageChange(page + 1)}
               disabled={page === totalPages || isFetching || totalPages === 0}
             />
+          </div>
+          <div className='text-lg'>
+            {tagName ? `Filter: ${tagName}` : null}
           </div>
         </div>
         <span>

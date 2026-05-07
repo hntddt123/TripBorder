@@ -24,7 +24,7 @@ export default function DBTableRatingsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>ratings</div>
       <div className='text-center'>
         <div>

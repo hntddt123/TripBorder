@@ -24,7 +24,7 @@ export default function DBTableTripSharesDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>trip_shares</div>
       <div className='text-center'>
         <div>

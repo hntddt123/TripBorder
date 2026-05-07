@@ -18,6 +18,15 @@ export const tripTagsAPI = createApi({
       }),
       providesTags: ['Triptags'],
     }),
+    getPublicTripTagsAllInfinite: builder.query({
+      query: ({ page = 1, limit = 10 }) => ({
+        url: '/publictriptagsinfinite',
+        method: 'GET',
+        params: { page, limit },
+      }),
+      providesTags: ['Triptags'],
+      keepUnusedDataFor: 0
+    }),
     getTripTagsByTripID: createByTripQuery(
       builder,
       {
@@ -49,6 +58,7 @@ export const tripTagsAPI = createApi({
 // Export hooks for usage in components
 export const {
   useGetTripTagsAllQuery,
+  useGetPublicTripTagsAllInfiniteQuery,
   useGetTripTagsByTripIDQuery,
   usePostTripTagsByTripIDAndTagIDMutation,
   useDeleteTripTagsMutation

@@ -19,10 +19,10 @@ export const tripsAPI = createApi({
       providesTags: ['Trips'],
     }),
     getTripsPublicPagination: builder.query({
-      query: ({ page = 1, limit = 10 }) => ({
+      query: ({ page = 1, limit = 10, tagName }) => ({
         url: '/tripspublicpagination',
         method: 'GET',
-        params: { page, limit },
+        params: { page, limit, tagName },
       }),
       providesTags: ['Trips'],
     }),
