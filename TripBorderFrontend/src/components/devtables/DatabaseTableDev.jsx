@@ -23,7 +23,7 @@ export default function DatabaseTableDev() {
       <div className='cardMX1 text-left'>
         <div className='grid grid-cols-1 container mx-auto max-w-6xl'>
           <div className='m-2'>
-            <div className='cardInfo text-base overflow-x-auto table-fixed whitespace-nowrap'>
+            <div className='cardInfo text-base table-fixed whitespace-nowrap'>
               <div>Database Table</div>
               <DBTableUsersSearchDev />
               <DBTableUsersDev />

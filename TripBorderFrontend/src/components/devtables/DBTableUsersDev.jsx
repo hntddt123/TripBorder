@@ -32,7 +32,7 @@ export default function DBTableUsersDev() {
   };
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>user_accounts</div>
       <div className='text-center'>
         <div>

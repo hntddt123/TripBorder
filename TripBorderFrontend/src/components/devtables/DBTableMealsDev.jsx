@@ -24,7 +24,7 @@ export default function DBTableMealsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>meals</div>
       <div className='text-center'>
         <div>

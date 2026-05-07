@@ -24,7 +24,7 @@ export default function DBTablePOIsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>points_of_interest</div>
       <div className='text-center'>
         <div>

@@ -24,7 +24,7 @@ export default function DBTableTagsDev() {
   }
 
   return (
-    <div>
+    <div className='overflow-x-scroll'>
       <div>tags</div>
       <div className='text-center'>
         <div>

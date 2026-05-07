@@ -68,7 +68,7 @@ export default function DBTableTagsInfiniteDev() {
         <CustomFetching isFetching={isFetching} text='Fetching more' />
       </div>
       <div className='overflow-x-auto'>
-        <table className='min-w-full table-fixed whitespace-nowrap'>
+        <table className='table-fixed whitespace-nowrap'>
           <thead>
             <tr>
               {allTags.map((tag) => (
