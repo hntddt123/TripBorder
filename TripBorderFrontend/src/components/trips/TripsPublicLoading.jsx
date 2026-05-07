@@ -37,7 +37,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
   const [tripTags, setAllTripTags] = useState([]);
   const [tripTagsPage, setTripTagsPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [tagName, setTagName] = useState(null);
+  const [tagName, setTagName] = useState('');
 
   const limit = 3;
   const tripTagslimit = 3;
@@ -92,7 +92,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
   // Cleanup observer when component unmounts
   useEffect(() => () => {
     if (observer.current) observer.current.disconnect();
-    setTagName(undefined);
+    setTagName('');
   }, []);
 
   const handleTagButton = (tag) => () => {
