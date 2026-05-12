@@ -7,11 +7,11 @@ import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import CustomError from './CustomError';
 import CustomLoading from './CustomLoading';
+import TripMap from './trips/TripMap';
 
 export default function Auth() {
   const { data: user, isLoading, error, refetch } = useCheckAuthStatusQuery();
   const isAuthenticated = user?.isAuthenticated;
-  const userName = user?.name || null;
   const role = user?.role || null;
 
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
@@ -41,7 +41,6 @@ export default function Auth() {
   const handleLogout = async () => {
     try {
       await logout();
-      navigate('/');
     } catch (err) {
       console.error('Logout error:', err);
     }
@@ -58,37 +57,8 @@ export default function Auth() {
   const renderAdminFeatures = () => {
     if (role === 'admin') {
       return (
-        <div className='mainmenu'>
-          <CustomButton
-            className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
-            label='Plan Trip'
-            to='/plantrip'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='View Trips'
-            to='/trips'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Mileages'
-            to='/mileages'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Mileage Verification'
-            to='/mileagesverification'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Settings'
-            to='/settings'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Database Table'
-            to='/database'
-          />
+        <div>
+          <TripMap premium />
         </div>
       );
     }
@@ -98,27 +68,8 @@ export default function Auth() {
   const renderPremiumUserFeatures = () => {
     if (role === 'premium_user') {
       return (
-        <div className='mainmenu'>
-          <CustomButton
-            className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
-            label='Plan Trip'
-            to='/plantrip'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='View Trips'
-            to='/trips'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Mileages'
-            to='/mileages'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Settings'
-            to='/settings'
-          />
+        <div>
+          <TripMap premium />
         </div>
       );
     }
@@ -128,35 +79,42 @@ export default function Auth() {
   const renderUserFeatures = () => {
     if (role === 'user') {
       return (
-        <div className='mainmenu'>
+        <div>
           {(isTrialActive(user?.trial_started_at))
             ? (
-              <CustomButton
-                className='buttonMainmenu bg-[url(/menuImages/Plantrips.png)]'
-                label='Plan Trip'
-                to='/plantrip'
-              />
+              <div>
+                <TripMap premium />
+              </div>
             )
-            : null}
-          {(isTrialActive(user?.trial_started_at))
-            ? (
-              <CustomButton
-                className='buttonMainmenu'
-                label='View Trips'
-                to='/trips'
-              />
-            )
-            : null}
-          <CustomButton
-            className='buttonMainmenu'
-            label='Mileages'
-            to='/mileages'
-          />
-          <CustomButton
-            className='buttonMainmenu'
-            label='Settings'
-            to='/settings'
-          />
+            : (
+              <div>
+                {(isTrialActive(user?.trial_started_at))
+                  ? null
+                  : (
+                    <div className='flex overflow-x-scroll justify-center-safe'>
+                      <CustomButton label='Upgrade' to='/upgrade' />
+                      <CustomButton
+                        label='Sponsors'
+                        to='/sponsors'
+                      />
+                      <CustomButton
+                        label='Mileages'
+                        to='/mileages'
+                      />
+                      <CustomButton
+                        label='Settings'
+                        to='/settings'
+                      />
+                      <CustomButton
+                        label={isLoggingOut ? 'Logging out...' : 'Logout'}
+                        onClick={handleLogout}
+                        disabled={isLoggingOut}
+                      />
+                    </div>
+                  )}
+                <TripMap />
+              </div>
+            )}
         </div>
       );
     }
@@ -166,21 +124,10 @@ export default function Auth() {
   return (
     <div>
       {(isAuthenticated) ? (
-        <div className='container justify-center text-center mx-auto mt-2 mb-2 max-w-lg'>
-          <div className='text-2xl'>Welcome, {userName}!</div>
+        <div>
           {renderAdminFeatures()}
           {renderPremiumUserFeatures()}
           {renderUserFeatures()}
-          <div className='grid grid-cols-1'>
-            {(role === 'user')
-              ? <CustomButton label='Upgrade' to='/upgrade' />
-              : null}
-          </div>
-          <CustomButton
-            label={isLoggingOut ? 'Logging out...' : 'Logout'}
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          />
         </div>
       ) : (
         <div>

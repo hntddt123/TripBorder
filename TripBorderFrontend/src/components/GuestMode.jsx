@@ -1,4 +1,4 @@
-import TripsMap from './trips/TripsMap';
+import TripsMap from './trips/TripMap';
 import { useCheckAuthStatusQuery } from '../api/authAPI';
 
 export default function DevMode() {

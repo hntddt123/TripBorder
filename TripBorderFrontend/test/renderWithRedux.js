@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import { counterReducer } from '../src/redux/reducers/counterReducer';
 import { mapReducer } from '../src/redux/reducers/mapReducer';
@@ -20,6 +21,7 @@ import { tripSharesAPI } from '../src/api/tripSharesAPI';
 
 export const renderWithRedux = (
   component,
+  isRouter = true,
   {
     store = configureStore({
       reducer: {
@@ -57,6 +59,18 @@ export const renderWithRedux = (
     }),
   } = {}
 ) => ({
-  ...render(<Provider store={store}>{component}</Provider>),
+  ...render(
+    <Provider store={store}>
+      {isRouter
+        ? (
+          <MemoryRouter>
+            <Routes>
+              <Route path='*' element={component} />
+            </Routes>
+          </MemoryRouter>
+        )
+        : component}
+    </Provider>
+  ),
   store,
 });

@@ -8,13 +8,13 @@ describe('App tests', () => {
   });
 
   test('renders suspend fallback if loading', async () => {
-    renderWithRedux(<App />);
+    renderWithRedux(<App />, false);
     const linkElement = await screen.findByText(/Loading.../i);
     expect(linkElement).toBeInTheDocument();
   });
 
   test('renders Trip Border title', async () => {
-    renderWithRedux(<App />);
+    renderWithRedux(<App />, false);
     const linkElement = await screen.findByText(/Trip Border/i);
     expect(linkElement).toBeInTheDocument();
   });

@@ -35,14 +35,7 @@
       "name": "Plan New Trip",
       "short_name": "New Trip",
       "description": "Start planning a new trip",
-      "url": "/plantrip",
-      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
-    },
-    {
-      "name": "View Trips",
-      "short_name": "My Trips",
-      "description": "View your saved trips",
-      "url": "/trips",
+      "url": "/",
       "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
     }
   ]

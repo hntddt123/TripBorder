@@ -4,12 +4,28 @@ import {
   setSelectedPOICount,
   setSelectedPOIRadius
 } from '../../../redux/reducers/mapReducer';
+import { VERSION_NUMBER } from '../../../constants/constants';
+import CustomButton from '../../CustomButton';
 import ToggleScale from '../ToggleScale';
 import TogglePlaceName from '../TogglePlaceName';
 import ToggleDistance from '../ToggleDistance';
 import ToggleMapBoxSearch from '../ToggleMapBoxSearch';
+import { useCheckAuthStatusQuery, useLogoutMutation } from '../../../api/authAPI';
 
 export default function TripSearchTools() {
+  const { data: user } = useCheckAuthStatusQuery();
+  const role = user?.role || null;
+
+  const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
+  };
+
   const {
     gpsLonLat,
     selectedPOICount,
@@ -49,6 +65,25 @@ export default function TripSearchTools() {
 
   return (
     <div className='text-lg tripAbsoluteContentRight'>
+      <CustomButton
+        className='button'
+        label='Settings'
+        to='/settings'
+      />
+      <CustomButton
+        label='Sponsors'
+        to='/sponsors'
+      />
+      <CustomButton label='Disclaimers' to='/disclaimers' />
+      {role === 'admin'
+        ? (
+          <CustomButton
+            className='button'
+            label='Database Table'
+            to='/database'
+          />
+        )
+        : null}
       <div className='flex justify-around'>
         <span className='min-w-2/3 text-left'>Show scale ruler</span>
         <ToggleScale />
@@ -98,6 +133,14 @@ export default function TripSearchTools() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
+      <CustomButton
+        label={isLoggingOut ? 'Logging out...' : 'Logout'}
+        onClick={handleLogout}
+        disabled={isLoggingOut}
+      />
+      <div className='text-2xl m-2'>
+        Version: {VERSION_NUMBER}
+      </div>
     </div>
   );
 }

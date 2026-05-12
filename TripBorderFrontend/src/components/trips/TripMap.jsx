@@ -40,7 +40,7 @@ import Compass from './mapControls/Compass';
 import TripMarker from './TripMarker';
 
 // react-map-gl component
-export default function CustomMap({ premium }) {
+export default function TripMap({ premium }) {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [activeQueryType, setActiveQueryType] = useState('pin');
   const [sortedData, setSortedData] = useState([]);
@@ -375,7 +375,7 @@ export default function CustomMap({ premium }) {
   );
 }
 
-CustomMap.propTypes = {
+TripMap.propTypes = {
   isFetching: PropTypes.bool,
   premium: PropTypes.bool
 };

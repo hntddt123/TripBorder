@@ -58,6 +58,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
 
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
   const email = user?.email;
+  const role = user?.role || null;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
 
@@ -167,6 +168,20 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       }
       return (
         <div className='text-center'>
+          <CustomButton
+            className='button min-w-36'
+            label='Mileages'
+            to='/mileages'
+          />
+          {role === 'admin'
+            ? (
+              <CustomButton
+                className='button min-w-36'
+                label='Mileage Verification'
+                to='/mileagesverification'
+              />
+            )
+            : null}
           <CustomButton
             className='button min-w-36'
             label='New Trip'
