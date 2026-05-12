@@ -1,21 +1,18 @@
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
-import ProtectedRoutePremium from './components/ProtectedRoutePremium';
 import ProtectedRouteAdmin from './components/ProtectedRouteAdmin';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
-import { VERSION_NUMBER, isDevMode } from './constants/constants';
+import { VERSION_NUMBER } from './constants/constants';
 import { AuthMonitor } from './components/AuthMonitor';
+import { useCheckAuthStatusQuery } from './api/authAPI';
 
 // Lazy load components
-const TripsMap = lazy(() => import('./components/trips/CustomMap'));
-const TripsHistory = lazy(() => import('./components/trips/TripsHistory'));
 const Settings = lazy(() => import('./components/Settings'));
 const DatabaseTableDev = lazy(() => import('./components/devtables/DatabaseTableDev'));
 const MileagesList = lazy(() => import('./components/mileages/MileagesList'));
-const DevMode = lazy(() => import('./components/DevMode'));
 const GuestMode = lazy(() => import('./components/GuestMode'));
 const MileagesAdmin = lazy(() => import('./components/mileages/MileagesAdmin'));
 const Disclaimers = lazy(() => import('./components/Disclaimers'));
@@ -23,6 +20,9 @@ const Sponsors = lazy(() => import('./components/Sponsors'));
 const Upgrade = lazy(() => import('./components/Upgrade'));
 
 export default function App() {
+  const { data: user } = useCheckAuthStatusQuery();
+  const isAuthenticated = user?.isAuthenticated;
+
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
@@ -39,46 +39,29 @@ export default function App() {
               path='/'
               element={(
                 <div className='flex flex-col justify-center text-center mx-auto'>
-                  <header className='title bg-[url(/menuImages/TripBorderTitleBackground.JPG)]'>
-                    <div>
-                      Trip Border
-                    </div>
-                  </header>
-                  {(isDevMode)
-                    ? (
+                  {!isAuthenticated ? (
+                    <header className='title bg-[url(/menuImages/TripBorderTitleBackground.JPG)]'>
                       <div>
-                        <Auth />
-                        <CustomButton
-                          label='Sponsors'
-                          to='/sponsors'
-                        />
-                        <CustomButton label='Disclaimers' to='/disclaimers' />
-                        <DevMode />
+                        Trip Border
                       </div>
-                    )
-                    : (<Auth />)}
+                    </header>
+                  ) : null}
+                  <div>
+                    <Auth />
+                  </div>
                   <div>
                     <GuestMode />
-                    <div className='text-2xl m-2'>
-                      Version: {VERSION_NUMBER}
-                    </div>
+                    {!isAuthenticated
+                      ? (
+                        <div className='text-2xl m-2'>
+                          Version: {VERSION_NUMBER}
+                        </div>
+                      )
+                      : null}
                   </div>
                 </div>
               )}
             />
-            <Route path='/plantrip' element={<ProtectedRoutePremium />}>
-              <Route
-                index
-                element={<TripsMap premium />}
-              />
-            </Route>
-            <Route path='/trips' element={<ProtectedRoutePremium />}>
-              <Route
-                index
-                path='/trips'
-                element={<TripBoard component={<TripsHistory />} />}
-              />
-            </Route>
             <Route path='/mileages' element={<ProtectedRoute />}>
               <Route
                 index
@@ -86,7 +69,7 @@ export default function App() {
                 element={<TripBoard component={<MileagesList />} />}
               />
             </Route>
-            <Route path='/mileagesverification' element={<ProtectedRoute />}>
+            <Route path='/mileagesverification' element={<ProtectedRouteAdmin />}>
               <Route
                 index
                 path='/mileagesverification'

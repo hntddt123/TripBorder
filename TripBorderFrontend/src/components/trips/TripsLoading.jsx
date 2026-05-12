@@ -121,6 +121,12 @@ export default function TripsLoading({ handleFlyTo }) {
               />
             )
             : <div />}
+          <CustomButton
+            translate='no'
+            className='buttonBack'
+            label='Edit Trip'
+            onClick={handleEditButton}
+          />
         </div>
         <div>
           <div>
@@ -145,15 +151,6 @@ export default function TripsLoading({ handleFlyTo }) {
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
           <div className='cardBorderT text-center'>
-            {!isLoadTrip
-              ? (
-                <CustomButton
-                  translate='no'
-                  className='buttonEdit relative select-none'
-                  label='✏️'
-                  onClick={handleEditButton}
-                />
-              ) : null}
             {(isLoadTrip)
               ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
               : null}
@@ -162,6 +159,7 @@ export default function TripsLoading({ handleFlyTo }) {
               {(isEditing)
                 ? (
                   <CustomButton
+                    className='buttonDelete'
                     translate='no'
                     label='Delete 🗑️'
                     onClick={() => deleteTrip(trip.uuid)}
