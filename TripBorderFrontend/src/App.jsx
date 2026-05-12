@@ -48,6 +48,11 @@ export default function App() {
                     ? (
                       <div>
                         <Auth />
+                        <CustomButton
+                          label='Sponsors'
+                          to='/sponsors'
+                        />
+                        <CustomButton label='Disclaimers' to='/disclaimers' />
                         <DevMode />
                       </div>
                     )
@@ -57,11 +62,6 @@ export default function App() {
                     <div className='text-2xl m-2'>
                       Version: {VERSION_NUMBER}
                     </div>
-                    <CustomButton
-                      label='Sponsors'
-                      to='/sponsors'
-                    />
-                    <CustomButton label='Disclaimers' to='/disclaimers' />
                   </div>
                 </div>
               )}
