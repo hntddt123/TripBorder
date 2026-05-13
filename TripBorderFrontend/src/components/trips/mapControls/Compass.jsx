@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import CustomButton from '../../CustomButton';
 
 export default function Compass({ handleNorthUp }) {
-  const { isNorthUp } = useSelector((state) => state.mapReducer);
+  const { isNorthUp, gpsLonLat } = useSelector((state) => state.mapReducer);
 
   if (isNorthUp) {
     return (
@@ -12,6 +12,7 @@ export default function Compass({ handleNorthUp }) {
         translate='no'
         label='N'
         onClick={handleNorthUp}
+        hidden={!gpsLonLat?.longitude && !gpsLonLat?.latitude}
       />
     );
   }
