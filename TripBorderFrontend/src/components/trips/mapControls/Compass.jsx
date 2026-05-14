@@ -3,24 +3,19 @@ import { useSelector } from 'react-redux';
 import CustomButton from '../../CustomButton';
 
 export default function Compass({ handleNorthUp }) {
-  const { isNorthUp } = useSelector((state) => state.mapReducer);
+  const {
+    isNorthUp,
+    gpsLonLat,
+    bearing
+  } = useSelector((state) => state.mapReducer);
 
-  if (isNorthUp) {
-    return (
-      <CustomButton
-        className='button absoluteTopToolBarRight mt-14 select-none'
-        translate='no'
-        label='N'
-        onClick={handleNorthUp}
-      />
-    );
-  }
   return (
     <CustomButton
-      className='button absoluteTopToolBarRight mt-14 select-none'
+      className={`${isNorthUp ? 'buttonNoHoverBG' : 'buttonCompass'} absoluteTopToolBarRight mt-14 select-none active:scale-125`}
       translate='no'
-      label='🧭'
+      label={isNorthUp ? 'N' : `${bearing}`}
       onClick={handleNorthUp}
+      hidden={!gpsLonLat?.longitude && !gpsLonLat?.latitude}
     />
   );
 }

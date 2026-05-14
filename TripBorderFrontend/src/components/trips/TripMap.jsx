@@ -17,7 +17,8 @@ import {
   setIsUsingGPSLonLat,
   setSessionIDFSQ,
   setSelectedPOIIcon,
-  setIsNorthUp
+  setIsNorthUp,
+  setBearing
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -56,6 +57,7 @@ export default function TripMap({ premium }) {
     selectedPOIName,
     isNorthUp,
     isShowingScaleRuler,
+    gpsLonLat
   } = useSelector((state) => state.mapReducer);
   const {
     isDarkMode
@@ -70,6 +72,7 @@ export default function TripMap({ premium }) {
 
   const mapCSSStyle = { width: '100%', height: '100dvh' };
   const mapRef = useRef();
+  const geolocateRef = useRef();
   const pressTimer = useRef(null);
 
   const screenHeight = window.innerHeight;
@@ -79,6 +82,18 @@ export default function TripMap({ premium }) {
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
 
+  const getDirectionLabel = (bearing) => {
+    if (bearing == null || Number.isNaN(bearing)) return '';
+
+    // Normalize 0–360 and handle negative/overflow
+    const normalized = ((bearing % 360) + 360) % 360;
+
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round(normalized / 45) % 8;
+
+    return directions[index];
+  };
+
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
       setSortedData(resultKeyword);
@@ -86,14 +101,21 @@ export default function TripMap({ premium }) {
   }, [resultKeyword, activeQueryType]);
 
   const orientationEvent = (e) => {
-    if (!isNorthUp) {
-      mapRef.current?.easeTo({ bearing: -e.alpha, pitch: 45, duration: 100 }); // e.alpha is the device heading
+    if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
+      mapRef.current?.easeTo({
+        center: [gpsLonLat.longitude, gpsLonLat.latitude],
+        bearing: -e.alpha, // e.alpha is the device heading
+        pitch: 45,
+        duration: 150
+      });
+      dispatch(setBearing(getDirectionLabel(-e.alpha)));
     }
   };
 
   useEffect(() => {
     const orient = 'deviceorientation';
     if (isNorthUp === false) {
+      geolocateRef.current?.trigger();
       window.addEventListener(orient, orientationEvent);
     }
     return () => window.removeEventListener(orient, orientationEvent);
@@ -302,6 +324,7 @@ export default function TripMap({ premium }) {
       {isUsingMapBoxGeocoder
         ? (
           <GeocoderControl
+            ref={geolocateRef}
             mapboxAccessToken={MAPBOX_API_KEY}
             position='top'
             onResult={onGeocoderResult}
@@ -314,7 +337,7 @@ export default function TripMap({ premium }) {
           />
         )}
       <div>
-        {(premium) ? <Compass handleNorthUp={handleNorthUp} /> : null}
+        <Compass handleNorthUp={handleNorthUp} />
       </div>
       <div>
         {(premium)
@@ -345,12 +368,10 @@ export default function TripMap({ premium }) {
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
         position='bottom-right'
-        positionOptions={{ enableHighAccuracy: true, timeout: 10000 }}
+        positionOptions={{ enableHighAccuracy: true, timeout: 5000 }}
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
-        showUserHeading
         showUserLocation
-        trackUserLocation
       />
       <ProximityMarkers
         data={sortedData}

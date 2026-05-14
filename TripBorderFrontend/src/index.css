@@ -286,6 +286,10 @@ html, body {
     box-sizing: border-box;
   }
 
+  .no-sticky-hover:hover {
+      all: unset; /* or reset specific properties */
+  }
+
   .button {
     @apply 
     min-w-32
@@ -315,6 +319,77 @@ html, body {
   }
 
   .button:disabled {
+    @apply
+    cursor-not-allowed
+    ease-in-out duration-200
+    opacity-25 
+    border-amber-300 bg-amber-300;
+  }
+
+  .buttonNoHoverBG {
+    @apply 
+    min-w-32
+    m-2 p-2
+    shadow-xs
+    text-lg
+    text-center
+    content-center
+    rounded-full -tracking-wider 
+    bg-(--color-primary-button-light) dark:bg-primary-button-dark 
+    text-black dark:text-white;
+  }
+
+  .buttonNoHoverBG:hover {
+    @apply
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+  }
+
+  .buttonNoHoverBG:active {
+    @apply
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonNoHoverBG:disabled {
+    @apply
+    cursor-not-allowed
+    ease-in-out duration-200
+    opacity-25 
+    border-amber-300 bg-amber-300;
+  }
+
+  .buttonCompass {
+    @apply 
+    min-w-32
+    m-2 p-2
+    shadow-xs
+    text-lg
+    text-center
+    content-center
+    rounded-full -tracking-wider 
+    bg-amber-400 dark:bg-amber-600    
+    text-black dark:text-white;
+  }
+
+  .buttonCompass:hover {
+    @apply
+    cursor-pointer
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-400 dark:bg-amber-600;
+  }
+
+  .buttonCompass:active {
+    @apply
+    ease-in-out duration-200
+    border-amber-50
+    bg-amber-600;
+  }
+
+  .buttonCompass:disabled {
     @apply
     cursor-not-allowed
     ease-in-out duration-200
