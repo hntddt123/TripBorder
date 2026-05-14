@@ -372,6 +372,8 @@ export default function TripMap({ premium }) {
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
         showUserLocation
+        showUserHeading
+        trackUserLocation
       />
       <ProximityMarkers
         data={sortedData}
