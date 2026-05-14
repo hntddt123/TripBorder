@@ -12,6 +12,7 @@ const initialMapState = {
   },
   gpsLonLat: { longitude: null, latitude: null },
   longPressedLonLat: { longitude: null, latitude: null },
+  bearing: '',
   isUsingGPSLonLat: true,
   markers: [],
   tripMarkers: [],
@@ -72,7 +73,8 @@ const mapSlice = createSlice({
     setIsUsingMapBoxGeocoder: (state, action) => ({ ...state, isUsingMapBoxGeocoder: action.payload }),
     setIsNorthUp: (state, action) => ({ ...state, isNorthUp: action.payload }),
     setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload }),
-    setTravelMode: (state, action) => ({ ...state, travelMode: action.payload })
+    setTravelMode: (state, action) => ({ ...state, travelMode: action.payload }),
+    setBearing: (state, action) => ({ ...state, bearing: action.payload })
   }
 });
 
@@ -105,7 +107,8 @@ export const {
   setIsUsingMapBoxGeocoder,
   setIsNorthUp,
   setSessionIDFSQ,
-  setTravelMode
+  setTravelMode,
+  setBearing
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

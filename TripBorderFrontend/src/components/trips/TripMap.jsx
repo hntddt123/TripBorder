@@ -17,7 +17,8 @@ import {
   setIsUsingGPSLonLat,
   setSessionIDFSQ,
   setSelectedPOIIcon,
-  setIsNorthUp
+  setIsNorthUp,
+  setBearing
 } from '../../redux/reducers/mapReducer';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
@@ -81,6 +82,18 @@ export default function TripMap({ premium }) {
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
 
+  const getDirectionLabel = (bearing) => {
+    if (bearing == null || Number.isNaN(bearing)) return '';
+
+    // Normalize 0–360 and handle negative/overflow
+    const normalized = ((bearing % 360) + 360) % 360;
+
+    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const index = Math.round(normalized / 45) % 8;
+
+    return directions[index];
+  };
+
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
       setSortedData(resultKeyword);
@@ -95,6 +108,7 @@ export default function TripMap({ premium }) {
         pitch: 45,
         duration: 150
       });
+      dispatch(setBearing(getDirectionLabel(-e.alpha)));
     }
   };
 
@@ -323,7 +337,7 @@ export default function TripMap({ premium }) {
           />
         )}
       <div>
-        {(premium) ? <Compass handleNorthUp={handleNorthUp} /> : null}
+        <Compass handleNorthUp={handleNorthUp} />
       </div>
       <div>
         {(premium)
@@ -358,7 +372,6 @@ export default function TripMap({ premium }) {
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
         showUserLocation
-        showUserHeading
       />
       <ProximityMarkers
         data={sortedData}
