@@ -4,6 +4,7 @@ import { getMapboxLanguage } from '../../utility/mapboxLanguage';
 const initialUserSettingsSliceState = {
   isDarkMode: true,
   language: getMapboxLanguage().toLocaleLowerCase(),
+  selectedMenu: 'trip'
 };
 
 const userSettingsSlice = createSlice({
@@ -11,13 +12,15 @@ const userSettingsSlice = createSlice({
   initialState: initialUserSettingsSliceState,
   reducers: {
     setIsDarkMode: (state, action) => ({ ...state, isDarkMode: action.payload }),
-    setLanguage: (state, action) => ({ ...state, language: action.payload })
+    setLanguage: (state, action) => ({ ...state, language: action.payload }),
+    setSelectedMenu: (state, action) => ({ ...state, selectedMenu: action.payload })
   }
 });
 
 export const {
   setIsDarkMode,
-  setLanguage
+  setLanguage,
+  setSelectedMenu
 } = userSettingsSlice.actions;
 
 export const userSettingsReducer = userSettingsSlice.reducer;

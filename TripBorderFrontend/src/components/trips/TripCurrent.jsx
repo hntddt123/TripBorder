@@ -16,6 +16,7 @@ import {
   setIsLoadTripOthersShared,
   setIsEditingTrip
 } from '../../redux/reducers/tripReducer';
+import { setSelectedMenu } from '../../redux/reducers/userSettingsReducer';
 import { formatDateccc, formatDatecccMMMdyyyy, formatDateMMMdyyyy } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import CustomButton from '../CustomButton';
@@ -41,6 +42,7 @@ import TripsSharedLoading from './TripsSharedLoading';
 import TripsOthersSharedLoading from './TripsOthersSharedLoading';
 import TripUploadForm from './TripUploadForm';
 import IconMapOverview from './IconMapOverview';
+import { TRIPMENU_MODES } from '../../constants/constants';
 
 export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
@@ -55,6 +57,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     isLoadTripOthersShared,
     isEditingTrip
   } = useSelector((state) => state.tripReducer);
+  const { selectedMenu } = useSelector((state) => state.userSettingsReducer);
 
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
   const email = user?.email;
@@ -102,6 +105,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
 
   const handleTripPublicButtonClick = () => {
     dispatch(setIsLoadTripPublic(true));
+  };
+
+  const handleTripMenuSelection = (key) => () => {
+    dispatch(setSelectedMenu(key));
   };
 
   const renderTripDetail = () => (
@@ -152,6 +159,55 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     </div>
   );
 
+  const renderTripMenu = () => (
+    <>
+      <CustomButton
+        className='button min-w-36'
+        label='New Trip'
+        onClick={handleNewTripButtonClick}
+      />
+      <CustomButton
+        className='button min-w-36'
+        label='My Trips'
+        onClick={handleLoadTripButtonClick}
+      />
+      <CustomButton
+        className='button min-w-36'
+        label='Shared Trips'
+        onClick={handleTripSharedButtonClick}
+      />
+      <CustomButton
+        className='button min-w-36'
+        label='Shared to Me'
+        onClick={handleTripOthersSharedButtonClick}
+      />
+      <CustomButton
+        className='button min-w-36'
+        label='Public Trips'
+        onClick={handleTripPublicButtonClick}
+      />
+    </>
+  );
+
+  const renderMileageMenu = () => (
+    <>
+      <CustomButton
+        className='button min-w-36'
+        label='Mileages'
+        to='/mileages'
+      />
+      {role === 'admin'
+        ? (
+          <CustomButton
+            className='button min-w-36'
+            label='Mileage Verification'
+            to='/mileagesverification'
+          />
+        )
+        : null}
+    </>
+  );
+
   const renderTripOptions = () => {
     if (uuid === '') {
       if (isLoadTrip) {
@@ -168,45 +224,22 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       }
       return (
         <div className='text-center'>
-          <CustomButton
-            className='button min-w-36'
-            label='Mileages'
-            to='/mileages'
-          />
-          {role === 'admin'
-            ? (
-              <CustomButton
-                className='button min-w-36'
-                label='Mileage Verification'
-                to='/mileagesverification'
-              />
-            )
-            : null}
-          <CustomButton
-            className='button min-w-36'
-            label='New Trip'
-            onClick={handleNewTripButtonClick}
-          />
-          <CustomButton
-            className='button min-w-36'
-            label='My Trips'
-            onClick={handleLoadTripButtonClick}
-          />
-          <CustomButton
-            className='button min-w-36'
-            label='Shared Trips'
-            onClick={handleTripSharedButtonClick}
-          />
-          <CustomButton
-            className='button min-w-36'
-            label='Shared to Me'
-            onClick={handleTripOthersSharedButtonClick}
-          />
-          <CustomButton
-            className='button min-w-36'
-            label='Public Trips'
-            onClick={handleTripPublicButtonClick}
-          />
+          <div className='flex justify-center gap-2'>
+            {Object.entries(TRIPMENU_MODES).map(([key, menu]) => {
+              const isActive = (selectedMenu === key);
+              return (
+                <CustomButton
+                  key={key}
+                  className={`buttonPOI ${isActive ? 'bg-primary-button-light-hover dark:bg-primary-button-dark-hover' : ''}`}
+                  label={`${menu.icon} ${menu.label}`}
+                  onClick={handleTripMenuSelection(key)}
+                />
+              );
+            })}
+          </div>
+          {selectedMenu === 'trip'
+            ? renderTripMenu()
+            : renderMileageMenu()}
         </div>
       );
     }
