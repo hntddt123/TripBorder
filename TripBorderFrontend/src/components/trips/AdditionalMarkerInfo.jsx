@@ -171,9 +171,9 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
             avoidKeyboard={false}
           >
             <Sheet.Container>
-              <Sheet.Header className='bg-black' />
+              <Sheet.Header className='customSheet' />
               <Sheet.Content
-                className='safeArea bg-black select-text'
+                className='safeArea customSheet select-text'
                 scrollStyle={{ paddingBottom }}
                 disableDrag
               >

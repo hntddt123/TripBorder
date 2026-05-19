@@ -33,10 +33,10 @@ export default function TripPlanningTools({ handleFlyTo, handleFitBounds, onClos
       disableDismiss
       avoidKeyboard={false}
     >
-      <Sheet.Container className='bg-black'>
-        <Sheet.Header className='bg-black' />
+      <Sheet.Container>
+        <Sheet.Header className='customSheet' />
         <Sheet.Content
-          className='safeArea bg-black select-text'
+          className='safeArea customSheet select-text'
           scrollStyle={{ paddingBottom }}
           disableDrag
         >
