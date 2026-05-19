@@ -71,7 +71,7 @@ export default function Tags({ tripID }) {
 
   const renderDetail = () => (
     <div>
-      <div className='text-lg text-center'>
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {tags?.length && !isEditing > 0 ? <span>Customize Tags</span> : null}
         {(isEditing) ? <span>Edit Customize Tags</span> : null}
         {((tags?.length > 0) && !isLoadTrip)
@@ -127,28 +127,19 @@ export default function Tags({ tripID }) {
         )))}
       </div>
       <form onSubmit={handleSubmit} encType='multipart/form-data'>
-        <div>
-          <label htmlFor='add_tag'>
-            Add Tag
-          </label>
-        </div>
-        <div>
-          <input
-            className='customInput'
-            id='add_tag'
-            type='text'
-            name='add_tag'
-            value={tagName}
-            placeholder='Tag Name'
-            onChange={handleTagNameChange}
-            minLength={1}
-            maxLength={50}
-            required
-          />
-        </div>
-        <div>
-          <CustomButton type='submit' label='Add' />
-        </div>
+        <input
+          className='customInputCell'
+          id='add_tag'
+          type='text'
+          name='add_tag'
+          value={tagName}
+          placeholder='Add Tag'
+          onChange={handleTagNameChange}
+          minLength={1}
+          maxLength={50}
+          required
+        />
+        <CustomButton hidden className='button' type='submit' label='+' />
       </form>
     </div>
   );

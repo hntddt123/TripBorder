@@ -102,9 +102,9 @@ export default function TransportsReadOnly({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
+      <div className='flex text-lg justify-center text-center'>
         <div>
-          {(transports?.length > 0) ? <span>Transports</span> : null}
+          {(transports?.length > 0) ? <div>Transports</div> : null}
         </div>
       </div>
       {(dateGroupedTransports)

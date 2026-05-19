@@ -29,8 +29,8 @@ export default function TripTags({ tripID }) {
   return (
     <div>
       <div>
-        <div className='text-lg text-center'>
-          {tripTags?.length > 0 ? <span>Trip Tags</span> : null}
+        <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+          {tripTags?.length > 0 ? <div>Trip Tags</div> : null}
           {((tripTags?.length > 0) && !isLoadTrip)
             ? (
               <CustomButton

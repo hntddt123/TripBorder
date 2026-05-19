@@ -73,8 +73,8 @@ export default function HotelsReadOnly({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(hotels?.length > 0) ? <span>Hotels</span> : null}
+      <div className='flex text-lg justify-center text-center'>
+        {(hotels?.length > 0) ? <div>Hotels</div> : null}
       </div>
       {(dateGroupedHotels)
         ? Object.entries(dateGroupedHotels)

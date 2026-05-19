@@ -263,20 +263,18 @@ export default function Transports({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        <div>
-          {(transports?.length > 0) && !isEditing ? <span>Transports</span> : null}
-          {(isEditing) ? <span>Edit Transports</span> : null}
-          {transports?.length > 0 && !isLoadTrip
-            ? (
-              <CustomButton
-                translate='no'
-                className='buttonEdit select-none'
-                label='✏️'
-                onClick={handleEditButton}
-              />
-            ) : null}
-        </div>
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+        {(transports?.length > 0) && !isEditing ? <div>Transports</div> : null}
+        {(isEditing) ? <div>Edit Transports</div> : null}
+        {transports?.length > 0 && !isLoadTrip
+          ? (
+            <CustomButton
+              translate='no'
+              className='buttonEdit select-none'
+              label='✏️'
+              onClick={handleEditButton}
+            />
+          ) : null}
       </div>
       {(dateGroupedTransports)
         ? Object.entries(dateGroupedTransports).map(([date, TransportsForDate]) => (

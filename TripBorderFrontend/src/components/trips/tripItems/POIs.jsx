@@ -133,9 +133,9 @@ export default function POIs({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(pois?.length > 0) && !isEditing ? <span>Tour Spots</span> : null}
-        {(isEditing) ? <span>Edit Tour Spots</span> : null}
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+        {(pois?.length > 0) && !isEditing ? <div>Tour Spots</div> : null}
+        {(isEditing) ? <div>Edit Tour Spots</div> : null}
         {pois?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
