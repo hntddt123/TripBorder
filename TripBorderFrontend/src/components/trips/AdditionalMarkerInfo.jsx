@@ -69,6 +69,17 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
 
   const dispatch = useDispatch();
 
+  const handleExternalLink = async (url) => {
+    try {
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = 'blank';
+      link.click();
+    } catch (err) {
+      console.error('Failed to link', err);
+    }
+  };
+
   const handleUsePhoto = async (selectedImage) => {
     if (!selectedImage?.links?.download_location) return;
 
@@ -154,9 +165,15 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     return 'No Data';
   };
 
+  // Removes http:// or https: and any trailing slashes
+  const getCleanURL = (url) => url
+    .replace(/^https?:\/\//i, '')
+    .replace(/\/+$/, '');
+
   if (data && data.length > 0 && isShowingAdditionalPopUp) {
     const filteredResult = data.filter((marker) => marker.place_id === selectedPOI)[0];
     const index = data.findIndex((marker) => marker.place_id === selectedPOI) + 1;
+
     if (filteredResult) {
       return (
         <div className='flex'>
@@ -181,6 +198,18 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
                   <div translate='no' className='text-lg'>
                     <div className='min-w-10/12 text-center text-nowrap overflow-x-auto'>
                       {getPOINameAddress(index, filteredResult)}
+                      <div>
+                        {filteredResult.extratags?.website
+                          ? (
+                            <button
+                              onClick={() => handleExternalLink(filteredResult.extratags?.website)}
+                              className='button'
+                            >
+                              {getCleanURL(filteredResult.extratags?.website)}
+                            </button>
+                          )
+                          : null}
+                      </div>
                     </div>
                     <div className='min-w-2/12 text-right'>
                       {(activeQueryType === 'pin') ? renderDistance(filteredResult) : null}
