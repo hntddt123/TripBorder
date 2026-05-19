@@ -248,10 +248,11 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                     className='toggle toggleTripTitle'
                     aria-label={`Trip Button ${uuid}`}
                     id={uuid}
-                    titleOn={`${title} ▼`}
+                    titleOn={`${title} ${isLoadTrip ? '▼' : ''}`}
                     titleOff={`${title}`}
                     component={renderTripDetail()}
                     isOpened
+                    disabled={!isLoadTrip}
                   />
                   <div>Sharing Mode: {sharedMode}</div>
                 </div>

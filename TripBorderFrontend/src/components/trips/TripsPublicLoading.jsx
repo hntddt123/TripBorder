@@ -142,7 +142,10 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
   );
 
   const renderTripsItem = (trip) => (
-    <div className='flex justify-center'>
+    <div className='justify-center'>
+      {(isLoadTripPublic)
+        ? <CustomButton className='buttonLocate' label='👉' onClick={() => handleLoad(trip)} />
+        : null}
       <CustomToggle
         className='toggle toggleTrip'
         aria-label={`Trip Button ${trip.uuid}`}
@@ -223,10 +226,7 @@ export default function TripsPulbicLoading({ handleFlyTo }) {
       <CustomFetching isFetching={isFetching} text='Fetching new page' />
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
-          <div className='cardBorderT text-center'>
-            {(isLoadTripPublic)
-              ? <CustomButton className='button max-h-12' label='Load' onClick={() => handleLoad(trip)} />
-              : null}
+          <div className='cardBorderT items-center justify-center text-center'>
             {renderTripsItem(trip)}
           </div>
         </div>

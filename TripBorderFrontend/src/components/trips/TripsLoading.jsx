@@ -97,6 +97,9 @@ export default function TripsLoading({ handleFlyTo }) {
 
   const renderTripsItem = (trip) => (
     <div className='justify-center'>
+      {(isLoadTrip)
+        ? <CustomButton className='buttonLocate' label='👉' onClick={() => handleLoad(trip)} />
+        : null}
       <CustomToggle
         className='toggle toggleTrip'
         aria-label={`Trip Button ${trip.uuid}`}
@@ -150,10 +153,7 @@ export default function TripsLoading({ handleFlyTo }) {
       <CustomFetching isFetching={isFetching} text='Fetching new page' />
       {trips?.map(((trip) => (
         <div key={trip.uuid}>
-          <div className='cardBorderT text-center'>
-            {(isLoadTrip)
-              ? <CustomButton label='Load' onClick={() => handleLoad(trip)} />
-              : null}
+          <div className='cardBorderT items-center justify-center text-center'>
             {renderTripsItem(trip)}
             <div className='text-center'>
               {(isEditing)
