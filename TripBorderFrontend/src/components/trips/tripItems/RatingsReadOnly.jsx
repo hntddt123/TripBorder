@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import {
   useGetRatingsByTripIDQuery,
 } from '../../../api/ratingsAPI';
-import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
 import CustomLoading from '../../CustomLoading';
 import CustomFetching from '../../CustomFetching';
@@ -12,35 +11,25 @@ export default function RatingsReadOnly({ tripID }) {
   const { ratings } = data || {};
 
   const renderDetail = (rating) => (
-    <div className='text-pretty'>
-      <div>{`Score: ${rating.score}`}</div>
-      {[...Array(10)].map((_, index) => (
-        <span
-          key={`${rating.uuid + index}`}
-          className={(index < rating.score) ? 'active' : 'inactive'}
-        >
-          {(index < rating.score) ? '★' : '☆'}
-        </span>
-      ))}
+    <div className='text-xl text-pretty'>
+      <div>{`★${rating.score}`}</div>
+      <div className='flex justify-center'>
+        <div className='customInput max-w-3/4 mx-4 wrap-break-word overflow-scroll'>
+          {rating.comment}
+        </div>
+      </div>
     </div>
   );
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {ratings?.length > 0 ? <span>Ratings</span> : null}
+      <div className='flex text-lg justify-center text-center'>
+        {ratings?.length > 0 ? <div>Ratings</div> : null}
       </div>
       {ratings?.map(((rating) => (
         <div key={rating.uuid}>
           <div className='text-pretty'>
-            <CustomToggle
-              className='toggle toggleTrip'
-              aria-label={`Rating Button ${rating.uuid}`}
-              id={rating.uuid}
-              titleOn={`${rating.entity_type} ▼`}
-              titleOff={`${rating.entity_type}`}
-              component={renderDetail(rating)}
-            />
+            {renderDetail(rating)}
           </div>
         </div>
       )))}

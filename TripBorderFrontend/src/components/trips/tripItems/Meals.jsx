@@ -135,9 +135,9 @@ export default function Meals({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(meals?.length > 0) && !isEditing ? <span>Meals</span> : null}
-        {(isEditing) ? <span>Edit Meals</span> : null}
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+        {(meals?.length > 0) && !isEditing ? <div>Meals</div> : null}
+        {(isEditing) ? <div>Edit Meals</div> : null}
         {(meals?.length > 0) && !isLoadTrip
           ? (
             <CustomButton

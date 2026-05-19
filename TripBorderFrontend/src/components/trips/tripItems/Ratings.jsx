@@ -8,7 +8,6 @@ import {
   usePostRatingByTripIDMutation,
   useUpdateRatingByUUIDMutation
 } from '../../../api/ratingsAPI';
-import CustomToggle from '../../CustomToggle';
 import CustomError from '../../CustomError';
 import CustomButton from '../../CustomButton';
 import CustomLoading from '../../CustomLoading';
@@ -18,7 +17,6 @@ export default function Ratings({ tripID }) {
   const [star, setStar] = useState(0);
   const [comment, setComment] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const trip = useSelector((state) => state.tripReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
@@ -33,13 +31,14 @@ export default function Ratings({ tripID }) {
 
   const handleCommentSubmit = (rating) => (e) => {
     e.preventDefault();
-
-    updateRating({
-      uuid: rating.uuid,
-      updates: {
-        comment: comment
-      }
-    });
+    if (comment !== '') {
+      updateRating({
+        uuid: rating.uuid,
+        updates: {
+          comment: comment
+        }
+      });
+    }
     setIsEditing(false);
   };
 
@@ -55,6 +54,7 @@ export default function Ratings({ tripID }) {
   const handleDelete = (rating) => () => {
     setStar(0);
     deleteRating(rating.uuid);
+    setIsEditing(!isEditing);
   };
 
   const handleStarClick = (value) => () => {
@@ -63,7 +63,7 @@ export default function Ratings({ tripID }) {
       trips_uuid: tripID,
       entity_id: tripID,
       entity_type: 'Trips',
-      comment: 'No Comment',
+      comment: '',
       score: value,
       owner_email: email
     };
@@ -71,47 +71,49 @@ export default function Ratings({ tripID }) {
   };
 
   const renderDetail = (rating) => (
-    <div className='text-pretty text-xl'>
+    <div className='text-pretty text-xl justify-center text-center'>
       <div>{`★${rating.score}`}</div>
-      {[...Array(10)].map((_, index) => (
-        <span
-          key={`${rating.uuid + index}`}
-          className={(index < rating.score) ? 'active' : 'inactive'}
-        >
-          {(index < rating.score) ? '★' : '☆'}
-        </span>
-      ))}
-      {rating.comment === 'No Comment' || isEditing
-        ? (
-          <form onSubmit={handleCommentSubmit(rating)} encType='multipart/form-data'>
-            <div>
-              <label htmlFor='rate_comment'>
-                Comment
-              </label>
+      <div className='flex justify-center'>
+        {rating.comment === '' || isEditing
+          ? (
+            <form onSubmit={handleCommentSubmit(rating)} encType='multipart/form-data'>
               <div>
-                <textarea
-                  className='customInput focus:bg-primary-button-dark'
-                  id='rate_comment'
-                  type='text'
-                  name='rate_comment'
-                  placeholder='Say something about this trip'
-                  value={comment}
-                  onChange={handleCommentChange}
-                  minLength={1}
-                  rows={4}
-                  required
-                />
+                <label htmlFor='rate_comment'>
+                  Comment
+                </label>
+                <div>
+                  <textarea
+                    className='customInput p-4 mb-0 focus:bg-primary-button-dark'
+                    id='rate_comment'
+                    type='text'
+                    name='rate_comment'
+                    placeholder='Say something about this trip (max 255 characters)'
+                    value={comment === '' ? rating.comment : comment}
+                    onChange={handleCommentChange}
+                    minLength={1}
+                    maxLength={255}
+                    rows={3}
+                    required
+                  />
+                  <div>
+                    Length: {comment.length}
+                  </div>
+                </div>
+                <CustomButton type='submit' label='Submit' />
               </div>
-              <CustomButton type='submit' label='Submit' />
+            </form>
+          )
+          : (
+            <div className='customInput max-w-3/4 p-4 mx-4 wrap-break-word overflow-scroll'>
+              {rating.comment}
             </div>
-          </form>
-        )
-        : <div>{`${rating.comment}`}</div>}
+          )}
+      </div>
     </div>
   );
 
   const renderNewRating = () => (
-    <div className='text-xl'>
+    <div className='text-2xl'>
       <div className='flex justify-center'>
         {Array.from({ length: 10 }, (_, index) => {
           const starValue = index + 1;
@@ -130,9 +132,9 @@ export default function Ratings({ tripID }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {ratings?.length > 0 && !isEditing ? <span>Ratings</span> : null}
-        {(isEditing) ? <span>Edit Ratings</span> : null}
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+        {ratings?.length > 0 && !isEditing ? <div>Ratings</div> : null}
+        {(isEditing) ? <div>Edit Ratings</div> : null}
         {(ratings?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
@@ -145,41 +147,27 @@ export default function Ratings({ tripID }) {
       </div>
       {ratings?.map(((rating) => (
         <div key={rating.uuid}>
-          <div className='text-pretty'>
-            {(isEditing)
-              ? (
-                <CustomButton
-                  className='buttonDelete'
-                  translate='no'
-                  label='🗑️'
-                  onClick={handleDelete(rating)}
-                />
-              )
-              : null}
-            <CustomToggle
-              className='toggle toggleTrip'
-              aria-label={`Rating Button ${rating.uuid}`}
-              id={rating.uuid}
-              titleOn={`${rating.entity_type} ▼`}
-              titleOff={`${rating.entity_type}`}
-              component={renderDetail(rating)}
-            />
-          </div>
+          {(isEditing)
+            ? (
+              <CustomButton
+                className='buttonDelete'
+                translate='no'
+                label='🗑️'
+                onClick={handleDelete(rating)}
+              />
+            )
+            : null}
+          {renderDetail(rating)}
         </div>
       )))}
       {(ratings?.length > 0 || isLoadTrip)
         ? null
         : (
-          <div className='flex justify-center'>
-            <CustomToggle
-              translate='no'
-              className='toggle toggleTrip'
-              aria-label={`Rating Button ${tripID}`}
-              id={tripID}
-              titleOn={`Rate ${trip.title} ▼`}
-              titleOff={`Rate ${trip.title}`}
-              component={renderNewRating()}
-            />
+          <div className='justify-center'>
+            <div>
+              Rate this trip
+            </div>
+            {renderNewRating()}
           </div>
         )}
 

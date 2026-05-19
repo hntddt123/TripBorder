@@ -96,7 +96,7 @@ export default function TripsLoading({ handleFlyTo }) {
   );
 
   const renderTripsItem = (trip) => (
-    <div className='flex justify-center'>
+    <div className='justify-center'>
       <CustomToggle
         className='toggle toggleTrip'
         aria-label={`Trip Button ${trip.uuid}`}

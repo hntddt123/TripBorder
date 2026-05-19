@@ -56,8 +56,8 @@ export default function MealsReadOnly({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(meals?.length > 0) ? <span>Meals</span> : null}
+      <div className='flex text-lg justify-center text-center'>
+        {(meals?.length > 0) ? <div>Meals</div> : null}
       </div>
       {(dateGroupedMeals)
         ? Object.entries(dateGroupedMeals).map(([date, mealsForDate]) => (

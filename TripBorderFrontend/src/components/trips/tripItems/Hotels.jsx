@@ -235,9 +235,9 @@ export default function Hotels({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(hotels?.length > 0 && !isEditing) ? <span>Hotels</span> : null}
-        {(isEditing) ? <span>Edit Hotels</span> : null}
+      <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
+        {(hotels?.length > 0 && !isEditing) ? <div>Hotels</div> : null}
+        {(isEditing) ? <div>Edit Hotels</div> : null}
         {(hotels?.length > 0) && !isLoadTrip
           ? (
             <CustomButton

@@ -133,8 +133,8 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             <HotelsReadOnly tripID={uuid} handleFlyTo={handleFlyTo} />
             <POIsReadOnly tripID={uuid} handleFlyTo={handleFlyTo} />
             <TransportsReadOnly tripID={uuid} handleFlyTo={handleFlyTo} />
-            <TripTagsReadOnly tripID={uuid} />
             <RatingsReadOnly tripID={uuid} />
+            <TripTagsReadOnly tripID={uuid} />
           </div>
         )
         : (
@@ -144,9 +144,9 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             <Hotels tripID={uuid} handleFlyTo={handleFlyTo} />
             <POIs tripID={uuid} handleFlyTo={handleFlyTo} />
             <Transports tripID={uuid} handleFlyTo={handleFlyTo} />
+            <Ratings tripID={uuid} />
             <TripTags tripID={uuid} />
             <Tags tripID={uuid} />
-            <Ratings tripID={uuid} />
           </div>
         )}
     </div>

@@ -56,8 +56,8 @@ export default function POIsReadOnly({ tripID, handleFlyTo }) {
 
   return (
     <div>
-      <div className='text-lg text-center'>
-        {(pois?.length > 0) ? <span>Tour Spots</span> : null}
+      <div className='flex text-lg justify-center text-center'>
+        {(pois?.length > 0) ? <div>Tour Spots</div> : null}
       </div>
       {(dateGroupedPOIs)
         ? Object.entries(dateGroupedPOIs).map(([date, poisForDate]) => (
