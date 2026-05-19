@@ -969,7 +969,7 @@ html, body {
     text-lg
     ease-in-out duration-800
     border-amber-600
-    bg-amber-50 dark:bg-primary-button-dark-transparent;
+    bg-primary-light-much-transparent dark:bg-primary-button-dark-transparent;
   }
 
   .cardPOI:hover {
