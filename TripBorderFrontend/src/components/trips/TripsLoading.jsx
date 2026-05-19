@@ -97,11 +97,21 @@ export default function TripsLoading({ handleFlyTo }) {
 
   const renderTripsItem = (trip) => (
     <div className='justify-center'>
-      {(isLoadTrip)
+      {(isLoadTrip && !isEditing)
         ? <CustomButton className='buttonLocate' label='👉' onClick={() => handleLoad(trip)} />
         : null}
+      {(isEditing)
+        ? (
+          <CustomButton
+            className='buttonDelete'
+            translate='no'
+            label='🗑️'
+            onClick={() => deleteTrip(trip.uuid)}
+          />
+        )
+        : null}
       <CustomToggle
-        className='toggle toggleTrip'
+        className='toggle toggleTrip text-lg'
         aria-label={`Trip Button ${trip.uuid}`}
         id={trip.uuid}
         titleOn={`${trip.title} ▼`}
@@ -155,18 +165,6 @@ export default function TripsLoading({ handleFlyTo }) {
         <div key={trip.uuid}>
           <div className='cardBorderT items-center justify-center text-center'>
             {renderTripsItem(trip)}
-            <div className='text-center'>
-              {(isEditing)
-                ? (
-                  <CustomButton
-                    className='buttonDelete'
-                    translate='no'
-                    label='Delete 🗑️'
-                    onClick={() => deleteTrip(trip.uuid)}
-                  />
-                )
-                : null}
-            </div>
           </div>
         </div>
       )))}
