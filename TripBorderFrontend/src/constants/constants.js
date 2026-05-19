@@ -77,8 +77,14 @@ export const MAPBOX_LANGS = {
 };
 
 export const TRAVEL_MODES = {
-  walking: { profile: 'walking', icon: '🚶', label: 'Walk' },
-  driving: { profile: 'driving', icon: '🚗', label: 'Drive' },
-  cycling: { profile: 'cycling', icon: '🚲', label: 'Cycle' }
+  walking: { icon: '🚶', label: 'Walk' },
+  driving: { icon: '🚗', label: 'Drive' },
+  cycling: { icon: '🚲', label: 'Cycle' }
 };
 export const getTravelModeConfig = (mode) => TRAVEL_MODES[mode] || TRAVEL_MODES.walking;
+
+export const TRIPMENU_MODES = {
+  trip: { icon: '🗺️', label: 'Trip' },
+  mileage: { icon: '✈️', label: 'Mileage' }
+};
+export const getTripMenuModeConfig = (mode) => TRIPMENU_MODES[mode] || TRIPMENU_MODES.trip;
