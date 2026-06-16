@@ -29,5 +29,5 @@ export default function GPS({ handleGPS, watchState }) {
 
 GPS.propTypes = {
   handleGPS: PropTypes.func,
-  watchState: PropTypes.bool
+  watchState: PropTypes.string
 };
