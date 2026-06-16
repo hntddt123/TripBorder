@@ -8,6 +8,7 @@ import {
   setViewState,
   setMarker,
   setGPSLonLat,
+  setGPSState,
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
@@ -39,6 +40,7 @@ import InputLandmarkSearch from './mapControls/InputLandmarkSearch';
 import TripSearchTools from './mapControls/TripSearchTools';
 import Compass from './mapControls/Compass';
 import TripMarker from './TripMarker';
+import GPS from './mapControls/GPS';
 
 // react-map-gl component
 export default function TripMap({ premium }) {
@@ -57,6 +59,7 @@ export default function TripMap({ premium }) {
     selectedPOIName,
     isNorthUp,
     isShowingScaleRuler,
+    isMapRotate,
     gpsLonLat
   } = useSelector((state) => state.mapReducer);
   const {
@@ -72,7 +75,8 @@ export default function TripMap({ premium }) {
 
   const mapCSSStyle = { width: '100%', height: '100dvh' };
   const mapRef = useRef();
-  const geolocateRef = useRef();
+  const geocoderRef = useRef();
+  const geolocateControlRef = useRef();
   const pressTimer = useRef(null);
 
   const screenHeight = window.innerHeight;
@@ -88,11 +92,25 @@ export default function TripMap({ premium }) {
     // Normalize 0–360 and handle negative/overflow
     const normalized = ((bearing % 360) + 360) % 360;
 
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const directions = ['⬆️', '↗️', '➡️', '↘️', '⬇️', '↙️', '⬅️', '↖️'];
     const index = Math.round(normalized / 45) % 8;
 
     return directions[index];
   };
+
+  useEffect(() => {
+    if (mapRef.current !== null) {
+      const map = mapRef.current.getMap();
+      if (isMapRotate) {
+        map.touchZoomRotate.enableRotation();
+        map.dragRotate._mouseRotate.enable();
+      } else {
+        map.touchZoomRotate.disableRotation();
+        map.dragRotate._mouseRotate.disable();
+        map.resetNorth();
+      }
+    }
+  }, [isMapRotate]);
 
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
@@ -106,7 +124,7 @@ export default function TripMap({ premium }) {
         center: [gpsLonLat.longitude, gpsLonLat.latitude],
         bearing: -e.alpha, // e.alpha is the device heading
         pitch: 45,
-        duration: 150
+        duration: 50
       });
       dispatch(setBearing(getDirectionLabel(-e.alpha)));
     }
@@ -115,7 +133,6 @@ export default function TripMap({ premium }) {
   useEffect(() => {
     const orient = 'deviceorientation';
     if (isNorthUp === false) {
-      geolocateRef.current?.trigger();
       window.addEventListener(orient, orientationEvent);
     }
     return () => window.removeEventListener(orient, orientationEvent);
@@ -129,6 +146,11 @@ export default function TripMap({ premium }) {
       }
       mapRef.current?.easeTo({ bearing: 0, pitch: 45, duration: 400 });
     }
+  };
+
+  const handleGPS = () => {
+    geolocateControlRef.current?.trigger();
+    dispatch(setGPSState(geolocateControlRef.current?._watchState));
   };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
@@ -324,7 +346,7 @@ export default function TripMap({ premium }) {
       {isUsingMapBoxGeocoder
         ? (
           <GeocoderControl
-            ref={geolocateRef}
+            ref={geocoderRef}
             mapboxAccessToken={MAPBOX_API_KEY}
             position='top'
             onResult={onGeocoderResult}
@@ -338,6 +360,7 @@ export default function TripMap({ premium }) {
         )}
       <div>
         <Compass handleNorthUp={handleNorthUp} />
+        <GPS handleGPS={handleGPS} watchState={geolocateControlRef.current?._watchState} />
       </div>
       <div>
         {(premium)
@@ -367,13 +390,18 @@ export default function TripMap({ premium }) {
       </div>
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
-        position='bottom-right'
+        ref={geolocateControlRef}
+        showButton={false}
         positionOptions={{ enableHighAccuracy: true, timeout: 5000 }}
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
         showUserLocation
         showUserHeading
         trackUserLocation
+        fitBoundsOptions={{
+          maxZoom: 15,
+          pitch: 45 // ← Tilt the camera when locking
+        }}
       />
       <ProximityMarkers
         data={sortedData}
