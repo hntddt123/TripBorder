@@ -85,6 +85,7 @@ export default function TripMap({ premium }) {
   const pixelShift = (percentage / 100) * screenHeight;
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
+  let rafID = null;
 
   const getDirectionLabel = (bearing) => {
     if (bearing == null || Number.isNaN(bearing)) return '';
@@ -118,17 +119,20 @@ export default function TripMap({ premium }) {
     }
   }, [resultKeyword, activeQueryType]);
 
-  const orientationEvent = (e) => {
+  const orientationEvent = useCallback((e) => {
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      mapRef.current?.easeTo({
-        center: [gpsLonLat.longitude, gpsLonLat.latitude],
-        bearing: -e.alpha, // e.alpha is the device heading
-        pitch: 45,
-        duration: 50
+      if (rafID) cancelAnimationFrame(rafID);
+
+      rafID = requestAnimationFrame(() => {
+        if (Math.abs(e.alpha - viewState.bearing) > 1.5) {
+          mapRef.current?.getMap().setBearing(-e.alpha);
+          geolocateControlRef.current?.trigger();
+        }
+        dispatch(setBearing(getDirectionLabel(-e.alpha)));
+        rafID.current = null;
       });
-      dispatch(setBearing(getDirectionLabel(-e.alpha)));
     }
-  };
+  });
 
   useEffect(() => {
     const orient = 'deviceorientation';
@@ -206,6 +210,7 @@ export default function TripMap({ premium }) {
     } else {
       map.target.setConfigProperty('basemap', 'lightPreset', 'day');
     }
+    handleFlyTo(viewState.longitude, viewState.latitude, viewState.zoom, 10);
     setMapLoaded(true);
     dispatch(setSessionIDFSQ(uuidv4()));
   };
@@ -321,7 +326,6 @@ export default function TripMap({ premium }) {
     <Map
       ref={mapRef}
       reuseMaps
-      {...viewState}
       onMove={onMove}
       onClick={handleClick}
       onLoad={(map) => handleOnLoad(map)}
@@ -396,6 +400,8 @@ export default function TripMap({ premium }) {
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
         showUserLocation
+        showAccuracyCircle={false}
+        followUserLocation
         showUserHeading
         trackUserLocation
         fitBoundsOptions={{
@@ -427,6 +433,5 @@ export default function TripMap({ premium }) {
 }
 
 TripMap.propTypes = {
-  isFetching: PropTypes.bool,
   premium: PropTypes.bool
 };
