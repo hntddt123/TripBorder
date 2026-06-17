@@ -4,13 +4,14 @@ import {
   setSelectedPOICount,
   setSelectedPOIRadius
 } from '../../../redux/reducers/mapReducer';
+import { useCheckAuthStatusQuery, useLogoutMutation } from '../../../api/authAPI';
 import { VERSION_NUMBER } from '../../../constants/constants';
 import CustomButton from '../../CustomButton';
 import ToggleScale from '../ToggleScale';
 import TogglePlaceName from '../TogglePlaceName';
 import ToggleDistance from '../ToggleDistance';
 import ToggleMapBoxSearch from '../ToggleMapBoxSearch';
-import { useCheckAuthStatusQuery, useLogoutMutation } from '../../../api/authAPI';
+import ToggleRotate from '../ToggleRotate';
 
 export default function TripSearchTools() {
   const { data: user } = useCheckAuthStatusQuery();
@@ -84,6 +85,10 @@ export default function TripSearchTools() {
           />
         )
         : null}
+      <div className='flex justify-around'>
+        <span className='min-w-2/3 text-left'>Allow map rotate</span>
+        <ToggleRotate />
+      </div>
       <div className='flex justify-around'>
         <span className='min-w-2/3 text-left'>Show scale ruler</span>
         <ToggleScale />

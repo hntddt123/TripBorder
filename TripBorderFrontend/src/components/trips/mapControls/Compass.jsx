@@ -5,8 +5,8 @@ import CustomButton from '../../CustomButton';
 export default function Compass({ handleNorthUp }) {
   const {
     isNorthUp,
-    gpsLonLat,
-    bearing
+    bearing,
+    gpsLonLat
   } = useSelector((state) => state.mapReducer);
 
   return (

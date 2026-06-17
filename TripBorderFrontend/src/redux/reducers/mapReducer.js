@@ -11,6 +11,7 @@ const initialMapState = {
     zoom: 1.5
   },
   gpsLonLat: { longitude: null, latitude: null },
+  gpsState: '',
   longPressedLonLat: { longitude: null, latitude: null },
   bearing: '',
   isUsingGPSLonLat: true,
@@ -36,6 +37,7 @@ const initialMapState = {
   isThrowingDice: false,
   isUsingMapBoxGeocoder: false,
   isNorthUp: true,
+  isMapRotate: false,
   sessionIDFSQ: '',
   travelMode: 'walking'
 };
@@ -49,6 +51,7 @@ const mapSlice = createSlice({
     setMarker: (state, action) => ({ ...state, markers: action.payload }),
     setTripMarker: (state, action) => ({ ...state, tripMarkers: action.payload }),
     setGPSLonLat: (state, action) => ({ ...state, gpsLonLat: action.payload }),
+    setGPSState: (state, action) => ({ ...state, gpsState: action.payload }),
     setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
     setIsUsingGPSLonLat: (state, action) => ({ ...state, isUsingGPSLonLat: action.payload }),
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
@@ -72,6 +75,7 @@ const mapSlice = createSlice({
     setIsThrowingDice: (state, action) => ({ ...state, isThrowingDice: action.payload }),
     setIsUsingMapBoxGeocoder: (state, action) => ({ ...state, isUsingMapBoxGeocoder: action.payload }),
     setIsNorthUp: (state, action) => ({ ...state, isNorthUp: action.payload }),
+    setIsMapRotate: (state, action) => ({ ...state, isMapRotate: action.payload }),
     setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload }),
     setTravelMode: (state, action) => ({ ...state, travelMode: action.payload }),
     setBearing: (state, action) => ({ ...state, bearing: action.payload })
@@ -84,6 +88,7 @@ export const {
   setMarker,
   setTripMarker,
   setGPSLonLat,
+  setGPSState,
   setLongPressedLonLat,
   setIsUsingGPSLonLat,
   setSelectedPOIIDNumber,
@@ -106,6 +111,7 @@ export const {
   setIsThrowingDice,
   setIsUsingMapBoxGeocoder,
   setIsNorthUp,
+  setIsMapRotate,
   setSessionIDFSQ,
   setTravelMode,
   setBearing

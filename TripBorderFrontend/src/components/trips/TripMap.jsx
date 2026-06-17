@@ -8,6 +8,7 @@ import {
   setViewState,
   setMarker,
   setGPSLonLat,
+  setGPSState,
   setLongPressedLonLat,
   setIsShowingOnlySelectedPOI,
   setIsShowingSideBar,
@@ -39,6 +40,7 @@ import InputLandmarkSearch from './mapControls/InputLandmarkSearch';
 import TripSearchTools from './mapControls/TripSearchTools';
 import Compass from './mapControls/Compass';
 import TripMarker from './TripMarker';
+import GPS from './mapControls/GPS';
 
 // react-map-gl component
 export default function TripMap({ premium }) {
@@ -57,6 +59,7 @@ export default function TripMap({ premium }) {
     selectedPOIName,
     isNorthUp,
     isShowingScaleRuler,
+    isMapRotate,
     gpsLonLat
   } = useSelector((state) => state.mapReducer);
   const {
@@ -72,8 +75,11 @@ export default function TripMap({ premium }) {
 
   const mapCSSStyle = { width: '100%', height: '100dvh' };
   const mapRef = useRef();
-  const geolocateRef = useRef();
+  const geocoderRef = useRef();
+  const geolocateControlRef = useRef();
   const pressTimer = useRef(null);
+  const rafID = useRef(null);
+  const lastBearingRef = useRef(null);
 
   const screenHeight = window.innerHeight;
   // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
@@ -88,11 +94,25 @@ export default function TripMap({ premium }) {
     // Normalize 0–360 and handle negative/overflow
     const normalized = ((bearing % 360) + 360) % 360;
 
-    const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    const directions = ['⬆️', '↗️', '➡️', '↘️', '⬇️', '↙️', '⬅️', '↖️'];
     const index = Math.round(normalized / 45) % 8;
 
     return directions[index];
   };
+
+  useEffect(() => {
+    if (mapRef.current !== null) {
+      const map = mapRef.current.getMap();
+      if (isMapRotate) {
+        map.touchZoomRotate.enableRotation();
+        map.dragRotate._mouseRotate.enable();
+      } else {
+        map.touchZoomRotate.disableRotation();
+        map.dragRotate._mouseRotate.disable();
+        map.resetNorth();
+      }
+    }
+  }, [isMapRotate]);
 
   useEffect(() => {
     if (resultKeyword && activeQueryType === 'keyword') {
@@ -100,22 +120,28 @@ export default function TripMap({ premium }) {
     }
   }, [resultKeyword, activeQueryType]);
 
-  const orientationEvent = (e) => {
+  const orientationEvent = useCallback((e) => {
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      mapRef.current?.easeTo({
-        center: [gpsLonLat.longitude, gpsLonLat.latitude],
-        bearing: -e.alpha, // e.alpha is the device heading
-        pitch: 45,
-        duration: 150
+      if (rafID.current) cancelAnimationFrame(rafID.current);
+
+      rafID.current = requestAnimationFrame(() => {
+        const newBearing = -e.alpha;
+        if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
+          mapRef.current?.getMap().setBearing(-e.alpha);
+          lastBearingRef.current = newBearing;
+          dispatch(setBearing(getDirectionLabel(-e.alpha)));
+        }
+        if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
+          geolocateControlRef.current?.trigger();
+        }
+        rafID.current = null;
       });
-      dispatch(setBearing(getDirectionLabel(-e.alpha)));
     }
-  };
+  });
 
   useEffect(() => {
     const orient = 'deviceorientation';
     if (isNorthUp === false) {
-      geolocateRef.current?.trigger();
       window.addEventListener(orient, orientationEvent);
     }
     return () => window.removeEventListener(orient, orientationEvent);
@@ -129,6 +155,11 @@ export default function TripMap({ premium }) {
       }
       mapRef.current?.easeTo({ bearing: 0, pitch: 45, duration: 400 });
     }
+  };
+
+  const handleGPS = () => {
+    geolocateControlRef.current?.trigger();
+    dispatch(setGPSState(geolocateControlRef.current?._watchState));
   };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
@@ -184,6 +215,7 @@ export default function TripMap({ premium }) {
     } else {
       map.target.setConfigProperty('basemap', 'lightPreset', 'day');
     }
+    handleFlyTo(viewState.longitude, viewState.latitude, viewState.zoom, 10);
     setMapLoaded(true);
     dispatch(setSessionIDFSQ(uuidv4()));
   };
@@ -299,7 +331,6 @@ export default function TripMap({ premium }) {
     <Map
       ref={mapRef}
       reuseMaps
-      {...viewState}
       onMove={onMove}
       onClick={handleClick}
       onLoad={(map) => handleOnLoad(map)}
@@ -324,7 +355,7 @@ export default function TripMap({ premium }) {
       {isUsingMapBoxGeocoder
         ? (
           <GeocoderControl
-            ref={geolocateRef}
+            ref={geocoderRef}
             mapboxAccessToken={MAPBOX_API_KEY}
             position='top'
             onResult={onGeocoderResult}
@@ -338,6 +369,7 @@ export default function TripMap({ premium }) {
         )}
       <div>
         <Compass handleNorthUp={handleNorthUp} />
+        <GPS handleGPS={handleGPS} watchState={geolocateControlRef.current?._watchState} />
       </div>
       <div>
         {(premium)
@@ -367,13 +399,20 @@ export default function TripMap({ premium }) {
       </div>
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
-        position='bottom-right'
+        ref={geolocateControlRef}
+        showButton={false}
         positionOptions={{ enableHighAccuracy: true, timeout: 5000 }}
         onError={(error) => { console.error('Geolocate error:', error); }}
         onGeolocate={handleCurrentLocation}
         showUserLocation
+        showAccuracyCircle={false}
+        followUserLocation
         showUserHeading
         trackUserLocation
+        fitBoundsOptions={{
+          maxZoom: 15,
+          pitch: 45 // ← Tilt the camera when locking
+        }}
       />
       <ProximityMarkers
         data={sortedData}
@@ -399,6 +438,5 @@ export default function TripMap({ premium }) {
 }
 
 TripMap.propTypes = {
-  isFetching: PropTypes.bool,
   premium: PropTypes.bool
 };
