@@ -129,8 +129,6 @@ export default function TripMap({ premium }) {
         if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
           mapRef.current?.getMap().setBearing(-e.alpha);
           lastBearingRef.current = newBearing;
-        }
-        if (lastBearingRef.current !== newBearing) {
           dispatch(setBearing(getDirectionLabel(-e.alpha)));
         }
         if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
