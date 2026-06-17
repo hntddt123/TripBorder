@@ -78,6 +78,8 @@ export default function TripMap({ premium }) {
   const geocoderRef = useRef();
   const geolocateControlRef = useRef();
   const pressTimer = useRef(null);
+  const rafID = useRef(null);
+  const lastBearingRef = useRef(null);
 
   const screenHeight = window.innerHeight;
   // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
@@ -85,7 +87,6 @@ export default function TripMap({ premium }) {
   const pixelShift = (percentage / 100) * screenHeight;
   // Nice for padding mechanics
   const mapViewPadding = { bottom: 4.2 * pixelShift };
-  let rafID = null;
 
   const getDirectionLabel = (bearing) => {
     if (bearing == null || Number.isNaN(bearing)) return '';
@@ -121,14 +122,20 @@ export default function TripMap({ premium }) {
 
   const orientationEvent = useCallback((e) => {
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      if (rafID) cancelAnimationFrame(rafID);
+      if (rafID.current) cancelAnimationFrame(rafID.current);
 
-      rafID = requestAnimationFrame(() => {
-        if (Math.abs(e.alpha - viewState.bearing) > 1.5) {
+      rafID.current = requestAnimationFrame(() => {
+        const newBearing = -e.alpha;
+        if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
           mapRef.current?.getMap().setBearing(-e.alpha);
+          lastBearingRef.current = newBearing;
+        }
+        if (lastBearingRef.current !== newBearing) {
+          dispatch(setBearing(getDirectionLabel(-e.alpha)));
+        }
+        if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
           geolocateControlRef.current?.trigger();
         }
-        dispatch(setBearing(getDirectionLabel(-e.alpha)));
         rafID.current = null;
       });
     }
