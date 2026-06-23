@@ -13,7 +13,7 @@ const initialMapState = {
   gpsLonLat: { longitude: null, latitude: null },
   gpsState: '',
   longPressedLonLat: { longitude: null, latitude: null },
-  bearing: '',
+  bearing: '🧭',
   isUsingGPSLonLat: true,
   markers: [],
   tripMarkers: [],

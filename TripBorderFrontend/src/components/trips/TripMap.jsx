@@ -21,6 +21,7 @@ import {
   setIsNorthUp,
   setBearing
 } from '../../redux/reducers/mapReducer';
+import { useOrientation } from '../../hooks/useOrientation';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import {
@@ -65,6 +66,7 @@ export default function TripMap({ premium }) {
   const {
     isDarkMode
   } = useSelector((state) => state.userSettingsReducer);
+  const { angle } = useOrientation();
 
   const dispatch = useDispatch();
 
@@ -80,6 +82,7 @@ export default function TripMap({ premium }) {
   const pressTimer = useRef(null);
   const rafID = useRef(null);
   const lastBearingRef = useRef(null);
+  const lastOrientationUpdate = useRef(0);
 
   const screenHeight = window.innerHeight;
   // From your 0.0025° offset at zoom 15, assuming ~800px height and latitude ~0°
@@ -121,18 +124,26 @@ export default function TripMap({ premium }) {
   }, [resultKeyword, activeQueryType]);
 
   const orientationEvent = useCallback((e) => {
+    const now = Date.now();
+    if (now - lastOrientationUpdate.current < 25) return; // throttle
+    lastOrientationUpdate.current = now;
+
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
+      const map = mapRef.current;
+      if (!map) return;
+
       if (rafID.current) cancelAnimationFrame(rafID.current);
 
       rafID.current = requestAnimationFrame(() => {
-        const newBearing = -e.alpha;
+        let newBearing = -e.alpha - angle;
+        newBearing = ((newBearing % 360) + 360) % 360;
         if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
-          mapRef.current?.getMap().setBearing(-e.alpha);
+          mapRef.current?.getMap().setBearing(newBearing);
           lastBearingRef.current = newBearing;
-          dispatch(setBearing(getDirectionLabel(-e.alpha)));
-        }
-        if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
-          geolocateControlRef.current?.trigger();
+          dispatch(setBearing(getDirectionLabel(newBearing)));
+          if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
+            geolocateControlRef.current?.trigger();
+          }
         }
         rafID.current = null;
       });
