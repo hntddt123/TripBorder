@@ -3,7 +3,9 @@ import { useState, useEffect } from 'react';
 export const useOrientation = () => {
   const getState = () => {
     const angle = window.screen.orientation?.angle ?? (window.screen.orientation || 0);
+    const type = window.screen.orientation?.type;
     return {
+      type,
       angle, // 0, 90, 180, 270
       isPortrait: angle === 0 || angle === 180,
       isLandscape: angle === 90 || angle === 270,
