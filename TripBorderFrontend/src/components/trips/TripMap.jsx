@@ -139,13 +139,13 @@ export default function TripMap({ premium }) {
             lastBearingRef.current = newBearing;
             dispatch(setBearing(getDirectionLabel(newBearing)));
           } else if (type === 'landscape-primary') {
-            mapRef.current?.getMap().setBearing(newBearing - 90);
-            lastBearingRef.current = newBearing - 90;
-            dispatch(setBearing(getDirectionLabel(newBearing - 90)));
-          } else if (type === 'landscape-secondary') {
             mapRef.current?.getMap().setBearing(newBearing + 90);
             lastBearingRef.current = newBearing + 90;
             dispatch(setBearing(getDirectionLabel(newBearing + 90)));
+          } else if (type === 'landscape-secondary') {
+            mapRef.current?.getMap().setBearing(newBearing - 90);
+            lastBearingRef.current = newBearing - 90;
+            dispatch(setBearing(getDirectionLabel(newBearing - 90)));
           }
         }
         if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
@@ -161,7 +161,7 @@ export default function TripMap({ premium }) {
       window.addEventListener(orient, orientationEvent);
     }
     return () => window.removeEventListener(orient, orientationEvent);
-  }, [isNorthUp]);
+  }, [isNorthUp, type]);
 
   const handleNorthUp = async () => {
     if (typeof DeviceMotionEvent.requestPermission === 'function') {
