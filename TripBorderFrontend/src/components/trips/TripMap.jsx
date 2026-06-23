@@ -66,7 +66,7 @@ export default function TripMap({ premium }) {
   const {
     isDarkMode
   } = useSelector((state) => state.userSettingsReducer);
-  const { angle } = useOrientation();
+  const { type } = useOrientation();
 
   const dispatch = useDispatch();
 
@@ -129,23 +129,28 @@ export default function TripMap({ premium }) {
     lastOrientationUpdate.current = now;
 
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      const map = mapRef.current;
-      if (!map) return;
-
-      if (rafID.current) cancelAnimationFrame(rafID.current);
+      let newBearing = -e.alpha;
+      newBearing = ((newBearing % 360) + 360) % 360;
 
       rafID.current = requestAnimationFrame(() => {
-        let newBearing = -e.alpha - angle;
-        newBearing = ((newBearing % 360) + 360) % 360;
         if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
-          mapRef.current?.getMap().setBearing(newBearing);
-          lastBearingRef.current = newBearing;
-          dispatch(setBearing(getDirectionLabel(newBearing)));
-          if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
-            geolocateControlRef.current?.trigger();
+          if (type === 'portrait-primary') {
+            mapRef.current?.getMap().setBearing(newBearing);
+            lastBearingRef.current = newBearing;
+            dispatch(setBearing(getDirectionLabel(newBearing)));
+          } else if (type === 'landscape-primary') {
+            mapRef.current?.getMap().setBearing(newBearing + 90);
+            lastBearingRef.current = newBearing + 90;
+            dispatch(setBearing(getDirectionLabel(newBearing + 90)));
+          } else if (type === 'landscape-secondary') {
+            mapRef.current?.getMap().setBearing(newBearing - 90);
+            lastBearingRef.current = newBearing - 90;
+            dispatch(setBearing(getDirectionLabel(newBearing - 90)));
           }
         }
-        rafID.current = null;
+        if (geolocateControlRef.current?._watchState !== 'ACTIVE_LOCK') {
+          geolocateControlRef.current?.trigger();
+        }
       });
     }
   });
@@ -156,7 +161,7 @@ export default function TripMap({ premium }) {
       window.addEventListener(orient, orientationEvent);
     }
     return () => window.removeEventListener(orient, orientationEvent);
-  }, [isNorthUp]);
+  }, [isNorthUp, type]);
 
   const handleNorthUp = async () => {
     if (typeof DeviceMotionEvent.requestPermission === 'function') {
