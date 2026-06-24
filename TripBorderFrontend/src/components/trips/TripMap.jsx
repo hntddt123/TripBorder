@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import Map, { GeolocateControl, ScaleControl } from 'react-map-gl';
+import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   setViewState,
@@ -206,7 +207,7 @@ export default function TripMap({ premium }) {
     dispatch(setSelectedPOIIcon(searchIcon));
     const resultKey = (await getLandmarkFromKeywordTrigger(query)).data;
 
-    if (resultKey.length > 0) {
+    if (resultKey?.length > 0) {
       handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
     }
     dispatch(setIsShowingOnlySelectedPOI(false));
@@ -358,7 +359,7 @@ export default function TripMap({ premium }) {
       onTouchMove={handleMouseUp}
       style={mapCSSStyle}
       mapStyle={mapStyle}
-      mapLib={import('mapbox-gl')}
+      mapLib={mapboxgl}
       mapboxAccessToken={MAPBOX_API_KEY}
       projection='mercator'
       pitchWithRotate={false}
