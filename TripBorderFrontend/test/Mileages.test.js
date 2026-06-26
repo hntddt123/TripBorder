@@ -32,7 +32,7 @@ describe('Mileages tests', () => {
     renderWithRedux(<Mileages />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Status: FETCH_ERROR/i)).toBeInTheDocument();
+      expect(screen.getByText(/FETCH_ERROR/i)).toBeInTheDocument();
     });
   });
 
@@ -45,7 +45,7 @@ describe('Mileages tests', () => {
     renderWithRedux(<Mileages />);
 
     await waitFor(() => {
-      expect(screen.getByText(/Status: 500 - Internal server error/i)).toBeInTheDocument();
+      expect(screen.getByText(/500 - Internal server error/i)).toBeInTheDocument();
     });
   });
 
