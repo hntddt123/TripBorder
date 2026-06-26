@@ -174,9 +174,34 @@ export default function TripMap({ premium }) {
     }
   };
 
-  const handleGPS = () => {
-    geolocateControlRef.current?.trigger();
-    dispatch(setGPSState(geolocateControlRef.current?._watchState));
+  const handleGPS = async () => {
+    let sensorsGranted = true;
+
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      try {
+        const permissionState = await DeviceOrientationEvent.requestPermission();
+        sensorsGranted = (permissionState === 'granted');
+      } catch (err) {
+        console.error('DeviceOrientation permission error:', err);
+        sensorsGranted = false;
+      }
+    } else if (typeof DeviceMotionEvent !== 'undefined') {
+      // Fallback for Device Motion if orientation API differs
+      try {
+        const permissionState = await DeviceMotionEvent.requestPermission();
+        sensorsGranted = (permissionState === 'granted');
+      } catch (err) {
+        console.error('DeviceMotion permission error:', err);
+        sensorsGranted = false;
+      }
+    }
+
+    if (sensorsGranted
+      || (typeof DeviceOrientationEvent === 'undefined'
+        && typeof DeviceMotionEvent === 'undefined')) {
+      geolocateControlRef.current?.trigger();
+      dispatch(setGPSState(geolocateControlRef.current?._watchState));
+    }
   };
 
   const handleFlyTo = (lng, lat, zoom = viewState.zoom, duration = 1000) => {
