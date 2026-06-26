@@ -53,7 +53,9 @@ export default function InputLandmarkSearch({
           x
         </button>
       </form>
-      <CustomError error={error} />
+      <div className='absolute'>
+        <CustomError error={error} />
+      </div>
     </div>
   );
 }
