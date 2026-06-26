@@ -177,7 +177,8 @@ export default function TripMap({ premium }) {
   const handleGPS = async () => {
     let sensorsGranted = true;
 
-    if (typeof DeviceOrientationEvent !== 'undefined') {
+    if (typeof DeviceOrientationEvent !== 'undefined'
+      && typeof DeviceOrientationEvent.requestPermission === 'function') {
       try {
         const permissionState = await DeviceOrientationEvent.requestPermission();
         sensorsGranted = (permissionState === 'granted');
@@ -185,7 +186,9 @@ export default function TripMap({ premium }) {
         console.error('DeviceOrientation permission error:', err);
         sensorsGranted = false;
       }
-    } else if (typeof DeviceMotionEvent !== 'undefined') {
+    } else if (typeof DeviceMotionEvent !== 'undefined'
+      && typeof DeviceOrientationEvent.requestPermission === 'function'
+    ) {
       // Fallback for Device Motion if orientation API differs
       try {
         const permissionState = await DeviceMotionEvent.requestPermission();
