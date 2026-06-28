@@ -130,8 +130,7 @@ export default function TripMap({ premium }) {
     lastOrientationUpdate.current = now;
 
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      let newBearing = -e.alpha;
-      newBearing = ((newBearing % 360) + 360) % 360;
+      const newBearing = -e.alpha;
 
       rafID.current = requestAnimationFrame(() => {
         if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
