@@ -130,21 +130,35 @@ export default function TripMap({ premium }) {
     lastOrientationUpdate.current = now;
 
     if (!isNorthUp && gpsLonLat?.longitude && gpsLonLat?.latitude) {
-      const newBearing = -e.alpha;
+      let newBearing = 0;
+      if (e.webkitCompassHeading !== undefined) {
+        // iOS Safari (most reliable on iOS)
+        newBearing = e.webkitCompassHeading;
+      } else if (e.alpha !== null) {
+        // Android + fallback for iOS
+        if (e.absolute === true) {
+          newBearing = -e.alpha; // Some Android browsers
+        } else {
+          newBearing = (360 - -e.alpha) % 360; // Common iOS relative case
+        }
+      } else {
+        console.warn('No compass data available');
+        return;
+      }
 
       rafID.current = requestAnimationFrame(() => {
         if (Math.abs(newBearing - lastBearingRef.current) > 0.5) {
           if (type === 'portrait-primary') {
-            mapRef.current?.getMap().setBearing(newBearing);
             lastBearingRef.current = newBearing;
-            dispatch(setBearing(getDirectionLabel(newBearing)));
+            mapRef.current?.getMap().setBearing(newBearing);
+            dispatch(setBearing(`${getDirectionLabel(newBearing)}`));
           } else if (type === 'landscape-primary') {
-            mapRef.current?.getMap().setBearing(newBearing + 90);
             lastBearingRef.current = newBearing + 90;
+            mapRef.current?.getMap().setBearing(newBearing + 90);
             dispatch(setBearing(getDirectionLabel(newBearing + 90)));
           } else if (type === 'landscape-secondary') {
-            mapRef.current?.getMap().setBearing(newBearing - 90);
             lastBearingRef.current = newBearing - 90;
+            mapRef.current?.getMap().setBearing(newBearing - 90);
             dispatch(setBearing(getDirectionLabel(newBearing - 90)));
           }
         }
