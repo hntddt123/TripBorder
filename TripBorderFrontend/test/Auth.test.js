@@ -52,7 +52,7 @@ describe('Auth Component', () => {
   test('renders login button when not authenticated', () => {
     useCheckAuthStatusQuery.mockReturnValue({ data: { isAuthenticated: false }, refetch: jest.fn() });
     renderWithRedux(<Auth />);
-    expect(screen.getByText('Sign in to get premium features')).toBeInTheDocument();
+    expect(screen.getByText('To get premium features')).toBeInTheDocument();
     expect(screen.getByTestId('GoogleSignInButton')).toBeInTheDocument();
   });
 

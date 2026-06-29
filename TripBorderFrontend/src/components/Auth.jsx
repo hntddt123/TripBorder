@@ -54,36 +54,18 @@ export default function Auth() {
     return <CustomError error={error} />;
   }
 
-  const renderAdminFeatures = () => {
-    if (role === 'admin') {
-      return (
-        <div>
-          <TripMap premium />
-        </div>
-      );
-    }
-    return null;
-  };
-
-  const renderPremiumUserFeatures = () => {
-    if (role === 'premium_user') {
-      return (
-        <div>
-          <TripMap premium />
-        </div>
-      );
-    }
-    return null;
-  };
-
   const renderUserFeatures = () => {
-    if (role === 'user') {
+    if (role === 'user'
+      || role === 'premium_user'
+      || role === 'admin') {
       return (
         <div>
-          {(isTrialActive(user?.trial_started_at))
+          {(isTrialActive(user?.trial_started_at)
+            || role === 'premium_user'
+            || role === 'admin')
             ? (
               <div>
-                <TripMap premium />
+                <TripMap />
               </div>
             )
             : (
@@ -125,13 +107,11 @@ export default function Auth() {
     <div>
       {(isAuthenticated) ? (
         <div>
-          {renderAdminFeatures()}
-          {renderPremiumUserFeatures()}
           {renderUserFeatures()}
         </div>
       ) : (
         <div>
-          <div className='text-2xl m-2'>Sign in to get premium features</div>
+          <div className='text-xl m-2'>To get premium features</div>
           <GoogleSignInButton onClick={handleLogin} />
         </div>
       )}

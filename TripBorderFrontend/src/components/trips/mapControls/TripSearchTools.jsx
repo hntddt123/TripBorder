@@ -66,11 +66,15 @@ export default function TripSearchTools() {
 
   return (
     <div className='text-lg tripAbsoluteContentRight'>
-      <CustomButton
-        className='button'
-        label='Settings'
-        to='/settings'
-      />
+      {role
+        ? (
+          <CustomButton
+            className='button'
+            label='Settings'
+            to='/settings'
+          />
+        )
+        : null}
       <CustomButton
         label='Sponsors'
         to='/sponsors'
@@ -138,11 +142,15 @@ export default function TripSearchTools() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      <CustomButton
-        label={isLoggingOut ? 'Logging out...' : 'Logout'}
-        onClick={handleLogout}
-        disabled={isLoggingOut}
-      />
+      {role
+        ? (
+          <CustomButton
+            label={isLoggingOut ? 'Logging out...' : 'Logout'}
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          />
+        )
+        : null}
       <div className='text-2xl m-2'>
         Version: {VERSION_NUMBER}
       </div>

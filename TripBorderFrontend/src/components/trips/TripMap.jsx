@@ -1,6 +1,5 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { v4 as uuidv4 } from 'uuid';
 import Map, { GeolocateControl, ScaleControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
@@ -45,7 +44,7 @@ import TripMarker from './TripMarker';
 import GPS from './mapControls/GPS';
 
 // react-map-gl component
-export default function TripMap({ premium }) {
+export default function TripMap() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [activeQueryType, setActiveQueryType] = useState('pin');
   const [sortedData, setSortedData] = useState([]);
@@ -430,30 +429,22 @@ export default function TripMap({ premium }) {
         <GPS handleGPS={handleGPS} watchState={geolocateControlRef.current?._watchState} />
       </div>
       <div>
-        {(premium)
-          ? (
-            <CustomToggle
-              className='toggle absoluteTopToolBarLeft select-none'
-              translate='no'
-              titleOn='🏖️▼'
-              titleOff='🏖️'
-              component={<TripPlanningTools handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />}
-            />
-          )
-          : null}
+        <CustomToggle
+          className='toggle absoluteTopToolBarLeft select-none'
+          translate='no'
+          titleOn='🏖️▼'
+          titleOff='🏖️'
+          component={<TripPlanningTools handleFlyTo={handleFlyTo} handleFitBounds={handleFitBounds} />}
+        />
       </div>
       <div>
-        {(premium)
-          ? (
-            <CustomToggle
-              className='toggle absoluteTopToolBarRight select-none'
-              translate='no'
-              titleOn='⚙️▼'
-              titleOff='⚙️'
-              component={<TripSearchTools />}
-            />
-          )
-          : null}
+        <CustomToggle
+          className='toggle absoluteTopToolBarRight select-none'
+          translate='no'
+          titleOn='⚙️▼'
+          titleOff='⚙️'
+          component={<TripSearchTools />}
+        />
       </div>
       {(isShowingScaleRuler) ? <ScaleControl /> : null}
       <GeolocateControl
@@ -494,7 +485,3 @@ export default function TripMap({ premium }) {
     </Map>
   );
 }
-
-TripMap.propTypes = {
-  premium: PropTypes.bool
-};

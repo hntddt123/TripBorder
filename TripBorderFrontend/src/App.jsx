@@ -5,7 +5,6 @@ import ProtectedRouteAdmin from './components/ProtectedRouteAdmin';
 import Auth from './components/Auth';
 import CustomButton from './components/CustomButton';
 import TripBoard from './components/TripBoard';
-import { VERSION_NUMBER } from './constants/constants';
 import { AuthMonitor } from './components/AuthMonitor';
 import { useCheckAuthStatusQuery } from './api/authAPI';
 
@@ -51,13 +50,6 @@ export default function App() {
                   </div>
                   <div>
                     <GuestMode />
-                    {!isAuthenticated
-                      ? (
-                        <div className='text-2xl m-2'>
-                          Version: {VERSION_NUMBER}
-                        </div>
-                      )
-                      : null}
                   </div>
                 </div>
               )}

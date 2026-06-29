@@ -159,54 +159,70 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     </div>
   );
 
-  const renderTripMenu = () => (
-    <>
-      <CustomButton
-        className='button min-w-36'
-        label='New Trip'
-        onClick={handleNewTripButtonClick}
-      />
-      <CustomButton
-        className='button min-w-36'
-        label='My Trips'
-        onClick={handleLoadTripButtonClick}
-      />
-      <CustomButton
-        className='button min-w-36'
-        label='Shared Trips'
-        onClick={handleTripSharedButtonClick}
-      />
-      <CustomButton
-        className='button min-w-36'
-        label='Shared to Me'
-        onClick={handleTripOthersSharedButtonClick}
-      />
+  const renderTripMenu = () => {
+    if (role) {
+      return (
+        <>
+          <CustomButton
+            className='button min-w-36'
+            label='New Trip'
+            onClick={handleNewTripButtonClick}
+          />
+          <CustomButton
+            className='button min-w-36'
+            label='My Trips'
+            onClick={handleLoadTripButtonClick}
+          />
+          <CustomButton
+            className='button min-w-36'
+            label='Shared Trips'
+            onClick={handleTripSharedButtonClick}
+          />
+          <CustomButton
+            className='button min-w-36'
+            label='Shared to Me'
+            onClick={handleTripOthersSharedButtonClick}
+          />
+          <CustomButton
+            className='button min-w-36'
+            label='Public Trips'
+            onClick={handleTripPublicButtonClick}
+          />
+        </>
+      );
+    }
+    return (
       <CustomButton
         className='button min-w-36'
         label='Public Trips'
         onClick={handleTripPublicButtonClick}
       />
-    </>
-  );
+    );
+  };
 
-  const renderMileageMenu = () => (
-    <>
-      <CustomButton
-        className='button min-w-36'
-        label='Mileages'
-        to='/mileages'
-      />
-      {role === 'admin'
-        ? (
+  const renderMileageMenu = () => {
+    if (role) {
+      return (
+        <>
           <CustomButton
             className='button min-w-36'
-            label='Mileage Verification'
-            to='/mileagesverification'
+            label='Mileages'
+            to='/mileages'
           />
-        )
-        : null}
-    </>
-  );
+          {role === 'admin'
+            ? (
+              <CustomButton
+                className='button min-w-36'
+                label='Mileage Verification'
+                to='/mileagesverification'
+              />
+            )
+            : null}
+        </>
+      );
+    }
+    return null;
+  };
 
   const renderTripOptions = () => {
     if (uuid === '') {
