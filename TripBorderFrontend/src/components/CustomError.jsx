@@ -19,7 +19,7 @@ export default function CustomError({ error }) {
 
     return (
       <span data-testid='customError' className='customError'>
-        {`${error?.status} - ${errorString}`}
+        {errorString}
       </span>
     );
   }

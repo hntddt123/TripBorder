@@ -93,5 +93,10 @@
     "ts-jest": "^29.1.4",
     "vite": "^7.3.2",
     "web-vitals": "^5.0.1"
+  },
+  "allowScripts": {
+    "core-js@3.49.0": true,
+    "esbuild@0.28.1": true,
+    "fsevents@2.3.3": true
   }
 }

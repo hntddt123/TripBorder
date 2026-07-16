@@ -77,7 +77,9 @@ export const tripsAPI = createApi({
       query: (ownerEmail) => ({
         url: '/init',
         method: 'POST',
-        body: { data: ownerEmail },
+        body: {
+          data: { ownerEmail }
+        }
       }),
       invalidatesTags: ['Trips'],
     }),
