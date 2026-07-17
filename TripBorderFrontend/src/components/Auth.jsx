@@ -25,6 +25,9 @@ export default function Auth() {
     if (params.get('auth') === 'success') {
       navigate(location.pathname, { replace: true }); // Clean URL
     }
+    if (params.get('payment') === 'success') {
+      navigate(location.pathname, { replace: true }); // Clean URL
+    }
     if (isAuthenticated && sessionStorage.getItem('postAuthRedirect') !== null) {
       const redirectPath = sessionStorage.getItem('postAuthRedirect');
       sessionStorage.removeItem('postAuthRedirect'); // cleanup

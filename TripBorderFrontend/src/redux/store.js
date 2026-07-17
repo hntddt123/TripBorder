@@ -19,6 +19,7 @@ import { tagsAPI } from '../api/tagsAPI';
 import { tripTagsAPI } from '../api/tripTagsAPI';
 import { ratingsAPI } from '../api/ratingsAPI';
 import { tripSharesAPI } from '../api/tripSharesAPI';
+import { stripeAPI } from '../api/stripeAPI';
 
 const store = configureStore({
   reducer: {
@@ -42,6 +43,7 @@ const store = configureStore({
     [tripTagsAPI.reducerPath]: tripTagsAPI.reducer,
     [ratingsAPI.reducerPath]: ratingsAPI.reducer,
     [tripSharesAPI.reducerPath]: tripSharesAPI.reducer,
+    [stripeAPI.reducerPath]: stripeAPI.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
@@ -60,7 +62,8 @@ const store = configureStore({
       tagsAPI.middleware,
       tripTagsAPI.middleware,
       ratingsAPI.middleware,
-      tripSharesAPI.middleware
+      tripSharesAPI.middleware,
+      stripeAPI.middleware
     )
 });
 

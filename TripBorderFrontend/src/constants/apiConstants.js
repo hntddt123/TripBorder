@@ -26,7 +26,8 @@ export const API_ROUTES = {
   ratings: `${BASE_URL}/api/ratings`,
   tags: `${BASE_URL}/api/tags`,
   tripTags: `${BASE_URL}/api/trip_tags`,
-  tripShares: `${BASE_URL}/api/trip_shares`
+  tripShares: `${BASE_URL}/api/trip_shares`,
+  stripe: `${BASE_URL}/api/stripe`
 };
 
 export const fourSquareBaseUrl = 'https://places-api.foursquare.com';
