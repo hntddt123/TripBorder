@@ -12,15 +12,19 @@ export default function UserProfile() {
       <CustomError error={error} />
       <img className='profilepic' src={profilePicture} alt='profilepic' />
       <div className='text-3xl'>Profile</div>
-      {user ? Object.keys(user)
-        .filter((key) => key !== 'profile_picture' && key !== 'isAuthenticated')
-        .map((key) => (
-          <div key={key} className='flex justify-around text-xl'>
-            <span className='min-w-1/3'>{key}</span>
-            <div className='min-w-2/3'>{user[key]}</div>
-          </div>
-        ))
-        : null}
+      <table>
+        <tbody>
+          {(user) ? Object.keys(user)
+            .filter((key) => key !== 'profile_picture' && key !== 'isAuthenticated')
+            .map((key) => (
+              <tr key={key}>
+                <th>{key}</th>
+                <td>{user[key]}</td>
+              </tr>
+            ))
+            : null}
+        </tbody>
+      </table>
     </div>
   );
 }
