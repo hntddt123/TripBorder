@@ -38,6 +38,13 @@ export default function Settings() {
           </select>
         </div>
         <UserProfile />
+        <div className='cardInfo p-4 text-3xl'>
+          <div>Feedback</div>
+          <div className='text-2xl'>Contact</div>
+          <div>
+            support@tripborder.com
+          </div>
+        </div>
         <MileagesByEmail />
       </div>
     </div>
