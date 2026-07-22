@@ -662,7 +662,7 @@ html, body {
     @apply
     my-1 mx-1
     w-10 h-10
-    text-2xl
+    text-xl
     text-center
     content-center
     rounded-full -tracking-wider 
@@ -1508,7 +1508,7 @@ html, body {
     @apply
     overflow-x-auto 
     text-nowrap
-    min-h-10 min-w-64 max-w-64
+    min-h-10 min-w-52 max-w-52
     text-center
     px-4 mb-2;
   }

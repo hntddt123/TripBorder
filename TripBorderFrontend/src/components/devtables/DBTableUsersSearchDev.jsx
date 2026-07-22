@@ -74,6 +74,10 @@ export default function DBTableUsersDev() {
             <th>updated_at</th>
             <th>trial_started_at</th>
             <th>is_trialed</th>
+            <th>premium_started_at</th>
+            <th>stripe_customer_id</th>
+            <th>stripe_subscription_id</th>
+            <th>subscription_end_at</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +114,10 @@ export default function DBTableUsersDev() {
               <td>{user.updated_at}</td>
               <td>{user.trial_started_at}</td>
               <td>{(user.is_trialed) ? 'true' : 'false'}</td>
+              <td>{user.premium_started_at}</td>
+              <td>{user.stripe_customer_id}</td>
+              <td>{user.stripe_subscription_id}</td>
+              <td>{user.subscription_end_at}</td>
             </tr>
           ) : null}
         </tbody>

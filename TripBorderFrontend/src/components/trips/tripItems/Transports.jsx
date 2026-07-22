@@ -9,6 +9,7 @@ import {
 import {
   formatDatecccMMMdyyyy,
   formatDatecccMMMMddyyyyHHmm,
+  formatDateHHmm,
   formatLocalDateTimeString,
   isTimeValid,
   setLocalTime
@@ -295,11 +296,17 @@ export default function Transports({ tripID, handleFlyTo }) {
                       />
                     )
                     : (
-                      <CustomButton
-                        className='buttonLocate'
-                        label={transportIcon}
-                        onClick={flyToLocation(transport)}
-                      />
+                      <>
+                        <CustomButton
+                          className='buttonLocate text-sm'
+                          label={formatDateHHmm(transport.departure_time)}
+                        />
+                        <CustomButton
+                          className='buttonLocate'
+                          label={transportIcon}
+                          onClick={flyToLocation(transport)}
+                        />
+                      </>
                     )}
                   <CustomToggle
                     translate='no'

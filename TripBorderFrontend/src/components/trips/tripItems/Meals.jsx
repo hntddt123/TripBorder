@@ -165,11 +165,17 @@ export default function Meals({ tripID, handleFlyTo }) {
                       onClick={handleDeleteButton(meal.uuid)}
                     />
                   ) : (
-                    <CustomButton
-                      className='buttonLocate'
-                      label={restaurantIcon}
-                      onClick={flyToLocation(meal)}
-                    />
+                    <>
+                      <CustomButton
+                        className='buttonLocate text-sm'
+                        label={formatDateHHmm(meal.meal_time)}
+                      />
+                      <CustomButton
+                        className='buttonLocate'
+                        label={restaurantIcon}
+                        onClick={flyToLocation(meal)}
+                      />
+                    </>
                   )}
                   <CustomToggle
                     translate='no'

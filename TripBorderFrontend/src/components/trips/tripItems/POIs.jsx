@@ -165,11 +165,17 @@ export default function POIs({ tripID, handleFlyTo }) {
                       />
                     )
                     : (
-                      <CustomButton
-                        className='buttonLocate'
-                        label={parkIcon}
-                        onClick={flyToLocation(poi)}
-                      />
+                      <>
+                        <CustomButton
+                          className='buttonLocate text-sm'
+                          label={formatDateHHmm(poi.visit_time)}
+                        />
+                        <CustomButton
+                          className='buttonLocate'
+                          label={parkIcon}
+                          onClick={flyToLocation(poi)}
+                        />
+                      </>
                     )}
                   <CustomToggle
                     translate='no'

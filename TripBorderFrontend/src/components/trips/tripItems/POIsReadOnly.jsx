@@ -69,6 +69,10 @@ export default function POIsReadOnly({ tripID, handleFlyTo }) {
               <div key={poi.uuid}>
                 <div className='text-pretty px-2'>
                   <CustomButton
+                    className='buttonLocate text-sm'
+                    label={formatDateHHmm(poi.visit_time)}
+                  />
+                  <CustomButton
                     className='buttonLocate'
                     label={parkIcon}
                     onClick={flyToLocation(poi)}

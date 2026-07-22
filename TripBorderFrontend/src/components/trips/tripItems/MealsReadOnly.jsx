@@ -69,6 +69,10 @@ export default function MealsReadOnly({ tripID, handleFlyTo }) {
               <div key={meal.uuid}>
                 <div className='text-pretty px-2'>
                   <CustomButton
+                    className='buttonLocate text-sm'
+                    label={formatDateHHmm(meal.meal_time)}
+                  />
+                  <CustomButton
                     className='buttonLocate'
                     label={restaurantIcon}
                     onClick={flyToLocation(meal)}

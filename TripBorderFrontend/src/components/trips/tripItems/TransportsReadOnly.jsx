@@ -5,7 +5,8 @@ import {
 } from '../../../api/transportsAPI';
 import {
   formatDatecccMMMdyyyy,
-  formatDatecccMMMMddyyyyHHmm
+  formatDatecccMMMMddyyyyHHmm,
+  formatDateHHmm
 } from '../../../utility/time';
 import { transportIcon } from '../../../constants/constants';
 import { setTripMarker } from '../../../redux/reducers/mapReducer';
@@ -116,6 +117,10 @@ export default function TransportsReadOnly({ tripID, handleFlyTo }) {
             {TransportsForDate?.map((transport) => (
               <div key={transport.uuid}>
                 <div className='text-pretty px-2'>
+                  <CustomButton
+                    className='buttonLocate text-sm'
+                    label={formatDateHHmm(transport.departure_time)}
+                  />
                   <CustomButton
                     className='buttonLocate'
                     label={transportIcon}
