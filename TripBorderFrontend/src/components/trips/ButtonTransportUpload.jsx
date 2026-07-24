@@ -23,7 +23,7 @@ import CustomLoading from '../CustomLoading';
 export default function ButtonPOIUpload({ filteredResult }) {
   const {
     uuid,
-    startDate,
+    startDate
   } = useSelector((state) => state.tripReducer);
   const [PostTransportByTripID, { isLoading, error }] = usePostTransportByTripIDMutation();
 

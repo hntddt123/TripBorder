@@ -12,7 +12,7 @@ import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 export default function ButtonMealsUpload({ filteredResult }) {
   const {
     uuid,
-    startDate,
+    startDate
   } = useSelector((state) => state.tripReducer);
 
   const [PostMealByTripID, { isLoading, error }] = usePostMealByTripIDMutation();

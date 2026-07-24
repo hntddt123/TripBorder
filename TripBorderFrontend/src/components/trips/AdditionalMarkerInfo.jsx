@@ -39,7 +39,7 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
     isShowingAdditionalPopUp,
     travelMode
   } = useSelector((state) => state.mapReducer);
-  const { title, sharedMode } = useSelector((state) => state.tripReducer);
+  const { title, isLoadTripPublic } = useSelector((state) => state.tripReducer);
   const { language } = useSelector((state) => state.userSettingsReducer);
   const ref = useRef(null);
   const paddingBottom = useTransform(() => ref.current?.y.get() ?? 0);
@@ -245,10 +245,10 @@ export default function AdditionalMarkerInfo({ data, getDirectionsQueryTrigger, 
                     </div>
                     <div>
                       <div className='text-nowrap overflow-x-auto text-center'>
-                        {sharedMode !== 'public' ? `Add to ${title}` : null}
+                        {!isLoadTripPublic ? `Add to ${title}` : null}
                       </div>
                       <div className='text-center'>
-                        {sharedMode !== 'public'
+                        {!isLoadTripPublic
                           ? (
                             <>
                               <ButtonMealsUpload filteredResult={filteredResult} />
