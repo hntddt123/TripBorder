@@ -5,8 +5,7 @@ import { authAPI } from '../../../api/authAPI';
 import {
   useDeleteRatingMutation,
   useGetRatingsByTripIDQuery,
-  usePostRatingByTripIDMutation,
-  useUpdateRatingByUUIDMutation
+  usePostRatingByTripIDMutation
 } from '../../../api/ratingsAPI';
 import CustomError from '../../CustomError';
 import CustomButton from '../../CustomButton';
@@ -14,10 +13,9 @@ import CustomLoading from '../../CustomLoading';
 import CustomFetching from '../../CustomFetching';
 
 export default function Ratings({ tripID }) {
-  const [star, setStar] = useState(0);
-  const [comment, setComment] = useState('');
+  const [rating, setRating] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const { isLoadTrip } = useSelector((state) => state.tripReducer);
+  const { isLoadTrip, title } = useSelector((state) => state.tripReducer);
 
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
@@ -26,107 +24,95 @@ export default function Ratings({ tripID }) {
   const { ratings } = data || {};
 
   const [postRating] = usePostRatingByTripIDMutation();
-  const [updateRating] = useUpdateRatingByUUIDMutation();
   const [deleteRating] = useDeleteRatingMutation();
 
-  const handleCommentSubmit = (rating) => (e) => {
+  const handleCommentSubmit = () => (e) => {
     e.preventDefault();
-    if (comment !== '') {
-      updateRating({
-        uuid: rating.uuid,
-        updates: {
-          comment: comment
-        }
-      });
-    }
-    setIsEditing(false);
+    postRating(rating);
+    setRating({ ...rating, score: 0 });
   };
 
   const handleCommentChange = (e) => {
     const { value } = e.target;
-    setComment(value);
+    setRating({ ...rating, comment: value });
   };
 
   const handleEditButton = () => {
     setIsEditing(!isEditing);
   };
 
-  const handleDelete = (rating) => () => {
-    setStar(0);
-    deleteRating(rating.uuid);
+  const handleDelete = (r) => () => {
+    setRating({ ...rating, score: 0 });
+    deleteRating(r.uuid);
     setIsEditing(!isEditing);
   };
 
   const handleStarClick = (value) => () => {
-    setStar(value);
-    const rating = {
+    setRating({
+      ...rating,
       trips_uuid: tripID,
       entity_id: tripID,
       entity_type: 'Trips',
-      comment: '',
       score: value,
       owner_email: email
-    };
-    postRating(rating);
+    });
   };
 
-  const renderDetail = (rating) => (
+  const renderDetail = (r) => (
     <div className='text-pretty text-xl justify-center text-center'>
-      <div>{`★${rating.score}`}</div>
+      <div>{`★${r.score}`}</div>
       <div className='flex justify-center'>
-        {rating.comment === '' || isEditing
-          ? (
-            <form onSubmit={handleCommentSubmit(rating)} encType='multipart/form-data'>
-              <div>
-                <label htmlFor='rate_comment'>
-                  Comment
-                </label>
-                <div>
-                  <textarea
-                    className='customInput p-4 mb-0 focus:bg-primary-button-dark'
-                    id='rate_comment'
-                    type='text'
-                    name='rate_comment'
-                    placeholder='Say something about this trip (max 255 characters)'
-                    value={comment === '' ? rating.comment : comment}
-                    onChange={handleCommentChange}
-                    minLength={1}
-                    maxLength={255}
-                    rows={3}
-                    required
-                  />
-                  <div>
-                    Length: {comment.length}
-                  </div>
-                </div>
-                <CustomButton type='submit' label='Submit' />
-              </div>
-            </form>
-          )
-          : (
-            <div className='customInput max-w-3/4 p-4 mx-4 wrap-break-word overflow-scroll'>
-              {rating.comment}
-            </div>
-          )}
+        <div className='customInput max-w-3/4 p-4 mx-4 wrap-break-word overflow-scroll'>
+          {r.comment}
+        </div>
       </div>
     </div>
   );
 
   const renderNewRating = () => (
     <div className='text-2xl'>
+      {`Rate ${title}`}
       <div className='flex justify-center'>
         {Array.from({ length: 10 }, (_, index) => {
           const starValue = index + 1;
           return (
             <CustomButton
               key={starValue}
-              label={starValue <= star ? '★' : '☆'}
-              className={starValue <= star ? 'active' : 'inactive'}
+              label={starValue <= rating.score ? '★' : '☆'}
+              className={starValue <= rating.score ? 'active' : 'inactive'}
               onClick={handleStarClick(starValue)}
             />
           );
         })}
       </div>
+      <form onSubmit={handleCommentSubmit()} encType='multipart/form-data'>
+        <div>
+          <label htmlFor='rate_comment'>
+            Comment
+          </label>
+          <div>
+            <textarea
+              className='customInput p-4 mb-0 focus:bg-primary-button-dark'
+              id='rate_comment'
+              type='text'
+              name='rate_comment'
+              placeholder='Say something about this trip (max 255 characters)'
+              value={rating.comment}
+              onChange={handleCommentChange}
+              minLength={1}
+              maxLength={255}
+              rows={3}
+              required
+            />
+            <div className='text-sm'>
+              {rating.comment?.length > 0
+                ? `Length: ${rating.comment?.length}`
+                : null}
+            </div>
+          </div>
+          <CustomButton type='submit' label='Submit' />
+        </div>
+      </form>
     </div>
   );
 
@@ -145,28 +131,25 @@ export default function Ratings({ tripID }) {
             />
           ) : null}
       </div>
-      {ratings?.map(((rating) => (
-        <div key={rating.uuid}>
+      {ratings?.map(((r) => (
+        <div key={r.uuid}>
           {(isEditing)
             ? (
               <CustomButton
                 className='buttonDelete'
                 translate='no'
                 label='🗑️'
-                onClick={handleDelete(rating)}
+                onClick={handleDelete(r)}
               />
             )
             : null}
-          {renderDetail(rating)}
+          {renderDetail(r)}
         </div>
       )))}
       {(ratings?.length > 0 || isLoadTrip)
         ? null
         : (
           <div className='justify-center'>
-            <div>
-              Rate this trip
-            </div>
             {renderNewRating()}
           </div>
         )}
