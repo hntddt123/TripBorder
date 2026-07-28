@@ -114,7 +114,6 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const renderTripDetail = () => (
     <div>
       <div className='text-pretty px-4 gap-x-1'>
-        <div className='underline underline-offset-2'>Travel Date</div>
         {(formatDatecccMMMdyyyy(startDate) === formatDatecccMMMdyyyy(endDate))
           ? (
             <div className='px-2 font-mono'>

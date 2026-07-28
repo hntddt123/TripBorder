@@ -72,7 +72,6 @@ export default function TripsLoading({ handleFlyTo }) {
 
   const renderDetail = (trip) => (
     <div className='text-pretty'>
-      <div className='underline underline-offset-2'>Travel Date</div>
       {(formatDatecccMMMdyyyy(trip.start_date) === formatDatecccMMMdyyyy(trip.end_date))
         ? (
           <div className='px-2 font-mono'>

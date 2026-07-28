@@ -65,7 +65,6 @@ export default function TripsSharedLoading({ handleFlyTo }) {
         Shared to
         {trip.shared_emails.map((mail, index) => <div key={trip.shared_emails[index]}>{mail}</div>)}
       </div>
-      <div className='underline underline-offset-2'>Travel Date</div>
       {(formatDatecccMMMdyyyy(trip.start_date) === formatDatecccMMMdyyyy(trip.end_date))
         ? (
           <div className='px-2 font-mono'>
