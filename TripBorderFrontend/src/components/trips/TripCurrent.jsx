@@ -28,7 +28,6 @@ import Hotels from './tripItems/Hotels';
 import POIs from './tripItems/POIs';
 import Transports from './tripItems/Transports';
 import Ratings from './tripItems/Ratings';
-import Tags from './tripItems/Tags';
 import TripTags from './tripItems/TripTags';
 import MealsReadOnly from './tripItems/MealsReadOnly';
 import HotelsReadOnly from './tripItems/HotelsReadOnly';
