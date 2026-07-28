@@ -1,5 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePostHotelsByTripIDMutation } from '../../api/hotelsAPI';
+import {
+  setIsShowingAdditionalPopUp
+} from '../../redux/reducers/mapReducer';
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
@@ -12,6 +15,8 @@ export default function ButtonHotelsUpload({ filteredResult }) {
     startDate,
     endDate
   } = useSelector((state) => state.tripReducer);
+
+  const dispatch = useDispatch();
 
   const [PostHotelsByTripID, { isLoading, error }] = usePostHotelsByTripIDMutation();
 
@@ -30,6 +35,7 @@ export default function ButtonHotelsUpload({ filteredResult }) {
         }
       };
       PostHotelsByTripID(hotels);
+      dispatch(setIsShowingAdditionalPopUp(false));
     }
   };
 

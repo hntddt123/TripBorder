@@ -1,5 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePostPOIByTripIDMutation } from '../../api/poisAPI';
+import {
+  setIsShowingAdditionalPopUp
+} from '../../redux/reducers/mapReducer';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 import CustomButton from '../CustomButton';
@@ -12,6 +15,8 @@ export default function ButtonPOIUpload({ filteredResult }) {
     startDate
   } = useSelector((state) => state.tripReducer);
   const [PostPOIByTripID, { isLoading, error }] = usePostPOIByTripIDMutation();
+
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     if (uuid) {
@@ -26,6 +31,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
         }
       };
       PostPOIByTripID(poi);
+      dispatch(setIsShowingAdditionalPopUp(false));
     }
   };
 

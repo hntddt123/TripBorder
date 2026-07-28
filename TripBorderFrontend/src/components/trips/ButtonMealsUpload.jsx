@@ -1,8 +1,12 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePostMealByTripIDMutation } from '../../api/mealsAPI';
 import {
   setLocalTime,
 } from '../../utility/time';
+import {
+  setIsShowingAdditionalPopUp
+} from '../../redux/reducers/mapReducer';
+
 import CustomButton from '../CustomButton';
 import CustomError from '../CustomError';
 import CustomLoading from '../CustomLoading';
@@ -14,6 +18,8 @@ export default function ButtonMealsUpload({ filteredResult }) {
     uuid,
     startDate
   } = useSelector((state) => state.tripReducer);
+
+  const dispatch = useDispatch();
 
   const [PostMealByTripID, { isLoading, error }] = usePostMealByTripIDMutation();
 
@@ -30,6 +36,7 @@ export default function ButtonMealsUpload({ filteredResult }) {
         }
       };
       PostMealByTripID(meals);
+      dispatch(setIsShowingAdditionalPopUp(false));
     }
   };
 

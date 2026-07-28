@@ -1,5 +1,8 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { usePostTransportByTripIDMutation } from '../../api/transportsAPI';
+import {
+  setIsShowingAdditionalPopUp
+} from '../../redux/reducers/mapReducer';
 import { OSMPropTypes } from '../../constants/osmPropTypes';
 import { getAltName, getOSMAddress } from '../../utility/osmFormat';
 import CustomButton from '../CustomButton';
@@ -27,6 +30,8 @@ export default function ButtonPOIUpload({ filteredResult }) {
   } = useSelector((state) => state.tripReducer);
   const [PostTransportByTripID, { isLoading, error }] = usePostTransportByTripIDMutation();
 
+  const dispatch = useDispatch();
+
   const handleClick = () => {
     if (uuid) {
       const transport = {
@@ -41,6 +46,7 @@ export default function ButtonPOIUpload({ filteredResult }) {
         }
       };
       PostTransportByTripID(transport);
+      dispatch(setIsShowingAdditionalPopUp(false));
     }
   };
 
