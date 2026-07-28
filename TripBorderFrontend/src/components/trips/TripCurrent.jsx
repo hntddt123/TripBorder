@@ -152,7 +152,6 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             <Transports tripID={uuid} handleFlyTo={handleFlyTo} />
             <Ratings tripID={uuid} />
             <TripTags tripID={uuid} />
-            <Tags tripID={uuid} />
           </div>
         )}
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -9,6 +9,7 @@ import CustomError from '../../CustomError';
 import CustomButton from '../../CustomButton';
 import CustomLoading from '../../CustomLoading';
 import CustomFetching from '../../CustomFetching';
+import Tags from './Tags';
 
 export default function TripTags({ tripID }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -30,8 +31,8 @@ export default function TripTags({ tripID }) {
     <div>
       <div>
         <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
-          {tripTags?.length > 0 ? <div>Trip Tags</div> : null}
-          {((tripTags?.length > 0) && !isLoadTrip)
+          <div>Trip Tags</div>
+          {(!isLoadTrip)
             ? (
               <CustomButton
                 translate='no'
@@ -59,6 +60,11 @@ export default function TripTags({ tripID }) {
                 : null}
             </div>
           ))}
+        </div>
+        <div>
+          {(isEditing)
+            ? <Tags tripID={tripID} />
+            : null}
         </div>
       </div>
       <div>
