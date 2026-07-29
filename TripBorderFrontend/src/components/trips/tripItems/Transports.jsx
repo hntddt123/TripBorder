@@ -50,8 +50,42 @@ export default function Transports({ tripID, handleFlyTo }) {
     return result;
   })();
 
-  const openPicker = (id) => () => {
+  const openPicker = (id) => (e) => {
     const input = datePickerRefs.current[id];
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isIOS) {
+      const btn = e.currentTarget.getBoundingClientRect();
+
+      // Temporarily place a real-sized invisible input exactly on the button
+      Object.assign(input.style, {
+        position: 'fixed',
+        left: `${btn.left}px`,
+        top: `${btn.top}px`,
+        width: `${btn.width}px`,
+        height: `${btn.height}px`,
+        opacity: '0.01',
+        zIndex: '99999',
+        pointerEvents: 'auto',
+      });
+
+      input.focus({ preventScroll: true });
+
+      // Restore after the picker has a chance to open
+      setTimeout(() => {
+        Object.assign(input.style, {
+          position: '',
+          left: '',
+          top: '',
+          width: '',
+          height: '',
+          opacity: '',
+          zIndex: '',
+          pointerEvents: '',
+        });
+      }, 400);
+    }
     if (input.showPicker) {
       input.showPicker();
     } else {
@@ -267,6 +301,21 @@ export default function Transports({ tripID, handleFlyTo }) {
                     )
                     : (
                       <>
+                        <CustomButton
+                          className='buttonLocate text-sm'
+                          label={formatDateHHmm(transport.departure_time)}
+                          onClick={openPicker(`departure_time_${transport.uuid}`)}
+                        />
+                        <CustomButton
+                          className='buttonLocate text-sm'
+                          label={formatDateHHmm(transport.arrival_time)}
+                          onClick={openPicker(`arrival_time_${transport.uuid}`)}
+                        />
+                        <CustomButton
+                          className='buttonLocate'
+                          label={transportIcon}
+                          onClick={flyToLocation(transport)}
+                        />
                         <input
                           ref={(el) => {
                             if (el) {
@@ -276,7 +325,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                               delete datePickerRefs.current[`departure_time_${transport.uuid}`];
                             }
                           }}
-                          className='sr-only'
+                          className='h-0 w-0'
                           id={`departure_time_${transport.uuid}`}
                           type='datetime-local'
                           name='departure_time'
@@ -293,28 +342,13 @@ export default function Transports({ tripID, handleFlyTo }) {
                               delete datePickerRefs.current[`arrival_time_${transport.uuid}`];
                             }
                           }}
-                          className='sr-only'
+                          className='h-0 w-0'
                           id={`arrival_time_${transport.uuid}`}
                           type='datetime-local'
                           name='arrival_time'
                           value={getArrivalTimeValue(transport)}
                           onChange={handleArrivalTimeChange(transport.uuid)}
                           required
-                        />
-                        <CustomButton
-                          className='buttonLocate text-sm'
-                          label={formatDateHHmm(transport.departure_time)}
-                          onClick={openPicker(`departure_time_${transport.uuid}`)}
-                        />
-                        <CustomButton
-                          className='buttonLocate text-sm'
-                          label={formatDateHHmm(transport.arrival_time)}
-                          onClick={openPicker(`arrival_time_${transport.uuid}`)}
-                        />
-                        <CustomButton
-                          className='buttonLocate'
-                          label={transportIcon}
-                          onClick={flyToLocation(transport)}
                         />
                       </>
                     )}

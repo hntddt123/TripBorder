@@ -47,8 +47,42 @@ export default function Meals({ tripID, handleFlyTo }) {
     return result;
   })();
 
-  const openPicker = (id) => () => {
+  const openPicker = (id) => (e) => {
     const input = datePickerRefs.current[id];
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isIOS) {
+      const btn = e.currentTarget.getBoundingClientRect();
+
+      // Temporarily place a real-sized invisible input exactly on the button
+      Object.assign(input.style, {
+        position: 'fixed',
+        left: `${btn.left}px`,
+        top: `${btn.top}px`,
+        width: `${btn.width}px`,
+        height: `${btn.height}px`,
+        opacity: '0.01',
+        zIndex: '99999',
+        pointerEvents: 'auto',
+      });
+
+      input.focus({ preventScroll: true });
+
+      // Restore after the picker has a chance to open
+      setTimeout(() => {
+        Object.assign(input.style, {
+          position: '',
+          left: '',
+          top: '',
+          width: '',
+          height: '',
+          opacity: '',
+          zIndex: '',
+          pointerEvents: '',
+        });
+      }, 400);
+    }
     if (input.showPicker) {
       input.showPicker();
     } else {
@@ -161,23 +195,6 @@ export default function Meals({ tripID, handleFlyTo }) {
                     />
                   ) : (
                     <>
-                      <input
-                        ref={(el) => {
-                          if (el) {
-                            datePickerRefs.current[meal.uuid] = el;
-                          } else {
-                            // clean-up ref when item removed
-                            delete datePickerRefs.current[meal.uuid];
-                          }
-                        }}
-                        className='sr-only'
-                        id={meal.uuid}
-                        type='datetime-local'
-                        name='meal_time'
-                        value={getMealTimeValue(meal)}
-                        onChange={handleInputChange(meal.uuid)}
-                        required
-                      />
                       <CustomButton
                         className='buttonLocate text-sm'
                         label={formatDateHHmm(meal.meal_time)}
@@ -187,6 +204,23 @@ export default function Meals({ tripID, handleFlyTo }) {
                         className='buttonLocate'
                         label={restaurantIcon}
                         onClick={flyToLocation(meal)}
+                      />
+                      <input
+                        ref={(el) => {
+                          if (el) {
+                            datePickerRefs.current[meal.uuid] = el;
+                          } else {
+                            // clean-up ref when item removed
+                            delete datePickerRefs.current[meal.uuid];
+                          }
+                        }}
+                        className='w-0 h-0'
+                        id={meal.uuid}
+                        type='datetime-local'
+                        name='meal_time'
+                        value={getMealTimeValue(meal)}
+                        onChange={handleInputChange(meal.uuid)}
+                        required
                       />
                     </>
                   )}

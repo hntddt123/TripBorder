@@ -38,8 +38,42 @@ export default function POIs({ tripID, handleFlyTo }) {
   const dispatch = useDispatch();
   const datePickerRefs = useRef({});
 
-  const openPicker = (id) => () => {
+  const openPicker = (id) => (e) => {
     const input = datePickerRefs.current[id];
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isIOS) {
+      const btn = e.currentTarget.getBoundingClientRect();
+
+      // Temporarily place a real-sized invisible input exactly on the button
+      Object.assign(input.style, {
+        position: 'fixed',
+        left: `${btn.left}px`,
+        top: `${btn.top}px`,
+        width: `${btn.width}px`,
+        height: `${btn.height}px`,
+        opacity: '0.01',
+        zIndex: '99999',
+        pointerEvents: 'auto',
+      });
+
+      input.focus({ preventScroll: true });
+
+      // Restore after the picker has a chance to open
+      setTimeout(() => {
+        Object.assign(input.style, {
+          position: '',
+          left: '',
+          top: '',
+          width: '',
+          height: '',
+          opacity: '',
+          zIndex: '',
+          pointerEvents: '',
+        });
+      }, 400);
+    }
     if (input.showPicker) {
       input.showPicker();
     } else {
@@ -161,22 +195,9 @@ export default function POIs({ tripID, handleFlyTo }) {
                     )
                     : (
                       <>
-                        <input
-                          ref={(el) => {
-                            if (el) {
-                              datePickerRefs.current[poi.uuid] = el;
-                            } else {
-                              // clean-up ref when item removed
-                              delete datePickerRefs.current[poi.uuid];
-                            }
-                          }}
-                          className='sr-only'
-                          id={poi.uuid}
-                          type='datetime-local'
-                          name='visit_time'
-                          value={getVisitTimeValue(poi)}
-                          onChange={handleInputChange(poi.uuid)}
-                          required
+                        <label
+                          htmlFor={poi.uuid}
+                          className='buttonLocate text-sm'
                         />
                         <CustomButton
                           className='buttonLocate text-sm'
@@ -187,6 +208,23 @@ export default function POIs({ tripID, handleFlyTo }) {
                           className='buttonLocate'
                           label={parkIcon}
                           onClick={flyToLocation(poi)}
+                        />
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              datePickerRefs.current[poi.uuid] = el;
+                            } else {
+                              // clean-up ref when item removed
+                              delete datePickerRefs.current[poi.uuid];
+                            }
+                          }}
+                          className='w-0 h-0'
+                          id={poi.uuid}
+                          type='datetime-local'
+                          name='visit_time'
+                          value={getVisitTimeValue(poi)}
+                          onChange={handleInputChange(poi.uuid)}
+                          required
                         />
                       </>
                     )}
