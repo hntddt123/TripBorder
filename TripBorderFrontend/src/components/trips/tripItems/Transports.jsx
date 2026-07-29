@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -38,6 +38,7 @@ export default function Transports({ tripID, handleFlyTo }) {
   const [deleteTransport] = useDeleteTransportMutation();
 
   const dispatch = useDispatch();
+  const datePickerRefs = useRef({});
 
   // Group transports by formatted date
   const dateGroupedTransports = (() => {
@@ -48,6 +49,15 @@ export default function Transports({ tripID, handleFlyTo }) {
     });
     return result;
   })();
+
+  const openPicker = (id) => () => {
+    const input = datePickerRefs.current[id];
+    if (input.showPicker) {
+      input.showPicker();
+    } else {
+      input.click();
+    }
+  };
 
   const flyToLocation = (transport) => () => {
     if (transport.location && handleFlyTo) {
@@ -83,21 +93,16 @@ export default function Transports({ tripID, handleFlyTo }) {
     return arrivalTimes[transport.uuid];
   };
 
-  const handleSubmit = (transport) => (e) => {
-    e.preventDefault();
+  const handleSubmit = (transportID, departureTime, arrivalTime) => {
+    const newDepartureTime = formatLocalDateTimeString(departureTime);
+    const newArrivalTime = formatLocalDateTimeString(arrivalTime);
 
-    const transportID = transport.uuid;
-    const departureTime = departureTimes[transportID]
-      || formatLocalDateTimeString(transport.departure_time);
-    const arrivalTime = arrivalTimes[transportID]
-      || formatLocalDateTimeString(transport.arrival_time);
-
-    if (departureTime && arrivalTime) {
+    if (newDepartureTime && newArrivalTime) {
       updateTransport({
         uuid: transportID,
         updates: {
-          departure_time: setLocalTime(departureTime),
-          arrival_time: setLocalTime(arrivalTime)
+          departure_time: setLocalTime(newDepartureTime),
+          arrival_time: setLocalTime(newArrivalTime)
         }
       });
     }
@@ -126,6 +131,10 @@ export default function Transports({ tripID, handleFlyTo }) {
       newErrors[transportID].departure = departureTimeError;
       return newErrors;
     });
+
+    if (!departureTimeError) {
+      handleSubmit(transportID, value, currentArrival);
+    }
   };
 
   const handleArrivalTimeChange = (transportID) => (e) => {
@@ -154,6 +163,9 @@ export default function Transports({ tripID, handleFlyTo }) {
         return newErrors;
       });
     }
+    if (!arrivalTimeError) {
+      handleSubmit(transportID, currentDeparture, value);
+    }
   };
 
   const handleEditButton = () => {
@@ -167,98 +179,56 @@ export default function Transports({ tripID, handleFlyTo }) {
 
   const renderDetail = (transport) => (
     <div className='text-pretty'>
-      <form onSubmit={handleSubmit(transport)} encType='multipart/form-data'>
-        {transport.booking_reference
-          ? (
-            <>
-              <div className='underline underline-offset-2'>booking_reference</div>
-              <div>{transport.booking_reference}</div>
-            </>
-          )
-          : null}
-        <div className='underline underline-offset-2'>Departure Time</div>
-        {(transport.departure_time)
-          ? <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(transport.departure_time)}</div>
-          : 'Time not selected'}
-        {(isEditing) ? (
-          <div>
-            <input
-              className='customInput'
-              id={`departure_time_${transport.uuid}`}
-              type='datetime-local'
-              name='departure_time'
-              value={getDepartureTimeValue(transport)}
-              onChange={handleDepartureTimeChange(transport.uuid)}
-              required
-            />
-            <div className='text-red-600'>{inputErrors[transport.uuid]?.departure || ''}</div>
-          </div>
+      {transport.booking_reference
+        ? (
+          <>
+            <div className='underline underline-offset-2'>booking_reference</div>
+            <div>{transport.booking_reference}</div>
+          </>
         )
-          : null}
-        <div className='underline underline-offset-2'>Arrival Time</div>
-        {(transport.arrival_time)
-          ? <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(transport.arrival_time)}</div>
-          : 'Time not selected'}
-        {(isEditing) ? (
-          <div>
-            <input
-              className='customInput'
-              id={`arrival_time${transport.uuid}`}
-              type='datetime-local'
-              name='arrival_time'
-              value={getArrivalTimeValue(transport)}
-              onChange={handleArrivalTimeChange(transport.uuid)}
-              required
-            />
-            <div className='text-red-600'>{inputErrors[transport.uuid]?.arrival || ''}</div>
-            <CustomButton
-              type='submit'
-              label='Update Time'
-              disabled={!!inputErrors[transport.uuid]?.arrival
-                || !!inputErrors[transport.uuid]?.departure
-                || departureTimes[transport.uuid] === ''
-                || arrivalTimes[transport.uuid] === ''
-                || (departureTimes[transport.uuid] === formatLocalDateTimeString(transport.departure_time)
-                  && arrivalTimes[transport.uuid] === formatLocalDateTimeString(transport.arrival_time))}
-            />
-          </div>
+        : null}
+      <div className='underline underline-offset-2'>Departure Time</div>
+      {(transport.departure_time)
+        ? <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(transport.departure_time)}</div>
+        : 'Time not selected'}
+      <div className='underline underline-offset-2'>Arrival Time</div>
+      {(transport.arrival_time)
+        ? <div className='px-2 font-mono'>{formatDatecccMMMMddyyyyHHmm(transport.arrival_time)}</div>
+        : 'Time not selected'}
+      {transport.origin
+        ? (
+          <>
+            <div className='underline underline-offset-2'>origin</div>
+            <div>{transport.origin}</div>
+          </>
         )
-          : null}
-        {transport.origin
-          ? (
-            <>
-              <div className='underline underline-offset-2'>origin</div>
-              <div>{transport.origin}</div>
-            </>
-          )
-          : null}
-        {transport.destination
-          ? (
-            <>
-              <div className='underline underline-offset-2'>destination</div>
-              <div>{transport.destination}</div>
-            </>
-          )
-          : null}
-        {transport.type !== 'Unselected'
-          ? (
-            <>
-              <div className='underline underline-offset-2'>Type</div>
-              <div>{transport.type}</div>
-            </>
-          )
-          : null}
-        {transport.type !== 'Unselected'
-          ? (
-            <>
-              <div className='underline underline-offset-2'>Provider</div>
-              <div>{transport.provider}</div>
-            </>
-          )
-          : null}
-        <div className='underline underline-offset-2'>Address</div>
-        <div className='px-2 font-mono'>{transport.address}</div>
-      </form>
+        : null}
+      {transport.destination
+        ? (
+          <>
+            <div className='underline underline-offset-2'>destination</div>
+            <div>{transport.destination}</div>
+          </>
+        )
+        : null}
+      {transport.type !== 'Unselected'
+        ? (
+          <>
+            <div className='underline underline-offset-2'>Type</div>
+            <div>{transport.type}</div>
+          </>
+        )
+        : null}
+      {transport.type !== 'Unselected'
+        ? (
+          <>
+            <div className='underline underline-offset-2'>Provider</div>
+            <div>{transport.provider}</div>
+          </>
+        )
+        : null}
+      <div className='underline underline-offset-2'>Address</div>
+      <div className='px-2 font-mono'>{transport.address}</div>
     </div>
   );
 
@@ -297,9 +267,49 @@ export default function Transports({ tripID, handleFlyTo }) {
                     )
                     : (
                       <>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              datePickerRefs.current[`departure_time_${transport.uuid}`] = el;
+                            } else {
+                              // clean-up ref when item removed
+                              delete datePickerRefs.current[`departure_time_${transport.uuid}`];
+                            }
+                          }}
+                          className='sr-only'
+                          id={`departure_time_${transport.uuid}`}
+                          type='datetime-local'
+                          name='departure_time'
+                          value={getDepartureTimeValue(transport)}
+                          onChange={handleDepartureTimeChange(transport.uuid)}
+                          required
+                        />
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              datePickerRefs.current[`arrival_time_${transport.uuid}`] = el;
+                            } else {
+                              // clean-up ref when item removed
+                              delete datePickerRefs.current[`arrival_time_${transport.uuid}`];
+                            }
+                          }}
+                          className='sr-only'
+                          id={`arrival_time_${transport.uuid}`}
+                          type='datetime-local'
+                          name='arrival_time'
+                          value={getArrivalTimeValue(transport)}
+                          onChange={handleArrivalTimeChange(transport.uuid)}
+                          required
+                        />
                         <CustomButton
                           className='buttonLocate text-sm'
                           label={formatDateHHmm(transport.departure_time)}
+                          onClick={openPicker(`departure_time_${transport.uuid}`)}
+                        />
+                        <CustomButton
+                          className='buttonLocate text-sm'
+                          label={formatDateHHmm(transport.arrival_time)}
+                          onClick={openPicker(`arrival_time_${transport.uuid}`)}
                         />
                         <CustomButton
                           className='buttonLocate'
@@ -317,6 +327,8 @@ export default function Transports({ tripID, handleFlyTo }) {
                     titleOff={`${transport.name}`}
                     component={renderDetail(transport)}
                   />
+                  <div className='text-red-600'>{inputErrors[transport.uuid]?.departure || ''}</div>
+                  <div className='text-red-600'>{inputErrors[transport.uuid]?.arrival || ''}</div>
                 </div>
               </div>
             ))}

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -35,6 +35,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const { meals } = data || {};
 
   const dispatch = useDispatch();
+  const datePickerRefs = useRef({});
 
   // Group meals by formatted date
   const dateGroupedMeals = (() => {
@@ -45,6 +46,15 @@ export default function Meals({ tripID, handleFlyTo }) {
     });
     return result;
   })();
+
+  const openPicker = (id) => () => {
+    const input = datePickerRefs.current[id];
+    if (input.showPicker) {
+      input.showPicker();
+    } else {
+      input.click();
+    }
+  };
 
   const flyToLocation = (meal) => () => {
     if (meal.location && handleFlyTo) {
@@ -113,21 +123,6 @@ export default function Meals({ tripID, handleFlyTo }) {
     <div className='text-pretty px-4'>
       <div className='underline underline-offset-2'>Meal Time</div>
       <div className='px-2 font-mono'>{formatDateHHmm(meal.meal_time)}</div>
-      {(isEditing) ? (
-        <div>
-          <input
-            className='customInput'
-            id={`meal_time_${meal.uuid}`}
-            type='datetime-local'
-            name='meal_time'
-            value={getMealTimeValue(meal)}
-            onChange={handleInputChange(meal.uuid)}
-            required
-          />
-          <div className='text-red-600'>{inputErrors[meal.uuid] || ''}</div>
-        </div>
-      )
-        : null}
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono' translate='no'>{meal.address}</div>
     </div>
@@ -166,9 +161,27 @@ export default function Meals({ tripID, handleFlyTo }) {
                     />
                   ) : (
                     <>
+                      <input
+                        ref={(el) => {
+                          if (el) {
+                            datePickerRefs.current[meal.uuid] = el;
+                          } else {
+                            // clean-up ref when item removed
+                            delete datePickerRefs.current[meal.uuid];
+                          }
+                        }}
+                        className='sr-only'
+                        id={meal.uuid}
+                        type='datetime-local'
+                        name='meal_time'
+                        value={getMealTimeValue(meal)}
+                        onChange={handleInputChange(meal.uuid)}
+                        required
+                      />
                       <CustomButton
                         className='buttonLocate text-sm'
                         label={formatDateHHmm(meal.meal_time)}
+                        onClick={openPicker(meal.uuid)}
                       />
                       <CustomButton
                         className='buttonLocate'
@@ -186,6 +199,7 @@ export default function Meals({ tripID, handleFlyTo }) {
                     titleOff={`${meal.name}`}
                     component={renderDetail(meal)}
                   />
+                  <div className='text-red-600'>{inputErrors[meal.uuid] || ''}</div>
                 </div>
               </div>
             ))}

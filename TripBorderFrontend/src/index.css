@@ -660,7 +660,7 @@ html, body {
 
   .buttonLocate {
     @apply
-    my-1 mx-1
+    my-0.5 mx-0.5
     w-10 h-10
     text-xl
     text-center
@@ -1510,7 +1510,7 @@ html, body {
     text-nowrap
     min-h-10 min-w-52 max-w-52
     text-center
-    px-4 mb-2;
+    px-4 mb-1 mx-0.5;
   }
 
   .toggleTripTitle {

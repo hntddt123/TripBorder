@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -36,6 +36,16 @@ export default function POIs({ tripID, handleFlyTo }) {
   const [deletePOI] = useDeletePOIMutation();
 
   const dispatch = useDispatch();
+  const datePickerRefs = useRef({});
+
+  const openPicker = (id) => () => {
+    const input = datePickerRefs.current[id];
+    if (input.showPicker) {
+      input.showPicker();
+    } else {
+      input.click();
+    }
+  };
 
   // Group pois by formatted date
   const dateGroupedPOIs = (() => {
@@ -111,21 +121,6 @@ export default function POIs({ tripID, handleFlyTo }) {
     <div className='text-pretty'>
       <div className='underline underline-offset-2'>Visit Time</div>
       <div className='px-2 font-mono'>{formatDateHHmm(poi.visit_time)}</div>
-      {(isEditing) ? (
-        <div>
-          <input
-            className='customInput'
-            id={`visit_time_${poi.uuid}`}
-            type='datetime-local'
-            name='visit_time_'
-            value={getVisitTimeValue(poi)}
-            onChange={handleInputChange(poi.uuid)}
-            required
-          />
-          <div className='text-red-600'>{inputErrors[poi.uuid] || ''}</div>
-        </div>
-      )
-        : null}
       <div className='underline underline-offset-2'>Address</div>
       <div className='px-2 font-mono'>{poi.address}</div>
     </div>
@@ -166,9 +161,27 @@ export default function POIs({ tripID, handleFlyTo }) {
                     )
                     : (
                       <>
+                        <input
+                          ref={(el) => {
+                            if (el) {
+                              datePickerRefs.current[poi.uuid] = el;
+                            } else {
+                              // clean-up ref when item removed
+                              delete datePickerRefs.current[poi.uuid];
+                            }
+                          }}
+                          className='sr-only'
+                          id={poi.uuid}
+                          type='datetime-local'
+                          name='visit_time'
+                          value={getVisitTimeValue(poi)}
+                          onChange={handleInputChange(poi.uuid)}
+                          required
+                        />
                         <CustomButton
                           className='buttonLocate text-sm'
                           label={formatDateHHmm(poi.visit_time)}
+                          onClick={openPicker(poi.uuid)}
                         />
                         <CustomButton
                           className='buttonLocate'
@@ -186,6 +199,7 @@ export default function POIs({ tripID, handleFlyTo }) {
                     titleOff={`${poi.name}`}
                     component={renderDetail(poi)}
                   />
+                  <div className='text-red-600'>{inputErrors[poi.uuid] || ''}</div>
                 </div>
               </div>
             ))}
