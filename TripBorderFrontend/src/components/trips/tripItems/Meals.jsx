@@ -214,7 +214,7 @@ export default function Meals({ tripID, handleFlyTo }) {
                             delete datePickerRefs.current[meal.uuid];
                           }
                         }}
-                        className='w-0 h-0'
+                        className='sr-only relative'
                         id={meal.uuid}
                         type='datetime-local'
                         name='meal_time'

@@ -218,7 +218,7 @@ export default function POIs({ tripID, handleFlyTo }) {
                               delete datePickerRefs.current[poi.uuid];
                             }
                           }}
-                          className='w-0 h-0'
+                          className='sr-only relative'
                           id={poi.uuid}
                           type='datetime-local'
                           name='visit_time'

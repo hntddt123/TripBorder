@@ -325,7 +325,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                               delete datePickerRefs.current[`departure_time_${transport.uuid}`];
                             }
                           }}
-                          className='h-0 w-0'
+                          className='sr-only relative'
                           id={`departure_time_${transport.uuid}`}
                           type='datetime-local'
                           name='departure_time'
@@ -342,7 +342,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                               delete datePickerRefs.current[`arrival_time_${transport.uuid}`];
                             }
                           }}
-                          className='h-0 w-0'
+                          className='sr-only relative'
                           id={`arrival_time_${transport.uuid}`}
                           type='datetime-local'
                           name='arrival_time'
