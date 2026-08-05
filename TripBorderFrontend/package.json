@@ -95,8 +95,8 @@
     "web-vitals": "^5.0.1"
   },
   "allowScripts": {
-    "core-js@3.49.0": true,
     "esbuild@0.28.1": true,
-    "fsevents@2.3.3": true
+    "fsevents@2.3.3": true,
+    "core-js@3.50.0": true
   }
 }
