@@ -408,6 +408,7 @@ export default function TripMap() {
       padding={mapViewPadding}
       minZoom={1.7433354864918957}
       attributionControl={false}
+      doubleClickZoom={false}
     >
       {isUsingMapBoxGeocoder
         ? (
