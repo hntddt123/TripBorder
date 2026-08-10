@@ -2,7 +2,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Auth from '../src/components/Auth'; // Adjust path as needed
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../src/api/authAPI';
-import { isTrialActive } from '../src/utility/time';
+import { isSubscriptionActive } from '../src/utility/time';
 import { renderWithRedux } from './renderWithRedux';
 
 // Mock dependencies
@@ -17,7 +17,7 @@ jest.mock('../src/api/authAPI', () => ({
 }));
 
 jest.mock('../src/utility/time', () => ({
-  isTrialActive: jest.fn(),
+  isSubscriptionActive: jest.fn(),
 }));
 
 describe('Auth Component', () => {
@@ -80,11 +80,12 @@ describe('Auth Component', () => {
     expect(screen.queryByTestId('button-Logout')).not.toBeInTheDocument();
   });
 
-  test('renders premium map for premium_user role', () => {
+  test('renders premium map for premium_user role with active subscription', () => {
     useCheckAuthStatusQuery.mockReturnValue({
-      data: { isAuthenticated: true, name: 'PremiumUser', role: 'premium_user' },
+      data: { isAuthenticated: true, name: 'RegularUser', role: 'premium_user', subscription_end_at: '2026-01-01' },
       refetch: jest.fn(),
     });
+    isSubscriptionActive.mockReturnValue(true);
     renderWithRedux(<Auth />);
     expect(screen.queryByTestId('button-Upgrade')).not.toBeInTheDocument();
     expect(screen.queryByTestId('button-Sponsors')).not.toBeInTheDocument();
@@ -93,26 +94,12 @@ describe('Auth Component', () => {
     expect(screen.queryByTestId('button-Logout')).not.toBeInTheDocument();
   });
 
-  test('renders premium map for user role with active trial', () => {
+  test('renders map for user role without active subscription', () => {
     useCheckAuthStatusQuery.mockReturnValue({
-      data: { isAuthenticated: true, name: 'RegularUser', role: 'user', trial_started_at: '2026-01-01' },
+      data: { isAuthenticated: true, name: 'RegularUser', role: 'user', subscription_end_at: '2023-01-01' },
       refetch: jest.fn(),
     });
-    isTrialActive.mockReturnValue(true);
-    renderWithRedux(<Auth />);
-    expect(screen.queryByTestId('button-Upgrade')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('button-Sponsors')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('button-Mileages')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('button-Settings')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('button-Logout')).not.toBeInTheDocument();
-  });
-
-  test('renders map for user role without active trial', () => {
-    useCheckAuthStatusQuery.mockReturnValue({
-      data: { isAuthenticated: true, name: 'RegularUser', role: 'user', trial_started_at: '2023-01-01' },
-      refetch: jest.fn(),
-    });
-    isTrialActive.mockReturnValue(false);
+    isSubscriptionActive.mockReturnValue(false);
     renderWithRedux(<Auth />);
     expect(screen.getByTestId('button-Upgrade')).toBeInTheDocument();
     expect(screen.getByTestId('button-Sponsors')).toBeInTheDocument();

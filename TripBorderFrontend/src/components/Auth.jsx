@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCheckAuthStatusQuery, useLogoutMutation } from '../api/authAPI';
 import { BASE_URL } from '../constants/apiConstants';
-import { isTrialActive } from '../utility/time';
+import { isSubscriptionActive } from '../utility/time';
 import CustomButton from './CustomButton';
 import GoogleSignInButton from './GoogleSignInButton';
 import CustomError from './CustomError';
@@ -57,49 +57,46 @@ export default function Auth() {
     return <CustomError error={error} />;
   }
 
-  const renderUserFeatures = () => {
-    if (role === 'user'
-      || role === 'premium_user'
-      || role === 'admin') {
+  const renderFeatures = () => {
+    if (role === 'admin') {
       return (
         <div>
-          {(isTrialActive(user?.trial_started_at)
-            || role === 'premium_user'
-            || role === 'admin')
-            ? (
-              <div>
-                <TripMap />
-              </div>
-            )
-            : (
-              <div>
-                {(isTrialActive(user?.trial_started_at))
-                  ? null
-                  : (
-                    <div className='flex overflow-x-scroll justify-center-safe'>
-                      <CustomButton label='Upgrade' to='/upgrade' />
-                      <CustomButton
-                        label='Sponsors'
-                        to='/sponsors'
-                      />
-                      <CustomButton
-                        label='Mileages'
-                        to='/mileages'
-                      />
-                      <CustomButton
-                        label='Settings'
-                        to='/settings'
-                      />
-                      <CustomButton
-                        label={isLoggingOut ? 'Logging out...' : 'Logout'}
-                        onClick={handleLogout}
-                        disabled={isLoggingOut}
-                      />
-                    </div>
-                  )}
-                <TripMap />
-              </div>
-            )}
+          <TripMap />
+        </div>
+      );
+    }
+    if ((role === 'premium_user')
+      && (isSubscriptionActive(user?.subscription_end_at))) {
+      return (
+        <div>
+          <TripMap />
+        </div>
+      );
+    }
+    if (role === 'user' || (!isSubscriptionActive(user?.subscription_end_at))) {
+      return (
+        <div>
+          <div className='flex overflow-x-scroll justify-center-safe'>
+            <CustomButton label='Upgrade' to='/upgrade' />
+            <CustomButton
+              label='Sponsors'
+              to='/sponsors'
+            />
+            <CustomButton
+              label='Mileages'
+              to='/mileages'
+            />
+            <CustomButton
+              label='Settings'
+              to='/settings'
+            />
+            <CustomButton
+              label={isLoggingOut ? 'Logging out...' : 'Logout'}
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+            />
+          </div>
+          <TripMap />
         </div>
       );
     }
@@ -110,7 +107,7 @@ export default function Auth() {
     <div>
       {(isAuthenticated) ? (
         <div>
-          {renderUserFeatures()}
+          {renderFeatures()}
         </div>
       ) : (
         <div>

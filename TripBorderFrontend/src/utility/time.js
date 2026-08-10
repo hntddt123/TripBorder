@@ -25,6 +25,14 @@ export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromI
 
 export const setLocalTime = (date) => DateTime.fromISO(date);
 
+export const isSubscriptionActive = (subEndDate) => {
+  if (subEndDate
+    && DateTime.utc() < DateTime.fromISO(subEndDate, { zone: 'utc' })) {
+    return true;
+  }
+  return false;
+};
+
 export const isTrialActive = (trialDate) => {
   if (trialDate
     && DateTime.utc() < DateTime.fromISO(trialDate, { zone: 'utc' }).plus({ days: 30 })) {

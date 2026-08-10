@@ -15,7 +15,10 @@ export default function UserProfile() {
       <table>
         <tbody>
           {(user) ? Object.keys(user)
-            .filter((key) => key !== 'profile_picture' && key !== 'isAuthenticated')
+            .filter((key) => key !== 'profile_picture'
+            && key !== 'isAuthenticated'
+            && key !== 'trial_started_at'
+            && key !== 'is_trialed')
             .map((key) => (
               <tr key={key}>
                 <th>{key}</th>
