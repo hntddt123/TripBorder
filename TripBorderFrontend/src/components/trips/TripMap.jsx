@@ -22,12 +22,13 @@ import {
   setBearing
 } from '../../redux/reducers/mapReducer';
 import { useOrientation } from '../../hooks/useOrientation';
+import { searchIcon } from '../../constants/constants';
 import { MAPBOX_API_KEY } from '../../constants/apiConstants';
 import { useLazyGetDirectionsQuery } from '../../api/mapboxSliceAPI';
 import {
   useLazyGetLandmarkFromKeywordQuery
 } from '../../api/openstreemapSliceAPI';
-import { searchIcon } from '../../constants/constants';
+import { filterResultsByCountry } from '../../utility/geoCalculation';
 import ClickMarker from './ClickMarker';
 import ProximityMarkers from './ProximityMarkers';
 import AdditionalMarkerInfo from './AdditionalMarkerInfo';
@@ -64,7 +65,8 @@ export default function TripMap() {
     gpsLonLat
   } = useSelector((state) => state.mapReducer);
   const {
-    isDarkMode
+    isDarkMode,
+    searchCountry
   } = useSelector((state) => state.userSettingsReducer);
   const { type } = useOrientation();
 
@@ -72,7 +74,7 @@ export default function TripMap() {
 
   const [getDirectionsQueryTrigger, getDirectionsQueryResults] = useLazyGetDirectionsQuery();
   const [getLandmarkFromKeywordTrigger,
-    { data: resultKeyword, error: errorKeyword, isFetching: isFetchingKeyword }
+    { data: resultPOI, error: errorKeyword, isFetching: isFetchingKeyword }
   ] = useLazyGetLandmarkFromKeywordQuery();
 
   const mapCSSStyle = { width: '100%', height: '100dvh' };
@@ -118,10 +120,15 @@ export default function TripMap() {
   }, [isMapRotate]);
 
   useEffect(() => {
-    if (resultKeyword && activeQueryType === 'keyword') {
-      setSortedData(resultKeyword);
+    if (resultPOI && activeQueryType === 'keyword') {
+      let filteredResults = resultPOI;
+      // Result filtering by country
+      if (searchCountry !== '') {
+        filteredResults = filterResultsByCountry(resultPOI, searchCountry);
+      }
+      setSortedData(filteredResults);
     }
-  }, [resultKeyword, activeQueryType]);
+  }, [resultPOI, activeQueryType]);
 
   const orientationEvent = useCallback((e) => {
     const now = Date.now();
@@ -245,10 +252,12 @@ export default function TripMap() {
   const handleKeywordSearch = async (query) => {
     setActiveQueryType('keyword');
     dispatch(setSelectedPOIIcon(searchIcon));
-    const resultKey = (await getLandmarkFromKeywordTrigger(query)).data;
+    let filteredPOIResults = (await getLandmarkFromKeywordTrigger(query)).data;
+    // Result filtering by country
+    filteredPOIResults = filterResultsByCountry(filteredPOIResults, searchCountry);
 
-    if (resultKey?.length > 0) {
-      handleFlyTo(resultKey[0].lon, resultKey[0].lat, 15.5, 1500);
+    if (filteredPOIResults?.length > 0) {
+      handleFlyTo(filteredPOIResults[0].lon, filteredPOIResults[0].lat, 15.5, 1500);
     }
     dispatch(setIsShowingOnlySelectedPOI(false));
     dispatch(setSelectedPOI(''));

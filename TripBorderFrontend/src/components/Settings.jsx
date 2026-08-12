@@ -6,8 +6,8 @@ import { MAPBOX_LANGS } from '../constants/constants';
 import { setLanguage } from '../redux/reducers/userSettingsReducer';
 
 export default function Settings() {
-  const dispatch = useDispatch();
   const { language } = useSelector((state) => state.userSettingsReducer);
+  const dispatch = useDispatch();
 
   const getLanguagesOptions = () => Object.entries(MAPBOX_LANGS).map(([code, name]) => (
     <option key={code} value={code} defaultValue={language}>

@@ -39,7 +39,8 @@ const initialMapState = {
   isNorthUp: true,
   isMapRotate: false,
   sessionIDFSQ: '',
-  travelMode: 'walking'
+  travelMode: 'walking',
+  searchKeyword: ''
 };
 
 const mapSlice = createSlice({
@@ -78,7 +79,8 @@ const mapSlice = createSlice({
     setIsMapRotate: (state, action) => ({ ...state, isMapRotate: action.payload }),
     setSessionIDFSQ: (state, action) => ({ ...state, sessionIDFSQ: action.payload }),
     setTravelMode: (state, action) => ({ ...state, travelMode: action.payload }),
-    setBearing: (state, action) => ({ ...state, bearing: action.payload })
+    setBearing: (state, action) => ({ ...state, bearing: action.payload }),
+    setSearchKeyword: (state, action) => ({ ...state, searchKeyword: action.payload }),
   }
 });
 
@@ -114,7 +116,8 @@ export const {
   setIsMapRotate,
   setSessionIDFSQ,
   setTravelMode,
-  setBearing
+  setBearing,
+  setSearchKeyword
 } = mapSlice.actions;
 
 export const mapReducer = mapSlice.reducer;

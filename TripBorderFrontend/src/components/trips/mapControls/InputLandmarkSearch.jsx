@@ -1,27 +1,29 @@
-import { useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import TripCountriesOptions from './TripCountriesOptions';
 import CustomError from '../../CustomError';
 import { errorPropTypes } from '../../../constants/errorPropTypes';
+import { setSearchKeyword } from '../../../redux/reducers/mapReducer';
 
-export default function InputLandmarkSearch({
-  handleKeywordSearch, error }) {
-  const [keyword, setKeyword] = useState('');
-  const inputRef = useRef(null);
+export default function InputLandmarkSearch({ handleKeywordSearch, error }) {
   const { language } = useSelector((state) => state.userSettingsReducer);
+  const { searchKeyword } = useSelector((state) => state.mapReducer);
+  const dispatch = useDispatch();
+  const inputRef = useRef(null);
 
   const handleInputChange = (e) => {
-    setKeyword(e.target.value);
+    dispatch(setSearchKeyword(e.target.value));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     inputRef.current.blur();
-    handleKeywordSearch({ keyword: keyword.trim(), language });
+    handleKeywordSearch({ keyword: searchKeyword.trim(), language });
   };
 
   const handleClear = () => {
-    setKeyword('');
+    dispatch(setSearchKeyword(''));
     handleKeywordSearch({ keyword: '', language });
   };
 
@@ -36,7 +38,7 @@ export default function InputLandmarkSearch({
           id='landmark_keyword_search'
           type='text'
           name='landmark_keyword_search'
-          value={keyword}
+          value={searchKeyword}
           onChange={handleInputChange}
           required
           placeholder='Search'
@@ -48,10 +50,11 @@ export default function InputLandmarkSearch({
           type='button'
           className='clearButton select-none'
           onClick={handleClear}
-          hidden={keyword === ''}
+          hidden={searchKeyword === ''}
         >
           x
         </button>
+        <TripCountriesOptions />
       </form>
       <div className='absolute'>
         <CustomError error={error} />

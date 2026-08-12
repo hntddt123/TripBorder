@@ -1,3 +1,5 @@
+import { COUNTRIES_BOUNDING_BOX } from '../constants/constants';
+
 export function calculateDistance(
   lat1,
   lon1,
@@ -55,4 +57,24 @@ export function metersToDeltas(meters, latDeg) {
     deltaLat: meters / mPerLat, // Delta lat deg (example: 500 / 111133 ≈ 0.0045°).
     deltaLon: meters / mPerLon, // Delta lon deg (example: 500 / 88700 ≈ 0.0056°).
   };
+}
+
+export function isPointInCountryBbox(lon, lat, countryBbox) {
+  const [minLon, minLat, maxLon, maxLat] = countryBbox;
+  return lon >= minLon && lon <= maxLon && lat >= minLat && lat <= maxLat;
+}
+
+export function filterResultsByCountry(resultPOI, countryCode) {
+  const country = COUNTRIES_BOUNDING_BOX[countryCode];
+
+  return resultPOI.filter((result) => {
+    if (result.lat != null && result.lon != null) {
+      return isPointInCountryBbox(
+        parseFloat(result.lon),
+        parseFloat(result.lat),
+        country.bbox
+      );
+    }
+    return null;
+  });
 }
