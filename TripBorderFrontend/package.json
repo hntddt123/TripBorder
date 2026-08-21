@@ -25,6 +25,7 @@
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^5.1.2",
     "@reduxjs/toolkit": "^2.2.5",
+    "date-holidays": "^3.35.0",
     "dotenv": "^17.2.0",
     "heic-to": "^1.1.13",
     "isomorphic-fetch": "^3.0.0",
