@@ -59,6 +59,7 @@ export const poisAPI = createApi({
 export const {
   useGetPOIsAllQuery,
   useGetPOIsByTripIDQuery,
+  useLazyGetPOIsByTripIDQuery,
   usePostPOIByTripIDMutation,
   useUpdatePOIByUUIDMutation,
   useDeletePOIMutation

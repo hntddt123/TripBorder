@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { json2csv } from 'json-2-csv';
+// import ExcelJS from 'exceljs';
 import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import {
   setTripUUID,
@@ -17,8 +19,20 @@ import {
   setIsEditingTrip
 } from '../../redux/reducers/tripReducer';
 import { setSelectedMenu } from '../../redux/reducers/userSettingsReducer';
-import { formatDateccc, formatDatecccMMMdyyyy, formatDateMMMdyyyy } from '../../utility/time';
+import {
+  addDays,
+  getDateTimeDifferencesAsDays,
+  formatDateccc,
+  formatDatecccMMMdyyyy,
+  formatDatedd,
+  formatDateM,
+  formatDateMMMdyyyy,
+  formatDateyyyy,
+  setLocalTime
+} from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
+import { TRIPMENU_MODES } from '../../constants/constants';
+import { useLazyGetMealsByTripIDQuery } from '../../api/mealsAPI';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -41,7 +55,9 @@ import TripsSharedLoading from './TripsSharedLoading';
 import TripsOthersSharedLoading from './TripsOthersSharedLoading';
 import TripUploadForm from './TripUploadForm';
 import IconMapOverview from './IconMapOverview';
-import { TRIPMENU_MODES } from '../../constants/constants';
+import { useLazyGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
+import { useLazyGetPOIsByTripIDQuery } from '../../api/poisAPI';
+import { useLazyGetTransportByTripIDQuery } from '../../api/transportsAPI';
 
 export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
@@ -63,6 +79,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const role = user?.role || null;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
+  const [mealsDataTrigger, { data: mealsData }] = useLazyGetMealsByTripIDQuery();
+  const [hotelsDataTrigger, { data: hotelsData }] = useLazyGetHotelsByTripIDQuery();
+  const [poisDataTrigger, { data: poisData }] = useLazyGetPOIsByTripIDQuery();
+  const [transportsDataTrigger, { data: transportsData }] = useLazyGetTransportByTripIDQuery();
 
   const dispatch = useDispatch();
 
@@ -76,6 +96,155 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       dispatch(setSharedMode(data.trip.shared_mode));
     }
   }, [data]);
+
+  useEffect(() => {
+    if (uuid) {
+      mealsDataTrigger({ tripID: uuid });
+      hotelsDataTrigger({ tripID: uuid });
+      poisDataTrigger({ tripID: uuid });
+      transportsDataTrigger({ tripID: uuid });
+    }
+  }, [uuid]);
+
+  //   const handleXLSXButton = () => {
+  //     try {
+  //       const wb = new ExcelJS.Workbook();
+  //       const ws = wb.addWorksheet(`${title}`);
+
+  //       const tripJSONRows = [];
+  //       tripJSONRows.push({
+  //         '🗺️': index,
+  //         Y: `${formatDateyyyy(addDays(startDate, index))}`,
+  //         M: `${formatDateM(addDays(startDate, index))}`,
+  //         D: `${formatDatedd(addDays(startDate, index))}`,
+  //         W: `${formatDateccc(addDays(startDate, index))}`,
+  //         '🍱': Object.entries(dateGroupedMeals)
+  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  //           .map(([date, mealsForDate]) => mealsForDate.map((meal) => meal.name)),
+  //         '🛌': Object.entries(dateGroupedHotels)
+  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  //           .map(([date, hotelsForDate]) => hotelsForDate.map((hotel) => hotel.name)),
+  //         '🏞️': Object.entries(dateGroupedPOIs)
+  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  //           .map(([date, poisForDate]) => poisForDate.map((poi) => poi.name)),
+  //         '🚀': Object.entries(dateGroupedTransports)
+  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+  //           .map(([date, transportsForDate]) => transportsForDate.map((transport) => transport.name)),
+  //       });
+  //       days -= 1;
+  //       index += 1;
+  //     }
+
+  //       ws.columns = [
+  //       { header: 'type', key: 'type', width: 12 },
+  //       { header: 'name', key: 'name', width: 28 },
+  //       { header: 'address', key: 'address', width: 36 },
+  //       { header: 'start_time', key: 'start_time', width: 22 },
+  //       { header: 'end_time', key: 'end_time', width: 22 },
+  //       { header: 'details', key: 'details', width: 32 },
+  //       { header: 'longitude', key: 'longitude', width: 12 },
+  //       { header: 'latitude', key: 'latitude', width: 12 },
+  //     ];
+  //     const buffer = await rowsToXlsxBuffer(rows, { title });
+  //     const blob = new Blob([buffer], {
+  //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  //     });
+  //     const url = URL.createObjectURL(blob);
+  //     const link = document.createElement('a');
+  //     link.href = url;
+  //     link.setAttribute('download', `${title}.xlsx`);
+  //     document.body.appendChild(link);
+  //     link.click();
+  //     document.body.removeChild(link);
+  //     URL.revokeObjectURL(url);
+  //   } catch (err) {
+  //     console.error('Failed to format or download xlsx', err);
+  //   }
+  // };
+
+  const handleCSVButton = () => {
+    const dateGroupedMeals = (() => {
+      const result = {};
+      mealsData?.meals.forEach((meal) => {
+        const date = formatDatecccMMMdyyyy(meal.meal_time);
+        result[date] = (result[date] || []).concat([meal]);
+      });
+      return result;
+    })();
+    const dateGroupedHotels = hotelsData.hotels?.reduce((result, hotel) => {
+      const checkInDate = setLocalTime(hotel.check_in);
+      const checkOutDate = setLocalTime(hotel.check_out);
+      const newResult = { ...result };
+
+      let currentDate = checkInDate;
+      while (currentDate < checkOutDate) {
+        const formattedDate = formatDatecccMMMdyyyy(currentDate);
+        newResult[formattedDate] = (newResult[formattedDate] || []).concat([hotel]);
+        currentDate = currentDate.plus({ days: 1 });
+      }
+
+      return newResult;
+    }, {}) ?? {};
+
+    const dateGroupedPOIs = (() => {
+      const result = {};
+      poisData?.points_of_interest.forEach((poi) => {
+        const date = formatDatecccMMMdyyyy(poi.visit_time);
+        result[date] = (result[date] || []).concat([poi]);
+      });
+      return result;
+    })();
+
+    const dateGroupedTransports = (() => {
+      const result = {};
+      transportsData?.transports.forEach((transport) => {
+        const date = formatDatecccMMMdyyyy(transport.departure_time);
+        result[date] = (result[date] || []).concat([transport]);
+      });
+      return result;
+    })();
+
+    const tripJSONRows = [];
+    let index = 1;
+    let days = getDateTimeDifferencesAsDays(startDate, endDate);
+    while (days >= 0) {
+      tripJSONRows.push({
+        '🗺️': index,
+        Y: `${formatDateyyyy(addDays(startDate, index))}`,
+        M: `${formatDateM(addDays(startDate, index))}`,
+        D: `${formatDatedd(addDays(startDate, index))}`,
+        W: `${formatDateccc(addDays(startDate, index))}`,
+        '🍱': Object.entries(dateGroupedMeals)
+          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+          .map(([date, mealsForDate]) => mealsForDate.map((meal) => meal.name)),
+        '🛌': Object.entries(dateGroupedHotels)
+          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+          .map(([date, hotelsForDate]) => hotelsForDate.map((hotel) => hotel.name)),
+        '🏞️': Object.entries(dateGroupedPOIs)
+          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+          .map(([date, poisForDate]) => poisForDate.map((poi) => poi.name)),
+        '🚀': Object.entries(dateGroupedTransports)
+          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+          .map(([date, transportsForDate]) => transportsForDate.map((transport) => transport.name)),
+      });
+      days -= 1;
+      index += 1;
+    }
+
+    try {
+      const csv = json2csv(tripJSONRows);
+
+      const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${title}.csv`);
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to format or download csv', err);
+    }
+  };
 
   const handleEditButton = () => {
     dispatch(setIsEditingTrip(!isEditingTrip));
@@ -300,11 +469,24 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                     isOpened
                     disabled={!isLoadTrip}
                   />
+                  <CustomButton
+                    label='💾 CSV'
+                    onClick={handleCSVButton}
+                  />
+                  {/* <CustomButton
+                    label='💾 XLSX'
+                    onClick={handleXLSXButton}
+                  /> */}
                   <div>Sharing Mode: {sharedMode}</div>
                 </div>
               )
               : (
-                <div className='text-center'>
+                <div className='text-left'>
+                  <CustomButton
+                    className='buttonBack'
+                    label={`←${title}`}
+                    onClick={handleEditButton}
+                  />
                   <TripUploadForm />
                 </div>
               )}

@@ -59,6 +59,7 @@ export const hotelsAPI = createApi({
 export const {
   useGetHotelsAllQuery,
   useGetHotelsByTripIDQuery,
+  useLazyGetHotelsByTripIDQuery,
   usePostHotelsByTripIDMutation,
   useUpdateHotelByUUIDMutation,
   useDeleteHotelsMutation

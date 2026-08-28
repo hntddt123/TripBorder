@@ -59,6 +59,7 @@ export const transportsAPI = createApi({
 export const {
   useGetTransportsAllQuery,
   useGetTransportByTripIDQuery,
+  useLazyGetTransportByTripIDQuery,
   usePostTransportByTripIDMutation,
   useUpdateTransportByUUIDMutation,
   useDeleteTransportMutation

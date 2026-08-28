@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon';
 
+export const addDays = (date, dayIndex) => DateTime.fromISO(date).plus({ days: dayIndex - 1 });
+export const getDateTimeDifferencesAsDays = (d1, d2) => (DateTime.fromISO(d2).diff(DateTime.fromISO(d1)).as('days'));
+
+export const formatDateM = (date) => DateTime.fromISO(date).toFormat('M');
 export const formatDateMM = (date) => DateTime.fromISO(date).toFormat('MM');
 export const formatDateMMM = (date) => DateTime.fromISO(date).toFormat('MMM');
 export const formatDateMMMM = (date) => DateTime.fromISO(date).toFormat('MMMM');

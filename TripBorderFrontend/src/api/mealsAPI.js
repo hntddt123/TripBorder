@@ -59,6 +59,7 @@ export const mealsAPI = createApi({
 export const {
   useGetMealsAllQuery,
   useGetMealsByTripIDQuery,
+  useLazyGetMealsByTripIDQuery,
   usePostMealByTripIDMutation,
   useUpdateMealByUUIDMutation,
   useDeleteMealMutation
