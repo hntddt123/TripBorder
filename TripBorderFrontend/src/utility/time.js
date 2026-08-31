@@ -22,12 +22,12 @@ export const formatDateMMMMddyyyyHHmmssZZZZ = (date) => DateTime.fromISO(date).t
 export const formatLocalDateString = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd');
 export const formatLocalDateTimeString = (date) => DateTime.fromISO(date).toFormat('yyyy-MM-dd\'T\'HH:mm');
 
-export const checkDateToDay = (date1, date2) => (date1.hasSame(date2, 'day'));
 export const isDatePast = (date) => ((DateTime.fromISO(date) - DateTime.now().startOf('day')) < 0);
 export const isStartDateAfterEndDate = (startDate, endDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 export const isEndDateBeforeStartDate = (endDate, startDate) => ((DateTime.fromISO(endDate) - DateTime.fromISO(startDate)) < 0);
 
 export const setLocalTime = (date) => DateTime.fromISO(date);
+export const isLocalTimeSameDate = (d1, d2) => DateTime.fromISO(d1).startOf('day').equals(DateTime.fromISO(d2).startOf('day'));
 
 export const isSubscriptionActive = (subEndDate) => {
   if (subEndDate

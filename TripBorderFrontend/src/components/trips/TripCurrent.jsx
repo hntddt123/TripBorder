@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { json2csv } from 'json-2-csv';
-// import ExcelJS from 'exceljs';
+import ExcelJS from 'exceljs';
 import { useCheckAuthStatusQuery } from '../../api/authAPI';
 import {
   setTripUUID,
@@ -27,12 +27,20 @@ import {
   formatDatedd,
   formatDateM,
   formatDateMMMdyyyy,
-  formatDateyyyy,
-  setLocalTime
+  formatDateyyyy
 } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import { TRIPMENU_MODES } from '../../constants/constants';
 import { useLazyGetMealsByTripIDQuery } from '../../api/mealsAPI';
+import { useLazyGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
+import { useLazyGetPOIsByTripIDQuery } from '../../api/poisAPI';
+import { useLazyGetTransportByTripIDQuery } from '../../api/transportsAPI';
+import {
+  getDateGroupedHotels,
+  getDateFillGroupedMeals,
+  getDateFillGroupedPOIs,
+  getDateFillGroupedTransports
+} from '../../utility/TripFormat';
 import CustomButton from '../CustomButton';
 import CustomToggle from '../CustomToggle';
 import CustomError from '../CustomError';
@@ -55,9 +63,6 @@ import TripsSharedLoading from './TripsSharedLoading';
 import TripsOthersSharedLoading from './TripsOthersSharedLoading';
 import TripUploadForm from './TripUploadForm';
 import IconMapOverview from './IconMapOverview';
-import { useLazyGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
-import { useLazyGetPOIsByTripIDQuery } from '../../api/poisAPI';
-import { useLazyGetTransportByTripIDQuery } from '../../api/transportsAPI';
 
 export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   const {
@@ -106,103 +111,102 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     }
   }, [uuid]);
 
-  //   const handleXLSXButton = () => {
-  //     try {
-  //       const wb = new ExcelJS.Workbook();
-  //       const ws = wb.addWorksheet(`${title}`);
+  const generateXLSXFile = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet(`${title}`);
 
-  //       const tripJSONRows = [];
-  //       tripJSONRows.push({
-  //         '🗺️': index,
-  //         Y: `${formatDateyyyy(addDays(startDate, index))}`,
-  //         M: `${formatDateM(addDays(startDate, index))}`,
-  //         D: `${formatDatedd(addDays(startDate, index))}`,
-  //         W: `${formatDateccc(addDays(startDate, index))}`,
-  //         '🍱': Object.entries(dateGroupedMeals)
-  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  //           .map(([date, mealsForDate]) => mealsForDate.map((meal) => meal.name)),
-  //         '🛌': Object.entries(dateGroupedHotels)
-  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  //           .map(([date, hotelsForDate]) => hotelsForDate.map((hotel) => hotel.name)),
-  //         '🏞️': Object.entries(dateGroupedPOIs)
-  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  //           .map(([date, poisForDate]) => poisForDate.map((poi) => poi.name)),
-  //         '🚀': Object.entries(dateGroupedTransports)
-  //           // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  //           .map(([date, transportsForDate]) => transportsForDate.map((transport) => transport.name)),
-  //       });
-  //       days -= 1;
-  //       index += 1;
-  //     }
+    worksheet.columns = [
+      { header: '🗺️', key: '🗺️', width: 4 },
+      { header: 'Y', key: 'Y', width: 4 },
+      { header: 'M', key: 'M', width: 4 },
+      { header: 'D', key: 'D', width: 4 },
+      { header: 'W', key: 'W', width: 4 },
+      { header: '🏞️', key: '🏞️', width: 50 },
+      { header: '🚀', key: '🚀', width: 50 },
+      { header: '🍱', key: '🍱', width: 50 },
+      { header: '🛌', key: '🛌', width: 50 },
+    ];
 
-  //       ws.columns = [
-  //       { header: 'type', key: 'type', width: 12 },
-  //       { header: 'name', key: 'name', width: 28 },
-  //       { header: 'address', key: 'address', width: 36 },
-  //       { header: 'start_time', key: 'start_time', width: 22 },
-  //       { header: 'end_time', key: 'end_time', width: 22 },
-  //       { header: 'details', key: 'details', width: 32 },
-  //       { header: 'longitude', key: 'longitude', width: 12 },
-  //       { header: 'latitude', key: 'latitude', width: 12 },
-  //     ];
-  //     const buffer = await rowsToXlsxBuffer(rows, { title });
-  //     const blob = new Blob([buffer], {
-  //       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  //     });
-  //     const url = URL.createObjectURL(blob);
-  //     const link = document.createElement('a');
-  //     link.href = url;
-  //     link.setAttribute('download', `${title}.xlsx`);
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     document.body.removeChild(link);
-  //     URL.revokeObjectURL(url);
-  //   } catch (err) {
-  //     console.error('Failed to format or download xlsx', err);
-  //   }
-  // };
+    const header = worksheet.getRow(1);
+    header.font = { bold: true, color: { argb: '00000000' } };
+    header.eachCell((cell) => {
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'DD7700' } };
+      cell.border = {
+        top: { style: 'thin', color: { argb: '00000000' } },
+        left: { style: 'thin', color: { argb: '00000000' } },
+        bottom: { style: 'thin', color: { argb: '00000000' } },
+        right: { style: 'thin', color: { argb: '00000000' } }
+      };
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
+
+    const dateGroupedPOIs = getDateFillGroupedPOIs(poisData, startDate, endDate)
+      .map((dateGroupedPOI) => dateGroupedPOI.poisForDate);
+    const dateGroupedMeals = getDateFillGroupedMeals(mealsData, startDate, endDate)
+      .map((dateGroupedMeal) => dateGroupedMeal.mealsForDate);
+    const dateGroupedTransports = getDateFillGroupedTransports(transportsData, startDate, endDate)
+      .map((dateGroupedTransport) => dateGroupedTransport.transportsForDate);
+    const dateGroupedHotels = getDateGroupedHotels(hotelsData, startDate, endDate)
+      .map((dateGroupedHotel) => dateGroupedHotel.hotelsForDate);
+
+    let index = 1;
+    let days = getDateTimeDifferencesAsDays(startDate, endDate);
+    while (days >= 0) {
+      worksheet.addRow({
+        '🗺️': index,
+        Y: `${formatDateyyyy(addDays(startDate, index))}`,
+        M: `${formatDateM(addDays(startDate, index))}`,
+        D: `${formatDatedd(addDays(startDate, index))}`,
+        W: `${formatDateccc(addDays(startDate, index))}`,
+        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
+        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join(', '),
+        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join(', '),
+        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join(', ')
+      });
+      const row = worksheet.getRow(index + 1);
+      const fgColor = '30DD7700';
+      const fgBorderColor = '30DD7700';
+      row.eachCell((cell) => {
+        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fgColor } };
+        cell.border = {
+          top: { style: 'thin', color: { argb: fgBorderColor } },
+          left: { style: 'thin', color: { argb: fgBorderColor } },
+          bottom: { style: 'thin', color: { argb: fgBorderColor } },
+          right: { style: 'thin', color: { argb: fgBorderColor } }
+        };
+      });
+      days -= 1;
+      index += 1;
+    }
+
+    return workbook.xlsx.writeBuffer();
+  };
+
+  const handleXLSXButton = async () => {
+    const buffer = await generateXLSXFile();
+    const blob = new Blob([buffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+
+    link.href = url;
+    link.setAttribute('download', `${title}.xlsx`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
 
   const handleCSVButton = () => {
-    const dateGroupedMeals = (() => {
-      const result = {};
-      mealsData?.meals.forEach((meal) => {
-        const date = formatDatecccMMMdyyyy(meal.meal_time);
-        result[date] = (result[date] || []).concat([meal]);
-      });
-      return result;
-    })();
-    const dateGroupedHotels = hotelsData.hotels?.reduce((result, hotel) => {
-      const checkInDate = setLocalTime(hotel.check_in);
-      const checkOutDate = setLocalTime(hotel.check_out);
-      const newResult = { ...result };
-
-      let currentDate = checkInDate;
-      while (currentDate < checkOutDate) {
-        const formattedDate = formatDatecccMMMdyyyy(currentDate);
-        newResult[formattedDate] = (newResult[formattedDate] || []).concat([hotel]);
-        currentDate = currentDate.plus({ days: 1 });
-      }
-
-      return newResult;
-    }, {}) ?? {};
-
-    const dateGroupedPOIs = (() => {
-      const result = {};
-      poisData?.points_of_interest.forEach((poi) => {
-        const date = formatDatecccMMMdyyyy(poi.visit_time);
-        result[date] = (result[date] || []).concat([poi]);
-      });
-      return result;
-    })();
-
-    const dateGroupedTransports = (() => {
-      const result = {};
-      transportsData?.transports.forEach((transport) => {
-        const date = formatDatecccMMMdyyyy(transport.departure_time);
-        result[date] = (result[date] || []).concat([transport]);
-      });
-      return result;
-    })();
+    const dateGroupedPOIs = getDateFillGroupedPOIs(poisData, startDate, endDate)
+      .map((dateGroupedPOI) => dateGroupedPOI.poisForDate);
+    const dateGroupedMeals = getDateFillGroupedMeals(mealsData, startDate, endDate)
+      .map((dateGroupedMeal) => dateGroupedMeal.mealsForDate);
+    const dateGroupedTransports = getDateFillGroupedTransports(transportsData, startDate, endDate)
+      .map((dateGroupedTransport) => dateGroupedTransport.transportsForDate);
+    const dateGroupedHotels = getDateGroupedHotels(hotelsData, startDate, endDate)
+      .map((dateGroupedHotel) => dateGroupedHotel.hotelsForDate);
 
     const tripJSONRows = [];
     let index = 1;
@@ -214,36 +218,24 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
         M: `${formatDateM(addDays(startDate, index))}`,
         D: `${formatDatedd(addDays(startDate, index))}`,
         W: `${formatDateccc(addDays(startDate, index))}`,
-        '🍱': Object.entries(dateGroupedMeals)
-          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-          .map(([date, mealsForDate]) => mealsForDate.map((meal) => meal.name)),
-        '🛌': Object.entries(dateGroupedHotels)
-          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-          .map(([date, hotelsForDate]) => hotelsForDate.map((hotel) => hotel.name)),
-        '🏞️': Object.entries(dateGroupedPOIs)
-          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-          .map(([date, poisForDate]) => poisForDate.map((poi) => poi.name)),
-        '🚀': Object.entries(dateGroupedTransports)
-          // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-          .map(([date, transportsForDate]) => transportsForDate.map((transport) => transport.name)),
+        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
+        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join(', '),
+        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join(', '),
+        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join(', ')
       });
       days -= 1;
       index += 1;
     }
 
-    try {
-      const csv = json2csv(tripJSONRows);
+    const csv = json2csv(tripJSONRows);
+    const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
 
-      const blob = new Blob([`\uFEFF${csv}`], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${title}.csv`);
-      link.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('Failed to format or download csv', err);
-    }
+    link.href = url;
+    link.setAttribute('download', `${title}.csv`);
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const handleEditButton = () => {
@@ -473,10 +465,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
                     label='💾 CSV'
                     onClick={handleCSVButton}
                   />
-                  {/* <CustomButton
+                  <CustomButton
                     label='💾 XLSX'
                     onClick={handleXLSXButton}
-                  /> */}
+                  />
                   <div>Sharing Mode: {sharedMode}</div>
                 </div>
               )

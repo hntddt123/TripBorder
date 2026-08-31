@@ -30,3 +30,7 @@ jest.mock('heic-to', () => ({
 jest.mock('@mapbox/mapbox-gl-geocoder', () => ({
   MapboxGeocoder: ''
 }));
+
+jest.mock('exceljs', () => ({
+  ExcelJS: ''
+}));
