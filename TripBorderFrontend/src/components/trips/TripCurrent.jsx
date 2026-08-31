@@ -111,6 +111,40 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     }
   }, [uuid]);
 
+  const fillExcelStyle = (worksheet) => {
+    worksheet.columns.forEach(((col, i) => {
+      const column = worksheet.getRow(i + 1);
+      const fgColor = 'F3CCA8';
+      const fgDateColor = 'FDF2D0';
+      const fgBorderColor = '00000000';
+
+      column.eachCell((cell) => {
+        if (cell._column._header === ('🏞️')
+          || cell._column._header === ('🚀')
+          || cell._column._header === ('🍱')
+          || cell._column._header === ('🛌')) {
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fgColor } };
+          cell.border = {
+            top: { style: 'thin', color: { argb: fgBorderColor } },
+            left: { style: 'thin', color: { argb: fgBorderColor } },
+            bottom: { style: 'thin', color: { argb: fgBorderColor } },
+            right: { style: 'thin', color: { argb: fgBorderColor } }
+          };
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        } else {
+          cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fgDateColor } };
+          cell.border = {
+            top: { style: 'thin', color: { argb: fgBorderColor } },
+            left: { style: 'thin', color: { argb: fgBorderColor } },
+            bottom: { style: 'thin', color: { argb: fgBorderColor } },
+            right: { style: 'thin', color: { argb: fgBorderColor } }
+          };
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        }
+      });
+    }));
+  };
+
   const generateXLSXFile = async () => {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet(`${title}`);
@@ -126,19 +160,6 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       { header: '🍱', key: '🍱', width: 50 },
       { header: '🛌', key: '🛌', width: 50 },
     ];
-
-    const header = worksheet.getRow(1);
-    header.font = { bold: true, color: { argb: '00000000' } };
-    header.eachCell((cell) => {
-      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'DD7700' } };
-      cell.border = {
-        top: { style: 'thin', color: { argb: '00000000' } },
-        left: { style: 'thin', color: { argb: '00000000' } },
-        bottom: { style: 'thin', color: { argb: '00000000' } },
-        right: { style: 'thin', color: { argb: '00000000' } }
-      };
-      cell.alignment = { vertical: 'middle', horizontal: 'center' };
-    });
 
     const dateGroupedPOIs = getDateFillGroupedPOIs(poisData, startDate, endDate)
       .map((dateGroupedPOI) => dateGroupedPOI.poisForDate);
@@ -163,21 +184,14 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
         '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join(', '),
         '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join(', ')
       });
-      const row = worksheet.getRow(index + 1);
-      const fgColor = '30DD7700';
-      const fgBorderColor = '30DD7700';
-      row.eachCell((cell) => {
-        cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fgColor } };
-        cell.border = {
-          top: { style: 'thin', color: { argb: fgBorderColor } },
-          left: { style: 'thin', color: { argb: fgBorderColor } },
-          bottom: { style: 'thin', color: { argb: fgBorderColor } },
-          right: { style: 'thin', color: { argb: fgBorderColor } }
-        };
-      });
       days -= 1;
       index += 1;
     }
+
+    const header = worksheet.getRow(1);
+    const fgFontColor = '00000000';
+    header.font = { size: 14, bold: true, color: { argb: fgFontColor } };
+    fillExcelStyle(worksheet);
 
     return workbook.xlsx.writeBuffer();
   };
