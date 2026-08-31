@@ -111,9 +111,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     }
   }, [uuid]);
 
-  const fillExcelStyle = (worksheet) => {
-    worksheet.columns.forEach(((col, i) => {
-      const column = worksheet.getRow(i + 1);
+  const fillExcelStyle = (worksheet, index, days) => {
+    let row = index;
+    while (row <= days + 2) {
+      const column = worksheet.getRow(row);
       const fgColor = 'F3CCA8';
       const fgDateColor = 'FDF2D0';
       const fgBorderColor = '00000000';
@@ -143,7 +144,8 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
           cell.alignment = { vertical: 'middle', horizontal: 'center' };
         }
       });
-    }));
+      row += 1;
+    }
   };
 
   const generateXLSXFile = async () => {
@@ -192,7 +194,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
     const header = worksheet.getRow(1);
     const fgFontColor = '00000000';
     header.font = { size: 14, bold: true, color: { argb: fgFontColor } };
-    fillExcelStyle(worksheet);
+    fillExcelStyle(worksheet, 1, getDateTimeDifferencesAsDays(startDate, endDate));
 
     return workbook.xlsx.writeBuffer();
   };
