@@ -25,9 +25,9 @@ import {
   formatDateccc,
   formatDatecccMMMdyyyy,
   formatDatedd,
-  formatDateM,
   formatDateMMMdyyyy,
-  formatDateyyyy
+  formatDateyyyy,
+  formatDateMM
 } from '../../utility/time';
 import { useInitTripByEmailMutation } from '../../api/tripsAPI';
 import { TRIPMENU_MODES } from '../../constants/constants';
@@ -119,6 +119,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       const fgBorderColor = '00000000';
 
       column.eachCell((cell) => {
+        cell.font = { size: 16 };
         if (cell._column._header === ('🏞️')
           || cell._column._header === ('🚀')
           || cell._column._header === ('🍱')
@@ -151,10 +152,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
 
     worksheet.columns = [
       { header: '🗺️', key: '🗺️', width: 4 },
-      { header: 'Y', key: 'Y', width: 4 },
+      { header: 'Y', key: 'Y', width: 8 },
       { header: 'M', key: 'M', width: 4 },
       { header: 'D', key: 'D', width: 4 },
-      { header: 'W', key: 'W', width: 4 },
+      { header: 'W', key: 'W', width: 8 },
       { header: '🏞️', key: '🏞️', width: 50 },
       { header: '🚀', key: '🚀', width: 50 },
       { header: '🍱', key: '🍱', width: 50 },
@@ -176,7 +177,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       worksheet.addRow({
         '🗺️': index,
         Y: `${formatDateyyyy(addDays(startDate, index))}`,
-        M: `${formatDateM(addDays(startDate, index))}`,
+        M: `${formatDateMM(addDays(startDate, index))}`,
         D: `${formatDatedd(addDays(startDate, index))}`,
         W: `${formatDateccc(addDays(startDate, index))}`,
         '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
@@ -229,7 +230,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       tripJSONRows.push({
         '🗺️': index,
         Y: `${formatDateyyyy(addDays(startDate, index))}`,
-        M: `${formatDateM(addDays(startDate, index))}`,
+        M: `${formatDateMM(addDays(startDate, index))}`,
         D: `${formatDatedd(addDays(startDate, index))}`,
         W: `${formatDateccc(addDays(startDate, index))}`,
         '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
