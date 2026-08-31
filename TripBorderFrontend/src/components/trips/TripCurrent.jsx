@@ -182,10 +182,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
         M: `${formatDateMM(addDays(startDate, index))}`,
         D: `${formatDatedd(addDays(startDate, index))}`,
         W: `${formatDateccc(addDays(startDate, index))}`,
-        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
-        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join(', '),
-        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join(', '),
-        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join(', ')
+        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join('\n'),
+        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join('\n'),
+        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join('\n'),
+        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join('\n')
       });
       days -= 1;
       index += 1;
@@ -235,10 +235,10 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
         M: `${formatDateMM(addDays(startDate, index))}`,
         D: `${formatDatedd(addDays(startDate, index))}`,
         W: `${formatDateccc(addDays(startDate, index))}`,
-        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join(', '),
-        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join(', '),
-        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join(', '),
-        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join(', ')
+        '🏞️': dateGroupedPOIs[index - 1].map((poi) => (poi.name).trim()).join('\n'),
+        '🍱': dateGroupedMeals[index - 1].map((meal) => (meal.name).trim()).join('\n'),
+        '🚀': dateGroupedTransports[index - 1].map((transport) => (transport.name).trim()).join('\n'),
+        '🛌': dateGroupedHotels[index - 1].map((hotel) => (hotel.name).trim()).join('\n')
       });
       days -= 1;
       index += 1;
