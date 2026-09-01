@@ -132,7 +132,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             bottom: { style: 'thin', color: { argb: fgBorderColor } },
             right: { style: 'thin', color: { argb: fgBorderColor } }
           };
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+          cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         } else {
           cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: fgDateColor } };
           cell.border = {
@@ -141,7 +141,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
             bottom: { style: 'thin', color: { argb: fgBorderColor } },
             right: { style: 'thin', color: { argb: fgBorderColor } }
           };
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+          cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
         }
       });
       row += 1;
