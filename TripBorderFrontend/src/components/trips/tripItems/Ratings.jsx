@@ -13,12 +13,18 @@ import CustomLoading from '../../CustomLoading';
 import CustomFetching from '../../CustomFetching';
 
 export default function Ratings({ tripID }) {
-  const [rating, setRating] = useState({});
-  const [isEditing, setIsEditing] = useState(false);
-  const { isLoadTrip, title } = useSelector((state) => state.tripReducer);
-
   const user = useSelector(authAPI.endpoints.checkAuthStatus.select());
   const email = user.data?.email;
+
+  const [rating, setRating] = useState({
+    trips_uuid: tripID,
+    entity_id: tripID,
+    entity_type: 'Trips',
+    score: 0,
+    owner_email: email
+  });
+  const [isEditing, setIsEditing] = useState(false);
+  const { isLoadTrip, title } = useSelector((state) => state.tripReducer);
 
   const { data, isLoading, isFetching, error } = useGetRatingsByTripIDQuery({ tripID });
   const { ratings } = data || {};
@@ -62,7 +68,7 @@ export default function Ratings({ tripID }) {
     <div className='text-pretty text-xl justify-center text-center'>
       <div>{`★${r.score}`}</div>
       <div className='flex justify-center'>
-        <div className='customInput max-w-3/4 p-4 mx-4 wrap-break-word overflow-scroll'>
+        <div className='customInput max-w-3/4 p-4 mx-4 whitespace-pre-wrap overflow-scroll'>
           {r.comment}
         </div>
       </div>

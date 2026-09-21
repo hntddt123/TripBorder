@@ -13,8 +13,8 @@ export default function RatingsReadOnly({ tripID }) {
   const renderDetail = (rating) => (
     <div className='text-xl text-pretty'>
       <div>{`★${rating.score}`}</div>
-      <div className='flex justify-center'>
-        <div className='customInput max-w-3/4 mx-4 wrap-break-word overflow-scroll'>
+      <div className=' justify-center'>
+        <div className='customInput max-w-3/4 mx-4 whitespace-pre-wrap overflow-scroll'>
           {rating.comment}
         </div>
       </div>
