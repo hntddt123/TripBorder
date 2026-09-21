@@ -15,7 +15,7 @@ import ToggleRotate from '../ToggleRotate';
 
 export default function TripSearchTools() {
   const { data: user } = useCheckAuthStatusQuery();
-  const role = user?.role || null;
+  const role = user?.role;
 
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 

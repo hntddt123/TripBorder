@@ -79,7 +79,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
 
   const { data: user } = useCheckAuthStatusQuery(undefined, { refetchOnFocus: true, refetchOnReconnect: true });
   const email = user?.email;
-  const role = user?.role || null;
+  const role = user?.role;
 
   const [initTripByEmail, { data, isLoading, error }] = useInitTripByEmailMutation();
   const [mealsDataTrigger, { data: mealsData }] = useLazyGetMealsByTripIDQuery();

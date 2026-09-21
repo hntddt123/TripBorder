@@ -12,7 +12,7 @@ import TripMap from './trips/TripMap';
 export default function Auth() {
   const { data: user, isLoading, error, refetch } = useCheckAuthStatusQuery();
   const isAuthenticated = user?.isAuthenticated;
-  const role = user?.role || null;
+  const role = user?.role;
 
   const [logout, { isLoading: isLoggingOut }] = useLogoutMutation();
 
@@ -113,6 +113,7 @@ export default function Auth() {
         <div>
           <div className='text-xl m-2'>To get premium features</div>
           <GoogleSignInButton onClick={handleLogin} />
+          <TripMap premium={false} />
         </div>
       )}
     </div>

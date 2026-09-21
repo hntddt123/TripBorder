@@ -12,7 +12,6 @@ import { useCheckAuthStatusQuery } from './api/authAPI';
 const Settings = lazy(() => import('./components/Settings'));
 const DatabaseTableDev = lazy(() => import('./components/devtables/DatabaseTableDev'));
 const MileagesList = lazy(() => import('./components/mileages/MileagesList'));
-const GuestMode = lazy(() => import('./components/GuestMode'));
 const MileagesAdmin = lazy(() => import('./components/mileages/MileagesAdmin'));
 const Disclaimers = lazy(() => import('./components/Disclaimers'));
 const Sponsors = lazy(() => import('./components/Sponsors'));
@@ -47,9 +46,6 @@ export default function App() {
                   ) : null}
                   <div>
                     <Auth />
-                  </div>
-                  <div>
-                    <GuestMode />
                   </div>
                 </div>
               )}
