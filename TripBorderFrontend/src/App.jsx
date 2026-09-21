@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProtectedRouteAdmin from './components/ProtectedRouteAdmin';
