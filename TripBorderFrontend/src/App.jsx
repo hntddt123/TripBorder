@@ -24,92 +24,84 @@ export default function App() {
   return (
     <div className='customdiv safeArea'>
       <BrowserRouter basename='/'>
-        <Suspense
-          fallback={(
-            <div className='flex justify-center items-center h-screen'>
-              <div>Loading...</div>
-            </div>
-          )}
-        >
-          <AuthMonitor />
-          <Routes>
-            <Route
-              path='/'
-              element={(
-                <div className='flex flex-col justify-center text-center mx-auto'>
-                  {!isAuthenticated ? (
-                    <header className='title bg-[url(/menuImages/TripBorderTitleBackground.JPG)]'>
-                      <div>
-                        Trip Border
-                      </div>
-                    </header>
-                  ) : null}
-                  <div>
-                    <Auth />
-                  </div>
+        <AuthMonitor />
+        <Routes>
+          <Route
+            path='/'
+            element={(
+              <div className='flex flex-col justify-center text-center mx-auto'>
+                {!isAuthenticated ? (
+                  <header className='title bg-[url(/menuImages/TripBorderTitleBackground.JPG)]'>
+                    <div>
+                      Trip Border
+                    </div>
+                  </header>
+                ) : null}
+                <div>
+                  <Auth />
                 </div>
-              )}
-            />
-            <Route path='/mileages' element={<ProtectedRoute />}>
-              <Route
-                index
-                path='/mileages'
-                element={<TripBoard component={<MileagesList />} />}
-              />
-            </Route>
-            <Route path='/mileagesverification' element={<ProtectedRouteAdmin />}>
-              <Route
-                index
-                path='/mileagesverification'
-                element={<TripBoard component={<MileagesAdmin />} />}
-              />
-            </Route>
-            <Route path='/settings' element={<ProtectedRoute />}>
-              <Route
-                index
-                path='/settings'
-                element={<TripBoard component={<Settings />} />}
-              />
-            </Route>
-            <Route path='/sponsors' element={<Outlet />}>
-              <Route
-                index
-                path='/sponsors'
-                element={<TripBoard component={<Sponsors />} />}
-              />
-            </Route>
-            <Route path='/disclaimers' element={<Outlet />}>
-              <Route
-                index
-                path='/disclaimers'
-                element={<TripBoard component={<Disclaimers />} />}
-              />
-            </Route>
-            <Route path='/upgrade' element={<ProtectedRoute />}>
-              <Route
-                index
-                path='/upgrade'
-                element={<TripBoard component={<Upgrade />} />}
-              />
-            </Route>
-            <Route path='/database' element={<ProtectedRouteAdmin />}>
-              <Route
-                index
-                path='/database'
-                element={<TripBoard component={<DatabaseTableDev />} />}
-              />
-            </Route>
+              </div>
+            )}
+          />
+          <Route path='/mileages' element={<ProtectedRoute />}>
             <Route
-              path='*'
-              element={(
-                <div className='flex flex-col container justify-center text-center mx-auto m-4 max-w-2xl'>
-                  <h2 className='text-center text-4xl'>404 not found 🗺️</h2>
-                  <CustomButton label='Back' to='/' />
-                </div>
-              )}
+              index
+              path='/mileages'
+              element={<TripBoard component={<MileagesList />} />}
             />
-          </Routes>
-        </Suspense>
+          </Route>
+          <Route path='/mileagesverification' element={<ProtectedRouteAdmin />}>
+            <Route
+              index
+              path='/mileagesverification'
+              element={<TripBoard component={<MileagesAdmin />} />}
+            />
+          </Route>
+          <Route path='/settings' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/settings'
+              element={<TripBoard component={<Settings />} />}
+            />
+          </Route>
+          <Route path='/sponsors' element={<Outlet />}>
+            <Route
+              index
+              path='/sponsors'
+              element={<TripBoard component={<Sponsors />} />}
+            />
+          </Route>
+          <Route path='/disclaimers' element={<Outlet />}>
+            <Route
+              index
+              path='/disclaimers'
+              element={<TripBoard component={<Disclaimers />} />}
+            />
+          </Route>
+          <Route path='/upgrade' element={<ProtectedRoute />}>
+            <Route
+              index
+              path='/upgrade'
+              element={<TripBoard component={<Upgrade />} />}
+            />
+          </Route>
+          <Route path='/database' element={<ProtectedRouteAdmin />}>
+            <Route
+              index
+              path='/database'
+              element={<TripBoard component={<DatabaseTableDev />} />}
+            />
+          </Route>
+          <Route
+            path='*'
+            element={(
+              <div className='flex flex-col container justify-center text-center mx-auto m-4 max-w-2xl'>
+                <h2 className='text-center text-4xl'>404 not found 🗺️</h2>
+                <CustomButton label='Back' to='/' />
+              </div>
+            )}
+          />
+        </Routes>
       </BrowserRouter>
     </div>
   );
