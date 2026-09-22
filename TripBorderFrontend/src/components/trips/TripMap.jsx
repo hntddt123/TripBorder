@@ -1,7 +1,7 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import Map, { GeolocateControl, ScaleControl } from 'react-map-gl';
+import { Map, GeolocateControl, ScaleControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
@@ -193,30 +193,22 @@ export default function TripMap() {
     }
   };
 
-  const handleGPS = async () => {
-    let sensorsGranted = true;
-
-    if (typeof DeviceOrientationEvent !== 'undefined'
-      && typeof DeviceOrientationEvent.requestPermission === 'function') {
-      try {
-        const permissionState = await DeviceOrientationEvent.requestPermission();
-        sensorsGranted = (permissionState === 'granted');
-      } catch (err) {
-        console.error('DeviceOrientation permission error:', err);
-        sensorsGranted = false;
+  const requestHeadingPermission = async () => {
+    try {
+      if (typeof DeviceOrientationEvent?.requestPermission === 'function') {
+        return await DeviceOrientationEvent.requestPermission();
       }
-    } else if (typeof DeviceMotionEvent !== 'undefined'
-      && typeof DeviceOrientationEvent.requestPermission === 'function'
-    ) {
-      // Fallback for Device Motion if orientation API differs
-      try {
-        const permissionState = await DeviceMotionEvent.requestPermission();
-        sensorsGranted = (permissionState === 'granted');
-      } catch (err) {
-        console.error('DeviceMotion permission error:', err);
-        sensorsGranted = false;
+      if (typeof DeviceMotionEvent?.requestPermission === 'function') {
+        return await DeviceMotionEvent.requestPermission();
       }
+    } catch (err) {
+      console.error('Heading permission error:', err);
     }
+    return false;
+  };
+
+  const handleGPS = async () => {
+    const sensorsGranted = requestHeadingPermission();
 
     if (sensorsGranted
       || (typeof DeviceOrientationEvent === 'undefined'

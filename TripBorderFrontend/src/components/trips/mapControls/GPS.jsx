@@ -19,6 +19,7 @@ export default function GPS({ handleGPS, watchState }) {
 
   return (
     <CustomButton
+      data-testid='gps'
       className={`${getStyleByGPSState()} absoluteBottomToolBarRight select-none active:scale-125`}
       translate='no'
       label={(watchState === 'ACTIVE_LOCK') ? '🔒🛰️' : '🛰️'}

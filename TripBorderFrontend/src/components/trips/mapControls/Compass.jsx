@@ -11,6 +11,7 @@ export default function Compass({ handleNorthUp }) {
 
   return (
     <CustomButton
+      data-testid='compass'
       className={`${isNorthUp ? 'buttonNoHoverBG' : 'buttonCompass'} absoluteTopToolBarRight mt-14 select-none active:scale-125`}
       translate='no'
       label={isNorthUp ? 'N' : `${bearing}`}
