@@ -1284,11 +1284,11 @@ html, body {
     max-height: calc(35dvh + 64px);
     bottom: 0;
     @apply 
+    z-10
     absolute
     flex-wrap
     rounded-lg
     overflow-y-auto
-    z-10
     p-2
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
@@ -1297,19 +1297,18 @@ html, body {
     min-width: 100%;
     max-height: 40dvh;
     @apply 
-    absolute
     z-10
+    absolute
     flex-wrap
     rounded-lg
     overflow-y-auto
     p-2
-    mt-14
     bg-amber-50 dark:bg-primary-button-dark-less-transparent;
   }
 
   .absoluteTopToolBarLeft {
-    z-index: 10;
     @apply
+    z-20
     absolute
     text-sm
     min-w-10
@@ -1320,8 +1319,8 @@ html, body {
   }
 
   .absoluteTopToolBarRight {
-    z-index: 10;
     @apply
+    z-20
     absolute
     text-sm
     min-w-10

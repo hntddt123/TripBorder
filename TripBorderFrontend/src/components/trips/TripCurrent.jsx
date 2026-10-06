@@ -420,7 +420,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
       }
       return (
         <div className='text-center'>
-          <div className='flex justify-center gap-2'>
+          <div className='flex justify-center gap-2 mt-3'>
             {Object.entries(TRIPMENU_MODES).map(([key, menu]) => {
               const isActive = (selectedMenu === key);
               return (

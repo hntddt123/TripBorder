@@ -66,6 +66,9 @@ export default function TripSearchTools() {
 
   return (
     <div className='text-lg tripAbsoluteContentRight'>
+      <div className='text-2xl m-2'>
+        Version: {VERSION_NUMBER}
+      </div>
       {role
         ? (
           <CustomButton
@@ -89,23 +92,32 @@ export default function TripSearchTools() {
           />
         )
         : null}
-      <div className='flex justify-around'>
+      {role
+        ? (
+          <CustomButton
+            label={isLoggingOut ? 'Logging out...' : 'Logout'}
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          />
+        )
+        : null}
+      <div className='flex justify-center'>
         <span className='min-w-2/3 text-left'>Allow map rotate</span>
         <ToggleRotate />
       </div>
-      <div className='flex justify-around'>
+      <div className='flex justify-center'>
         <span className='min-w-2/3 text-left'>Show scale ruler</span>
         <ToggleScale />
       </div>
-      <div className='flex justify-around'>
+      <div className='flex justify-center'>
         <span className='min-w-2/3 text-left'>Show name on markers</span>
         <TogglePlaceName />
       </div>
-      <div className='flex justify-around'>
+      <div className='flex justify-center'>
         <span className='min-w-2/3 text-left'>Show distance on markers</span>
         <ToggleDistance />
       </div>
-      <div className='flex justify-around'>
+      <div className='flex justify-center'>
         <span className='min-w-2/3 text-left'>Use Mapbox place search</span>
         <ToggleMapBoxSearch />
       </div>
@@ -142,18 +154,6 @@ export default function TripSearchTools() {
         onChange={(value) => handleRadiusChange(value)}
       />
       {getLocation()}
-      {role
-        ? (
-          <CustomButton
-            label={isLoggingOut ? 'Logging out...' : 'Logout'}
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-          />
-        )
-        : null}
-      <div className='text-2xl m-2'>
-        Version: {VERSION_NUMBER}
-      </div>
     </div>
   );
 }
