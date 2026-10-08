@@ -40,7 +40,7 @@ export default function HotelsReadOnly({ tripID, handleFlyTo }) {
   const flyToLocation = (hotel) => () => {
     if (hotel.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: hotel.uuid,
         icon: hotelIcon,
         text: hotel.name,
         lng: hotel.location.x,

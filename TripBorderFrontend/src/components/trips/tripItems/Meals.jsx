@@ -27,6 +27,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
+  const { tripMarkers } = useSelector((state) => state.mapReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
@@ -93,7 +94,7 @@ export default function Meals({ tripID, handleFlyTo }) {
   const flyToLocation = (meal) => () => {
     if (meal.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: meal.uuid,
         icon: restaurantIcon,
         text: meal.name,
         lng: meal.location.x,
@@ -143,8 +144,13 @@ export default function Meals({ tripID, handleFlyTo }) {
   };
 
   const handleDeleteButton = (mealID) => () => {
+    if (meals?.length === 1) {
+      setIsEditing(false);
+    }
     deleteMeal(mealID);
+    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== mealID)));
   };
+
   const handleEditButton = () => {
     if (isEditing) {
       setMealTimes({});
@@ -166,7 +172,7 @@ export default function Meals({ tripID, handleFlyTo }) {
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {(meals?.length > 0) && !isEditing ? <div>Meals</div> : null}
-        {(isEditing) ? <div>Edit Meals</div> : null}
+        {(isEditing && meals?.length > 0) ? <div>Edit Meals</div> : null}
         {(meals?.length > 0) && !isLoadTrip
           ? (
             <CustomButton

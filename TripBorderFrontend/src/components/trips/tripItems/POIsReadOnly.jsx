@@ -34,7 +34,7 @@ export default function POIsReadOnly({ tripID, handleFlyTo }) {
   const flyToLocation = (poi) => () => {
     if (poi.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: poi.uuid,
         icon: parkIcon,
         text: poi.name,
         lng: poi.location.x,

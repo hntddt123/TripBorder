@@ -126,7 +126,7 @@ export default function Ratings({ tripID }) {
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {ratings?.length > 0 && !isEditing ? <div>Ratings</div> : null}
-        {(isEditing) ? <div>Edit Ratings</div> : null}
+        {(isEditing && ratings?.length > 0) ? <div>Edit Ratings</div> : null}
         {(ratings?.length > 0) && !isLoadTrip
           ? (
             <CustomButton

@@ -28,6 +28,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
+  const { tripMarkers } = useSelector((state) => state.mapReducer);
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
 
@@ -55,7 +56,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const flyToLocation = (hotel) => () => {
     if (hotel.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: hotel.uuid,
         icon: hotelIcon,
         text: hotel.name,
         lng: hotel.location.x,
@@ -162,6 +163,14 @@ export default function Hotels({ tripID, handleFlyTo }) {
     }
   };
 
+  const handleDeleteButton = (hotelID) => () => {
+    if (hotels?.length === 1) {
+      setIsEditing(false);
+    }
+    deleteHotel(hotelID);
+    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== hotelID)));
+  };
+
   const handleEditButton = () => {
     if (isEditing) {
       setCheckInTimes({});
@@ -237,7 +246,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {(hotels?.length > 0 && !isEditing) ? <div>Hotels</div> : null}
-        {(isEditing) ? <div>Edit Hotels</div> : null}
+        {(isEditing && hotels?.length > 0) ? <div>Edit Hotels</div> : null}
         {(hotels?.length > 0) && !isLoadTrip
           ? (
             <CustomButton
@@ -287,7 +296,7 @@ export default function Hotels({ tripID, handleFlyTo }) {
                     className='buttonDelete'
                     translate='no'
                     label='🗑️'
-                    onClick={() => deleteHotel(hotel.uuid)}
+                    onClick={handleDeleteButton(hotel.uuid)}
                   />
                 )
                 : null}

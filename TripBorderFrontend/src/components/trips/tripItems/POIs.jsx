@@ -28,6 +28,7 @@ export default function POIs({ tripID, handleFlyTo }) {
 
   const trip = useSelector((state) => state.tripReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
+  const { tripMarkers } = useSelector((state) => state.mapReducer);
 
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};
@@ -94,7 +95,7 @@ export default function POIs({ tripID, handleFlyTo }) {
   const flyToLocation = (poi) => () => {
     if (poi.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: poi.uuid,
         icon: parkIcon,
         text: poi.name,
         lng: poi.location.x,
@@ -143,6 +144,14 @@ export default function POIs({ tripID, handleFlyTo }) {
     }
   };
 
+  const handleDeleteButton = (poiID) => () => {
+    if (pois?.length === 1) {
+      setIsEditing(false);
+    }
+    deletePOI(poiID);
+    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== poiID)));
+  };
+
   const handleEditButton = () => {
     if (isEditing) {
       setVisitTimes({});
@@ -164,7 +173,7 @@ export default function POIs({ tripID, handleFlyTo }) {
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {(pois?.length > 0) && !isEditing ? <div>Tour Spots</div> : null}
-        {(isEditing) ? <div>Edit Tour Spots</div> : null}
+        {(isEditing && pois?.length > 0) ? <div>Edit Tour Spots</div> : null}
         {pois?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
@@ -190,7 +199,7 @@ export default function POIs({ tripID, handleFlyTo }) {
                         className='buttonDelete'
                         translate='no'
                         label='🗑️'
-                        onClick={() => deletePOI(poi.uuid)}
+                        onClick={handleDeleteButton(poi.uuid)}
                       />
                     )
                     : (

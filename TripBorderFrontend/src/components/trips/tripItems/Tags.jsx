@@ -38,6 +38,9 @@ export default function Tags({ tripID }) {
   };
 
   const handleDeleteTagButton = (tagID) => () => {
+    if (tags?.length === 1) {
+      setIsEditing(false);
+    }
     deleteTag(tagID);
   };
 
@@ -72,8 +75,8 @@ export default function Tags({ tripID }) {
   const renderDetail = () => (
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
-        {tags?.length && !isEditing > 0 ? <span>Customize Tags</span> : null}
-        {(isEditing) ? <span>Edit Customize Tags</span> : null}
+        {tags?.length > 0 && !isEditing > 0 ? <span>Customize Tags</span> : null}
+        {(isEditing && tags?.length > 0) ? <span>Edit Customize Tags</span> : null}
         {((tags?.length > 0) && !isLoadTrip)
           ? (
             <CustomButton

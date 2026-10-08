@@ -35,7 +35,7 @@ export default function TransportsReadOnly({ tripID, handleFlyTo }) {
   const flyToLocation = (transport) => () => {
     if (transport.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: transport.uuid,
         icon: transportIcon,
         text: transport.name,
         lng: transport.location.x,

@@ -29,7 +29,8 @@ export default function Transports({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const isLoadTrip = useSelector((state) => state.tripReducer.isLoadTrip);
+  const { isLoadTrip } = useSelector((state) => state.tripReducer);
+  const { tripMarkers } = useSelector((state) => state.mapReducer);
 
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
@@ -96,7 +97,7 @@ export default function Transports({ tripID, handleFlyTo }) {
   const flyToLocation = (transport) => () => {
     if (transport.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: transport.uuid,
         icon: transportIcon,
         text: transport.name,
         lng: transport.location.x,
@@ -202,6 +203,14 @@ export default function Transports({ tripID, handleFlyTo }) {
     }
   };
 
+  const handleDeleteButton = (transportID) => () => {
+    if (transports?.length === 1) {
+      setIsEditing(false);
+    }
+    deleteTransport(transportID);
+    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== transportID)));
+  };
+
   const handleEditButton = () => {
     if (isEditing) {
       setDepartureTimes({});
@@ -270,7 +279,7 @@ export default function Transports({ tripID, handleFlyTo }) {
     <div>
       <div className={`flex items-center justify-center text-lg ${isLoadTrip ? '' : 'ml-10'}`}>
         {(transports?.length > 0) && !isEditing ? <div>Transports</div> : null}
-        {(isEditing) ? <div>Edit Transports</div> : null}
+        {(isEditing && transports?.length > 0) ? <div>Edit Transports</div> : null}
         {transports?.length > 0 && !isLoadTrip
           ? (
             <CustomButton
@@ -296,7 +305,7 @@ export default function Transports({ tripID, handleFlyTo }) {
                         className='buttonDelete'
                         translate='no'
                         label='🗑️'
-                        onClick={() => deleteTransport(transport.uuid)}
+                        onClick={handleDeleteButton(transport.uuid)}
                       />
                     )
                     : (

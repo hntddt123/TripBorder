@@ -34,7 +34,7 @@ export default function MealsReadOnly({ tripID, handleFlyTo }) {
   const flyToLocation = (meal) => () => {
     if (meal.location && handleFlyTo) {
       const newMarker = [{
-        id: new Date().getTime(),
+        id: meal.uuid,
         icon: restaurantIcon,
         text: meal.name,
         lng: meal.location.x,
