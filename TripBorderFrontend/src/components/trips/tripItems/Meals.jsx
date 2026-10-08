@@ -27,7 +27,6 @@ export default function Meals({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const { tripMarkers } = useSelector((state) => state.mapReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
 
   const { data, isLoading, isFetching, error } = useGetMealsByTripIDQuery({ tripID });
@@ -148,7 +147,6 @@ export default function Meals({ tripID, handleFlyTo }) {
       setIsEditing(false);
     }
     deleteMeal(mealID);
-    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== mealID)));
   };
 
   const handleEditButton = () => {

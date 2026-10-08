@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -135,6 +136,23 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
       calculateMarkerArrayBoundsAndFlyTo(newMarkers, 4);
     }
   };
+
+  useEffect(() => {
+    if (dateGroupedMeals && dateGroupedHotels && dateGroupedPOIs && dateGroupedTransports && handleFlyTo) {
+      const newMealsMarkers = prepareMarkerArray(dateGroupedMeals, restaurantIcon);
+      const newHotelswMarkers = prepareMarkerArray(dateGroupedHotels, hotelIcon);
+      const newPOIsMarkers = prepareMarkerArray(dateGroupedPOIs, parkIcon);
+      const newTransportsMarkers = prepareMarkerArray(dateGroupedTransports, transportIcon);
+
+      const newMarkers = [
+        ...newMealsMarkers,
+        ...newHotelswMarkers,
+        ...newPOIsMarkers,
+        ...newTransportsMarkers
+      ];
+      dispatch(setTripMarker(newMarkers));
+    }
+  }, [mealData, hotelData, poiData, transportData]);
 
   const showAllMealsLocations = () => {
     if (dateGroupedMeals && handleFlyTo) {

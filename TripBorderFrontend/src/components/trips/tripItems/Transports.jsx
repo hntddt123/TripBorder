@@ -30,7 +30,6 @@ export default function Transports({ tripID, handleFlyTo }) {
 
   const trip = useSelector((state) => state.tripReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
-  const { tripMarkers } = useSelector((state) => state.mapReducer);
 
   const { data, isLoading, isFetching, error } = useGetTransportByTripIDQuery({ tripID });
   const { transports } = data || {};
@@ -208,7 +207,6 @@ export default function Transports({ tripID, handleFlyTo }) {
       setIsEditing(false);
     }
     deleteTransport(transportID);
-    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== transportID)));
   };
 
   const handleEditButton = () => {

@@ -28,7 +28,6 @@ export default function POIs({ tripID, handleFlyTo }) {
 
   const trip = useSelector((state) => state.tripReducer);
   const { isLoadTrip } = useSelector((state) => state.tripReducer);
-  const { tripMarkers } = useSelector((state) => state.mapReducer);
 
   const { data, isLoading, isFetching, error } = useGetPOIsByTripIDQuery({ tripID });
   const { points_of_interest: pois } = data || {};
@@ -149,7 +148,6 @@ export default function POIs({ tripID, handleFlyTo }) {
       setIsEditing(false);
     }
     deletePOI(poiID);
-    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== poiID)));
   };
 
   const handleEditButton = () => {

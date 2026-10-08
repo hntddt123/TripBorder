@@ -17,6 +17,7 @@ import {
   setIsEditingTrip
 } from '../../redux/reducers/tripReducer';
 import { setSelectedMenu } from '../../redux/reducers/userSettingsReducer';
+import { setTripMarker } from '../../redux/reducers/mapReducer';
 import {
   addDays,
   getDateTimeDifferencesAsDays,
@@ -261,6 +262,7 @@ export default function TripCurrent({ handleFlyTo, handleFitBounds }) {
   };
 
   const handleBackButton = () => {
+    dispatch(setTripMarker([]));
     dispatch(setIsLoadTrip(false));
     dispatch(resetTrip());
   };

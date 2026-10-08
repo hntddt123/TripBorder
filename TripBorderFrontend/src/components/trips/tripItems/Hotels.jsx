@@ -28,7 +28,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
   const [inputErrors, setInputErrors] = useState({});
 
   const trip = useSelector((state) => state.tripReducer);
-  const { tripMarkers } = useSelector((state) => state.mapReducer);
   const { data, isLoading, isFetching, error } = useGetHotelsByTripIDQuery({ tripID });
   const { hotels } = data || {};
 
@@ -168,7 +167,6 @@ export default function Hotels({ tripID, handleFlyTo }) {
       setIsEditing(false);
     }
     deleteHotel(hotelID);
-    dispatch(setTripMarker(tripMarkers.filter((tripItem) => tripItem.id !== hotelID)));
   };
 
   const handleEditButton = () => {
