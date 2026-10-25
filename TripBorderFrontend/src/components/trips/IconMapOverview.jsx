@@ -7,6 +7,7 @@ import { useGetHotelsByTripIDQuery } from '../../api/hotelsAPI';
 import { useGetPOIsByTripIDQuery } from '../../api/poisAPI';
 import { useGetTransportByTripIDQuery } from '../../api/transportsAPI';
 import {
+  formatDatecccMMMd,
   formatDatecccMMMdyyyy,
   setLocalTime
 } from '../../utility/time';
@@ -88,6 +89,23 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
     return result;
   })();
 
+  const formatText = (item) => {
+    if (item.visit_time !== undefined) {
+      return `${item.name}\n${formatDatecccMMMd(item.visit_time)}`;
+    }
+    if (item.departure_time !== undefined) {
+      return `${item.name}\n${formatDatecccMMMd(item.departure_time)}`;
+    }
+    if (item.meal_time !== undefined) {
+      return `${item.name}\n${formatDatecccMMMd(item.meal_time)}`;
+    }
+    if (setLocalTime(item.check_in) !== undefined && setLocalTime(item.check_out) !== undefined) {
+      return `${item.name}\n${formatDatecccMMMd(item.check_in)} ~ ${formatDatecccMMMd(item.check_out)}`;
+    }
+
+    return '';
+  };
+
   const prepareMarkerArray = (dateGroupedItems, icon) => {
     const seen = new Map();
     return Object.values(dateGroupedItems)
@@ -103,7 +121,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
       .map((item) => ({
         id: item.uuid,
         icon,
-        text: item.name,
+        text: formatText(item),
         lng: item.location.x,
         lat: item.location.y
       }));
@@ -133,7 +151,7 @@ export default function IconMapOverview({ tripID, handleFlyTo, handleFitBounds }
         ...newTransportsMarkers
       ];
       dispatch(setTripMarker(newMarkers));
-      calculateMarkerArrayBoundsAndFlyTo(newMarkers, 4);
+      calculateMarkerArrayBoundsAndFlyTo(newMarkers, viewState.zoom);
     }
   };
 

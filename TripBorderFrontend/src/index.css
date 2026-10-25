@@ -1051,6 +1051,7 @@ html, body {
 
   .cardPOIMarker {
     @apply 
+    whitespace-pre-wrap
     relative
     z-10
     min-w-10 min-h-8 max-w-56

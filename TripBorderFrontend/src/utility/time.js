@@ -11,6 +11,7 @@ export const formatDatedd = (date) => DateTime.fromISO(date).toFormat('dd');
 export const formatDateyyyy = (date) => DateTime.fromISO(date).toFormat('yyyy');
 export const formatDateccc = (date) => DateTime.fromISO(date).toFormat('ccc');
 export const formatDateHHmm = (date) => DateTime.fromISO(date).toFormat('HH:mm');
+export const formatDatecccMMMd = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d');
 export const formatDatecccMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('ccc, MMM d, yyyy');
 export const formatDateMMMdyyyy = (date) => DateTime.fromISO(date).toFormat('MMM d, yyyy');
 export const formatDateMMMddyyyy = (date) => DateTime.fromISO(date).toFormat('MMM dd, yyyy');
