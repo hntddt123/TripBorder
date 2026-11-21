@@ -318,11 +318,6 @@ html, body {
 
   .safeArea {
     min-height: 100dvh;
-    padding-top: var(--spacing-safe-top);
-    padding-right: var(--spacing-safe-right);
-    padding-bottom: var(--spacing-safe-bottom);
-    padding-left: var(--spacing-safe-left);
-    box-sizing: border-box;
   }
 
   .no-sticky-hover:hover {
