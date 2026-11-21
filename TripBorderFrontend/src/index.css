@@ -317,7 +317,7 @@ html, body {
   }
 
   .safeArea {
-    min-height: 100vh;
+    min-height: 100dvh;
     padding-top: var(--spacing-safe-top);
     padding-right: var(--spacing-safe-right);
     padding-bottom: var(--spacing-safe-bottom);
