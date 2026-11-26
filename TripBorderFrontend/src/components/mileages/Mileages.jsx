@@ -26,7 +26,8 @@ export default function Mileages() {
   }, [page]);
 
   const handlePictureClick = (mileage) => {
-    if (mileage.mileage_picture.data.length > 0) {
+    // Picture / frequent flyer number are only returned to the listing owner or an admin
+    if (mileage.mileage_picture?.data?.length > 0) {
       setIsPopupOpen(true);
       setSelectedUUID(mileage.uuid);
     }
@@ -47,7 +48,7 @@ export default function Mileages() {
     if (selectedUUID !== undefined) {
       mileage = mileages?.filter((m) => m.uuid === selectedUUID)[0];
     }
-    if (isPopupOpen && mileage.mileage_picture && mileage.mileage_picture.data.length > 0) {
+    if (isPopupOpen && mileage?.mileage_picture?.data?.length > 0) {
       return (
         <div className='popup'>
           <div className='popup-content'>
@@ -70,7 +71,9 @@ export default function Mileages() {
     <div className='flex justify-center'>
       <div className='container overflow-x-auto font-mono -tracking-wider text-center'>
         <div>{`Airline: ${mileage.airline}`}</div>
-        <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
+        {mileage.frequent_flyer_number && (
+          <div>{`Frequent Flyer No: ${mileage.frequent_flyer_number}`}</div>
+        )}
         <div>{`Price: $${mileage.mileage_price}`}</div>
         <div>{`Mileage: ${mileage.mileage_amount} ${mileage.mileage_unit}`}</div>
         <div>{`Expire: ${formatDateMMMMddyyyyZZZZ(mileage.mileage_expired_at)}`}</div>

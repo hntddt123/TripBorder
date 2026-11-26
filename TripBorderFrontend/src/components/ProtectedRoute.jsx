@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useCheckAuthStatusQuery } from '../api/authAPI';
+import { useCheckAuthStatusQuery, isUnauthorizedError } from '../api/authAPI';
 import { isDevMode } from '../constants/constants';
 import CustomError from './CustomError';
 import CustomLoading from './CustomLoading';
@@ -19,6 +19,11 @@ export default function ProtectedRoute() {
 
   if (isFetching) {
     return <CustomFetching isFetching />;
+  }
+
+  // 401 = logged out, not an error page
+  if (isUnauthorizedError(error)) {
+    return <Navigate to='/' replace />;
   }
 
   if (error) {
