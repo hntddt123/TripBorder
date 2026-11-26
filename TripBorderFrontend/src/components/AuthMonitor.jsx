@@ -1,7 +1,7 @@
 // src/components/AuthMonitor.jsx
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useCheckAuthStatusQuery } from '../api/authAPI'; // adjust import
+import { useCheckAuthStatusQuery, isUnauthorizedError } from '../api/authAPI';
 
 export function AuthMonitor() {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export function AuthMonitor() {
 
   // refetchOnFocus: fresh check when tab/window regains focus (common after idle)
   // refetchOnReconnect: fresh check on network restore
-  const { data, isLoading } = useCheckAuthStatusQuery(undefined, {
+  const { data, isLoading, error } = useCheckAuthStatusQuery(undefined, {
     refetchOnFocus: true, // triggers on return from idle/minimize/switch tab
     refetchOnReconnect: true, // triggers on connectivity restore
   });
@@ -22,9 +22,12 @@ export function AuthMonitor() {
       return;
     }
 
+    // Logged out = explicit isAuthenticated:false or an HTTP 401 from /api/auth
+    const isLoggedOut = data?.isAuthenticated === false || isUnauthorizedError(error);
+
     if (
       !isLoading
-      && data?.isAuthenticated === false
+      && isLoggedOut
       && location.pathname !== '/'
     ) {
       sessionStorage.setItem(
@@ -33,7 +36,7 @@ export function AuthMonitor() {
       );
       navigate('/', { replace: true });
     }
-  }, [isLoading, data, location, navigate]);
+  }, [isLoading, data, error, location, navigate]);
 
   return null;
 }
