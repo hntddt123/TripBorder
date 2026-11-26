@@ -18,7 +18,6 @@ const initialMapState = {
   markers: [],
   tripMarkers: [],
   selectedTripMarkerPOIName: '',
-  selectedPOIIDNumber: '4d4b7105d754a06374d81259', // foursquareAPI category default to restaurants 4d4b7105d754a06374d81259
   selectedPOIName: '', // poi in string
   previousSelectedPOIName: '', // prev poi in string
   selectedPOI: '', // poi number
@@ -56,7 +55,6 @@ const mapSlice = createSlice({
     setLongPressedLonLat: (state, action) => ({ ...state, longPressedLonLat: action.payload }),
     setIsUsingGPSLonLat: (state, action) => ({ ...state, isUsingGPSLonLat: action.payload }),
     setUserOption: (state, action) => ({ ...state, userOption: { searchCategory: action.payload } }),
-    setSelectedPOIIDNumber: (state, action) => ({ ...state, selectedPOIIDNumber: action.payload }),
     setSelectedPOI: (state, action) => ({ ...state, selectedPOI: action.payload }),
     setSelectedPOIName: (state, action) => ({ ...state, selectedPOIName: action.payload }),
     setSelectedTripMarkerPOIName: (state, action) => ({ ...state, selectedTripMarkerPOIName: action.payload }),
@@ -93,7 +91,6 @@ export const {
   setGPSState,
   setLongPressedLonLat,
   setIsUsingGPSLonLat,
-  setSelectedPOIIDNumber,
   setSelectedPOI,
   setSelectedPOIName,
   setPreviousSelectedPOIName,

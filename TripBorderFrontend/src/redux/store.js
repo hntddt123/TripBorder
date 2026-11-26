@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { foursquareAPI } from '../api/foursquareSliceAPI';
 import { mapboxAPI } from '../api/mapboxSliceAPI';
 import { unsplashImageAPI } from '../api/unsplashImageAPI';
 import { openstreetmapAPI } from '../api/openstreemapSliceAPI';
@@ -28,7 +27,6 @@ const store = configureStore({
     tripReducer,
     userSettingsReducer,
     [mapboxAPI.reducerPath]: mapboxAPI.reducer,
-    [foursquareAPI.reducerPath]: foursquareAPI.reducer,
     [unsplashImageAPI.reducerPath]: unsplashImageAPI.reducer,
     [openstreetmapAPI.reducerPath]: openstreetmapAPI.reducer,
     [authAPI.reducerPath]: authAPI.reducer,
@@ -48,7 +46,6 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware()
     .concat(
       mapboxAPI.middleware,
-      foursquareAPI.middleware,
       unsplashImageAPI.middleware,
       openstreetmapAPI.middleware,
       authAPI.middleware,

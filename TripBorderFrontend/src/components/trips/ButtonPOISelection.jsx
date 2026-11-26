@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
-  setSelectedPOIIDNumber,
   setSelectedPOIIcon,
   setIsShowingAdditionalPopUp,
   setIsShowingOnlySelectedPOI
@@ -22,7 +21,6 @@ export default function ButtonPOISelection({ isFetching }) {
   const handleDropdownOnChange = (event) => {
     const selectedID = event.target.value;
     const selectedCategory = poiCategories.find((category) => category.id === selectedID);
-    dispatch(setSelectedPOIIDNumber(selectedID));
     dispatch(setSelectedPOIIcon(selectedCategory.icon));
     dispatch(setIsShowingAdditionalPopUp(false));
     dispatch(setIsShowingOnlySelectedPOI(false));

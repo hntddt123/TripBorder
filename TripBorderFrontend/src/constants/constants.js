@@ -33,17 +33,6 @@ export const numIcon = '🔢';
 // For ClickMarker and GeoCoderControl search icon
 export const markerIcon = '📍';
 
-// Define the Foursquare categories and their corresponding icons
-export const iconMapFoursquare = {
-  '4d4b7105d754a06374d81259': { icon: restaurantIcon, label: 'Restaurant' },
-  '4d4b7105d754a06377d81259': { icon: parkIcon, label: 'Landmarks and Outdoors' },
-  '4bf58dd8d48988d181941735': { icon: museumIcon, label: 'Museum' },
-  '4bf58dd8d48988d131941735': { icon: SpritIcon, label: 'Spiritual Centers' },
-  '4bf58dd8d48988d1fa931735': { icon: hotelIcon, label: 'Hotel' },
-  '4d4b7105d754a06379d81259': { icon: transportIcon, label: 'Travel and Transportation' },
-  '4bf58dd8d48988d1fd941735': { icon: shoppingIcon, label: 'Shopping' },
-};
-
 export const iconMapOSM = {
   'amenity=restaurant': { icon: restaurantIcon, label: 'Restaurant', query: 'restaurant' },
   'leisure=park': { icon: parkIcon, label: 'Landmarks and Outdoors', query: 'park OR landmark' },
